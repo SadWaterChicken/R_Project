@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@string/firebase_database_url,@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id,@string/default_android_client_id,@string/default_web_client_id">
+  <string name="firebase_database_url" translatable="false">https://rapture-b7a41-default-rtdb.asia-southeast1.firebasedatabase.app</string>
+  <string name="gcm_defaultSenderId" translatable="false">725344777090</string>
+  <string name="google_storage_bucket" translatable="false">rapture-b7a41.firebasestorage.app</string>
+  <string name="project_id" translatable="false">rapture-b7a41</string>
+  <string name="google_api_key" translatable="false">AIzaSyAsB-XLe0Gw_ikAkIgcb3cnGvVo07aI9SM</string>
+  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyAsB-XLe0Gw_ikAkIgcb3cnGvVo07aI9SM</string>
+  <string name="google_app_id" translatable="false">1:725344777090:android:3dd8bfe51fb40a617cd59b</string>
+  <string name="default_android_client_id" translatable="false">725344777090-c3356js9h0ihenllmfpdfcn7u1vr6t9v.apps.googleusercontent.com</string>
+  <string name="default_web_client_id" translatable="false">725344777090-vhhi1irb6pk8ptvkmn2gf92jb0r3kfj7.apps.googleusercontent.com</string>
+</resources>
