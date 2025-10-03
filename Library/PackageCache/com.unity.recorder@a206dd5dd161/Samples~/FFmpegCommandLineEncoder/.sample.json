@@ -1,5 +1,3 @@
-{
-  "displayName":"Custom Encoder: FFmpeg",
-  "description": "Example for integrating a custom command line encoder such as FFmpeg in the Movie Recorder. \n Requires your own FFmpeg executable. Tested with FFmpeg 5.0.1.",
-  "createSeparatePackage": false
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:d850589625f47ac348f1394c4f831ca6595177b9d32c5e909ef44f00fd617b33
+size 257

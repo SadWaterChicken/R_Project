@@ -1,5 +1,3 @@
-{
-  "displayName":"Multiple Recordings Sample",
-  "description": "This example shows how to set up a multiple recording session via script.",
-  "createSeparatePackage": false
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:4284536ed62ed9fae85fa9a07679ce415633318fdfc0886b5ea9148d169115b4
+size 177

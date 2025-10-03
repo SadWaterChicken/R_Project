@@ -1,5 +1,3 @@
-{
-     "displayName": "Exercise 6: Solution",        
-     "description": "In this exercise, you will get practical experience in using the NUnit attributes [SetUp] and [TearDown] in order to reduce code duplication in your tests.",
-     "interactiveImport": true
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:e650424d9b3fcc261d2fd5e930cc06293385ee9bea741e0b52900a7bce423b58
+size 265

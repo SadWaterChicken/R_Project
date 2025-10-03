@@ -1,5 +1,3 @@
-{
-  "displayName":"Recorder Editor Sample",
-  "description": "This example shows how to add \"Start Recording\" and \"Stop Recording\" menu items .",
-  "createSeparatePackage": false
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:02afd7ce3fe976c7bd708dbef310bf359c2197a0c1039defa649990086e5a152
+size 184

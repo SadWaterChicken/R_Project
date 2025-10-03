@@ -1,16 +1,3 @@
-{
-    "m_Dictionary": {
-        "m_DictionaryValues": [
-            {
-                "type": "UnityEditor.Sequences.SemanticVersion, Unity.Sequences.Editor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
-                "key": "about.identifier",
-                "value": "{\"m_Value\":{\"m_Major\":2,\"m_Minor\":1,\"m_Patch\":3,\"m_Build\":-1,\"m_Type\":\"\",\"m_Metadata\":\"\",\"m_Date\":\"\"}}"
-            },
-            {
-                "type": "UnityEngine.Sequences.MasterSequenceRegistry, Unity.Sequences, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
-                "key": "editor.defaultMasterSequenceRegistry",
-                "value": "{\"m_Value\":{\"instanceID\":0}}"
-            }
-        ]
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:3878043fe4906b102733eda92c36205a56eb6b3be704b3205fe7bda24da6a984
+size 736

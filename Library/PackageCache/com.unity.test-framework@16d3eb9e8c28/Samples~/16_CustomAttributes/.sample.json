@@ -1,5 +1,3 @@
-{
-     "displayName": "Exercise 16: Custom Attributes",        
-     "description": "In this section we will look at some ways of implementing custom NUnit attributes, which can be used to alter test execution.",
-     "interactiveImport": true
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:e3ee6b750e6fab43276fc57b0a3bb2a50b130d9d13b8090df80a7071e720f437
+size 245

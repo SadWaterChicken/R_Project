@@ -1,5 +1,3 @@
-{
-     "displayName": "Exercise 10: Long Running Tests",        
-     "description": "This exercise will cover best practices and pitfalls for tests that have a long runtime, such as tests yielding back a WaitForSeconds.",
-     "interactiveImport": true
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:b6214549ecf97e79e131c0637b70056fbaec6f27e9282aadae0d492464f6e386
+size 255
