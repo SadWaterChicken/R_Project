@@ -10,9 +10,9 @@ public class SavePoint : MonoBehaviour
     // Public property để access từ bên ngoài
     public string SavePointId => savePointId;
     [SerializeField] private Transform spawnPosition; // Vị trí respawn
-    [SerializeField] private GameObject interactPrompt; // UI hiển thị "Press E to Save"
-    [SerializeField] private ParticleSystem saveEffect; // Effect khi save
-    [SerializeField] private AudioClip saveSound; // Âm thanh khi save
+    [SerializeField] private GameObject interactPrompt; // UI hiển thị "Press F to Rest"
+    [SerializeField] private ParticleSystem restEffect; // Effect khi rest (hồi full)
+    [SerializeField] private AudioClip restSound; // Âm thanh khi rest
 
     private PlayerData playerData;
     private AudioSource audioSource;
@@ -27,7 +27,7 @@ public class SavePoint : MonoBehaviour
         }
 
         audioSource = GetComponent<AudioSource>();
-        if (audioSource == null && saveSound != null)
+        if (audioSource == null && restSound != null)
         {
             audioSource = gameObject.AddComponent<AudioSource>();
         }
@@ -40,10 +40,12 @@ public class SavePoint : MonoBehaviour
 
     private void Update()
     {
-        // Kiểm tra input để save
-        if (playerInRange && Input.GetKeyDown(KeyCode.E))
+        if (!playerInRange) return;
+
+        // F - Rest at Save Point (save + hồi full HP/Mana/Sanity)
+        if (Input.GetKeyDown(KeyCode.F))
         {
-            SaveGame();
+            RestAtSavePoint();
         }
     }
 
@@ -75,31 +77,36 @@ public class SavePoint : MonoBehaviour
         }
     }
 
-    private void SaveGame()
+    /// <summary>
+    /// Rest at Save Point - Save game VÀ hồi đầy HP/Mana/Sanity (như bonfire trong Dark Souls)
+    /// </summary>
+    private void RestAtSavePoint()
     {
-        if (playerData != null)
+        if (playerData == null) return;
+
+        Vector3 savePos = spawnPosition != null ? spawnPosition.position : transform.position;
+        
+        // Sử dụng Save Point - Hồi đầy tất cả stats
+        playerData.UseSavePoint(savePointId, savePos);
+
+        // Lưu vào Firebase
+        if (FirebaseManager.Instance != null)
         {
-            Vector3 savePos = spawnPosition != null ? spawnPosition.position : transform.position;
-            
-            // Sử dụng Save Point
-            playerData.UseSavePoint(savePointId, savePos);
-
-            // Lưu vào Firebase
-            FirebaseManager.Instance?.SavePlayerData(playerData);
-
-            // Visual & Audio feedback
-            if (saveEffect != null)
-            {
-                saveEffect.Play();
-            }
-
-            if (audioSource != null && saveSound != null)
-            {
-                audioSource.PlayOneShot(saveSound);
-            }
-
-            Debug.Log($"Game Saved at {savePointId}");
+            FirebaseManager.Instance.SavePlayerData(playerData);
         }
+
+        // Visual & Audio feedback
+        if (restEffect != null)
+        {
+            restEffect.Play();
+        }
+
+        if (audioSource != null && restSound != null)
+        {
+            audioSource.PlayOneShot(restSound);
+        }
+
+        Debug.Log($"[SavePoint] Rested at {savePointId} - Game saved + Fully restored!");
     }
 
     private void OnDrawGizmosSelected()

@@ -23,10 +23,13 @@ public class PlayerUIController : MonoBehaviour
     [SerializeField] private Color manaColor = Color.blue;
 
     [Header("Sanity UI")]
+    // Backwards-compatible slider (optional). If using circular sanity, leave this null.
     [SerializeField] private Slider sanitySlider;
     [SerializeField] private TextMeshProUGUI sanityText;
     [SerializeField] private Image sanityFillImage;
     [SerializeField] private Gradient sanityColorGradient;
+
+    // Circular sanity support removed as requested — use `sanitySlider` and `sanityText` instead.
 
     [Header("Stats UI")]
     [SerializeField] private TextMeshProUGUI goldText;
@@ -39,6 +42,7 @@ public class PlayerUIController : MonoBehaviour
     [Header("Animation")]
     [SerializeField] private float smoothSpeed = 5f;
     [SerializeField] private bool animateBarChanges = true;
+    [SerializeField] private bool hideSliderHandles = true; // If true, will disable the Handle GameObjects on start for a cleaner bar look
 
     private float targetHealthValue;
     private float targetManaValue;
@@ -66,6 +70,14 @@ public class PlayerUIController : MonoBehaviour
         if (sanityHealButton != null)
         {
             sanityHealButton.onClick.AddListener(OnSanityHealButtonClicked);
+        }
+
+        // Optionally hide slider handles for a flat bar look
+        if (hideSliderHandles)
+        {
+            HideSliderHandle(healthSlider);
+            HideSliderHandle(manaSlider);
+            HideSliderHandle(sanitySlider);
         }
     }
 
@@ -111,6 +123,23 @@ public class PlayerUIController : MonoBehaviour
     private void OnSanityChanged(int current, int max)
     {
         UpdateSanityUI(current, max);
+    }
+    #endregion
+
+    #region Slider Helpers
+    private void HideSliderHandle(Slider s)
+    {
+        if (s == null) return;
+        // Default Slider structure: Fill Area, Handle Slide Area -> Handle
+        Transform handleArea = s.transform.Find("Handle Slide Area");
+        if (handleArea != null)
+        {
+            Transform handle = handleArea.Find("Handle");
+            if (handle != null)
+            {
+                handle.gameObject.SetActive(false);
+            }
+        }
     }
     #endregion
 
@@ -167,6 +196,7 @@ public class PlayerUIController : MonoBehaviour
             sanitySlider.value = normalizedValue;
         }
 
+        // Update slider/text fallback
         if (sanityText != null)
         {
             sanityText.text = $"{current}/{max}";
@@ -210,6 +240,14 @@ public class PlayerUIController : MonoBehaviour
         if (sanitySlider != null)
         {
             sanitySlider.value = Mathf.Lerp(sanitySlider.value, targetSanityValue, Time.deltaTime * smoothSpeed);
+        }
+
+        // Optionally animate the sanity fill image color
+        if (sanityFillImage != null && sanityColorGradient != null)
+        {
+            float currentColorPos = sanityColorGradient.Evaluate(Mathf.Clamp01(sanitySlider != null ? sanitySlider.value : targetSanityValue)).a; // dummy read to keep logic
+            // set color directly from target value
+            sanityFillImage.color = sanityColorGradient.Evaluate(targetSanityValue);
         }
     }
     #endregion
