@@ -62,39 +62,43 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventHandler.cs" />
-    <Compile Include="Assets\Dev\Scripts\Shop\ItemSlotUI.cs" />
     <Compile Include="Assets\Dev\Scripts\Elevation_Exit.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\EnvMapAnimator.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_A.cs" />
-    <Compile Include="Assets\Dev\Scripts\Items\ItemSO.cs" />
     <Compile Include="Assets\Dev\Scripts\SaveDebugger.cs" />
     <Compile Include="Assets\Dev\Scripts\PlayerMovement.cs" />
+    <Compile Include="Assets\Dev\Scripts\ItemData.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />
+    <Compile Include="Assets\Dev\Scripts\Utils\StreamingAssetsLoader.cs" />
     <Compile Include="Assets\System\Camera\Camera_Controller.cs" />
+    <Compile Include="Assets\Dev\Scripts\Inventory\Inventory.cs" />
     <Compile Include="Assets\Dev\Scripts\Emeny_Combat.cs" />
     <Compile Include="Assets\Dev\Scripts\SavePoint.cs" />
     <Compile Include="Assets\Dev\Scripts\SanityDebuffController.cs" />
-    <Compile Include="Assets\Items\ItemInstance.cs" />
-    <Compile Include="Assets\Dev\Scripts\Shop\ShopData.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_ExampleScript_01.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMPro_InstructionOverlay.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeB.cs" />
+    <Compile Include="Assets\Dev\Scripts\ShopSystem\ShopUI.cs" />
     <Compile Include="Assets\Dev\Scripts\GameManager.cs" />
     <Compile Include="Assets\Dev\Scripts\GameSceneChecker.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexJitter.cs" />
-    <Compile Include="Assets\Dev\Scripts\Shop\ShopUI.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_UiFrameRateCounter.cs" />
     <Compile Include="Assets\Dev\Scripts\MenuController.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
+    <Compile Include="Assets\Dev\Scripts\Inventory\ItemSlotUI.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_B.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SkewTextExample.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />
     <Compile Include="Assets\Dev\Scripts\PlayerUIController.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ShaderPropAnimator.cs" />
+    <Compile Include="Assets\Dev\Scripts\Inventory\ShopItemSlotUI.cs" />
+    <Compile Include="Assets\Dev\Scripts\ShopSystem\ShopDataJson.cs" />
+    <Compile Include="Assets\Dev\Scripts\ShopSystem\ShopTrigger.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextInfoDebugTool.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeA.cs" />
     <Compile Include="Assets\Dev\Scripts\Quest\QuestManager.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
+    <Compile Include="Assets\Dev\Scripts\Utilities\JsonHelper.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SimpleScript.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark04.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ChatController.cs" />
@@ -114,15 +118,15 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexColorCycler.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ObjectSpin.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_PhoneNumberValidator.cs" />
-    <Compile Include="Assets\System\Inventory.cs" />
+    <Compile Include="Assets\Dev\Scripts\Inventory\InventoryInput.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextConsoleSimulator.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TeleType.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventCheck.cs" />
     <Compile Include="Assets\Dev\Menu\Scripts\MainMenu.cs" />
+    <Compile Include="Assets\Dev\Scripts\Inventory\InventoryUi.cs" />
     <Compile Include="Assets\Dev\Scripts\FirebaseManager.cs" />
+    <Compile Include="Assets\Dev\Scripts\ShopSystem\ShopManager.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshProFloatingText.cs" />
-    <Compile Include="Assets\Dev\Scripts\Shop\ShopManager.cs" />
-    <Compile Include="Assets\Dev\Scripts\Items\RecipeSO.cs" />
     <Compile Include="Assets\Dev\Scripts\PlayerData.cs" />
   </ItemGroup>
   <ItemGroup>

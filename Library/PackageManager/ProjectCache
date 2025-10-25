@@ -5,7 +5,7 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638951953321850103
+      ticks: 638957774774809724
     m_Hash: 1649448735
   m_LockFileStatus:
     m_FilePath: D:/FGU_GIT/R_Project - loc/Packages/packages-lock.json
@@ -13,7 +13,7 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638951953321901673
+      ticks: 638957774775011082
     m_Hash: 4285284760
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
@@ -125,8 +125,10 @@ m_ResolvedPackages:
     - 2.9.1
     - 2.9.2
     - 2.9.3
+    - 2.10.0
     compatible:
     - 2.9.3
+    - 2.10.0
     recommended: 2.9.3
     deprecated: []
   dependencies: []
@@ -665,9 +667,11 @@ m_ResolvedPackages:
     - 2.0.21
     - 2.0.22
     - 2.0.23
+    - 2.0.25
     compatible:
     - 2.0.23
-    recommended: 2.0.23
+    - 2.0.25
+    recommended: 2.0.25
     deprecated: []
   dependencies:
   - name: com.unity.test-framework
@@ -5291,6 +5295,7 @@ m_ResolvedPackages:
     - 12.0.1
     - 12.0.2
     - 13.0.0
+    - 13.0.1
     compatible:
     - 10.2.1
     recommended: 10.2.1
@@ -6170,6 +6175,7 @@ m_ResolvedPackages:
     - 5.0.0
     - 5.0.1
     - 6.0.0
+    - 6.0.1
     compatible:
     - 4.1.0
     recommended: 4.1.0
@@ -6298,6 +6304,7 @@ m_ResolvedPackages:
     - 2.0.1
     - 2.0.2
     - 3.0.0
+    - 3.0.1
     compatible:
     - 1.1.10
     recommended: 1.1.10
@@ -6935,9 +6942,11 @@ m_ResolvedPackages:
     - 2.0.0
     - 2.0.1
     - 2.1.0
+    - 2.1.1
     compatible:
     - 2.1.0
-    recommended: 2.1.0
+    - 2.1.1
+    recommended: 2.1.1
     deprecated: []
   dependencies: []
   resolvedDependencies: []
@@ -7081,6 +7090,7 @@ m_ResolvedPackages:
     - 11.0.0
     - 11.0.1
     - 12.0.0
+    - 12.0.1
     compatible:
     - 9.1.1
     recommended: 9.1.1

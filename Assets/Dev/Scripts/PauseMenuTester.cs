@@ -16,8 +16,8 @@ public class PauseMenuTester : MonoBehaviour
     private void Start()
     {
         // Tìm PauseMenuController trong scene
-        pauseMenu = FindObjectOfType<PauseMenuController>();
-        
+        pauseMenu = Object.FindFirstObjectByType<PauseMenuController>();
+
         if (pauseMenu == null && enableTestLogs)
         {
             Debug.LogWarning("PauseMenuTester: No PauseMenuController found in scene!");
