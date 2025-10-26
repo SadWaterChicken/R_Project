@@ -226,7 +226,7 @@ public class PlayerData : MonoBehaviour
     /// </summary>
     public void UseSavePoint(string savePointId, Vector3 savePointPosition)
     {
-        // Hồi đầy tất cả
+        // H hồi đầy tất cả
         currentHealth = maxHealth;
         currentMana = maxMana;
         RestoreSanityAtSavePoint();

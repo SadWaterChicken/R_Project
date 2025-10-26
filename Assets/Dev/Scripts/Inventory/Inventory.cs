@@ -2,19 +2,18 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[DefaultExecutionOrder(-100)] // ensure Inventory.Awake runs before PlayerData
 public class Inventory : MonoBehaviour
 {
     public static Inventory Instance { get; private set; }
 
-    // Optional inspector reference (nếu bạn muốn gán UI trực tiếp)
     [Header("Optional reference (assign in Inspector if you want)")]
     public InventoryUI inventoryUIReference;
 
-    // read-only list for UI
     public List<ItemData> ownedItems = new List<ItemData>();
 
-    // event notify UI to refresh
     public event Action OnInventoryChanged;
+    public event Action<ItemData, bool> OnItemEquipChanged;
 
     private void Awake()
     {
@@ -26,21 +25,29 @@ public class Inventory : MonoBehaviour
     {
         if (item == null) return;
 
-        var existing = ownedItems.Find(x => x.itemID == item.itemID);
-        if (existing != null)
-        {
-            existing.stack += item.stack;
-        }
+        var existing = ownedItems.Find(x => x.itemID == item.itemID && !x.equipped);
+        if (existing != null) existing.stack += item.stack;
         else
         {
-            var clone = new ItemData(item.itemID, item.itemName, item.description, item.price, item.iconPath, item.stack);
+            var clone = new ItemData(item.itemID, item.itemName, item.description, item.price, item.iconPath, item.stack)
+            {
+                equippable = item.equippable,
+                equipped = false,
+                modifiers = item.modifiers != null ? new List<ItemData.StatMod>(item.modifiers) : new List<ItemData.StatMod>()
+            };
             ownedItems.Add(clone);
         }
 
-        Debug.Log($"[Inventory] Added {item.itemName} x{item.stack}");
-        // If inspector reference set, explicitly refresh it (safe)
-        if (inventoryUIReference != null) inventoryUIReference.Refresh();
-        // always fire event for listeners
+        inventoryUIReference?.Refresh();
+        OnInventoryChanged?.Invoke();
+    }
+
+    public void ToggleEquip(ItemData item)
+    {
+        if (item == null || !ownedItems.Contains(item) || !item.equippable) return;
+        item.equipped = !item.equipped;
+        OnItemEquipChanged?.Invoke(item, item.equipped);
+        inventoryUIReference?.Refresh();
         OnInventoryChanged?.Invoke();
     }
 

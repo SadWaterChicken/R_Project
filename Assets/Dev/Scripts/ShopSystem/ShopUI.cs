@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -17,6 +18,9 @@ public class ShopUI : MonoBehaviour
     public TMP_Text detailPrice;
     public Button buyButton;
     public Button closeButton;
+
+    // NEW: optional stats text (assign in Inspector). If null, stats will be appended to detailDesc.
+    public TMP_Text detailStats;
 
     private ShopManager manager;
     private PlayerData playerData;
@@ -52,7 +56,8 @@ public class ShopUI : MonoBehaviour
         Refresh();
 
         UpdateGoldText(playerData?.GetGold() ?? 0);
-        detailPanel.SetActive(false);
+        if (detailPanel != null) detailPanel.SetActive(false);
+        if (detailStats != null) detailStats.text = string.Empty;
     }
 
     public void Refresh()
@@ -83,6 +88,17 @@ public class ShopUI : MonoBehaviour
         if (detailDesc != null) detailDesc.text = item.description;
         if (detailPrice != null) detailPrice.text = $"Price: {item.price}";
 
+        // NEW: show flexible equipment stats if present
+        var statsText = BuildStatsText(item);
+        if (detailStats != null)
+        {
+            detailStats.text = statsText;
+        }
+        else if (!string.IsNullOrEmpty(statsText) && detailDesc != null)
+        {
+            detailDesc.text = item.description + "\n" + statsText;
+        }
+
         if (buyButton != null)
         {
             buyButton.onClick.RemoveAllListeners();
@@ -94,5 +110,18 @@ public class ShopUI : MonoBehaviour
     public void UpdateGoldText(int gold)
     {
         if (goldText != null) goldText.text = $"Gold: {gold}";
+    }
+
+    private static string BuildStatsText(ItemData item)
+    {
+        if (item.modifiers == null || item.modifiers.Count == 0) return string.Empty;
+        var sb = new StringBuilder();
+        foreach (var m in item.modifiers)
+        {
+            var sign = m.value >= 0 ? "+" : "";
+            var val = m.percent ? $"{sign}{m.value}%" : $"{sign}{m.value}";
+            sb.AppendLine($"{m.stat}: {val}");
+        }
+        return sb.ToString().TrimEnd();
     }
 }

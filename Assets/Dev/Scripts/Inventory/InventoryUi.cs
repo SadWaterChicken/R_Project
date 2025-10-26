@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -6,14 +7,16 @@ using TMPro;
 public class InventoryUI : MonoBehaviour
 {
     [Header("References")]
-    public GameObject itemSlotPrefab;     // prefab with ShopItemSlotUI or ItemSlotUI
-    public Transform contentParent;       // ScrollView Content transform (GridLayoutGroup)
+    public GameObject itemSlotPrefab;
+    public Transform contentParent;
     public GameObject detailPanel;
     public Image detailIcon;
     public TMP_Text detailName;
     public TMP_Text detailDesc;
     public TMP_Text detailPrice;
     public TMP_Text detailQty;
+    public TMP_Text detailStats;    // NEW (assign in Inspector, optional)
+    public Button useButton;        // NEW (assign in Inspector, optional)
     public Button closeDetailButton;
 
     private List<GameObject> spawned = new List<GameObject>();
@@ -96,10 +99,38 @@ public class InventoryUI : MonoBehaviour
         if (detailPrice != null) detailPrice.text = $"Price: {item.price}";
         if (detailQty != null) detailQty.text = $"Qty: {item.stack}";
 
+        // Flexible stats
+        var statsText = BuildStatsText(item);
+        if (detailStats != null) detailStats.text = statsText;
+        else if (detailDesc != null && !string.IsNullOrEmpty(statsText))
+            detailDesc.text = item.description + "\n" + statsText;
+
+        // Use / Unequip
+        if (useButton != null)
+        {
+            useButton.onClick.RemoveAllListeners();
+            useButton.onClick.AddListener(() => Inventory.Instance.ToggleEquip(item));
+            var label = useButton.GetComponentInChildren<TMP_Text>();
+            if (label != null) label.text = item.equipped ? "Unequip" : "Use";
+        }
+
         if (closeDetailButton != null)
         {
             closeDetailButton.onClick.RemoveAllListeners();
             closeDetailButton.onClick.AddListener(() => detailPanel.SetActive(false));
         }
+    }
+
+    private static string BuildStatsText(ItemData item)
+    {
+        if (item.modifiers == null || item.modifiers.Count == 0) return "";
+        var sb = new StringBuilder();
+        foreach (var m in item.modifiers)
+        {
+            var sign = m.value >= 0 ? "+" : "";
+            var val = m.percent ? $"{sign}{m.value}%" : $"{sign}{m.value}";
+            sb.AppendLine($"{m.stat}: {val}");
+        }
+        return sb.ToString().TrimEnd();
     }
 }
