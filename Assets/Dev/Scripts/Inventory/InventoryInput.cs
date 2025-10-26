@@ -1,28 +1,51 @@
 using UnityEngine;
 
+[DisallowMultipleComponent]
 public class InventoryInput : MonoBehaviour
 {
-    private InventoryUI ui;
+    private static InventoryInput s_Instance;
 
-    void Start()
+    [SerializeField] private InventoryUI ui;
+
+    private void Awake()
     {
-        // Prefer explicit inspector reference on Inventory singleton when set.
-        ui = Inventory.Instance?.inventoryUIReference;
-        if (ui != null) return;
+        // Ensure only one input handler toggles the inventory
+        if (s_Instance != null && s_Instance != this)
+        {
+            enabled = false;
+            return;
+        }
+        s_Instance = this;
 
-        // Use new API if available, else fallback to the older API.
+        // Prefer explicit reference on Inventory singleton when set
+        if (ui == null)
+            ui = Inventory.Instance?.inventoryUIReference;
+
+        // Otherwise find it even if the UI object starts inactive
 #if UNITY_2023_1_OR_NEWER
-        ui = Object.FindFirstObjectByType<InventoryUI>();
+        if (ui == null)
+            ui = Object.FindFirstObjectByType<InventoryUI>(FindObjectsInactive.Include);
 #else
-        ui = Object.FindObjectOfType<InventoryUI>();
+        if (ui == null)
+            ui = FindObjectOfType<InventoryUI>(true);
 #endif
     }
 
-    void Update()
+    private void OnDestroy()
+    {
+        if (s_Instance == this) s_Instance = null;
+    }
+
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.I))
         {
-            ui?.Toggle();
+            if (ui == null)
+            {
+                Debug.LogWarning("[InventoryInput] InventoryUI reference not found.");
+                return;
+            }
+            ui.Toggle();
         }
     }
 }

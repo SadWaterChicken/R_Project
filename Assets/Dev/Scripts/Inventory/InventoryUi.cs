@@ -6,7 +6,7 @@ using TMPro;
 public class InventoryUI : MonoBehaviour
 {
     [Header("References")]
-    public GameObject itemSlotPrefab;     // prefab with ItemSlotUI
+    public GameObject itemSlotPrefab;     // prefab with ShopItemSlotUI or ItemSlotUI
     public Transform contentParent;       // ScrollView Content transform (GridLayoutGroup)
     public GameObject detailPanel;
     public Image detailIcon;
@@ -21,7 +21,6 @@ public class InventoryUI : MonoBehaviour
 
     private void Awake()
     {
-        // start hidden
         gameObject.SetActive(false);
         if (detailPanel != null) detailPanel.SetActive(false);
     }
@@ -52,24 +51,45 @@ public class InventoryUI : MonoBehaviour
         foreach (var go in spawned) Destroy(go);
         spawned.Clear();
 
-        if (Inventory.Instance == null) return;
+        if (Inventory.Instance == null || itemSlotPrefab == null || contentParent == null) return;
 
         var items = Inventory.Instance.ownedItems;
         foreach (var item in items)
         {
             GameObject slotGO = Instantiate(itemSlotPrefab, contentParent);
             spawned.Add(slotGO);
-            var slot = slotGO.GetComponent<ShopItemSlotUI>();
-            if (slot != null)
-                slot.Init(item, ShowDetail);
+
+            // Prefer ShopItemSlotUI if present
+            var shopSlot = slotGO.GetComponent<ShopItemSlotUI>();
+            if (shopSlot != null)
+            {
+                shopSlot.Init(item, ShowDetail);
+                continue;
+            }
+
+            // Fallback to ItemSlotUI if that’s the prefab you’re using for inventory
+            var invSlot = slotGO.GetComponent<ItemSlotUI>();
+            if (invSlot != null)
+            {
+                invSlot.SetItem(item, item.stack);
+                var btn = invSlot.button != null ? invSlot.button : slotGO.GetComponent<Button>();
+                if (btn != null)
+                {
+                    btn.onClick.RemoveAllListeners();
+                    btn.onClick.AddListener(() => ShowDetail(item));
+                }
+                continue;
+            }
+
+            Debug.LogWarning("[InventoryUI] itemSlotPrefab has neither ShopItemSlotUI nor ItemSlotUI.", slotGO);
         }
     }
 
     public void ShowDetail(ItemData item)
     {
         if (item == null) return;
-        if (detailPanel != null) detailPanel.SetActive(true);
 
+        if (detailPanel != null) detailPanel.SetActive(true);
         if (detailIcon != null) detailIcon.sprite = string.IsNullOrEmpty(item.iconPath) ? null : Resources.Load<Sprite>(item.iconPath);
         if (detailName != null) detailName.text = item.itemName;
         if (detailDesc != null) detailDesc.text = item.description;
