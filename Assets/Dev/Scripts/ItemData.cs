@@ -12,17 +12,17 @@ public class ItemData
     public string iconPath;
     public int stack = 1;
 
-    // Flexible stat modifiers
+    // Flexible stat mods shown in detailStats
     [Serializable]
     public class StatMod
     {
-        public string stat;   // e.g. "Attack", "Defense", "MaxHealth", "CritChance", "MoveSpeed"
-        public float value;   // 10 or -5
-        public bool percent;  // true => percent (10 = +10%)
+        public string stat;
+        public float value;
+        public bool percent;
     }
     public List<StatMod> modifiers = new List<StatMod>();
 
-    // Equip flags
+    // Equip flags (optional)
     public bool equippable = true;
     public bool equipped = false;
 
@@ -36,5 +36,22 @@ public class ItemData
         price = p;
         iconPath = icon;
         stack = s;
+    }
+
+    // Deep copy so stats are preserved when adding/buying
+    public ItemData Clone(int? stackOverride = null)
+    {
+        var copy = new ItemData(itemID, itemName, description, price, iconPath, stackOverride ?? stack)
+        {
+            equippable = equippable,
+            equipped = equipped,
+            modifiers = new List<StatMod>()
+        };
+        if (modifiers != null)
+        {
+            foreach (var m in modifiers)
+                copy.modifiers.Add(new StatMod { stat = m.stat, value = m.value, percent = m.percent });
+        }
+        return copy;
     }
 }

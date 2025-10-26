@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-[DefaultExecutionOrder(-100)] // ensure Inventory.Awake runs before PlayerData
 public class Inventory : MonoBehaviour
 {
     public static Inventory Instance { get; private set; }
@@ -13,6 +12,7 @@ public class Inventory : MonoBehaviour
     public List<ItemData> ownedItems = new List<ItemData>();
 
     public event Action OnInventoryChanged;
+    // NEW: notify when an item is equipped/unequipped
     public event Action<ItemData, bool> OnItemEquipChanged;
 
     private void Awake()
@@ -26,27 +26,16 @@ public class Inventory : MonoBehaviour
         if (item == null) return;
 
         var existing = ownedItems.Find(x => x.itemID == item.itemID && !x.equipped);
-        if (existing != null) existing.stack += item.stack;
+        if (existing != null)
+        {
+            existing.stack += item.stack;
+        }
         else
         {
-            var clone = new ItemData(item.itemID, item.itemName, item.description, item.price, item.iconPath, item.stack)
-            {
-                equippable = item.equippable,
-                equipped = false,
-                modifiers = item.modifiers != null ? new List<ItemData.StatMod>(item.modifiers) : new List<ItemData.StatMod>()
-            };
-            ownedItems.Add(clone);
+            // Preserve modifiers/equip flags
+            ownedItems.Add(item.Clone());
         }
 
-        inventoryUIReference?.Refresh();
-        OnInventoryChanged?.Invoke();
-    }
-
-    public void ToggleEquip(ItemData item)
-    {
-        if (item == null || !ownedItems.Contains(item) || !item.equippable) return;
-        item.equipped = !item.equipped;
-        OnItemEquipChanged?.Invoke(item, item.equipped);
         inventoryUIReference?.Refresh();
         OnInventoryChanged?.Invoke();
     }
@@ -60,6 +49,21 @@ public class Inventory : MonoBehaviour
         if (existing.stack <= 0) ownedItems.Remove(existing);
         OnInventoryChanged?.Invoke();
         return true;
+    }
+
+    // NEW: toggle equip state for an item already in ownedItems
+    public void ToggleEquip(ItemData item)
+    {
+        if (item == null) return;
+        if (!ownedItems.Contains(item)) return;
+        if (!item.equippable) return;
+
+        item.equipped = !item.equipped;
+
+        // notify listeners (e.g., PlayerData) and refresh UI
+        OnItemEquipChanged?.Invoke(item, item.equipped);
+        inventoryUIReference?.Refresh();
+        OnInventoryChanged?.Invoke();
     }
 
     public void Clear()
