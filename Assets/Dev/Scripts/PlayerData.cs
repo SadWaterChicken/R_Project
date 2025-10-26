@@ -50,6 +50,18 @@ public class PlayerData : MonoBehaviour
 
     private int currentSanityDebuffLevel = 0; // 0 = không debuff, 1-3 = level debuff
 
+    // Base stats cached for equip recalculation
+    private int baseAttackPower;
+    private int baseDefense;
+    private int baseMagicPower;
+    private int baseMagicDefense;
+    private float baseCriticalChance;
+    private float baseCriticalDamage;
+    private float baseMoveSpeed;
+    private int baseMaxHealth;
+    private int baseMaxMana;
+    private int baseMaxSanity;
+
     #region Properties
     public string PlayerName { get => playerName; set => playerName = value; }
     
@@ -84,6 +96,17 @@ public class PlayerData : MonoBehaviour
     private void Awake()
     {
         InitializeStats();
+        CacheBaseStats();
+    }
+
+    private void OnEnable()
+    {
+        TrySubscribeInventoryEvents();
+    }
+
+    private void OnDisable()
+    {
+        UnsubscribeInventoryEvents();
     }
 
     private void Update()
@@ -97,6 +120,154 @@ public class PlayerData : MonoBehaviour
         currentMana = maxMana;
         currentSanity = maxSanity;
         currentSanityDebuffLevel = 0;
+    }
+
+    private void CacheBaseStats()
+    {
+        baseAttackPower = attackPower;
+        baseDefense = defense;
+        baseMagicPower = magicPower;
+        baseMagicDefense = magicDefense;
+        baseCriticalChance = criticalChance;
+        baseCriticalDamage = criticalDamage;
+        baseMoveSpeed = moveSpeed;
+        baseMaxHealth = maxHealth;
+        baseMaxMana = maxMana;
+        baseMaxSanity = maxSanity;
+    }
+
+    private void TrySubscribeInventoryEvents()
+    {
+        if (Inventory.Instance == null) return;
+        Inventory.Instance.OnItemEquipChanged += HandleItemEquipChanged;
+        Inventory.Instance.OnInventoryChanged += HandleInventoryChanged;
+        // Ensure stats reflect any already-equipped items on enable/load
+        RecalculateStatsFromEquipment();
+    }
+
+    private void UnsubscribeInventoryEvents()
+    {
+        if (Inventory.Instance == null) return;
+        Inventory.Instance.OnItemEquipChanged -= HandleItemEquipChanged;
+        Inventory.Instance.OnInventoryChanged -= HandleInventoryChanged;
+    }
+
+    private void HandleItemEquipChanged(ItemData item, bool equipped)
+    {
+        RecalculateStatsFromEquipment();
+    }
+
+    private void HandleInventoryChanged()
+    {
+        // Recalc also when items are removed/added (e.g., drop/consume)
+        RecalculateStatsFromEquipment();
+    }
+
+    private void RecalculateStatsFromEquipment()
+    {
+        // Reset to base first
+        attackPower = baseAttackPower;
+        defense = baseDefense;
+        magicPower = baseMagicPower;
+        magicDefense = baseMagicDefense;
+        criticalChance = Mathf.Clamp01(baseCriticalChance);
+        criticalDamage = baseCriticalDamage;
+        moveSpeed = baseMoveSpeed;
+        maxHealth = baseMaxHealth;
+        maxMana = baseMaxMana;
+        maxSanity = baseMaxSanity;
+
+        var inv = Inventory.Instance;
+        if (inv != null)
+        {
+            foreach (var item in inv.ownedItems)
+            {
+                if (item == null || !item.equipped || item.modifiers == null) continue;
+                foreach (var m in item.modifiers)
+                    ApplyModifier(m);
+            }
+        }
+
+        // Clamp currents to new max
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        currentMana = Mathf.Clamp(currentMana, 0, maxMana);
+        currentSanity = Mathf.Clamp(currentSanity, 0, maxSanity);
+
+        // Notify UI listeners if any bars depend on max values
+        OnHealthChanged?.Invoke(currentHealth, maxHealth);
+        OnManaChanged?.Invoke(currentMana, maxMana);
+        OnSanityChanged?.Invoke(currentSanity, maxSanity);
+    }
+
+    private void ApplyModifier(ItemData.StatMod mod)
+    {
+        if (mod == null || string.IsNullOrWhiteSpace(mod.stat)) return;
+
+        string key = mod.stat.Trim().ToLowerInvariant();
+        bool isPercent = mod.percent;
+        float v = mod.value;
+
+        switch (key)
+        {
+            case "attackpower":
+            case "attack":
+            case "atk":
+                attackPower += isPercent ? Mathf.RoundToInt(baseAttackPower * (v / 100f)) : Mathf.RoundToInt(v);
+                break;
+
+            case "defense":
+            case "def":
+                defense += isPercent ? Mathf.RoundToInt(baseDefense * (v / 100f)) : Mathf.RoundToInt(v);
+                break;
+
+            case "magicpower":
+            case "magic":
+            case "mag":
+                magicPower += isPercent ? Mathf.RoundToInt(baseMagicPower * (v / 100f)) : Mathf.RoundToInt(v);
+                break;
+
+            case "magicdefense":
+            case "mdef":
+                magicDefense += isPercent ? Mathf.RoundToInt(baseMagicDefense * (v / 100f)) : Mathf.RoundToInt(v);
+                break;
+
+            case "criticalchance":
+            case "critchance":
+            case "crit":
+                // Treat value as percentage points (e.g., 10 => +0.10)
+                criticalChance = Mathf.Clamp01(criticalChance + (isPercent ? v / 100f : v));
+                break;
+
+            case "criticaldamage":
+            case "critdmg":
+                // Value adds directly; if flagged percent, treat 10 => +0.10 multiplier
+                criticalDamage += isPercent ? (v / 100f) : v;
+                break;
+
+            case "movespeed":
+            case "speed":
+                moveSpeed += isPercent ? baseMoveSpeed * (v / 100f) : v;
+                break;
+
+            case "maxhealth":
+            case "hp":
+                maxHealth += isPercent ? Mathf.RoundToInt(baseMaxHealth * (v / 100f)) : Mathf.RoundToInt(v);
+                break;
+
+            case "maxmana":
+            case "mp":
+                maxMana += isPercent ? Mathf.RoundToInt(baseMaxMana * (v / 100f)) : Mathf.RoundToInt(v);
+                break;
+
+            case "maxsanity":
+            case "sanity":
+                maxSanity += isPercent ? Mathf.RoundToInt(baseMaxSanity * (v / 100f)) : Mathf.RoundToInt(v);
+                break;
+
+            default:
+                // Unknown stat key; no-op
+                break;
+        }
     }
 
     #region Health Management
