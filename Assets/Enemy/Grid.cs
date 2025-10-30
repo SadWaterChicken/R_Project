@@ -274,16 +274,15 @@ public class Grid : MonoBehaviour
         if (obstacleTilemap == null || grid == null) return null;
 
         BoundsInt bounds = obstacleTilemap.cellBounds;
-        Vector3 worldBottomLeft = obstacleTilemap.CellToWorld(bounds.min);
 
-        float percentX = (worldPosition.x - worldBottomLeft.x) / gridWorldSize.x;
-        float percentY = (worldPosition.y - worldBottomLeft.y) / gridWorldSize.y;
+        // Robust mapping for Tilemap-based grids (2D): use WorldToCell then map to grid array indices
+        Vector3Int cell = obstacleTilemap.WorldToCell(worldPosition);
 
-        percentX = Mathf.Clamp01(percentX);
-        percentY = Mathf.Clamp01(percentY);
+        int x = cell.x - bounds.xMin;
+        int y = cell.y - bounds.yMin;
 
-        int x = Mathf.Clamp(Mathf.RoundToInt((gridSizeX - 1) * percentX), 0, gridSizeX - 1);
-        int y = Mathf.Clamp(Mathf.RoundToInt((gridSizeY - 1) * percentY), 0, gridSizeY - 1);
+        if (x < 0 || x >= gridSizeX || y < 0 || y >= gridSizeY)
+            return null;
 
         return grid[x, y];
     }
@@ -365,5 +364,22 @@ public class Grid : MonoBehaviour
     {
         public Tilemap tilemap;
         public int terrainPenalty;
+    }
+
+    // Public API: Reset per-node transient A* state before a search.
+    public void ResetNodeCosts()
+    {
+        if (grid == null) return;
+        for (int x = 0; x < gridSizeX; x++)
+        {
+            for (int y = 0; y < gridSizeY; y++)
+            {
+                Node n = grid[x, y];
+                if (n == null) continue;
+                n.gCost = int.MaxValue;
+                n.hCost = 0;
+                n.parent = null;
+            }
+        }
     }
 }

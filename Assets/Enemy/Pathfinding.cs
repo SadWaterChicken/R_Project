@@ -1,9 +1,12 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System;
 using System.IO;
+
+// Disambiguate Debug to Unity's Debug (resolves conflict with System.Diagnostics.Debug)
+using Debug = UnityEngine.Debug;
 
 public class Pathfinding : MonoBehaviour
 {
@@ -23,15 +26,34 @@ public class Pathfinding : MonoBehaviour
 
     private IEnumerator FindPath(Vector3 startPos, Vector3 targetPos)
     {
+        // Reset per-node transient state so stale gCost/parent don't break A*
+        if (grid != null)
+            grid.ResetNodeCosts();
+
         Stopwatch sw = new Stopwatch();
         sw.Start();
 
         Vector3[] waypoints = new Vector3[0];
         bool pathSuccess = false;
 
+        if (grid == null)
+        {
+            Debug.LogWarning("Grid missing, cannot compute path.");
+            yield break;
+        }
+
         Node startNode = grid.NodeFromWorldPoint(startPos);
         Node targetNode = grid.NodeFromWorldPoint(targetPos);
 
+        if (startNode == null || targetNode == null)
+        {
+            Debug.LogWarning($"FindPath: startNode or targetNode is null (startPos={startPos}, targetPos={targetPos})");
+            yield break;
+        }
+
+        // Initialize start node costs properly
+        startNode.gCost = 0;
+        startNode.hCost = GetDistance(startNode, targetNode);
         startNode.parent = startNode;
 
         if (startNode.walkable && targetNode.walkable)
@@ -49,7 +71,7 @@ public class Pathfinding : MonoBehaviour
                 if (currentNode == targetNode)
                 {
                     sw.Stop();
-                    print("Path found: " + sw.ElapsedMilliseconds + " ms");
+                    Debug.Log("Path found: " + sw.ElapsedMilliseconds + " ms");
                     pathSuccess = true;
                     break;
                 }
@@ -76,17 +98,47 @@ public class Pathfinding : MonoBehaviour
             }
         }
 
+        // yield to avoid blocking a long frame (keeps behavior consistent with coroutine approach)
         yield return null;
 
         if (pathSuccess)
         {
             waypoints = RetracePath(startNode, targetNode);
-            Path path = new Path(waypoints, startPos, 0.5f); // 0.5f turn distance tweakable
-            requestManager.FinishedProcessingPath(path.lookPoints, pathSuccess);
+
+            // Validate waypoints - drop invalid points
+            if (waypoints != null)
+            {
+                var valid = new List<Vector3>();
+                foreach (var w in waypoints)
+                {
+                    if (!float.IsNaN(w.x) && !float.IsNaN(w.y) && !float.IsNaN(w.z))
+                        valid.Add(w);
+                }
+                waypoints = valid.ToArray();
+            }
+
+            // Ensure final waypoint is the exact target position (so gizmo follows player precisely)
+            if (waypoints == null || waypoints.Length == 0)
+            {
+                waypoints = new Vector3[] { targetPos };
+            }
+            else
+            {
+                // Replace the last waypoint (target node center) with the actual target position for visual fidelity.
+                waypoints[waypoints.Length - 1] = targetPos;
+            }
+
+            // cache for drawing and consumers (if used)
+            if (requestManager != null)
+            {
+                Path path = new Path(waypoints, startPos, 0.5f); // 0.5f turn distance tweakable
+                requestManager.FinishedProcessingPath(path.lookPoints, pathSuccess);
+            }
         }
         else
         {
-            requestManager.FinishedProcessingPath(waypoints, pathSuccess);
+            if (requestManager != null)
+                requestManager.FinishedProcessingPath(waypoints, pathSuccess);
         }
     }
 
