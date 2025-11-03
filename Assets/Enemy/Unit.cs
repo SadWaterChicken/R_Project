@@ -4,57 +4,94 @@ using System.Collections;
 public class Unit : MonoBehaviour 
 {
     public Transform target;
+
+    [Header("Movement")]
     public float speed = 20f;
     public float turnDst = 5f;
     public float turnSpeed = 3f;
     public float pathUpdateInterval = 0.25f;
 
+    [Header("State / Ranges")]
+    public float detectRadius = 6f;
+    public float chaseRadius = 16f;
+    public float homeArriveEpsilon = 0.05f;
+    public float attackRadius = 0f;
+
+    private enum AIState { Idle, Chase, Return, Attack }
+    private AIState currentState = AIState.Idle;
+
     private Path path;
     private PathRequestManager pathRequestManager;
-    private Grid grid;  // reference to the A* Grid component (not the scene tile drawing Grid object)
+    private Grid grid;
     private Coroutine followCoroutine;
     private Coroutine updatePathCoroutine;
 
+    private Vector3 homeTilePos;
+    private bool homeSet = false;
+
     private void Awake()
     {
-        // find manager (may be assigned by its Awake already)
         pathRequestManager = FindObjectOfType<PathRequestManager>();
-        // get Grid from the same A* GameObject (avoid collisions with other Grid types)
         grid = pathRequestManager != null ? pathRequestManager.GetComponent<Grid>() : FindObjectOfType<Grid>();
     }
 
-    // Use Start instead of OnEnable to avoid racing with other objects' Awakes
     private void Start()
     {
-        if (pathRequestManager == null)
-        {
-            Debug.LogError("[Unit] No PathRequestManager found in scene!");
-            enabled = false;
-            return;
-        }
-
-        if (grid == null)
-        {
-            Debug.LogError("[Unit] No Grid found in scene!");
-            enabled = false;
-            return;
-        }
-
-        if (target == null)
-        {
-            Debug.LogWarning($"[Unit] No target assigned to Unit {gameObject.name}!");
-            return;
-        }
+        if (pathRequestManager == null || grid == null || target == null) { enabled = false; return; }
+        Node n = grid.NodeFromWorldPoint(transform.position);
+        if (n != null) { homeTilePos = n.worldPosition; homeSet = true; }
 
         updatePathCoroutine = StartCoroutine(UpdatePathLoop());
+        SetState(AIState.Idle);
     }
 
     private void OnDisable()
     {
-        if (updatePathCoroutine != null)
-            StopCoroutine(updatePathCoroutine);
-        if (followCoroutine != null)
-            StopCoroutine(followCoroutine);
+        if (updatePathCoroutine != null) StopCoroutine(updatePathCoroutine);
+        if (followCoroutine != null) StopCoroutine(followCoroutine);
+        if (grid != null) grid.ClearPathHighlights();
+    }
+
+    private void Update()
+    {
+        float distToTarget = (target != null) ? Vector2.Distance(transform.position, target.position) : float.MaxValue;
+        float distToHome = homeSet ? Vector2.Distance(transform.position, homeTilePos) : 0f;
+
+        switch (currentState)
+        {
+            case AIState.Idle:
+                if (target != null && distToTarget <= detectRadius) SetState(AIState.Chase);
+                break;
+            case AIState.Chase:
+                if (target == null) SetState(homeSet ? AIState.Return : AIState.Idle);
+                else if (distToTarget > chaseRadius) SetState(homeSet ? AIState.Return : AIState.Idle);
+                else if (attackRadius > 0f && distToTarget <= attackRadius) SetState(AIState.Attack);
+                break;
+            case AIState.Attack:
+                if (target == null) SetState(homeSet ? AIState.Return : AIState.Idle);
+                else if (attackRadius <= 0f || distToTarget > attackRadius * 1.1f)
+                    SetState(distToTarget <= chaseRadius ? AIState.Chase : (homeSet ? AIState.Return : AIState.Idle));
+                break;
+            case AIState.Return:
+                if (target != null && distToTarget <= detectRadius) SetState(AIState.Chase);
+                else if (homeSet && distToHome <= homeArriveEpsilon) SetState(AIState.Idle);
+                break;
+        }
+    }
+
+    private void SetState(AIState newState)
+    {
+        if (currentState == newState) return;
+
+        // entering non-moving: stop follow and clear path highlights
+        if (newState != AIState.Chase && newState != AIState.Return)
+        {
+            if (followCoroutine != null) { StopCoroutine(followCoroutine); followCoroutine = null; }
+            path = null;
+            if (grid != null) grid.ClearPathHighlights();
+        }
+
+        currentState = newState;
     }
 
     IEnumerator UpdatePathLoop()
@@ -64,18 +101,20 @@ public class Unit : MonoBehaviour
         {
             if (target != null && grid != null && pathRequestManager != null)
             {
-                Node unitNode = grid.NodeFromWorldPoint(transform.position);
-                Node targetNode = grid.NodeFromWorldPoint(target.position);
-
-                if (unitNode != null && targetNode != null && unitNode.walkable && targetNode.walkable)
+                if (currentState == AIState.Chase || currentState == AIState.Return)
                 {
-                    Vector3 startTilePos = unitNode.worldPosition;
-                    Vector3 targetTilePos = targetNode.worldPosition;
+                    Node unitNode = grid.NodeFromWorldPoint(transform.position);
+                    Vector3 targetWorld = (currentState == AIState.Return && homeSet) ? homeTilePos : target.position;
+                    Node targetNode = grid.NodeFromWorldPoint(targetWorld);
 
-                    // Use static facade (safe) — PathRequestManager.RequestPath handles instance discovery
-                    PathRequestManager.RequestPath(startTilePos, targetTilePos, OnPathFound);
+                    if (unitNode != null && targetNode != null && unitNode.walkable && targetNode.walkable)
+                    {
+                        Vector3 startTilePos = unitNode.worldPosition;
+                        Vector3 targetTilePos = targetNode.worldPosition;
 
-                    Debug.DrawLine(startTilePos, targetTilePos, Color.yellow, pathUpdateInterval);
+                        PathRequestManager.RequestPath(startTilePos, targetTilePos, OnPathFound);
+                        Debug.DrawLine(startTilePos, targetTilePos, currentState == AIState.Return ? Color.cyan : Color.yellow, pathUpdateInterval);
+                    }
                 }
             }
             yield return wait;
@@ -84,14 +123,16 @@ public class Unit : MonoBehaviour
 
     public void OnPathFound(Vector3[] waypoints, bool pathSuccessful)
     {
-        if (pathSuccessful)
-        {
-            path = new Path(waypoints, transform.position, turnDst);
-            
-            if (followCoroutine != null)
-                StopCoroutine(followCoroutine);
-            followCoroutine = StartCoroutine(FollowPath());
-        }
+        if (!pathSuccessful) { if (grid != null) grid.ClearPathHighlights(); return; }
+        if (currentState != AIState.Chase && currentState != AIState.Return) return;
+
+        path = new Path(waypoints, transform.position, turnDst);
+
+        // Update tile highlights to the new path
+        if (grid != null) grid.SetPathHighlights(waypoints);
+
+        if (followCoroutine != null) StopCoroutine(followCoroutine);
+        followCoroutine = StartCoroutine(FollowPath());
     }
 
     IEnumerator FollowPath()
@@ -103,6 +144,12 @@ public class Unit : MonoBehaviour
 
         while (true)
         {
+            if (currentState != AIState.Chase && currentState != AIState.Return)
+            {
+                if (grid != null) grid.ClearPathHighlights();
+                yield break;
+            }
+
             Vector2 currentPos = new Vector2(transform.position.x, transform.position.y);
             Vector2 targetPos = new Vector2(currentWaypoint.x, currentWaypoint.y);
 
@@ -113,7 +160,11 @@ public class Unit : MonoBehaviour
             if (Vector2.Distance(newPos, targetPos) < 0.05f)
             {
                 pathIndex++;
-                if (pathIndex >= path.lookPoints.Length) yield break;
+                if (pathIndex >= path.lookPoints.Length)
+                {
+                    if (grid != null) grid.ClearPathHighlights();
+                    yield break;
+                }
                 currentWaypoint = path.lookPoints[pathIndex];
             }
 

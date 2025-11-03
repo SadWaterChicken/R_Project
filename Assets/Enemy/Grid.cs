@@ -12,14 +12,18 @@ public class Grid : MonoBehaviour
 
     [Header("Gizmo / Debug")]
     public bool displayGridGizmos = true;
-    public bool drawShadedTiles = true;       // toggle the filled shading
-    public bool drawTileWireframe = true;     // toggle the exact wireframe
+    public bool drawShadedTiles = true;
+    public bool drawTileWireframe = true;
     [Range(0f, 1f)] public float shadingAlpha = 0.5f;
-    public Gradient penaltyGradient;          // map penalty -> color
+    public Gradient penaltyGradient;
 
     [Header("Pathfinding / Terrain")]
-    public TerrainType[] walkableRegions;     // optional extra tilemaps for penalties
+    public TerrainType[] walkableRegions;
     public int obstacleProximityPenalty = 10;
+
+    [Header("Agent Clearance")]
+    [Tooltip("Inflate obstacles globally for all agents by this many tiles. For per-agent sizes use IsNodeAreaWalkable overloads from scripts.")]
+    public int agentClearanceTiles = 0;
 
     // --- internal ---
     private Dictionary<int, int> walkableRegionsDictionary = new Dictionary<int, int>();
@@ -37,6 +41,9 @@ public class Grid : MonoBehaviour
     public int customGridSizeY = 10;
     public bool useCustomGridSize = false;
     public bool showCoordinates = true;
+
+    // Highlighted path tiles (set by Unit/BossUnit on path found)
+    private readonly HashSet<Node> highlightedNodes = new HashSet<Node>();
 
     #region Unity callbacks
     private void OnValidate()
@@ -287,6 +294,25 @@ public class Grid : MonoBehaviour
         return grid[x, y];
     }
 
+    // Call to show the tiles along a path
+    public void SetPathHighlights(Vector3[] waypoints)
+    {
+        highlightedNodes.Clear();
+        if (waypoints == null || obstacleTilemap == null) return;
+
+        foreach (var wp in waypoints)
+        {
+            var n = NodeFromWorldPoint(wp);
+            if (n != null) highlightedNodes.Add(n);
+        }
+    }
+
+    // Clear current highlight
+    public void ClearPathHighlights()
+    {
+        highlightedNodes.Clear();
+    }
+
     // -----------------------
     // Gizmo drawing (exactly aligned + shading)
     // -----------------------
@@ -308,9 +334,11 @@ public class Grid : MonoBehaviour
         Gizmos.color = Color.white;
         Gizmos.DrawWireCube(outlineCenter, new Vector3(worldWidth, worldHeight, 0f));
 
-        if (!displayGridGizmos || grid == null) return;
+        if (!displayGridGizmos) return;
 
-        // draw filled tiles
+        // Note: assumes you already have grid, gridSizeX, gridSizeY, penaltyMin/Max fields populated elsewhere
+        if (grid == null) return;
+
         for (int x = 0; x < gridSizeX; x++)
         {
             for (int y = 0; y < gridSizeY; y++)
@@ -318,21 +346,35 @@ public class Grid : MonoBehaviour
                 Node n = grid[x, y];
                 if (n == null) continue;
 
+                // base tile shading
                 float t = (penaltyMax != penaltyMin) ? Mathf.InverseLerp(penaltyMin, penaltyMax, n.movementPenalty) : 0f;
-                t = Mathf.Pow(t, 2f); // adjust contrast
-
+                t = Mathf.Pow(t, 2f);
                 Color baseColor = (penaltyGradient != null) ? penaltyGradient.Evaluate(t) : Color.Lerp(Color.white, Color.black, t);
-
                 if (!n.walkable) baseColor = Color.red;
-
                 baseColor.a = Mathf.Clamp01(shadingAlpha > 0f ? shadingAlpha : 0.6f);
 
                 Gizmos.color = baseColor;
-                Gizmos.DrawCube(n.worldPosition, Vector3.one * nodeDiameter * 0.98f);
+                Gizmos.DrawCube(n.worldPosition, Vector3.one * cellSize * 0.98f);
+
+                // overlay for path highlight
+                if (highlightedNodes.Contains(n))
+                {
+                    var overlay = new Color(0f, 1f, 1f, 0.6f); // cyan with alpha
+                    Gizmos.color = overlay;
+                    Gizmos.DrawCube(n.worldPosition, Vector3.one * cellSize * 0.9f);
+
+                    // optional: wireframe on top
+                    if (drawTileWireframe)
+                    {
+                        Gizmos.color = Color.cyan;
+                        Gizmos.DrawWireCube(n.worldPosition, Vector3.one * cellSize * 0.98f);
+                    }
+                }
             }
         }
 
 #if UNITY_EDITOR
+        // Optional coordinates label (kept as-is if you already had it)
         if (showCoordinates)
         {
             foreach (Node n in grid)
@@ -381,5 +423,121 @@ public class Grid : MonoBehaviour
                 n.parent = null;
             }
         }
+    }
+
+    // Check if a rectangular agent footprint centered on node is fully walkable
+    public bool IsNodeAreaWalkable(Node center, int halfExtentX, int halfExtentY)
+    {
+        if (center == null || grid == null) return false;
+        int minX = center.gridX - halfExtentX;
+        int maxX = center.gridX + halfExtentX;
+        int minY = center.gridY - halfExtentY;
+        int maxY = center.gridY + halfExtentY;
+
+        if (minX < 0 || minY < 0 || maxX >= gridSizeX || maxY >= gridSizeY)
+            return false;
+
+        for (int x = minX; x <= maxX; x++)
+            for (int y = minY; y <= maxY; y++)
+                if (!grid[x, y].walkable)
+                    return false;
+
+        return true;
+    }
+
+    // Find the closest area-walkable node to a rectangle of tiles (target footprint)
+    // rect: in grid indices, inclusive width/height (RectInt uses x,y,width,height)
+    public Node FindClosestClearNodeToRect(RectInt rect, Node fromNode, int agentHalfX, int agentHalfY)
+    {
+        if (grid == null || fromNode == null) return null;
+
+        // Clamp rect into grid
+        int rxMin = Mathf.Clamp(rect.xMin, 0, gridSizeX - 1);
+        int ryMin = Mathf.Clamp(rect.yMin, 0, gridSizeY - 1);
+        int rxMax = Mathf.Clamp(rect.xMax - 1, 0, gridSizeX - 1);
+        int ryMax = Mathf.Clamp(rect.yMax - 1, 0, gridSizeY - 1);
+
+        // Search ring just outside the rect first (preferred: adjacent tiles)
+        int bestDist = int.MaxValue;
+        Node best = null;
+
+        System.Func<int,int,int> chebyshev = (ax, ay) =>
+        {
+            int dx = Mathf.Abs(ax - fromNode.gridX);
+            int dy = Mathf.Abs(ay - fromNode.gridY);
+            return Mathf.Max(dx, dy);
+        };
+
+        // Build an expanded rect by 1 to get perimeter
+        int pxMin = Mathf.Max(rxMin - 1, 0);
+        int pyMin = Mathf.Max(ryMin - 1, 0);
+        int pxMax = Mathf.Min(rxMax + 1, gridSizeX - 1);
+        int pyMax = Mathf.Min(ryMax + 1, gridSizeY - 1);
+
+        // Top and bottom rows
+        for (int x = pxMin; x <= pxMax; x++)
+        {
+            int yTop = pyMax;
+            int yBot = pyMin;
+            if (yTop >= 0 && yTop < gridSizeY)
+            {
+                Node n = grid[x, yTop];
+                if (n.walkable && IsNodeAreaWalkable(n, agentHalfX, agentHalfY))
+                {
+                    int d = chebyshev(x, yTop);
+                    if (d < bestDist) { bestDist = d; best = n; }
+                }
+            }
+            if (yBot >= 0 && yBot < gridSizeY)
+            {
+                Node n = grid[x, yBot];
+                if (n.walkable && IsNodeAreaWalkable(n, agentHalfX, agentHalfY))
+                {
+                    int d = chebyshev(x, yBot);
+                    if (d < bestDist) { bestDist = d; best = n; }
+                }
+            }
+        }
+        // Left and right columns
+        for (int y = pyMin + 1; y <= pyMax - 1; y++)
+        {
+            int xLeft = pxMin;
+            int xRight = pxMax;
+            if (xLeft >= 0 && xLeft < gridSizeX)
+            {
+                Node n = grid[xLeft, y];
+                if (n.walkable && IsNodeAreaWalkable(n, agentHalfX, agentHalfY))
+                {
+                    int d = chebyshev(xLeft, y);
+                    if (d < bestDist) { bestDist = d; best = n; }
+                }
+            }
+            if (xRight >= 0 && xRight < gridSizeX)
+            {
+                Node n = grid[xRight, y];
+                if (n.walkable && IsNodeAreaWalkable(n, agentHalfX, agentHalfY))
+                {
+                    int d = chebyshev(xRight, y);
+                    if (d < bestDist) { bestDist = d; best = n; }
+                }
+            }
+        }
+
+        // Fallback: try inside rect if perimeter failed (for overlap cases)
+        if (best == null)
+        {
+            for (int x = rxMin; x <= rxMax; x++)
+                for (int y = ryMin; y <= ryMax; y++)
+                {
+                    Node n = grid[x, y];
+                    if (n.walkable && IsNodeAreaWalkable(n, agentHalfX, agentHalfY))
+                    {
+                        int d = chebyshev(x, y);
+                        if (d < bestDist) { bestDist = d; best = n; }
+                    }
+                }
+        }
+
+        return best;
     }
 }
