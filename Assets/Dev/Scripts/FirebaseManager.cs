@@ -112,7 +112,20 @@ public class FirebaseManager : MonoBehaviour
         try
         {
             PlayerDataSnapshot snapshot = playerData.GetSnapshot();
-            SaveSlotData saveSlotData = new SaveSlotData(slotIndex, snapshot);
+            
+            // Get current scene name
+            string currentSceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+            SaveSlotData saveSlotData = new SaveSlotData(slotIndex, snapshot, currentSceneName);
+
+            // If SaveManager exists, capture the current active scene snapshot and embed it
+            if (SaveManager.Instance != null)
+            {
+                var sceneSnap = SaveManager.Instance.CaptureActiveScene();
+                if (sceneSnap != null)
+                {
+                    saveSlotData.sceneSnapshotsJson = SaveManager.Instance.SerializeSceneSnapshot(sceneSnap);
+                }
+            }
             
             string json = JsonUtility.ToJson(saveSlotData);
             

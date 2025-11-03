@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Game menu.unity
     guid: 2330e90e15613b64ab3dd388e1748d2c
   - enabled: 1
+    path: Assets/Scenes/Thinh-Testing.unity
+    guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
     path: Assets/Scenes/Map1.unity
     guid: abc3ed001e4bff347ad75fc85074190d
   - enabled: 1

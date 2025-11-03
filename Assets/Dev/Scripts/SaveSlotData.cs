@@ -11,7 +11,10 @@ public class SaveSlotData
     public long lastSaveTime; // Unix timestamp
     public string playerName;
     public string lastSavePointId;
+    public string sceneName; // Scene name where player was when saved
     public PlayerDataSnapshot playerDataSnapshot;
+    // Serialized JSON containing scene snapshots (one or more scenes) - optional
+    public string sceneSnapshotsJson;
     
     // Computed properties
     public DateTime LastSaveDateTime => DateTimeOffset.FromUnixTimeMilliseconds(lastSaveTime).LocalDateTime;
@@ -24,16 +27,20 @@ public class SaveSlotData
         lastSaveTime = 0;
         playerName = "Empty Slot";
         lastSavePointId = "";
+        sceneName = "";
         playerDataSnapshot = null;
+        sceneSnapshotsJson = "";
     }
     
-    public SaveSlotData(int index, PlayerDataSnapshot snapshot)
+    public SaveSlotData(int index, PlayerDataSnapshot snapshot, string currentSceneName = "")
     {
         slotIndex = index;
         isEmpty = false;
         lastSaveTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         playerName = snapshot?.playerName ?? "Unknown";
         lastSavePointId = snapshot?.lastSavePointId ?? "";
+        sceneName = currentSceneName;
         playerDataSnapshot = snapshot;
+        sceneSnapshotsJson = "";
     }
 }

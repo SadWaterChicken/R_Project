@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Scene Names")]
     [SerializeField] private string menuSceneName = "MenuScene";
-    [SerializeField] private string gameSceneName = "Testing"; // Sửa thành scene game thực tế
+    [SerializeField] private string gameSceneName = "Thinh-Testing"; // Sửa thành scene game thực tế
 
     [Header("Player Settings")]
     [SerializeField] private string playerId = "player_001"; // ID mặc định, có thể thay bằng login system
@@ -156,8 +156,13 @@ public class GameManager : MonoBehaviour
         
         if (saveSlotData != null && !saveSlotData.isEmpty)
         {
-            // Load game scene
-            SceneManager.LoadScene(gameSceneName);
+            // Load the scene from save data, or fallback to default game scene
+            string sceneToLoad = !string.IsNullOrEmpty(saveSlotData.sceneName) 
+                ? saveSlotData.sceneName 
+                : gameSceneName;
+            
+            Debug.Log($"Loading scene: {sceneToLoad} (from save data)");
+            SceneManager.LoadScene(sceneToLoad);
             
             // Đợi scene load xong
             await System.Threading.Tasks.Task.Delay(100);
@@ -180,6 +185,74 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Starting new game...");
         SceneManager.LoadScene(gameSceneName);
+        OnGameStarted?.Invoke();
+    }
+
+    /// <summary>
+    /// Teleport player to another scene and optionally to a specific SavePoint ID in that scene.
+    /// This will save the current scene snapshot, then load the target scene and place the player.
+    /// </summary>
+    public async void TeleportToScene(string sceneName, string targetSavePointId = null)
+    {
+        Debug.Log($"TeleportToScene: Request to teleport to '{sceneName}' savePoint '{targetSavePointId}'");
+
+        // Save current scene state and player
+        if (SaveManager.Instance != null)
+        {
+            var snap = SaveManager.Instance.CaptureActiveScene();
+            // we could store the snap in current save slot if desired
+        }
+
+        // Save player data to current slot before teleporting (if any)
+        try
+        {
+            await SaveCurrentGame();
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning($"TeleportToScene: Save failed before teleport: {e.Message}");
+        }
+
+        // Load the target scene
+        SceneManager.LoadScene(sceneName);
+
+        // Wait a short moment for scene to load
+        await System.Threading.Tasks.Task.Delay(200);
+
+        // After load, find PlayerData and place the player at the requested savepoint (if exists)
+        var playerData = FindFirstObjectByType<PlayerData>();
+        if (playerData == null)
+        {
+            Debug.LogError("TeleportToScene: no PlayerData found in target scene after load");
+            return;
+        }
+
+        // If target savepoint ID provided, find SavePoint and position player there
+        if (!string.IsNullOrEmpty(targetSavePointId))
+        {
+            var all = GameObject.FindObjectsByType<SavePoint>(UnityEngine.FindObjectsSortMode.None);
+            foreach (var sp in all)
+            {
+                if (sp.SavePointId == targetSavePointId)
+                {
+                    playerData.transform.position = sp.SpawnPosition != null ? sp.SpawnPosition.position : sp.transform.position;
+                    Debug.Log($"TeleportToScene: Placed player at SavePoint {targetSavePointId}");
+                    EnsurePlayerControlsEnabled(playerData);
+                    OnGameStarted?.Invoke();
+                    return;
+                }
+            }
+
+            Debug.LogWarning($"TeleportToScene: SavePoint '{targetSavePointId}' not found in scene '{sceneName}'");
+        }
+
+        // No target specified or not found: use PlayerData.LastSavePosition if set
+        if (playerData.LastSavePosition != Vector3.zero)
+        {
+            playerData.transform.position = playerData.LastSavePosition;
+        }
+
+        EnsurePlayerControlsEnabled(playerData);
         OnGameStarted?.Invoke();
     }
 
@@ -259,6 +332,18 @@ public class GameManager : MonoBehaviour
             }
 
             Debug.Log($"Player data loaded from slot {saveSlotData.slotIndex}!");
+            // Restore scene entities if snapshot present
+            if (!string.IsNullOrEmpty(saveSlotData.sceneSnapshotsJson) && SaveManager.Instance != null)
+            {
+                var sceneSnap = SaveManager.Instance.DeserializeSceneSnapshot(saveSlotData.sceneSnapshotsJson);
+                if (sceneSnap != null)
+                {
+                    SaveManager.Instance.RestoreScene(sceneSnap);
+                }
+            }
+            // Ensure player control is restored in case something (pause/timeScale/components)
+            // was left disabled during the load process.
+            EnsurePlayerControlsEnabled(currentPlayerData);
             OnGameStarted?.Invoke();
         }
         else
@@ -306,6 +391,7 @@ public class GameManager : MonoBehaviour
         {
             currentPlayerData.LoadFromSnapshot(snapshot);
             Debug.Log("Player data loaded successfully!");
+            EnsurePlayerControlsEnabled(currentPlayerData);
             OnGameStarted?.Invoke();
         }
         else
@@ -376,6 +462,23 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void QuitGame()
     {
+        // Start async quit to ensure last save is attempted
+        QuitAfterSaveAsync();
+    }
+
+    private async void QuitAfterSaveAsync()
+    {
+        // Attempt to save current game before quitting
+        try
+        {
+            await SaveCurrentGame();
+            Debug.Log("QuitAfterSaveAsync: Save completed, quitting application.");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning($"QuitAfterSaveAsync: Save failed or unavailable: {e.Message}");
+        }
+
         #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
         #else
@@ -398,4 +501,39 @@ public class GameManager : MonoBehaviour
     public string GetPlayerId() => playerId;
     public int GetCurrentSaveSlot() => currentSaveSlot;
     public int GetMaxSaveSlots() => maxSaveSlots;
+    
+    private void EnsurePlayerControlsEnabled(PlayerData playerData)
+    {
+        if (playerData == null) return;
+
+        // Restore time scale
+        if (Mathf.Approximately(Time.timeScale, 0f))
+        {
+            Time.timeScale = 1f;
+        }
+
+        var go = playerData.gameObject;
+        // Re-enable Rigidbody2D simulation
+        var rb = go.GetComponent<Rigidbody2D>();
+        if (rb != null && !rb.simulated) rb.simulated = true;
+
+        // Re-enable colliders
+        var col = go.GetComponent<Collider2D>();
+        if (col != null && !col.enabled) col.enabled = true;
+
+        // Enable PlayerMovement and PlayerCombat if they exist
+        var pm = go.GetComponent<PlayerMovement>();
+        if (pm != null && !pm.enabled)
+        {
+            pm.enabled = true;
+            Debug.Log("GameManager: Re-enabled PlayerMovement");
+        }
+
+        var pc = go.GetComponent<PlayerCombat>();
+        if (pc != null && !pc.enabled)
+        {
+            pc.enabled = true;
+            Debug.Log("GameManager: Re-enabled PlayerCombat");
+        }
+    }
 }

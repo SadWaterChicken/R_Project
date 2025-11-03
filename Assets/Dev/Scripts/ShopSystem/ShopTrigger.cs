@@ -16,10 +16,53 @@ public class ShopTrigger : MonoBehaviour
     public GameObject interactHint; // small world-space "Press E" text
 
     private bool playerInRange = false;
+    private ShopDataJson cachedShop = null;
+    private bool preloadAttempted = false;
 
     private void Start()
     {
         if (interactHint != null) interactHint.SetActive(false);
+        // Try to preload the shop JSON so opening is instant on first press (desktop/editor)
+        if (!string.IsNullOrWhiteSpace(shopJsonFile) && shopManager != null && !preloadAttempted)
+        {
+            preloadAttempted = true;
+            var normalized = NormalizeStreamingPath(shopJsonFile);
+            var fullPath = Path.Combine(Application.streamingAssetsPath, normalized);
+            if (!Application.isMobilePlatform && File.Exists(fullPath))
+            {
+                try
+                {
+                    var json = File.ReadAllText(fullPath);
+                    var shop = JsonUtility.FromJson<ShopDataJson>(json);
+                    if (shop != null)
+                    {
+                        cachedShop = shop;
+                        Debug.Log("ShopTrigger: Preloaded shop JSON synchronously at Start.");
+                    }
+                }
+                catch (System.Exception e)
+                {
+                    Debug.LogWarning($"ShopTrigger: Failed to preload shop JSON synchronously: {e.Message}");
+                }
+            }
+            else
+            {
+                // On platforms like Android we need the coroutine loader
+                StartCoroutine(StreamingAssetsLoader.LoadJsonFromStreamingAssets(
+                    normalized,
+                    json =>
+                    {
+                        var shop = JsonUtility.FromJson<ShopDataJson>(json);
+                        if (shop != null)
+                        {
+                            cachedShop = shop;
+                            Debug.Log("ShopTrigger: Preloaded shop JSON via coroutine at Start.");
+                        }
+                    },
+                    err => Debug.LogWarning($"ShopTrigger: Preload failed: {err}")
+                ));
+            }
+        }
     }
 
 #if UNITY_EDITOR
@@ -58,6 +101,8 @@ public class ShopTrigger : MonoBehaviour
     {
         if (!(playerInRange && Input.GetKeyDown(KeyCode.E))) return;
 
+        Debug.Log("ShopTrigger: E pressed; playerInRange=" + playerInRange);
+
         if (shopManager == null)
         {
             Debug.LogWarning("ShopManager not assigned on ShopTrigger.");
@@ -70,9 +115,42 @@ public class ShopTrigger : MonoBehaviour
             return;
         }
 
+        // If we've preloaded the shop, open it immediately
+        if (cachedShop != null)
+        {
+            Debug.Log("ShopTrigger: Opening preloaded shop immediately.");
+            shopManager.OpenShop(cachedShop);
+            return;
+        }
+
         var normalized = NormalizeStreamingPath(shopJsonFile);
 
-        // Load JSON from StreamingAssets (filename must include extension and be relative to StreamingAssets)
+        // Try synchronous read if the file exists (desktop/editor). This is a fallback if preload didn't run.
+        var fullPath = Path.Combine(Application.streamingAssetsPath, normalized);
+        if (!Application.isMobilePlatform && File.Exists(fullPath))
+        {
+            try
+            {
+                var json = File.ReadAllText(fullPath);
+                var shop = JsonUtility.FromJson<ShopDataJson>(json);
+                if (shop != null)
+                {
+                    Debug.Log("ShopTrigger: Loaded shop JSON synchronously and opening shop.");
+                    shopManager.OpenShop(shop);
+                }
+                else
+                {
+                    Debug.LogWarning("Failed to parse shop JSON from StreamingAssets (sync read).");
+                }
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogWarning($"Failed to read shop JSON synchronously: {e.Message}");
+            }
+            return;
+        }
+
+        // Fallback: load via coroutine (needed on some platforms like Android)
         StartCoroutine(StreamingAssetsLoader.LoadJsonFromStreamingAssets(
             normalized,
             json =>

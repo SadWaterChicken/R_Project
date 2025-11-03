@@ -1716,7 +1716,6 @@ GameObject:
   - component: {fileID: 6900849505339202880}
   - component: {fileID: 8898865527760754734}
   - component: {fileID: 1986627451636553762}
-  - component: {fileID: 8273732245602757308}
   m_Layer: 5
   m_Name: InventoryPanel
   m_TagString: Untagged
@@ -1806,19 +1805,6 @@ MonoBehaviour:
   detailStats: {fileID: 6084891263735089625}
   useButton: {fileID: 7155701150092994802}
   closeDetailButton: {fileID: 4470549874553222618}
---- !u!114 &8273732245602757308
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6900591228110127585}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84a393560c5926540afab5e7a202d10e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ui: {fileID: 1986627451636553762}
 --- !u!1 &7235034745126159956
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+using TMP_Text = TMPro.TextMeshProUGUI;
 
 public class InventoryUI : MonoBehaviour
 {
@@ -15,12 +15,17 @@ public class InventoryUI : MonoBehaviour
     public TMP_Text detailDesc;
     public TMP_Text detailPrice;
     public TMP_Text detailQty;
-    public TMP_Text detailStats;    // NEW (assign in Inspector, optional)
-    public Button useButton;        // NEW (assign in Inspector, optional)
+    public TMP_Text detailStats;
+    public Button useButton;
     public Button closeDetailButton;
 
     private List<GameObject> spawned = new List<GameObject>();
     private bool visible = false;
+
+    // Guard: prevent multiple toggles in the same frame and debounce rapid presses
+    private static int s_lastToggleFrame = -1;
+    [SerializeField] private float toggleDebounce = 0.15f; // seconds, unscaled
+    private float _nextToggleAllowedTime = 0f;
 
     private void Awake()
     {
@@ -40,9 +45,18 @@ public class InventoryUI : MonoBehaviour
             Inventory.Instance.OnInventoryChanged -= Refresh;
     }
 
-    // Toggle inventory visibility
+    // Toggle inventory visibility (now guarded)
     public void Toggle()
     {
+        // Ignore re-entrant toggles in the same frame
+        if (s_lastToggleFrame == Time.frameCount) return;
+
+        // Debounce: ignore if pressed too quickly (use unscaled time so it works while paused)
+        if (Time.unscaledTime < _nextToggleAllowedTime) return;
+
+        s_lastToggleFrame = Time.frameCount;
+        _nextToggleAllowedTime = Time.unscaledTime + toggleDebounce;
+
         visible = !visible;
         gameObject.SetActive(visible);
         if (visible) Refresh();
@@ -105,19 +119,46 @@ public class InventoryUI : MonoBehaviour
         else if (detailDesc != null && !string.IsNullOrEmpty(statsText))
             detailDesc.text = item.description + "\n" + statsText;
 
-        // Use / Unequip
+        // ← SỬA: Thay đổi cách xử lý Use/Unequip button
         if (useButton != null)
         {
             useButton.onClick.RemoveAllListeners();
-            useButton.onClick.AddListener(() => Inventory.Instance.ToggleEquip(item));
-            var label = useButton.GetComponentInChildren<TMP_Text>();
-            if (label != null) label.text = item.equipped ? "Unequip" : "Use";
+            
+            // ← QUAN TRỌNG: Gọi method mới thay vì trực tiếp ToggleEquip
+            useButton.onClick.AddListener(() => OnUseButtonClick(item));
+            
+            // Update button text ban đầu
+            UpdateButtonText(item);
         }
 
         if (closeDetailButton != null)
         {
             closeDetailButton.onClick.RemoveAllListeners();
             closeDetailButton.onClick.AddListener(() => detailPanel.SetActive(false));
+        }
+    }
+
+    // ← THÊM METHOD MỚI: Xử lý khi click Use/Unequip button
+    private void OnUseButtonClick(ItemData item)
+    {
+        if (item == null || Inventory.Instance == null) return;
+        
+        // Toggle equip state
+        Inventory.Instance.ToggleEquip(item);
+        
+        // ← QUAN TRỌNG: Update button text NGAY LẬP TỨC
+        UpdateButtonText(item);
+    }
+
+    // ← THÊM METHOD MỚI: Update button text
+    private void UpdateButtonText(ItemData item)
+    {
+        if (useButton == null || item == null) return;
+        
+        var label = useButton.GetComponentInChildren<TMP_Text>();
+        if (label != null)
+        {
+            label.text = item.equipped ? "Unequip" : "Use";
         }
     }
 
