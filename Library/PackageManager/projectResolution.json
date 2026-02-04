@@ -1,18 +1,18 @@
 {
   "context": {
-    "projectPath": "D:/unity/R-project/Packages",
+    "projectPath": "D:/game/R_Project/Packages",
     "unityVersion": "6000.0.58f2"
   },
   "inputs": [
-    "D:\\unity\\R-project\\Packages\\manifest.json",
-    "D:\\unity\\R-project\\Packages\\packages-lock.json",
+    "D:\\game\\R_Project\\Packages\\manifest.json",
+    "D:\\game\\R_Project\\Packages\\packages-lock.json",
     "D:\\unity\\editor\\6000.0.58f2\\Editor\\Data\\Resources\\PackageManager\\BuiltInPackages\\BuiltInPackagesCombined.sha1"
   ],
   "outputs": {
     "com.unity.2d.sprite@1.0.0": {
       "name": "com.unity.2d.sprite",
       "displayName": "2D Sprite",
-      "resolvedPath": "D:\\unity\\R-project\\Library\\PackageCache\\com.unity.2d.sprite@897b7eecf04e",
+      "resolvedPath": "D:\\game\\R_Project\\Library\\PackageCache\\com.unity.2d.sprite@897b7eecf04e",
       "fingerprint": "897b7eecf04ec94126f19c6ce2cba3404cc15178",
       "editorCompatibility": "2019.2.0a1",
       "version": "1.0.0",
@@ -22,7 +22,7 @@
     "com.unity.ai.navigation@2.0.9": {
       "name": "com.unity.ai.navigation",
       "displayName": "AI Navigation",
-      "resolvedPath": "D:\\unity\\R-project\\Library\\PackageCache\\com.unity.ai.navigation@5218e4bf7edc",
+      "resolvedPath": "D:\\game\\R_Project\\Library\\PackageCache\\com.unity.ai.navigation@5218e4bf7edc",
       "fingerprint": "5218e4bf7edc04fcad4ed3836c1c41aef334b996",
       "editorCompatibility": "6000.0.0a1",
       "version": "2.0.9",
@@ -32,7 +32,7 @@
     "com.unity.collab-proxy@2.11.2": {
       "name": "com.unity.collab-proxy",
       "displayName": "Unity Version Control",
-      "resolvedPath": "D:\\unity\\R-project\\Library\\PackageCache\\com.unity.collab-proxy@1ec4e416a4af",
+      "resolvedPath": "D:\\game\\R_Project\\Library\\PackageCache\\com.unity.collab-proxy@1ec4e416a4af",
       "fingerprint": "1ec4e416a4af080c4db88ec03f1b37b1195b1761",
       "editorCompatibility": "2021.3.0f1",
       "version": "2.11.2",
@@ -42,7 +42,7 @@
     "com.unity.ide.rider@3.0.37": {
       "name": "com.unity.ide.rider",
       "displayName": "JetBrains Rider Editor",
-      "resolvedPath": "D:\\unity\\R-project\\Library\\PackageCache\\com.unity.ide.rider@0baf0f91edc0",
+      "resolvedPath": "D:\\game\\R_Project\\Library\\PackageCache\\com.unity.ide.rider@0baf0f91edc0",
       "fingerprint": "0baf0f91edc004d6f71bbd74a38e2503a5f1228b",
       "editorCompatibility": "2021.3.0a1",
       "version": "3.0.37",
@@ -52,7 +52,7 @@
     "com.unity.ide.visualstudio@2.0.23": {
       "name": "com.unity.ide.visualstudio",
       "displayName": "Visual Studio Editor",
-      "resolvedPath": "D:\\unity\\R-project\\Library\\PackageCache\\com.unity.ide.visualstudio@198cdf337d13",
+      "resolvedPath": "D:\\game\\R_Project\\Library\\PackageCache\\com.unity.ide.visualstudio@198cdf337d13",
       "fingerprint": "198cdf337d13c83ca953581515630d66b779e92b",
       "editorCompatibility": "2019.4.25f1",
       "version": "2.0.23",
@@ -62,7 +62,7 @@
     "com.unity.inputsystem@1.14.2": {
       "name": "com.unity.inputsystem",
       "displayName": "Input System",
-      "resolvedPath": "D:\\unity\\R-project\\Library\\PackageCache\\com.unity.inputsystem@be6c4fd0abf5",
+      "resolvedPath": "D:\\game\\R_Project\\Library\\PackageCache\\com.unity.inputsystem@be6c4fd0abf5",
       "fingerprint": "be6c4fd0abf5b9b45f956b97294032a67f3c2f4d",
       "editorCompatibility": "2021.3.0a1",
       "version": "1.14.2",
@@ -72,7 +72,7 @@
     "com.unity.multiplayer.center@1.0.0": {
       "name": "com.unity.multiplayer.center",
       "displayName": "Multiplayer Center",
-      "resolvedPath": "D:\\unity\\R-project\\Library\\PackageCache\\com.unity.multiplayer.center@f3fb577b3546",
+      "resolvedPath": "D:\\game\\R_Project\\Library\\PackageCache\\com.unity.multiplayer.center@f3fb577b3546",
       "fingerprint": "f3fb577b3546594b97b8cc34307cd621f60f1c73",
       "editorCompatibility": "6000.0.0a1",
       "version": "1.0.0",
@@ -82,7 +82,7 @@
     "com.unity.render-pipelines.universal@17.0.4": {
       "name": "com.unity.render-pipelines.universal",
       "displayName": "Universal Render Pipeline",
-      "resolvedPath": "D:\\unity\\R-project\\Library\\PackageCache\\com.unity.render-pipelines.universal@e1fa89d1f997",
+      "resolvedPath": "D:\\game\\R_Project\\Library\\PackageCache\\com.unity.render-pipelines.universal@e1fa89d1f997",
       "fingerprint": "e1fa89d1f99751d643e8ae62813763962926f0d9",
       "editorCompatibility": "6000.0.0a1",
       "version": "17.0.4",
@@ -92,7 +92,7 @@
     "com.unity.terrain-tools@5.3.1": {
       "name": "com.unity.terrain-tools",
       "displayName": "Terrain Tools",
-      "resolvedPath": "D:\\unity\\R-project\\Library\\PackageCache\\com.unity.terrain-tools@dbe886685ae0",
+      "resolvedPath": "D:\\game\\R_Project\\Library\\PackageCache\\com.unity.terrain-tools@dbe886685ae0",
       "fingerprint": "dbe886685ae0766dad124ea40242cd733fb31432",
       "editorCompatibility": "6000.0.0a1",
       "version": "5.3.1",
@@ -102,7 +102,7 @@
     "com.unity.test-framework@1.5.1": {
       "name": "com.unity.test-framework",
       "displayName": "Test Framework",
-      "resolvedPath": "D:\\unity\\R-project\\Library\\PackageCache\\com.unity.test-framework@1f954279c37e",
+      "resolvedPath": "D:\\game\\R_Project\\Library\\PackageCache\\com.unity.test-framework@1f954279c37e",
       "fingerprint": "1f954279c37e8ebe39ba5255476ba9f21e2a19ec",
       "editorCompatibility": "6000.0.44f1",
       "version": "1.5.1",
@@ -112,7 +112,7 @@
     "com.unity.timeline@1.8.9": {
       "name": "com.unity.timeline",
       "displayName": "Timeline",
-      "resolvedPath": "D:\\unity\\R-project\\Library\\PackageCache\\com.unity.timeline@6b9e48457ddb",
+      "resolvedPath": "D:\\game\\R_Project\\Library\\PackageCache\\com.unity.timeline@6b9e48457ddb",
       "fingerprint": "6b9e48457ddb4f64813d77fd77efc79a8f3102ae",
       "editorCompatibility": "2021.3.0a1",
       "version": "1.8.9",
@@ -122,7 +122,7 @@
     "com.unity.ugui@2.0.0": {
       "name": "com.unity.ugui",
       "displayName": "Unity UI",
-      "resolvedPath": "D:\\unity\\R-project\\Library\\PackageCache\\com.unity.ugui@aa507f3228f0",
+      "resolvedPath": "D:\\game\\R_Project\\Library\\PackageCache\\com.unity.ugui@aa507f3228f0",
       "fingerprint": "aa507f3228f0351d0fbba1e8c7142b41bc567fe8",
       "editorCompatibility": "2019.2.0a1",
       "version": "2.0.0",
@@ -132,7 +132,7 @@
     "com.unity.visualscripting@1.9.7": {
       "name": "com.unity.visualscripting",
       "displayName": "Visual Scripting",
-      "resolvedPath": "D:\\unity\\R-project\\Library\\PackageCache\\com.unity.visualscripting@6279e2b7c485",
+      "resolvedPath": "D:\\game\\R_Project\\Library\\PackageCache\\com.unity.visualscripting@6279e2b7c485",
       "fingerprint": "6279e2b7c4858e56cca7f367cd38c49ef66778c9",
       "editorCompatibility": "2021.3.0a1",
       "version": "1.9.7",
@@ -414,7 +414,7 @@
     "com.unity.ext.nunit@2.0.5": {
       "name": "com.unity.ext.nunit",
       "displayName": "Custom NUnit",
-      "resolvedPath": "D:\\unity\\R-project\\Library\\PackageCache\\com.unity.ext.nunit@031a54704bff",
+      "resolvedPath": "D:\\game\\R_Project\\Library\\PackageCache\\com.unity.ext.nunit@031a54704bff",
       "fingerprint": "031a54704bffe39e6a0324909f8eaa4565bdebf2",
       "editorCompatibility": "2019.4.0a1",
       "version": "2.0.5",
@@ -424,7 +424,7 @@
     "com.unity.render-pipelines.core@17.0.4": {
       "name": "com.unity.render-pipelines.core",
       "displayName": "Scriptable Render Pipeline Core",
-      "resolvedPath": "D:\\unity\\R-project\\Library\\PackageCache\\com.unity.render-pipelines.core@05f02f04fe74",
+      "resolvedPath": "D:\\game\\R_Project\\Library\\PackageCache\\com.unity.render-pipelines.core@05f02f04fe74",
       "fingerprint": "05f02f04fe74d4956422b6c44feb85f4f9fcdd48",
       "editorCompatibility": "6000.0.0a1",
       "version": "17.0.4",
@@ -434,7 +434,7 @@
     "com.unity.shadergraph@17.0.4": {
       "name": "com.unity.shadergraph",
       "displayName": "Shader Graph",
-      "resolvedPath": "D:\\unity\\R-project\\Library\\PackageCache\\com.unity.shadergraph@7ccd16edcc88",
+      "resolvedPath": "D:\\game\\R_Project\\Library\\PackageCache\\com.unity.shadergraph@7ccd16edcc88",
       "fingerprint": "7ccd16edcc88f63a6fcfc1074df77f8fa9a62913",
       "editorCompatibility": "6000.0.0a1",
       "version": "17.0.4",
@@ -444,7 +444,7 @@
     "com.unity.render-pipelines.universal-config@17.0.3": {
       "name": "com.unity.render-pipelines.universal-config",
       "displayName": "Universal Render Pipeline Config",
-      "resolvedPath": "D:\\unity\\R-project\\Library\\PackageCache\\com.unity.render-pipelines.universal-config@dd206bf35d04",
+      "resolvedPath": "D:\\game\\R_Project\\Library\\PackageCache\\com.unity.render-pipelines.universal-config@dd206bf35d04",
       "fingerprint": "dd206bf35d0451204981fdb31d4c6831a0ee2a7e",
       "editorCompatibility": "6000.0.0a1",
       "version": "17.0.3",
@@ -454,7 +454,7 @@
     "com.unity.searcher@4.9.3": {
       "name": "com.unity.searcher",
       "displayName": "Searcher",
-      "resolvedPath": "D:\\unity\\R-project\\Library\\PackageCache\\com.unity.searcher@1e17ce91558d",
+      "resolvedPath": "D:\\game\\R_Project\\Library\\PackageCache\\com.unity.searcher@1e17ce91558d",
       "fingerprint": "1e17ce91558d1d9127554adc03d275f39a7466a2",
       "editorCompatibility": "2019.1.0a1",
       "version": "4.9.3",
@@ -464,7 +464,7 @@
     "com.unity.burst@1.8.24": {
       "name": "com.unity.burst",
       "displayName": "Burst",
-      "resolvedPath": "D:\\unity\\R-project\\Library\\PackageCache\\com.unity.burst@f7a407abf4d5",
+      "resolvedPath": "D:\\game\\R_Project\\Library\\PackageCache\\com.unity.burst@f7a407abf4d5",
       "fingerprint": "f7a407abf4d5abf19ce630824dcde261e02ed97e",
       "editorCompatibility": "2021.3.0a1",
       "version": "1.8.24",
@@ -474,7 +474,7 @@
     "com.unity.mathematics@1.3.2": {
       "name": "com.unity.mathematics",
       "displayName": "Mathematics",
-      "resolvedPath": "D:\\unity\\R-project\\Library\\PackageCache\\com.unity.mathematics@8017b507cc74",
+      "resolvedPath": "D:\\game\\R_Project\\Library\\PackageCache\\com.unity.mathematics@8017b507cc74",
       "fingerprint": "8017b507cc74bf0a1dd14b18aa860569f807314d",
       "editorCompatibility": "2021.3.0a1",
       "version": "1.3.2",
@@ -484,7 +484,7 @@
     "com.unity.collections@2.5.1": {
       "name": "com.unity.collections",
       "displayName": "Collections",
-      "resolvedPath": "D:\\unity\\R-project\\Library\\PackageCache\\com.unity.collections@56bff8827a7e",
+      "resolvedPath": "D:\\game\\R_Project\\Library\\PackageCache\\com.unity.collections@56bff8827a7e",
       "fingerprint": "56bff8827a7ef6d44fcee4f36e558a74da89c1a0",
       "editorCompatibility": "2022.3.11f1",
       "version": "2.5.1",
@@ -494,7 +494,7 @@
     "com.unity.rendering.light-transport@1.0.1": {
       "name": "com.unity.rendering.light-transport",
       "displayName": "Unity Light Transport Library",
-      "resolvedPath": "D:\\unity\\R-project\\Library\\PackageCache\\com.unity.rendering.light-transport@9bd588f963c0",
+      "resolvedPath": "D:\\game\\R_Project\\Library\\PackageCache\\com.unity.rendering.light-transport@9bd588f963c0",
       "fingerprint": "9bd588f963c0ca6105f0978f9cfc66444032a804",
       "editorCompatibility": "2023.3.0b1",
       "version": "1.0.1",
@@ -504,7 +504,7 @@
     "com.unity.nuget.mono-cecil@1.11.4": {
       "name": "com.unity.nuget.mono-cecil",
       "displayName": "Mono Cecil",
-      "resolvedPath": "D:\\unity\\R-project\\Library\\PackageCache\\com.unity.nuget.mono-cecil@d6f9955a5d5f",
+      "resolvedPath": "D:\\game\\R_Project\\Library\\PackageCache\\com.unity.nuget.mono-cecil@d6f9955a5d5f",
       "fingerprint": "d6f9955a5d5f84d45442ff1ad0fb694cc6e2fd62",
       "editorCompatibility": "2018.4.0a1",
       "version": "1.11.4",
@@ -514,7 +514,7 @@
     "com.unity.test-framework.performance@3.1.0": {
       "name": "com.unity.test-framework.performance",
       "displayName": "Performance testing API",
-      "resolvedPath": "D:\\unity\\R-project\\Library\\PackageCache\\com.unity.test-framework.performance@92d1d09a72ed",
+      "resolvedPath": "D:\\game\\R_Project\\Library\\PackageCache\\com.unity.test-framework.performance@92d1d09a72ed",
       "fingerprint": "92d1d09a72ed696fa23fd76c675b29d211664b50",
       "editorCompatibility": "2020.3.0a1",
       "version": "3.1.0",
