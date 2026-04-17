@@ -2,128 +2,100 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 5f;
-    [SerializeField] private float sprintSpeed = 10f;
-    [SerializeField] private float rollForce = 20f;
-    [SerializeField] private float rollCooldown = 0.5f;
-    [SerializeField] private float groundDrag = 5f;
-    [SerializeField] private float cameraAngle = 45f; // Isometric camera angle
+    public CharacterController controller;
+    public Transform cam;
+    public float speed = 6f;
+    public float jumpForce = 3.5f;
+    public float gravity = -15f;
+    public float turnSmoothTime = 0.1f;
+    public float dashForce = 15f;
+    public float dashCooldown = 0.5f;
+    public float rotationSpeed = 5f;
+    private float targetYRotation = 45f;
     
-    private Rigidbody rb;
-    private Vector3 moveDirection;
-    private float horizontalInput;
-    private float verticalInput;
-    private float lastRollTime = -1f;
-    private bool facingRight = true;
+    private float verticalVelocity = 0f;
+    private float turnSmoothTimeVelocity;
+    private float dashCooldownTimer = 0f;
     
-    void Start()
+    private InputSystem_Actions inputActions;
+
+    private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
-        rb.constraints = RigidbodyConstraints.FreezeRotation;
+        inputActions = new InputSystem_Actions();
+    }
+
+    private void OnEnable()
+    {
+        inputActions.Enable();
+    }
+
+    private void OnDisable()
+    {
+        inputActions.Disable();
+    }
+
+    private void OnDestroy()
+    {
+        inputActions.Dispose();
     }
 
     void Update()
     {
-        GetInput();
-        SpeedControl();
-        Flip();
-    }
-    
-    void FixedUpdate()
-    {
-        Move();
-    }
-    
-    private void GetInput()
-    {
-        horizontalInput = Input.GetAxis("Horizontal");
-        verticalInput = Input.GetAxis("Vertical");
+        // Get input from the new Input System
+        Vector2 moveInput = inputActions.Player.Move.ReadValue<Vector2>();
+        float horizontal = moveInput.x;
+        float vertical = moveInput.y;
+
+        // Calculate direction RELATIVE TO CAMERA
+        Vector3 camForward = cam.transform.forward;
+        Vector3 camRight = cam.transform.right;
         
-        // Roll/Dash input
-        if (Input.GetKeyDown(KeyCode.Space) && CanRoll())
+        Vector3 direction = (camForward * vertical + camRight * horizontal).normalized;
+        direction.y = 0f; // Ensure movement is horizontal
+        
+        // Rotate character to face movement direction
+        if (direction.magnitude >= 0.1f)
         {
-            Roll();
-        }
-    }
-    
-    private void Move()
-    {
-        // Isometric movement: convert WASD to world space
-        // A/D for left/right
-        // W/S for forward/backward at isometric angle
-        float angleRad = cameraAngle * Mathf.Deg2Rad;
-        
-        float moveX = horizontalInput;
-        float moveZ = verticalInput * Mathf.Cos(angleRad);
-        
-        moveDirection = new Vector3(moveX, 0, moveZ).normalized;
-        
-        // Determine current speed
-        float currentSpeed = Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : moveSpeed;
-        
-        // Apply movement
-        if (moveDirection.magnitude > 0.1f)
-        {
-            rb.linearVelocity = new Vector3(moveDirection.x * currentSpeed, rb.linearVelocity.y, moveDirection.z * currentSpeed);
-        }
-        else
-        {
-            rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothTimeVelocity, turnSmoothTime);
+            transform.rotation = Quaternion.Euler(0f, angle, 0f);
         }
         
-        // Apply drag
-        rb.linearDamping = groundDrag;
-    }
-    
-    private void SpeedControl()
-    {
-        // Limit speed on ground
-        Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+        // Move character
+        Vector3 velocity = direction * speed;
         
-        float currentMaxSpeed = Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : moveSpeed;
+        // Handle dash
+        dashCooldownTimer -= Time.deltaTime;
+        if (inputActions.Player.Sprint.triggered && dashCooldownTimer <= 0f)
+        {
+            controller.Move(transform.forward * dashForce * Time.deltaTime);
+            dashCooldownTimer = dashCooldown;
+        }
         
-        if (flatVel.magnitude > currentMaxSpeed)
+        // Handle jumping
+        if (controller.isGrounded)
         {
-            Vector3 limitedVel = flatVel.normalized * currentMaxSpeed;
-            rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
+            verticalVelocity = 0f;
+            if (inputActions.Player.Jump.triggered)
+            {
+                verticalVelocity = jumpForce;
+            }
         }
-    }
-    
-    private bool CanRoll()
-    {
-        return Time.time - lastRollTime >= rollCooldown;
-    }
-    
-    private void Roll()
-    {
-        // Roll in the direction the player is moving or facing
-        Vector3 rollDirection = (moveDirection.magnitude > 0.1f) ? moveDirection : (facingRight ? Vector3.right : Vector3.left);
-        rollDirection.y = 0;
-        rollDirection = rollDirection.normalized;
         
-        // Apply roll force
-        rb.linearVelocity = rollDirection * rollForce;
-        lastRollTime = Time.time;
-    }
-    
-    private void Flip()
-    {
-        // Flip if moving left and facing right, or moving right and facing left
-        if (horizontalInput > 0 && !facingRight)
-        {
-            FlipPlayer();
-        }
-        else if (horizontalInput < 0 && facingRight)
-        {
-            FlipPlayer();
-        }
-    }
-    
-    private void FlipPlayer()
-    {
-        facingRight = !facingRight;
-        Vector3 scale = transform.localScale;
-        scale.x *= -1;
-        transform.localScale = scale;
+        // Apply gravity
+        verticalVelocity += gravity * Time.deltaTime;
+        velocity.y = verticalVelocity;
+        
+        // Move controller
+        controller.Move(velocity * Time.deltaTime);
+
+        // Camera rotation (you can add these to InputSystem_Actions if needed)
+         if (Input.GetKeyDown(KeyCode.Q)) targetYRotation -= 90f;
+         if (Input.GetKeyDown(KeyCode.E)) targetYRotation += 90f;
+
+    // Smoothly rotate the virtual camera
+    float currentY = cam.transform.eulerAngles.y;
+    float nextY = Mathf.LerpAngle(currentY, targetYRotation, Time.deltaTime * rotationSpeed);
+    cam.transform.eulerAngles = new Vector3(cam.transform.eulerAngles.x, nextY, 0);
     }
 }

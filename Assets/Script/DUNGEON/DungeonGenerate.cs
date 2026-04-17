@@ -26,15 +26,12 @@ public class DungeonGenerate : MonoBehaviour
     private Transform dungeonParent;
     private int roomIdCounter = 0;
 
+    [SerializeField] private GameObject playerSpawnPrefab;
+    private Vector3 playerSpawnPosition;
+
     private void Start()
     {
-        if (floorPrefab == null)
-        {
-            Debug.LogError("Floor prefab not assigned!");
-            return;
-        }
-
-        GenerateDungeon();
+        // Don't auto-generate - let DungeonManager control this
     }
 
     [ContextMenu("Generate Dungeon")]
@@ -52,6 +49,10 @@ public class DungeonGenerate : MonoBehaviour
             PathfindHallways();
             CreateWalls();
         }
+        
+        // Set spawn position at first room center
+        if (rooms.Count > 0)
+            playerSpawnPosition = rooms[0].position;
     }
 
     private void ValidateReferences()
@@ -629,6 +630,7 @@ public class DungeonGenerate : MonoBehaviour
 
     public List<DungeonRoom> GetRooms() => rooms;
     public List<RoomConnection> GetMSTEdges() => mstEdges;
+    public Vector3 GetPlayerSpawnPosition() => playerSpawnPosition;
 
     private void OnDrawGizmos()
     {
