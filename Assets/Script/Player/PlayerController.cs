@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     public float dashForce = 15f;
     public float dashCooldown = 0.5f;
     public float rotationSpeed = 5f;
+    public float interactionRange = 2f;
     private float targetYRotation = 45f;
     
     private float verticalVelocity = 0f;
@@ -18,10 +19,12 @@ public class PlayerController : MonoBehaviour
     private float dashCooldownTimer = 0f;
     
     private InputSystem_Actions inputActions;
+    private IInteractable nearbyInteractable;
 
     private void Awake()
     {
         inputActions = new InputSystem_Actions();
+        gameObject.tag = "Player";
     }
 
     private void OnEnable()
@@ -41,6 +44,10 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        // Safety check - if camera is destroyed, return
+        if (cam == null)
+            return;
+        
         // Get input from the new Input System
         Vector2 moveInput = inputActions.Player.Move.ReadValue<Vector2>();
         float horizontal = moveInput.x;
@@ -89,6 +96,15 @@ public class PlayerController : MonoBehaviour
         // Move controller
         controller.Move(velocity * Time.deltaTime);
 
+        // Check for nearby interactables (doors)
+        DetectNearbyInteractables();
+        
+        // Handle interaction (F key)
+        if (Input.GetKeyDown(KeyCode.F) && nearbyInteractable != null)
+        {
+            nearbyInteractable.Interact();
+        }
+
         // Camera rotation (you can add these to InputSystem_Actions if needed)
          if (Input.GetKeyDown(KeyCode.Q)) targetYRotation -= 90f;
          if (Input.GetKeyDown(KeyCode.E)) targetYRotation += 90f;
@@ -97,5 +113,21 @@ public class PlayerController : MonoBehaviour
     float currentY = cam.transform.eulerAngles.y;
     float nextY = Mathf.LerpAngle(currentY, targetYRotation, Time.deltaTime * rotationSpeed);
     cam.transform.eulerAngles = new Vector3(cam.transform.eulerAngles.x, nextY, 0);
+    }
+
+    private void DetectNearbyInteractables()
+    {
+        nearbyInteractable = null;
+        Collider[] colliders = Physics.OverlapSphere(transform.position, interactionRange);
+
+        foreach (Collider col in colliders)
+        {
+            IInteractable interactable = col.GetComponent<IInteractable>();
+            if (interactable != null)
+            {
+                nearbyInteractable = interactable;
+                break;
+            }
+        }
     }
 }

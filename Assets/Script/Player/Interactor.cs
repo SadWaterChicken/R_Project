@@ -1,11 +1,5 @@
 using UnityEngine;
 
-interface IInteractable
-{
-    void Interact();
-}   
-
-
 public class Interactor : MonoBehaviour
 {
     public float InteractRange = 3f;

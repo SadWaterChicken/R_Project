@@ -5,11 +5,10 @@ public class DungeonPortal : MonoBehaviour, IInteractable
 {
     public int entranceID;
     public string dungeonSceneName = "DungeonTesting";
-    
+
     public void Interact()
     {
-        // Pass the entrance ID to the dungeon manager before loading scene
-        DungeonSessionManager.currentEntranceID = entranceID;
+        // Load the dungeon scene
         SceneManager.LoadScene(dungeonSceneName);
     }
 }
