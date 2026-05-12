@@ -3,7 +3,10 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public CharacterController controller;
+    public SpriteRenderer spriteRenderer;
+    public Animator animator;
     public Transform cam;
+    public PlayerCombat playerCombat;
     public float speed = 6f;
     public float jumpForce = 3.5f;
     public float gravity = -15f;
@@ -13,20 +16,19 @@ public class PlayerController : MonoBehaviour
     public float rotationSpeed = 5f;
     public float interactionRange = 2f;
     private float targetYRotation = 45f;
-    
     private float verticalVelocity = 0f;
-    private float turnSmoothTimeVelocity;
     private float dashCooldownTimer = 0f;
-    
+
     private InputSystem_Actions inputActions;
     private IInteractable nearbyInteractable;
 
-    private void Awake()
+private void Awake()
     {
         inputActions = new InputSystem_Actions();
         gameObject.tag = "Player";
     }
 
+    
     private void OnEnable()
     {
         inputActions.Enable();
@@ -44,6 +46,10 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetMouseButtonDown(0) && playerCombat.IsAttackReady())  // Left mouse button
+        {
+            playerCombat.Attack();
+        }
         // Safety check - if camera is destroyed, return
         if (cam == null)
             return;
@@ -53,6 +59,14 @@ public class PlayerController : MonoBehaviour
         float horizontal = moveInput.x;
         float vertical = moveInput.y;
 
+        if (horizontal != 0)
+        {
+            spriteRenderer.flipX = horizontal < 0;  // Flip when moving left (negative)
+        }
+
+        animator.SetFloat("horizontal", Mathf.Abs(horizontal));
+        animator.SetFloat("vertical", Mathf.Abs(vertical));
+
         // Calculate direction RELATIVE TO CAMERA
         Vector3 camForward = cam.transform.forward;
         Vector3 camRight = cam.transform.right;
@@ -60,13 +74,7 @@ public class PlayerController : MonoBehaviour
         Vector3 direction = (camForward * vertical + camRight * horizontal).normalized;
         direction.y = 0f; // Ensure movement is horizontal
         
-        // Rotate character to face movement direction
-        if (direction.magnitude >= 0.1f)
-        {
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothTimeVelocity, turnSmoothTime);
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
-        }
+     
         
         // Move character
         Vector3 velocity = direction * speed;
@@ -100,19 +108,20 @@ public class PlayerController : MonoBehaviour
         DetectNearbyInteractables();
         
         // Handle interaction (F key)
-        if (Input.GetKeyDown(KeyCode.F) && nearbyInteractable != null)
+        if (inputActions.Player.Interact.triggered && nearbyInteractable != null)
         {
             nearbyInteractable.Interact();
         }
 
-        // Camera rotation (you can add these to InputSystem_Actions if needed)
-         if (Input.GetKeyDown(KeyCode.Q)) targetYRotation -= 90f;
-         if (Input.GetKeyDown(KeyCode.E)) targetYRotation += 90f;
+        // Camera rotation (Q/E for yaw - left/right)
+        if (Input.GetKeyDown(KeyCode.Q)) targetYRotation -= 90f;
+        if (Input.GetKeyDown(KeyCode.E)) targetYRotation += 90f;
 
-    // Smoothly rotate the virtual camera
-    float currentY = cam.transform.eulerAngles.y;
-    float nextY = Mathf.LerpAngle(currentY, targetYRotation, Time.deltaTime * rotationSpeed);
-    cam.transform.eulerAngles = new Vector3(cam.transform.eulerAngles.x, nextY, 0);
+        // Smoothly rotate the virtual camera
+        float currentY = cam.transform.eulerAngles.y;
+        float nextY = Mathf.LerpAngle(currentY, targetYRotation, Time.deltaTime * rotationSpeed);
+
+        cam.transform.eulerAngles = new Vector3(cam.transform.eulerAngles.x, nextY, 0);
     }
 
     private void DetectNearbyInteractables()

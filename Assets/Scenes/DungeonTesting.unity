@@ -464,9 +464,69 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1279644676755320668, guid: 04997e3713258874ca884dc12ef79b40, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1445891319110461216, guid: 04997e3713258874ca884dc12ef79b40, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1592122585754605519, guid: 04997e3713258874ca884dc12ef79b40, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237185179006846745, guid: 04997e3713258874ca884dc12ef79b40, type: 3}
+      propertyPath: roomPrefab
+      value: 
+      objectReference: {fileID: 64642975526893312, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+    - target: {fileID: 2312564692277456786, guid: 04997e3713258874ca884dc12ef79b40, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2656583663355083623, guid: 04997e3713258874ca884dc12ef79b40, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2999325896907377080, guid: 04997e3713258874ca884dc12ef79b40, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3294742323501260037, guid: 04997e3713258874ca884dc12ef79b40, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3606001091951914812, guid: 04997e3713258874ca884dc12ef79b40, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3692541846586427032, guid: 04997e3713258874ca884dc12ef79b40, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3735885406799004357, guid: 04997e3713258874ca884dc12ef79b40, type: 3}
       propertyPath: m_Name
       value: Room Generator Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 3781604404220022458, guid: 04997e3713258874ca884dc12ef79b40, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6010339624814497882, guid: 04997e3713258874ca884dc12ef79b40, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6877807533539390486, guid: 04997e3713258874ca884dc12ef79b40, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8189191215846467902, guid: 04997e3713258874ca884dc12ef79b40, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534974030790467263, guid: 04997e3713258874ca884dc12ef79b40, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

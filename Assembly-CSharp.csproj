@@ -50,22 +50,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Script\StateMachine\HSM\StateMachineBuilder.cs" />
-    <Compile Include="Assets\Hero Knight - Pixel Art\Demo\DestroyEvent_HeroKnight.cs" />
     <Compile Include="Assets\Script\StateMachine\EnemyStateDriver.cs" />
-    <Compile Include="Assets\player.cs" />
+    <Compile Include="Assets\DontDestroy.cs" />
     <Compile Include="Assets\Script\StateMachine\Sequences\SequentialPhase.cs" />
     <Compile Include="Assets\Script\Player\InputSystem_Actions.cs" />
-    <Compile Include="Assets\Hero Knight - Pixel Art\Demo\HeroKnight.cs" />
     <Compile Include="Assets\Script\Player\PlayerController.cs" />
+    <Compile Include="Assets\Script\Enemy\EnemyStat.cs" />
+    <Compile Include="Assets\Script\SpriteBillboard.cs" />
     <Compile Include="Assets\Script\Player\Interactor.cs" />
     <Compile Include="Assets\Script\New_Dungeon\Door.cs" />
-    <Compile Include="Assets\Hero Knight - Pixel Art\Demo\Sensor_HeroKnight.cs" />
     <Compile Include="Assets\Script\Enemy\Behaviour\Static\Basic_Waypoint_Follower.cs" />
     <Compile Include="Assets\Script\New_Dungeon\IInteractable.cs" />
     <Compile Include="Assets\Script\Player\DungeonPortal.cs" />
     <Compile Include="Assets\Script\StateMachine\Sequences\ParallelPhase.cs" />
+    <Compile Include="Assets\Script\Player\PlayerStat.cs" />
+    <Compile Include="Assets\Script\Player\PlayerCombat.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
-    <Compile Include="Assets\Hero Knight - Pixel Art\ColorSwap\ColorSwap_HeroKnight.cs" />
     <Compile Include="Assets\Script\StateMachine\HSM\StateMachine.cs" />
     <Compile Include="Assets\Script\StateMachine\HSM\Sequence.cs" />
     <Compile Include="Assets\Script\New_Dungeon\RoomGenerator.cs" />
@@ -73,9 +73,6 @@
     <Compile Include="Assets\Script\StateMachine\HSM\TransitionSequencer.cs" />
     <Compile Include="Assets\Script\StateMachine\HSM\State.cs" />
     <Compile Include="Assets\Script\New_Dungeon\Room.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Assets\Hero Knight - Pixel Art\ColorSwap\Sprites-ColorSwap.shader" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

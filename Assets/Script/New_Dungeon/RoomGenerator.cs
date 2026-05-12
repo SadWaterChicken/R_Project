@@ -9,7 +9,7 @@ public class RoomGenerator : MonoBehaviour
     int amountOfRoomsToGenerate = 10;
     public Room roomPrefab;
 
-    public static readonly float prefabsDistance = 12f;
+    public static readonly float prefabsDistance = 42f;
     public readonly Vector3[] offsets = new Vector3[]
     {
         Vector3.forward * prefabsDistance,   // up (Z+)
