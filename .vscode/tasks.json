@@ -1,0 +1,32 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build Unity Project",
+			"type": "shell",
+			"command": "C:\\Program Files\\Unity\\Hub\\Editor\\2022.3.22f1\\Editor\\Unity.exe",
+			"args": [
+				"-batchmode",
+				"-quit",
+				"-projectPath",
+				"D:\\game\\R_Project",
+				"-buildTarget",
+				"StandaloneWindows64",
+				"-logFile",
+				"build.log"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Test Script Structure",
+			"type": "shell",
+			"command": "echo \"Testing dungeon generation script compilation...\" && findstr /n \"DungeonGenerator\\|DungeonRoom\\|RoomOpening\\|RNG\" Assets\\DEV\\DUNGEON\\DungeonGenerate.cs | head -n 10",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "build"
+		}
+	]
+}

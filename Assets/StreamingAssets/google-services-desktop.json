@@ -1,3 +1,48 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3e73d0af936275268b04cc34dcab8cb66247fd9c73411fea5456fc747ccb6d89
-size 1408
+{
+  "project_info": {
+    "project_number": "725344777090",
+    "firebase_url": "https://rapture-b7a41-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "rapture-b7a41",
+    "storage_bucket": "rapture-b7a41.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:725344777090:android:3dd8bfe51fb40a617cd59b",
+        "android_client_info": {
+          "package_name": "com.NoName.RAPTURE"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "725344777090-c3356js9h0ihenllmfpdfcn7u1vr6t9v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.NoName.RAPTURE",
+            "certificate_hash": "1214123414124111111111111111111111111111"
+          }
+        },
+        {
+          "client_id": "725344777090-vhhi1irb6pk8ptvkmn2gf92jb0r3kfj7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsB-XLe0Gw_ikAkIgcb3cnGvVo07aI9SM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "725344777090-vhhi1irb6pk8ptvkmn2gf92jb0r3kfj7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
