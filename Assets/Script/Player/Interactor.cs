@@ -1,11 +1,5 @@
 using UnityEngine;
 
-interface IInteractable
-{
-    void Interact();
-}   
-
-
 public class Interactor : MonoBehaviour
 {
     public float InteractRange = 3f;
@@ -27,7 +21,7 @@ public class Interactor : MonoBehaviour
         }
         
         // If near an interactable and press E, interact
-        if (Input.GetKeyDown(KeyCode.E) && nearbyInteractable != null)
+        if (Input.GetKeyDown(KeyCode.F) && nearbyInteractable != null)
         {
             nearbyInteractable.Interact();
         }

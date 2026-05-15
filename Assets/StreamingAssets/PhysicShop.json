@@ -1,0 +1,31 @@
+{
+  "shopName": "Black",
+  "npcName": "Rogan",
+  "shopType": "Physic",
+  "items": [
+    {
+      "id": "socket_upgrade",
+      "name": "Socket Infusion",
+      "description": "Embed sockets into weapons to increase physical damage.",
+      "price": 300,
+      "iconPath": "Icons/armor",
+      "type": "Socket"
+    },
+    {
+      "id": "armor_01",
+      "name": "Leather Armor",
+      "description": "Light leather armor that boosts defense and movement speed.",
+      "price": 150,
+      "iconPath": "Icons/armor",
+      "type": "Armor"
+    },
+    {
+      "id": "ring_01",
+      "name": "Silver Ring",
+      "description": "A silver ring that increases critical hit rate by 5%.",
+      "price": 180,
+      "iconPath": "Icons/armor",
+      "type": "Accessory"
+    }
+  ]
+}
