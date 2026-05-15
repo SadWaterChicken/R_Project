@@ -65,188 +65,65 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Script\StateMachine\HSM\StateMachineBuilder.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventHandler.cs" />
     <Compile Include="Assets\Script\Inventory\Inventory.cs" />
-    <Compile Include="Assets\Map1Script\PlayerSpawnManager.cs" />
-    <Compile Include="Assets\Dev\Scripts\Elevation_Exit.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\EnvMapAnimator.cs" />
     <Compile Include="Assets\Script\ItemData.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_A.cs" />
     <Compile Include="Assets\Script\StateMachine\EnemyStateDriver.cs" />
     <Compile Include="Assets\DontDestroy.cs" />
     <Compile Include="Assets\Script\ShopSystem\ShopDataJson.cs" />
-    <Compile Include="Assets\Dev\Scripts\SaveDebugger.cs" />
-    <Compile Include="Assets\Dev\Scripts\PlayerMovement.cs" />
     <Compile Include="Assets\Script\Utils\StreamingAssetsLoader.cs" />
     <Compile Include="Assets\Script\StateMachine\Sequences\SequentialPhase.cs" />
-    <Compile Include="Assets\Dev\Scripts\CircularRadialSlider.cs" />
     <Compile Include="Assets\Script\Inventory\InventoryUi.cs" />
-    <Compile Include="Assets\Dev\Scripts\ItemData.cs" />
     <Compile Include="Assets\Script\Player\InputSystem_Actions.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />
-    <Compile Include="Assets\Dev\Scripts\PlayerCombat.cs" />
-    <Compile Include="Assets\Dev\Scripts\Utils\StreamingAssetsLoader.cs" />
-    <Compile Include="Assets\SPUM\Core\Script\Data\SPUM_ImprovedClassData.cs" />
     <Compile Include="Assets\Script\ShopSystem\ShopTrigger.cs" />
-    <Compile Include="Assets\SPUM\Core\Script\Data\SpritePos.cs" />
     <Compile Include="Assets\Script\Player\PlayerController.cs" />
     <Compile Include="Assets\Script\Enemy\EnemyStat.cs" />
-    <Compile Include="Assets\System\Camera\Camera_Controller.cs" />
-    <Compile Include="Assets\Dev\Scripts\Inventory\Inventory.cs" />
-    <Compile Include="Assets\Dev\Scripts\Emeny_Combat.cs" />
-    <Compile Include="Assets\SPUM\Core\Script\Data\SPUM_AnimationData.cs" />
-    <Compile Include="Assets\Dev\Scripts\SavePoint.cs" />
-    <Compile Include="Assets\Script\loc_shop_inven_items\Scripts\ShopUI.cs" />
-    <Compile Include="Assets\Dev\Scripts\SanityDebuffController.cs" />
-    <Compile Include="Assets\Dev\Scripts\WorldMapUI.cs" />
-    <Compile Include="Assets\Dev\Scripts\LoginUIController.cs" />
-    <Compile Include="Assets\SPUM\Sample\Script\PlayerObj.cs" />
-    <Compile Include="Assets\SPUM\Core\Script\Data\SpumPackage.cs" />
     <Compile Include="Assets\Script\SpriteBillboard.cs" />
     <Compile Include="Assets\Script\Player\Interactor.cs" />
-    <Compile Include="Assets\Dev\Scripts\TrainingDummy.cs" />
-    <Compile Include="Assets\Dev\Scripts\InteractPromptController.cs" />
     <Compile Include="Assets\Script\New_Dungeon\Door.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_ExampleScript_01.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMPro_InstructionOverlay.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeB.cs" />
-    <Compile Include="Assets\Dev\Scripts\ShopSystem\ShopUI.cs" />
-    <Compile Include="Assets\SPUM\Sample\Script\PlayerManager.cs" />
-    <Compile Include="Assets\Dev\Scripts\GameManager.cs" />
-    <Compile Include="Assets\SPUM\Core\Script\Data\SPUM_CustomStyleData.cs" />
-    <Compile Include="Assets\Dev\Scripts\GameSceneChecker.cs" />
     <Compile Include="Assets\Script\Enemy\Behaviour\Static\Basic_Waypoint_Follower.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexJitter.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_UiFrameRateCounter.cs" />
-    <Compile Include="Assets\SPUM\Core\Script\Data\SPUM_ImprovedStyleData.cs" />
-    <Compile Include="Assets\Dev\Scripts\MenuController.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
     <Compile Include="Assets\Script\New_Dungeon\IInteractable.cs" />
-    <Compile Include="Assets\Dev\Scripts\Inventory\ItemSlotUI.cs" />
-    <Compile Include="Assets\Dev\Scripts\DeathHandler.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_B.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SkewTextExample.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />
-    <Compile Include="Assets\Map1Script\SceneTransitionTrigger.cs" />
-    <Compile Include="Assets\Dev\Scripts\PlayerUIController.cs" />
-    <Compile Include="Assets\SPUM\Core\Script\Data\SPUM_MatchingList.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ShaderPropAnimator.cs" />
-    <Compile Include="Assets\Dev\Scripts\Inventory\ShopItemSlotUI.cs" />
     <Compile Include="Assets\Script\Player\DungeonPortal.cs" />
-    <Compile Include="Assets\Dev\Scripts\ShopSystem\ShopDataJson.cs" />
-    <Compile Include="Assets\Dev\Scripts\ShopSystem\ShopTrigger.cs" />
     <Compile Include="Assets\Script\StateMachine\Sequences\ParallelPhase.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextInfoDebugTool.cs" />
     <Compile Include="Assets\Script\Player\PlayerStat.cs" />
     <Compile Include="Assets\Script\Inventory\InventoryInput.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeA.cs" />
-    <Compile Include="Assets\Dev\Scripts\SaveManager.cs" />
-    <Compile Include="Assets\Dev\Scripts\Quest\QuestManager.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
-    <Compile Include="Assets\Dev\Scripts\Utilities\JsonHelper.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SimpleScript.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark04.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ChatController.cs" />
     <Compile Include="Assets\Script\ShopSystem\ShopManager.cs" />
-    <Compile Include="Assets\Dev\Scripts\PauseMenuTester.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_DigitValidator.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_FrameRateCounter.cs" />
-    <Compile Include="Assets\SPUM\Core\Script\Data\SpumAnimationClip.cs" />
-    <Compile Include="Assets\Dev\Scripts\AuthenticationManager.cs" />
     <Compile Include="Assets\Script\Player\PlayerCombat.cs" />
-    <Compile Include="Assets\Dev\Scripts\PlayerHealth.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshSpawner.cs" />
-    <Compile Include="Assets\Dev\Scripts\Elevation_Entry.cs" />
     <Compile Include="Assets\Script\StateMachine\HSM\StateMachine.cs" />
     <Compile Include="Assets\Script\Quest\QuestManager.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\CameraController.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark03.cs" />
-    <Compile Include="Assets\Dev\Scripts\SceneSnapshots.cs" />
     <Compile Include="Assets\Script\StateMachine\HSM\Sequence.cs" />
-    <Compile Include="Assets\Dev\Scripts\PauseMenuController.cs" />
     <Compile Include="Assets\Script\New_Dungeon\RoomGenerator.cs" />
     <Compile Include="Assets\Script\Inventory\ItemSlotUI.cs" />
-    <Compile Include="Assets\Dev\Scripts\SaveSlotSelectionController.cs" />
-    <Compile Include="Assets\Dev\Scripts\SaveSlotData.cs" />
-    <Compile Include="Assets\SPUM\Core\Script\Data\PreviewMatchingElement.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexColorCycler.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\DropdownSample.cs" />
     <Compile Include="Assets\Script\StateMachine\HSM\Activity.cs" />
-    <Compile Include="Assets\Dev\Scripts\ISaveable.cs" />
-    <Compile Include="Assets\Dev\Scripts\SaveOnQuit.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ObjectSpin.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_PhoneNumberValidator.cs" />
-    <Compile Include="Assets\Dev\Scripts\Inventory\InventoryInput.cs" />
-    <Compile Include="Assets\SPUM\Core\Script\Data\SPUM_Prefabs.cs" />
     <Compile Include="Assets\Script\Utilities\JsonHelper.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextConsoleSimulator.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TeleType.cs" />
-    <Compile Include="Assets\Dev\Scripts\SavePointMapUI.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventCheck.cs" />
     <Compile Include="Assets\Script\StateMachine\HSM\TransitionSequencer.cs" />
-    <Compile Include="Assets\Dev\Menu\Scripts\MainMenu.cs" />
-    <Compile Include="Assets\Dev\Scripts\Inventory\InventoryUi.cs" />
-    <Compile Include="Assets\Dev\Scripts\SavePointContainer.cs" />
-    <Compile Include="Assets\Script\loc_shop_inven_items\Scripts\ShopManager.cs" />
-    <Compile Include="Assets\Dev\Scripts\FirebaseManager.cs" />
-    <Compile Include="Assets\Dev\Scripts\ShopSystem\ShopManager.cs" />
-    <Compile Include="Assets\Dev\Scripts\Waystone.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshProFloatingText.cs" />
     <Compile Include="Assets\Script\StateMachine\HSM\State.cs" />
-    <Compile Include="Assets\SPUM\Core\Script\Data\SpumTextureData.cs" />
     <Compile Include="Assets\Script\New_Dungeon\Room.cs" />
-    <Compile Include="Assets\Dev\Scripts\AttackConeVisualizer.cs" />
     <Compile Include="Assets\Script\Inventory\ShopItemSlotUI.cs" />
-    <Compile Include="Assets\Dev\Scripts\PlayerData.cs" />
     <Compile Include="Assets\Script\ShopSystem\ShopUI.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
-    <None Include="Assets\SPUM\ReadMe - 3.1.0.txt" />
-    <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Roboto-Bold - License.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile-2-Pass.shader" />
-    <None Include="Assets\Firebase\Plugins\x86_64\FirebaseCppDatabase.dll" />
-    <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Unity - OFL.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
-    <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Oswald-Bold - OFL.txt" />
-    <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Roboto-Bold - AFL.txt" />
-    <None Include="Assets\Firebase\Plugins\Firebase.App.dll" />
-    <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Anton OFL.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
-    <None Include="Assets\Firebase\Plugins\x86_64\FirebaseCppAuth.dll" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
-    <None Include="Assets\Firebase\Plugins\Firebase.TaskExtension.dll" />
-    <None Include="Assets\Firebase\m2repository\com\google\firebase\firebase-app-unity\maven-metadata.xml" />
     <None Include="Assets\TextMesh Pro\Shaders\SDFFunctions.hlsl" />
-    <None Include="Assets\Firebase\Plugins\Firebase.Auth.dll" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
-    <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
-    <None Include="Assets\Firebase\Plugins\x86_64\FirebaseCppApp-13_2_0.dll" />
-    <None Include="Assets\Firebase\Plugins\Firebase.Database.dll" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
-    <None Include="Assets\Firebase\m2repository\com\google\firebase\firebase-auth-unity\maven-metadata.xml" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
-    <None Include="Assets\Firebase\Plugins\iOS\Firebase.Auth.dll" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
-    <None Include="Assets\Firebase\Plugins\iOS\Firebase.Database.dll" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
-    <None Include="Assets\Firebase\Plugins\Firebase.Platform.dll" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
-    <None Include="Assets\Firebase\m2repository\com\google\firebase\firebase-database-unity\maven-metadata.xml" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
-    <None Include="Assets\Firebase\Plugins\Google.MiniJson.dll" />
     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
-    <None Include="Assets\Firebase\Plugins\iOS\Firebase.App.dll" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
-    <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Bangers - OFL.txt" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -801,24 +678,8 @@
       <HintPath>Library\PackageCache\com.unity.ext.nunit@d8c07649098d\net40\unity-custom\nunit.framework.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Firebase.App">
-      <HintPath>Assets\Firebase\Plugins\Firebase.App.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Firebase.TaskExtension">
-      <HintPath>Assets\Firebase\Plugins\Firebase.TaskExtension.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Firebase.Auth">
-      <HintPath>Assets\Firebase\Plugins\Firebase.Auth.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="System.IO.Hashing">
       <HintPath>Library\PackageCache\com.unity.collections@65f499a3cc26\Unity.Collections.Tests\System.IO.Hashing\System.IO.Hashing.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Firebase.Database">
-      <HintPath>Assets\Firebase\Plugins\Firebase.Database.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
@@ -831,14 +692,6 @@
     </Reference>
     <Reference Include="Mono.Cecil">
       <HintPath>Library\PackageCache\com.unity.nuget.mono-cecil@ecb9724e46ff\Mono.Cecil.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Firebase.Platform">
-      <HintPath>Assets\Firebase\Plugins\Firebase.Platform.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Google.MiniJson">
-      <HintPath>Assets\Firebase\Plugins\Google.MiniJson.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="netstandard">

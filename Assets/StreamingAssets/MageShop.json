@@ -1,3 +1,83 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:8fb20a45bf70fc333911508ae1620e2fff1074f8728bf9507867322d861dd9dd
-size 2445
+{
+  "shopName": "Emporium",
+  "items": [
+    {
+      "itemID": "fire_staff_magic",
+      "itemName": "Fire Staff",
+      "description": "A staff that channels raw magic power.",
+      "price": 120,
+      "iconPath": "Sprites/Icons/firestaff",
+      "stack": 1,
+      "equippable": true,
+      "equipped": false,
+      "modifiers": [
+        { "stat": "MagicPower", "value": 8, "percent": false }
+      ]
+    },
+    {
+      "itemID": "iron_armor_defense",
+      "itemName": "Iron Armor",
+      "description": "Sturdy armor that increases physical defense.",
+      "price": 140,
+      "iconPath": "Sprites/Icons/iron_armor",
+      "stack": 1,
+      "equippable": true,
+      "equipped": false,
+      "modifiers": [
+        { "stat": "Defense", "value": 5, "percent": false }
+      ]
+    },
+    {
+      "itemID": "battlesword_attack",
+      "itemName": "Battle Sword",
+      "description": "A heavy sword built for stronger attacks.",
+      "price": 150,
+      "iconPath": "Sprites/Icons/battle_sword",
+      "stack": 1,
+      "equippable": true,
+      "equipped": false,
+      "modifiers": [
+        { "stat": "AttackPower", "value": 10, "percent": false }
+      ]
+    },
+    {
+      "itemID": "mystic_robe_magicdef",
+      "itemName": "Mystic Robe",
+      "description": "Robe that aids in resisting magical damage.",
+      "price": 115,
+      "iconPath": "Sprites/Icons/mystic_robe",
+      "stack": 1,
+      "equippable": true,
+      "equipped": false,
+      "modifiers": [
+        { "stat": "MagicDefense", "value": 5, "percent": false }
+      ]
+    },
+    {
+      "itemID": "assassin_dagger_critchance",
+      "itemName": "Assassin Dagger",
+      "description": "A dagger that increases chance to land critical hits.",
+      "price": 100,
+      "iconPath": "Sprites/Icons/assassin_dagger",
+      "stack": 1,
+      "equippable": true,
+      "equipped": false,
+      "modifiers": [
+        { "stat": "CriticalChance", "value": 0.1, "percent": false }
+      ]
+    },
+    {
+      "itemID": "death_band_critdamage",
+      "itemName": "Death Band",
+      "description": "An enchanted band that amplifies critical damage.",
+      "price": 125,
+      "iconPath": "Sprites/Icons/death_band",
+      "stack": 1,
+      "equippable": true,
+      "equipped": false,
+      "modifiers": [
+        { "stat": "CriticalDamage", "value": 1.5, "percent": false }
+      ]
+    }
+  ]
+}
