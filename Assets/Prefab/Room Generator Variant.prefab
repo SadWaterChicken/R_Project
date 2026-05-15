@@ -1,0 +1,130 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5427542243099083370
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 64642975526893312, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+      propertyPath: body
+      value: 
+      objectReference: {fileID: 3668932655859516050}
+    - target: {fileID: 64642975526893312, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+      propertyPath: centerDec
+      value: 
+      objectReference: {fileID: 2669608341028048594}
+    - target: {fileID: 1450266192693950076, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5627462721326533710, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5627462721326533710, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5627462721326533710, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5627462721326533710, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5627462721326533710, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5627462721326533710, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5627462721326533710, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5627462721326533710, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5627462721326533710, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5627462721326533710, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6864143991026181450, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8685762605405110447, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+      propertyPath: m_Name
+      value: Room Generator Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 8744185124065635670, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9162702920415661264, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8685762605405110447, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2237185179006846745}
+  m_SourcePrefab: {fileID: 100100000, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+--- !u!23 &2669608341028048594 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 7953034019237301432, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+  m_PrefabInstance: {fileID: 5427542243099083370}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &3668932655859516050 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 8770806617572589816, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+  m_PrefabInstance: {fileID: 5427542243099083370}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3735885406799004357 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8685762605405110447, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+  m_PrefabInstance: {fileID: 5427542243099083370}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2237185179006846745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3735885406799004357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1d1d091534b0944f84fe85fb6cd5171, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  amountOfRoomsToGenerate: 16
+  roomPrefab: {fileID: 64642975526893312, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+  rooms:
+  - {fileID: 0}
+  generatingRoom: 0
+  generatorRoom: {fileID: 5455874108809557354}
+--- !u!114 &5455874108809557354 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 64642975526893312, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+  m_PrefabInstance: {fileID: 5427542243099083370}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3735885406799004357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5578cdf89889a6c4d819400f32a37cff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
