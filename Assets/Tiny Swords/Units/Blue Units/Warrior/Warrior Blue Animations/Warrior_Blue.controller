@@ -129,8 +129,8 @@ AnimatorStateTransition:
   - m_ConditionMode: 4
     m_ConditionEvent: horizontal
     m_EventTreshold: 0.1
-  - m_ConditionMode: 4
-    m_ConditionEvent: horizontal
+  - m_ConditionMode: 3
+    m_ConditionEvent: vertical
     m_EventTreshold: 0.1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -2246763852438259293}
@@ -252,7 +252,7 @@ AnimatorController:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Warrior_Blue
-  serializedVersion: 5
+  serializedVersion: 6
   m_AnimatorParameters:
   - m_Name: horizontal
     m_Type: 1
@@ -285,6 +285,7 @@ AnimatorController:
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
+  m_EvaluateTransitionsOnStart: 0
 --- !u!1101 &1044382739293806839
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -338,7 +339,7 @@ AnimatorState:
   m_TimeParameter: 
 --- !u!1107 &6025457316998246774
 AnimatorStateMachine:
-  serializedVersion: 6
+  serializedVersion: 7
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}

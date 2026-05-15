@@ -38,6 +38,7 @@ public class InventoryInput : MonoBehaviour
 
     private void Update()
     {
+        // Using KeyCode.I for Inventory toggle (consistent with PlayerController key bindings)
         if (Input.GetKeyDown(KeyCode.I))
         {
             if (ui == null)

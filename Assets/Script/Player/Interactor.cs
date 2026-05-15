@@ -1,5 +1,15 @@
 using UnityEngine;
 
+/// <summary>
+/// DEPRECATED: Use PlayerController instead.
+/// This script is kept for backward compatibility but is no longer the primary interaction handler.
+/// 
+/// PlayerController now handles all interaction detection and input processing.
+/// All interactable objects should implement IInteractable interface.
+/// 
+/// To remove: Delete this script and ensure objects use IInteractable with PlayerController.
+/// </summary>
+[System.Obsolete("Use PlayerController for interaction handling instead")]
 public class Interactor : MonoBehaviour
 {
     public float InteractRange = 3f;
@@ -10,7 +20,7 @@ public class Interactor : MonoBehaviour
         // Check for nearby interactable objects
         Collider[] colliders = Physics.OverlapSphere(transform.position, InteractRange);
         nearbyInteractable = null;
-        
+
         foreach (Collider collider in colliders)
         {
             if (collider.TryGetComponent(out IInteractable interactable))
@@ -19,8 +29,8 @@ public class Interactor : MonoBehaviour
                 break;
             }
         }
-        
-        // If near an interactable and press E, interact
+
+        // If near an interactable and press F, interact
         if (Input.GetKeyDown(KeyCode.F) && nearbyInteractable != null)
         {
             nearbyInteractable.Interact();

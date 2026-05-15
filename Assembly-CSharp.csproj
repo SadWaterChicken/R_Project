@@ -9,8 +9,9 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
-    <ProjectGuid>{67DB5CC5-FE50-7A9B-C749-2BFD9BA78723}</ProjectGuid>
+    <RootNamespace>
+    </RootNamespace>
+    <ProjectGuid>{1A1E43B1-4BC4-183D-BD4C-09C2940478B6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -59,9 +60,9 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.4.6f1\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.4.6f1\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.4.6f1\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
-    <Analyzer Include="D:\FGU_GIT\R_Project-thinh\Library\PackageCache\com.unity.ai.inference@9a123aee5df7\Runtime\Core\SourceGenerator\SourceGenerators.dll" />
-    <Analyzer Include="D:\FGU_GIT\R_Project-thinh\Library\PackageCache\com.unity.dt.app-ui@8ac7e730dd5d\Runtime\SourceGenerators\netstandard2.0\EnumToLowerCase.dll" />
-    <Analyzer Include="D:\FGU_GIT\R_Project-thinh\Library\PackageCache\com.unity.dt.app-ui@8ac7e730dd5d\Runtime\MVVM\SourceGenerators\netstandard2.0\MVVMSourceGenerators.dll" />
+    <Analyzer Include="D:\FGU_GIT\R_Project\Library\PackageCache\com.unity.ai.inference@9a123aee5df7\Runtime\Core\SourceGenerator\SourceGenerators.dll" />
+    <Analyzer Include="D:\FGU_GIT\R_Project\Library\PackageCache\com.unity.dt.app-ui@8ac7e730dd5d\Runtime\SourceGenerators\netstandard2.0\EnumToLowerCase.dll" />
+    <Analyzer Include="D:\FGU_GIT\R_Project\Library\PackageCache\com.unity.dt.app-ui@8ac7e730dd5d\Runtime\MVVM\SourceGenerators\netstandard2.0\MVVMSourceGenerators.dll" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Script\StateMachine\HSM\StateMachineBuilder.cs" />
@@ -102,6 +103,10 @@
     <Compile Include="Assets\Script\ShopSystem\ShopUI.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="00_FIX_COMPLETE.md" />
+    <None Include="00_SHOP_FIX_SUMMARY.md" />
+    <None Include="00_SOLUTION_SUMMARY.md" />
+    <None Include="00_START_HERE.md" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile-2-Pass.shader" />
@@ -124,6 +129,21 @@
     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
+    <None Include="COMPLETION_SUMMARY.md" />
+    <None Include="DOCUMENTATION_INDEX.md" />
+    <None Include="INTERACTION_SYSTEM_DOCUMENTATION.md" />
+    <None Include="PHYSICS_API_VISUAL_GUIDE.md" />
+    <None Include="QUICK_REFERENCE.md" />
+    <None Include="QUICK_START.md" />
+    <None Include="README_INTERACTION_SYNC.md" />
+    <None Include="README_SHOP_FIX.md" />
+    <None Include="SHOP_INTERACTION_BUG_ANALYSIS.md" />
+    <None Include="SHOP_INTERACTION_BUTTON_ANALYSIS.md" />
+    <None Include="SHOP_UPGRADE_GUIDE.md" />
+    <None Include="SYNC_SUMMARY.md" />
+    <None Include="TECHNICAL_DEEP_DIVE.md" />
+    <None Include="VERIFICATION_CHECKLIST.md" />
+    <None Include="VISUAL_UPGRADE_GUIDE.md" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

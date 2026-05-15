@@ -1,8 +1,8 @@
 using System.IO;
 using UnityEngine;
 
-[RequireComponent(typeof(Collider2D))]
-public class ShopTrigger : MonoBehaviour
+[RequireComponent(typeof(Collider))]
+public class ShopTrigger : MonoBehaviour, IInteractable
 {
     // Provide a path relative to StreamingAssets (examples below).
     // Acceptable values:
@@ -13,9 +13,8 @@ public class ShopTrigger : MonoBehaviour
 
     public string shopName = "Shop";
     public ShopManager shopManager;
-    public GameObject interactHint; // small world-space "Press E" text
+    public GameObject interactHint; // small world-space "Press F to Interact" text
 
-    private bool playerInRange = false;
     private ShopDataJson cachedShop = null;
     private bool preloadAttempted = false;
 
@@ -82,7 +81,6 @@ public class ShopTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            playerInRange = true;
             if (interactHint != null) interactHint.SetActive(true);
         }
     }
@@ -91,17 +89,17 @@ public class ShopTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            playerInRange = false;
             if (interactHint != null) interactHint.SetActive(false);
             shopManager?.CloseShop();
         }
     }
 
-    private void Update()
+    /// <summary>
+    /// Called by PlayerController when player presses Interact key while in range
+    /// </summary>
+    public void Interact()
     {
-        if (!(playerInRange && Input.GetKeyDown(KeyCode.E))) return;
-
-        Debug.Log("ShopTrigger: E pressed; playerInRange=" + playerInRange);
+        Debug.Log("ShopTrigger: Interact called by PlayerController");
 
         if (shopManager == null)
         {

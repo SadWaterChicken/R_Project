@@ -104,18 +104,21 @@ private void Awake()
         // Move controller
         controller.Move(velocity * Time.deltaTime);
 
-        // Check for nearby interactables (doors)
+        // Check for nearby interactables (Shop, Doors, etc.)
         DetectNearbyInteractables();
-        
-        // Handle interaction (F key)
+
+        // Handle interaction (F key via InputActions)
         if (inputActions.Player.Interact.triggered && nearbyInteractable != null)
         {
             nearbyInteractable.Interact();
         }
 
         // Camera rotation (Q/E for yaw - left/right)
-        if (Input.GetKeyDown(KeyCode.Q)) targetYRotation -= 90f;
-        if (Input.GetKeyDown(KeyCode.E)) targetYRotation += 90f;
+        // Only rotate if NOT interacting with something
+        if (nearbyInteractable == null && Input.GetKeyDown(KeyCode.Q)) 
+            targetYRotation -= 90f;
+        if (nearbyInteractable == null && Input.GetKeyDown(KeyCode.E)) 
+            targetYRotation += 90f;
 
         // Smoothly rotate the virtual camera
         float currentY = cam.transform.eulerAngles.y;
