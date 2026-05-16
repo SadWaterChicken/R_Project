@@ -1,4 +1,5 @@
 using System.IO;
+using System.IO;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
@@ -26,7 +27,7 @@ public class ShopTrigger : MonoBehaviour, IInteractable
         {
             preloadAttempted = true;
             var normalized = NormalizeStreamingPath(shopJsonFile);
-            var fullPath = Path.Combine(Application.streamingAssetsPath, normalized);
+            var fullPath = System.IO.Path.Combine(Application.streamingAssetsPath, normalized);
             if (!Application.isMobilePlatform && File.Exists(fullPath))
             {
                 try
@@ -71,7 +72,7 @@ public class ShopTrigger : MonoBehaviour, IInteractable
         if (string.IsNullOrWhiteSpace(shopJsonFile)) return;
 
         var normalized = NormalizeStreamingPath(shopJsonFile);
-        var fullPath = Path.Combine(Application.streamingAssetsPath, normalized);
+        var fullPath = System.IO.Path.Combine(Application.streamingAssetsPath, normalized);
         if (!File.Exists(fullPath))
             Debug.LogWarning($"[ShopTrigger] StreamingAssets file not found: {fullPath}. Place JSON in Assets/StreamingAssets and set path relative to it (e.g. \"Shops/MageShop.json\").", this);
     }
@@ -124,7 +125,7 @@ public class ShopTrigger : MonoBehaviour, IInteractable
         var normalized = NormalizeStreamingPath(shopJsonFile);
 
         // Try synchronous read if the file exists (desktop/editor). This is a fallback if preload didn't run.
-        var fullPath = Path.Combine(Application.streamingAssetsPath, normalized);
+        var fullPath = System.IO.Path.Combine(Application.streamingAssetsPath, normalized);
         if (!Application.isMobilePlatform && File.Exists(fullPath))
         {
             try

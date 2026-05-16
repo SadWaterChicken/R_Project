@@ -31,10 +31,20 @@ public class ShopManager : MonoBehaviour
     {
         currentShop = shop;
         if (shopUI == null) { Debug.LogWarning("ShopUI not assigned."); return; }
+
+        // Ensure playerStat is set before initializing UI
+        if (playerStat == null)
+            playerStat = PlayerStat.Instance;
+
+        if (playerStat == null)
+        {
+            Debug.LogError("[ShopManager] PlayerStat not found!");
+            return;
+        }
+
         shopUI.Init(this, playerStat);
         shopUI.PopulateShop(shop);
         shopUI.gameObject.SetActive(true);
-        // Time.timeScale = 0f;  // ← XÓA DÒNG NÀY (HOẶC COMMENT)
     }
 
     public void CloseShop()
@@ -58,6 +68,32 @@ public class ShopManager : MonoBehaviour
         Inventory.Instance?.AddItem(item.Clone(1));
 
         shopUI.UpdateGoldText(playerStat.GetGold());
+    }
+
+    public void SellItem(ItemData item)
+    {
+        if (item == null) return;
+        if (playerStat == null) { Debug.LogError("PlayerStat is null in ShopManager"); return; }
+        if (Inventory.Instance == null) { Debug.LogError("Inventory is null"); return; }
+
+        // Check if player has this item
+        var inventoryItem = Inventory.Instance.ownedItems.Find(x => x.itemID == item.itemID);
+        if (inventoryItem == null)
+        {
+            Debug.Log("Item not in inventory!");
+            return;
+        }
+
+        // Remove 1 item from inventory
+        Inventory.Instance.RemoveItem(inventoryItem, 1);
+
+        // Add gold (sell for half price or configurable)
+        int sellPrice = Mathf.RoundToInt(item.price * 0.5f); // 50% of buy price
+        playerStat.AddGold(sellPrice);
+
+        // Update UI
+        shopUI.UpdateGoldText(playerStat.GetGold());
+        Debug.Log($"Sold {item.itemName} for {sellPrice} gold");
     }
 
     private void UpdateUseButtonText(ItemData item)

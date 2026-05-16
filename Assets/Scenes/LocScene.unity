@@ -3519,7 +3519,7 @@ MonoBehaviour:
   sanityRegenRate: 0
   mana: 0
   manaRegenRate: 0
-  gold: 0
+  gold: 50000
 --- !u!114 &859630853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4785,7 +4785,40 @@ Tilemap:
   - serializedVersion: 2
     m_RefCount: 1
     m_Data: {fileID: 1845320194}
-  m_TileSpriteArray: []
+  m_TileSpriteArray:
+  - serializedVersion: 2
+    m_RefCount: 0
+    m_Data: {fileID: 1710533758}
+  - serializedVersion: 2
+    m_RefCount: 0
+    m_Data: {fileID: 1588468209}
+  - serializedVersion: 2
+    m_RefCount: 0
+    m_Data: {fileID: 1249758333}
+  - serializedVersion: 2
+    m_RefCount: 0
+    m_Data: {fileID: 342386493}
+  - serializedVersion: 2
+    m_RefCount: 0
+    m_Data: {fileID: 2074969968}
+  - serializedVersion: 2
+    m_RefCount: 0
+    m_Data: {fileID: 102456897}
+  - serializedVersion: 2
+    m_RefCount: 0
+    m_Data: {fileID: 1188313917}
+  - serializedVersion: 2
+    m_RefCount: 0
+    m_Data: {fileID: 243143512}
+  - serializedVersion: 2
+    m_RefCount: 0
+    m_Data: {fileID: 548532983}
+  - serializedVersion: 2
+    m_RefCount: 0
+    m_Data: {fileID: 2080655862}
+  - serializedVersion: 2
+    m_RefCount: 0
+    m_Data: {fileID: 460232856}
   m_TileMatrixArray:
   - serializedVersion: 2
     m_RefCount: 26
@@ -8107,7 +8140,73 @@ Tilemap:
   - serializedVersion: 2
     m_RefCount: 0
     m_Data: {fileID: 0}
-  m_TileSpriteArray: []
+  m_TileSpriteArray:
+  - serializedVersion: 2
+    m_RefCount: 0
+    m_Data: {fileID: 2042772435}
+  - serializedVersion: 2
+    m_RefCount: 0
+    m_Data: {fileID: 500067270}
+  - serializedVersion: 2
+    m_RefCount: 0
+    m_Data: {fileID: 1725018833}
+  - serializedVersion: 2
+    m_RefCount: 0
+    m_Data: {fileID: 773706309}
+  - serializedVersion: 2
+    m_RefCount: 0
+    m_Data: {fileID: 1080234452}
+  - serializedVersion: 2
+    m_RefCount: 0
+    m_Data: {fileID: 1316647239}
+  - serializedVersion: 2
+    m_RefCount: 0
+    m_Data: {fileID: 1322165579}
+  - serializedVersion: 2
+    m_RefCount: 0
+    m_Data: {fileID: 2067535621}
+  - serializedVersion: 2
+    m_RefCount: 0
+    m_Data: {fileID: 1249327404}
+  - serializedVersion: 2
+    m_RefCount: 0
+    m_Data: {fileID: 1160886893}
+  - serializedVersion: 2
+    m_RefCount: 0
+    m_Data: {fileID: 1516925611}
+  - serializedVersion: 2
+    m_RefCount: 0
+    m_Data: {fileID: 1082054448}
+  - serializedVersion: 2
+    m_RefCount: 0
+    m_Data: {fileID: 1578413568}
+  - serializedVersion: 2
+    m_RefCount: 0
+    m_Data: {fileID: 2071266512}
+  - serializedVersion: 2
+    m_RefCount: 0
+    m_Data: {fileID: 1308207546}
+  - serializedVersion: 2
+    m_RefCount: 0
+    m_Data: {fileID: 1785676351}
+  - serializedVersion: 2
+    m_RefCount: 0
+    m_Data: {fileID: 1359907151}
+  - serializedVersion: 2
+    m_RefCount: 0
+    m_Data: {fileID: 1343018715}
+  - serializedVersion: 2
+    m_RefCount: 0
+    m_Data: {fileID: 1850289951}
+  - serializedVersion: 2
+    m_RefCount: 0
+    m_Data: {fileID: 486853578}
+  - serializedVersion: 2
+    m_RefCount: 0
+    m_Data: {fileID: 729108163}
+  - serializedVersion: 2
+    m_RefCount: 0
+    m_Data: {fileID: 579047186}
   m_TileMatrixArray:
   - serializedVersion: 2
     m_RefCount: 24

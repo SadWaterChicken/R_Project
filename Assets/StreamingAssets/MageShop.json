@@ -11,7 +11,7 @@
       "equippable": true,
       "equipped": false,
       "modifiers": [
-        { "stat": "MagicPower", "value": 8, "percent": false }
+        { "stat": "Magic Damage", "value": 75, "percent": false }
       ]
     },
     {
@@ -24,7 +24,7 @@
       "equippable": true,
       "equipped": false,
       "modifiers": [
-        { "stat": "Defense", "value": 5, "percent": false }
+        { "stat": "Defense", "value": 50, "percent": false }
       ]
     },
     {
@@ -37,7 +37,7 @@
       "equippable": true,
       "equipped": false,
       "modifiers": [
-        { "stat": "AttackPower", "value": 10, "percent": false }
+        { "stat": "Physical Damage", "value": 100, "percent": false }
       ]
     },
     {
@@ -50,7 +50,7 @@
       "equippable": true,
       "equipped": false,
       "modifiers": [
-        { "stat": "MagicDefense", "value": 5, "percent": false }
+        { "stat": "Defense", "value": 25, "percent": false }
       ]
     },
     {
@@ -63,7 +63,7 @@
       "equippable": true,
       "equipped": false,
       "modifiers": [
-        { "stat": "CriticalChance", "value": 0.1, "percent": false }
+        { "stat": "Critical Chance", "value": 15, "percent": true }
       ]
     },
     {
@@ -76,7 +76,7 @@
       "equippable": true,
       "equipped": false,
       "modifiers": [
-        { "stat": "CriticalDamage", "value": 1.5, "percent": false }
+        { "stat": "Critical Damage", "value": 30, "percent": true }
       ]
     }
   ]

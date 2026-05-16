@@ -17,6 +17,7 @@ public class ShopUI : MonoBehaviour
     public TMP_Text detailDesc;
     public TMP_Text detailPrice;
     public Button buyButton;
+    public Button sellButton;                // NEW: Sell button
     public Button closeButton;
 
     // NEW: optional stats text (assign in Inspector). If null, stats will be appended to detailDesc.
@@ -55,7 +56,10 @@ public class ShopUI : MonoBehaviour
         currentItems = shop.items;
         Refresh();
 
-        UpdateGoldText(playerStat?.GetGold() ?? 0);
+        // Always get the latest gold from PlayerStat (fixes manual gold changes in Inspector)
+        int currentGold = playerStat != null ? playerStat.GetGold() : 0;
+        UpdateGoldText(currentGold);
+
         if (detailPanel != null) detailPanel.SetActive(false);
         if (detailStats != null) detailStats.text = string.Empty;
     }
@@ -104,6 +108,18 @@ public class ShopUI : MonoBehaviour
             buyButton.onClick.RemoveAllListeners();
             buyButton.onClick.AddListener(() => manager.BuyItem(item));
             buyButton.interactable = playerStat != null && playerStat.GetGold() >= item.price;
+        }
+
+        // NEW: Setup Sell button
+        if (sellButton != null)
+        {
+            sellButton.onClick.RemoveAllListeners();
+            sellButton.onClick.AddListener(() => manager.SellItem(item));
+
+            // Sell button enabled only if player has this item in inventory
+            bool hasItem = Inventory.Instance != null && 
+                          Inventory.Instance.ownedItems.Exists(x => x.itemID == item.itemID);
+            sellButton.interactable = hasItem;
         }
     }
 

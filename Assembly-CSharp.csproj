@@ -9,8 +9,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <ProjectGuid>{1A1E43B1-4BC4-183D-BD4C-09C2940478B6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -67,6 +66,7 @@
   <ItemGroup>
     <Compile Include="Assets\Script\StateMachine\HSM\StateMachineBuilder.cs" />
     <Compile Include="Assets\Script\Inventory\Inventory.cs" />
+    <Compile Include="Assets\Temp\Path.cs" />
     <Compile Include="Assets\Script\ItemData.cs" />
     <Compile Include="Assets\Script\StateMachine\EnemyStateDriver.cs" />
     <Compile Include="Assets\DontDestroy.cs" />
@@ -74,20 +74,25 @@
     <Compile Include="Assets\Script\Utils\StreamingAssetsLoader.cs" />
     <Compile Include="Assets\Script\StateMachine\Sequences\SequentialPhase.cs" />
     <Compile Include="Assets\Script\Inventory\InventoryUi.cs" />
-    <Compile Include="Assets\Script\Player\InputSystem_Actions.cs" />
     <Compile Include="Assets\Script\ShopSystem\ShopTrigger.cs" />
     <Compile Include="Assets\Script\Player\PlayerController.cs" />
     <Compile Include="Assets\Script\Enemy\EnemyStat.cs" />
     <Compile Include="Assets\Script\SpriteBillboard.cs" />
     <Compile Include="Assets\Script\Player\Interactor.cs" />
+    <Compile Include="Assets\Temp\Pathfinding.cs" />
     <Compile Include="Assets\Script\New_Dungeon\Door.cs" />
+    <Compile Include="Assets\Temp\Line.cs" />
     <Compile Include="Assets\Script\Enemy\Behaviour\Static\Basic_Waypoint_Follower.cs" />
+    <Compile Include="Assets\Temp\Heap.cs" />
     <Compile Include="Assets\Script\New_Dungeon\IInteractable.cs" />
+    <Compile Include="Assets\Script\Attributes\ReadOnlyAttribute.cs" />
     <Compile Include="Assets\Script\Player\DungeonPortal.cs" />
     <Compile Include="Assets\Script\StateMachine\Sequences\ParallelPhase.cs" />
     <Compile Include="Assets\Script\Player\PlayerStat.cs" />
     <Compile Include="Assets\Script\Inventory\InventoryInput.cs" />
+    <Compile Include="Assets\Temp\Node.cs" />
     <Compile Include="Assets\Script\ShopSystem\ShopManager.cs" />
+    <Compile Include="Assets\InputSystem_Actions.cs" />
     <Compile Include="Assets\Script\Player\PlayerCombat.cs" />
     <Compile Include="Assets\Script\StateMachine\HSM\StateMachine.cs" />
     <Compile Include="Assets\Script\Quest\QuestManager.cs" />
@@ -97,16 +102,16 @@
     <Compile Include="Assets\Script\StateMachine\HSM\Activity.cs" />
     <Compile Include="Assets\Script\Utilities\JsonHelper.cs" />
     <Compile Include="Assets\Script\StateMachine\HSM\TransitionSequencer.cs" />
+    <Compile Include="Assets\Script\Attributes\ReadOnlyDrawer.cs" />
     <Compile Include="Assets\Script\StateMachine\HSM\State.cs" />
+    <Compile Include="Assets\Temp\PathRequestManager.cs" />
+    <Compile Include="Assets\Temp\Unit.cs" />
+    <Compile Include="Assets\Temp\Grid.cs" />
     <Compile Include="Assets\Script\New_Dungeon\Room.cs" />
     <Compile Include="Assets\Script\Inventory\ShopItemSlotUI.cs" />
     <Compile Include="Assets\Script\ShopSystem\ShopUI.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="00_FIX_COMPLETE.md" />
-    <None Include="00_SHOP_FIX_SUMMARY.md" />
-    <None Include="00_SOLUTION_SUMMARY.md" />
-    <None Include="00_START_HERE.md" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile-2-Pass.shader" />
@@ -129,21 +134,6 @@
     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
-    <None Include="COMPLETION_SUMMARY.md" />
-    <None Include="DOCUMENTATION_INDEX.md" />
-    <None Include="INTERACTION_SYSTEM_DOCUMENTATION.md" />
-    <None Include="PHYSICS_API_VISUAL_GUIDE.md" />
-    <None Include="QUICK_REFERENCE.md" />
-    <None Include="QUICK_START.md" />
-    <None Include="README_INTERACTION_SYNC.md" />
-    <None Include="README_SHOP_FIX.md" />
-    <None Include="SHOP_INTERACTION_BUG_ANALYSIS.md" />
-    <None Include="SHOP_INTERACTION_BUTTON_ANALYSIS.md" />
-    <None Include="SHOP_UPGRADE_GUIDE.md" />
-    <None Include="SYNC_SUMMARY.md" />
-    <None Include="TECHNICAL_DEEP_DIVE.md" />
-    <None Include="VERIFICATION_CHECKLIST.md" />
-    <None Include="VISUAL_UPGRADE_GUIDE.md" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
