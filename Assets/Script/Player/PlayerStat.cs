@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
+
 
 public class PlayerStat : MonoBehaviour
 {
@@ -19,6 +19,8 @@ public class PlayerStat : MonoBehaviour
     public float mana;
     public float manaRegenRate;
     public int gold = 0;
+    public float baseSpeed = 6f;
+    public float speed = 6f;
 
     private void Awake()
     {
@@ -165,4 +167,5 @@ public class PlayerStat : MonoBehaviour
         gold -= amount;
         return true;
     }
+
 }

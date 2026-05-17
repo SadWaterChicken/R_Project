@@ -118,11 +118,6 @@ public class Room : MonoBehaviour
         
         doorObj.transform.parent = transform;
         
-        // Add sphere collider as trigger
-        SphereCollider collider = doorObj.AddComponent<SphereCollider>();
-        collider.radius = 1.5f;
-        collider.isTrigger = true;
-        
         // Add Door script
         Door doorScript = doorObj.AddComponent<Door>();
         doorScript.SetConnection(this, connectedRoom);

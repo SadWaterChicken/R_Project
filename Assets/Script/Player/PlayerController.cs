@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -7,7 +8,6 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
     public Transform cam;
     public PlayerCombat playerCombat;
-    public float speed = 6f;
     public float jumpForce = 3.5f;
     public float gravity = -15f;
     public float turnSmoothTime = 0.1f;
@@ -15,117 +15,138 @@ public class PlayerController : MonoBehaviour
     public float dashCooldown = 0.5f;
     public float rotationSpeed = 5f;
     public float interactionRange = 2f;
+    
     private float targetYRotation = 45f;
     private float verticalVelocity = 0f;
     private float dashCooldownTimer = 0f;
+    private Vector3 originalAttackPointPos;
 
     private InputSystem_Actions inputActions;
     private IInteractable nearbyInteractable;
 
-private void Awake()
+    private void Start()
     {
-        inputActions = new InputSystem_Actions();
-        gameObject.tag = "Player";
+        // Store the original attack point position
+        originalAttackPointPos = playerCombat.attackPoint.localPosition;
     }
-
-    
-    private void OnEnable()
-    {
-        inputActions.Enable();
-    }
-
-    private void OnDisable()
-    {
-        inputActions.Disable();
-    }
-
-    private void OnDestroy()
-    {
-        inputActions.Dispose();
-    }
-
-    void Update()
-    {
-        if (Input.GetMouseButtonDown(0) && playerCombat.IsAttackReady())  // Left mouse button
+    private void Awake()
         {
-            playerCombat.Attack();
-        }
-        // Safety check - if camera is destroyed, return
-        if (cam == null)
-            return;
-        
-        // Get input from the new Input System
-        Vector2 moveInput = inputActions.Player.Move.ReadValue<Vector2>();
-        float horizontal = moveInput.x;
-        float vertical = moveInput.y;
-
-        if (horizontal != 0)
-        {
-            spriteRenderer.flipX = horizontal < 0;  // Flip when moving left (negative)
+            inputActions = new InputSystem_Actions();
+            gameObject.tag = "Player";
         }
 
-        animator.SetFloat("horizontal", Mathf.Abs(horizontal));
-        animator.SetFloat("vertical", Mathf.Abs(vertical));
-
-        // Calculate direction RELATIVE TO CAMERA
-        Vector3 camForward = cam.transform.forward;
-        Vector3 camRight = cam.transform.right;
         
-        Vector3 direction = (camForward * vertical + camRight * horizontal).normalized;
-        direction.y = 0f; // Ensure movement is horizontal
-        
-     
-        
-        // Move character
-        Vector3 velocity = direction * speed;
-        
-        // Handle dash
-        dashCooldownTimer -= Time.deltaTime;
-        if (inputActions.Player.Sprint.triggered && dashCooldownTimer <= 0f)
+        private void OnEnable()
         {
-            controller.Move(transform.forward * dashForce * Time.deltaTime);
-            dashCooldownTimer = dashCooldown;
+            inputActions.Enable();
         }
-        
-        // Handle jumping
-        if (controller.isGrounded)
+
+        private void OnDisable()
         {
-            verticalVelocity = 0f;
-            if (inputActions.Player.Jump.triggered)
+            inputActions.Disable();
+        }
+
+        private void OnDestroy()
+        {
+            inputActions.Dispose();
+        }
+
+        void Update()
+        {
+            if (Input.GetMouseButtonDown(0))
             {
-                verticalVelocity = jumpForce;
+                playerCombat.Attack();
             }
+            if (Input.GetMouseButtonDown(1))
+            {
+                playerCombat.GuardUp();
+            }
+            if (Input.GetMouseButtonUp(1))
+            {
+                playerCombat.GuardDown();
+            }
+            // Safety check - if camera is destroyed, return
+            if (cam == null)
+                return;
+            
+            // Get input from the new Input System
+            Vector2 moveInput = inputActions.Player.Move.ReadValue<Vector2>();
+            float horizontal = moveInput.x;
+            float vertical = moveInput.y;
+
+            if (horizontal != 0)
+            {
+                spriteRenderer.flipX = horizontal < 0;  // Flip when moving left (negative)
+            if (spriteRenderer.flipX)
+            {
+                playerCombat.attackPoint.localPosition = new Vector3(-originalAttackPointPos.x, originalAttackPointPos.y, originalAttackPointPos.z);
+            }
+            else
+            {
+                playerCombat.attackPoint.localPosition = originalAttackPointPos;
+            }
+            }
+
+            animator.SetFloat("horizontal", Mathf.Abs(horizontal));
+            animator.SetFloat("vertical", Mathf.Abs(vertical));
+
+            // Calculate direction RELATIVE TO CAMERA
+            Vector3 camForward = cam.transform.forward;
+            Vector3 camRight = cam.transform.right;
+            
+            Vector3 direction = (camForward * vertical + camRight * horizontal).normalized;
+            direction.y = 0f; // Ensure movement is horizontal
+            
+        
+            
+            // Move character
+            Vector3 velocity = direction * PlayerStat.Instance.speed;
+            
+            // Handle dash
+            dashCooldownTimer -= Time.deltaTime;
+            if (inputActions.Player.Sprint.triggered && dashCooldownTimer <= 0f)
+            {
+                controller.Move(transform.forward * dashForce * Time.deltaTime);
+                dashCooldownTimer = dashCooldown;
+            }
+            
+            // Handle jumping
+            if (controller.isGrounded)
+            {
+                verticalVelocity = 0f;
+                if (inputActions.Player.Jump.triggered)
+                {
+                    verticalVelocity = jumpForce;
+                }
+            }
+            
+            // Apply gravity
+            verticalVelocity += gravity * Time.deltaTime;
+            velocity.y = verticalVelocity;
+            
+            // Move controller
+            controller.Move(velocity * Time.deltaTime);
+
+            // Check for nearby interactables (Shop, Doors, etc.)
+            DetectNearbyInteractables();
+
+            // Handle interaction (F key)
+            if (inputActions.Player.Interact.triggered && nearbyInteractable != null)
+            {
+                nearbyInteractable.Interact();
+            }
+
+            // Camera rotation (Q/E for yaw - left/right)
+            if (Input.GetKeyDown(KeyCode.Q)) targetYRotation -= 90f;
+            if (Input.GetKeyDown(KeyCode.E)) targetYRotation += 90f;
+
+            // Smoothly rotate the virtual camera
+            float currentY = cam.transform.eulerAngles.y;
+            float nextY = Mathf.LerpAngle(currentY, targetYRotation, Time.deltaTime * rotationSpeed);
+
+            cam.transform.eulerAngles = new Vector3(cam.transform.eulerAngles.x, nextY, 0);
         }
         
-        // Apply gravity
-        verticalVelocity += gravity * Time.deltaTime;
-        velocity.y = verticalVelocity;
-        
-        // Move controller
-        controller.Move(velocity * Time.deltaTime);
-
-        // Check for nearby interactables (Shop, Doors, etc.)
-        DetectNearbyInteractables();
-
-        // Handle interaction (F key via InputActions)
-        if (inputActions.Player.Interact.triggered && nearbyInteractable != null)
-        {
-            nearbyInteractable.Interact();
-        }
-
-        // Camera rotation (Q/E for yaw - left/right)
-        // Only rotate if NOT interacting with something
-        if (nearbyInteractable == null && Input.GetKeyDown(KeyCode.Q)) 
-            targetYRotation -= 90f;
-        if (nearbyInteractable == null && Input.GetKeyDown(KeyCode.E)) 
-            targetYRotation += 90f;
-
-        // Smoothly rotate the virtual camera
-        float currentY = cam.transform.eulerAngles.y;
-        float nextY = Mathf.LerpAngle(currentY, targetYRotation, Time.deltaTime * rotationSpeed);
-
-        cam.transform.eulerAngles = new Vector3(cam.transform.eulerAngles.x, nextY, 0);
-    }
 
     private void DetectNearbyInteractables()
     {

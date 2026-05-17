@@ -9,7 +9,7 @@ using UnityEngine;
 /// 
 /// To remove: Delete this script and ensure objects use IInteractable with PlayerController.
 /// </summary>
-[System.Obsolete("Use PlayerController for interaction handling instead")]
+
 public class Interactor : MonoBehaviour
 {
     public float InteractRange = 3f;
