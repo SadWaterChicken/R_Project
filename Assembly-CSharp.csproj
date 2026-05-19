@@ -47,14 +47,15 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.4.6f1\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.4.6f1\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.4.6f1\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
-    <Analyzer Include="E:\New folder\R_Project\Library\PackageCache\com.unity.ai.inference@9a123aee5df7\Runtime\Core\SourceGenerator\SourceGenerators.dll" />
-    <Analyzer Include="E:\New folder\R_Project\Library\PackageCache\com.unity.dt.app-ui@8ac7e730dd5d\Runtime\SourceGenerators\netstandard2.0\EnumToLowerCase.dll" />
-    <Analyzer Include="E:\New folder\R_Project\Library\PackageCache\com.unity.dt.app-ui@8ac7e730dd5d\Runtime\MVVM\SourceGenerators\netstandard2.0\MVVMSourceGenerators.dll" />
+    <Analyzer Include="E:\Tuan_GameProject\R_Project\Library\PackageCache\com.unity.ai.inference@9a123aee5df7\Runtime\Core\SourceGenerator\SourceGenerators.dll" />
+    <Analyzer Include="E:\Tuan_GameProject\R_Project\Library\PackageCache\com.unity.dt.app-ui@8ac7e730dd5d\Runtime\SourceGenerators\netstandard2.0\EnumToLowerCase.dll" />
+    <Analyzer Include="E:\Tuan_GameProject\R_Project\Library\PackageCache\com.unity.dt.app-ui@8ac7e730dd5d\Runtime\MVVM\SourceGenerators\netstandard2.0\MVVMSourceGenerators.dll" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Script\StateMachine\HSM\StateMachineBuilder.cs" />
     <Compile Include="Assets\Temp\Path.cs" />
     <Compile Include="Assets\Script\ItemData.cs" />
+    <Compile Include="Assets\Script\Minimap\Dungeon\MapModeController.cs" />
     <Compile Include="Assets\Script\ShopSystem\ShopDataJson.cs" />
     <Compile Include="Assets\Script\Utils\StreamingAssetsLoader.cs" />
     <Compile Include="Assets\Script\Inventory\InventoryUi.cs" />
@@ -67,17 +68,21 @@
     <Compile Include="Assets\Script\Enemy\Behaviour\Static\Basic_Waypoint_Follower.cs" />
     <Compile Include="Assets\Script\New_Dungeon\IInteractable.cs" />
     <Compile Include="Assets\Script\Attributes\ReadOnlyAttribute.cs" />
+    <Compile Include="Assets\Script\Minimap\World\WorldMinimapController.cs" />
     <Compile Include="Assets\Script\StateMachine\Sequences\ParallelPhase.cs" />
     <Compile Include="Assets\Temp\Node.cs" />
+    <Compile Include="Assets\Script\Minimap\World\MinimapFollow.cs" />
     <Compile Include="Assets\InputSystem_Actions.cs" />
     <Compile Include="Assets\Script\StateMachine\HSM\StateMachine.cs" />
     <Compile Include="Assets\Script\Quest\QuestManager.cs" />
     <Compile Include="Assets\Script\StateMachine\HSM\Sequence.cs" />
     <Compile Include="Assets\Script\New_Dungeon\RoomGenerator.cs" />
     <Compile Include="Assets\Script\Inventory\ItemSlotUI.cs" />
+    <Compile Include="Assets\Script\Minimap\Dungeon\RoomTrigger.cs" />
     <Compile Include="Assets\Script\StateMachine\HSM\Activity.cs" />
     <Compile Include="Assets\Script\Utilities\JsonHelper.cs" />
     <Compile Include="Assets\Script\StateMachine\HSM\TransitionSequencer.cs" />
+    <Compile Include="Assets\Script\Minimap\Dungeon\DungeonMapUI.cs" />
     <Compile Include="Assets\Script\StateMachine\HSM\State.cs" />
     <Compile Include="Assets\Temp\Unit.cs" />
     <Compile Include="Assets\Temp\Grid.cs" />
@@ -87,6 +92,7 @@
     <Compile Include="Assets\Script\Inventory\Inventory.cs" />
     <Compile Include="Assets\Script\StateMachine\EnemyStateDriver.cs" />
     <Compile Include="Assets\DontDestroy.cs" />
+    <Compile Include="Assets\Script\Minimap\Dungeon\DungeonMapManager.cs" />
     <Compile Include="Assets\Script\StateMachine\Sequences\SequentialPhase.cs" />
     <Compile Include="Assets\Script\Enemy\EnemyStat.cs" />
     <Compile Include="Assets\Script\SpriteBillboard.cs" />
@@ -97,6 +103,8 @@
     <Compile Include="Assets\Script\Inventory\InventoryInput.cs" />
     <Compile Include="Assets\Script\ShopSystem\ShopManager.cs" />
     <Compile Include="Assets\Script\Player\PlayerCombat.cs" />
+    <Compile Include="Assets\Script\Minimap\Dungeon\RoomData.cs" />
+    <Compile Include="Assets\Script\Minimap\Dungeon\DungeonEntrance.cs" />
     <Compile Include="Assets\Script\Attributes\ReadOnlyDrawer.cs" />
     <Compile Include="Assets\Temp\PathRequestManager.cs" />
   </ItemGroup>
