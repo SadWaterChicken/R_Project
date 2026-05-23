@@ -7,37 +7,53 @@ public class EnemySpawner : MonoBehaviour
     public int numberOfEnemiesToSpawn;
     private RoomGenerator roomGenerator;
 
+
     private void Start()
     {
         roomGenerator = GetComponent<RoomGenerator>();
-        
-        if (roomGenerator == null)
-        {
-            Debug.LogError("RoomGenerator not found on this GameObject!");
-            return;
-        }
-        
-        roomGenerator.onGenerationComplete += SpawnEnemiesInRooms;
-        Debug.Log("EnemySpawner subscribed to generation complete");
+                if (roomGenerator == null)
+                {
+                    Debug.LogError("RoomGenerator not found!");
+                    return;
+                }
+                roomGenerator.onGenerationComplete += SpawnEnemiesInRooms;
+            }
+
+            void SpawnEnemiesInRooms()
+            {
+                foreach (Room room in roomGenerator.rooms)
+                {
+                    if (room == roomGenerator.bossRoom)
+                        SpawnBossInRoom(room);
+                    else
+                        SpawnEnemiesInRoom(room);
+                }
+            }
+
+            void SpawnBossInRoom(Room room)
+            {
+                BoxCollider collider = room.GetComponent<BoxCollider>();
+                if (collider == null) return;
+
+                Vector3 roomCenter = room.transform.position;
+                Vector3 roomSize = collider.size;
+                
+                // Use boss prefabs from current theme
+                List<GameObject> bossPrefabs = roomGenerator.currentTheme.bossPrefabs;
+                if (bossPrefabs.Count == 0) return;
+
+                Vector3 bossPos = new Vector3(
+                    roomCenter.x,
+                    roomCenter.y + 1f,
+                    roomCenter.z
+                );
+
+                GameObject bossPrefab = bossPrefabs[Random.Range(0, bossPrefabs.Count)];
+                Instantiate(bossPrefab, bossPos, Quaternion.identity, room.transform);
+                Debug.Log("Boss spawned!");
     }
 
-    void SpawnEnemiesInRooms()
-    {
-        Debug.Log($"Spawning enemies! Rooms count: {roomGenerator.rooms.Count}");
-        
-        if (roomGenerator.rooms.Count == 0)
-        {
-            Debug.LogWarning("No rooms to spawn enemies in!");
-            return;
-        }
 
-        foreach (Room room in roomGenerator.rooms)
-        {
-            SpawnEnemiesInRoom(room);
-        }
-        
-        Debug.Log("Enemy spawning complete!");
-    }
 
     void SpawnEnemiesInRoom(Room room)
     {

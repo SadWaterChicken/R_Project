@@ -8,6 +8,15 @@ public class EnemyStat : MonoBehaviour
     public int maxHealth;
     public float currentHealth;
     public int healAmount = 100;
+    public float physicalArmor;
+    public float magicArmor;
+    public float speed = 6f;
+    public float physicalDamage;
+    public float attackRange;
+    public float attackCooldown;
+    public float detectionRange;
+    public float magicDamage;
+
     private Coroutine healCoroutine;
     private float lastDamageTime;
     public float outOfCombatDelay = 3f; // Delay before healing starts

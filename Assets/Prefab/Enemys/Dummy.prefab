@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 5874053541651414089}
   - component: {fileID: 146223514209870549}
   - component: {fileID: 1810055393809211156}
-  - component: {fileID: 6491258832024210270}
   - component: {fileID: 1605145289023425857}
+  - component: {fileID: -3969084532332703413}
   m_Layer: 7
   m_Name: Dummy
   m_TagString: Untagged
@@ -45,8 +45,8 @@ SpriteRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4565311123560629032}
   m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
+  m_CastShadows: 2
+  m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
@@ -62,7 +62,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: 84ed4e6bfe0854b49a7fb95fc2acb1bb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -130,7 +130,31 @@ CapsuleCollider:
   m_Height: 1.030169
   m_Direction: 1
   m_Center: {x: -0.050708413, y: 0.054868683, z: 0}
---- !u!54 &6491258832024210270
+--- !u!114 &1605145289023425857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4565311123560629032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae4ea46037439d44b85de08b5b423fe5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EmenyStat
+  maxHealth: 1000
+  currentHealth: 0
+  healAmount: 100
+  physicalArmor: 0
+  magicArmor: 0
+  speed: 6
+  physicalDamage: 0
+  attackRange: 0
+  attackCooldown: 0
+  detectionRange: 0
+  magicDamage: 0
+  outOfCombatDelay: 3
+--- !u!54 &-3969084532332703413
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -155,21 +179,5 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 70
+  m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1605145289023425857
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4565311123560629032}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae4ea46037439d44b85de08b5b423fe5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EmenyStat
-  maxHealth: 1000
-  currentHealth: 0
-  healAmount: 100
-  outOfCombatDelay: 3

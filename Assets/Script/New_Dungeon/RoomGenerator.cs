@@ -7,11 +7,18 @@ using System.Collections;
 public class RoomGenerator : MonoBehaviour
 {
     [SerializeField]
-    int amountOfRoomsToGenerate = 10;
+    List<DungeonTheme> dungeonTheme;
+
+    public DungeonTheme currentTheme;
+
+    [SerializeField]
+    int amountOfRoomsToGenerate ;
     public List<Room> roomPrefabs;
     public Room bossRoomPrefab;
+    public Room bossRoom { get; private set; }
     public Room eventRoomPrefab;
     public System.Action onGenerationComplete;
+    
 
     public static readonly float prefabsDistance = 42f;
     public readonly Vector3[] offsets = new Vector3[]
@@ -34,6 +41,10 @@ public class RoomGenerator : MonoBehaviour
         generatorRoom = GetComponent<Room>();
         generatorRoom.jumpsFromStart = 0;
         roomContainer = new GameObject("Rooms").transform;
+
+        // Pick a random theme
+        currentTheme = dungeonTheme[Random.Range(0, dungeonTheme.Count)];
+        Debug.Log("Selected Theme: " + currentTheme.themeName + " (" + currentTheme.sin + ")");
     }
 
     IEnumerator Start()
@@ -44,7 +55,7 @@ public class RoomGenerator : MonoBehaviour
         GenerateDoors();
         
         // Replace rooms after generation
-        ReplaceFurthestRoomWithBoss(bossRoomPrefab);
+        MarkFurthestRoomAsBoss();
         onGenerationComplete?.Invoke();
     }
 
@@ -97,58 +108,46 @@ public class RoomGenerator : MonoBehaviour
         }
     }
 
-    // Add these methods to RoomGenerator
-
-// Replace a room at a specific index
-public void ReplaceRoomAtIndex(int index, Room bossRoomPrefab)
+    private void MarkFurthestRoomAsBoss()
 {
-    if (index < 0 || index >= rooms.Count)
+    // BFS to find furthest room
+    Dictionary<Room, int> distances = new Dictionary<Room, int>();
+    Queue<Room> queue = new Queue<Room>();
+    
+    queue.Enqueue(generatorRoom);
+    distances[generatorRoom] = 0;
+    
+    Room furthestRoom = generatorRoom;
+    int maxDistance = 0;
+    
+    while (queue.Count > 0)
     {
-        Debug.LogError("Invalid room index!");
-        return;
-    }
-
-    Vector3 roomPos = rooms[index].transform.position;
-    
-    // Destroy old room
-    Destroy(rooms[index].gameObject);
-    
-    // Create new room at same position
-    Room newRoom = Instantiate(bossRoomPrefab, roomPos, Quaternion.identity, roomContainer);
-    newRoom.gameObject.name = "BossRoom";
-    
-    // Replace in list
-    rooms[index] = newRoom;
-    
-    // Reconnect doors
-    newRoom.AssignAllNeighbours(offsets);
-    Debug.Log($"Replaced room {index} with boss room");
-    }
-
-    // Replace the furthest room (good for boss rooms)
-    public void ReplaceFurthestRoomWithBoss(Room bossRoomPrefab)
-    {
-        int furthestIndex = 0;
-        int maxJumps = -1;
+        Room current = queue.Dequeue();
+        int currentDistance = distances[current];
         
-        for (int i = 0; i < rooms.Count; i++)
+        if (currentDistance > maxDistance)
         {
-            if (rooms[i].jumpsFromStart > maxJumps)
-            {
-                maxJumps = rooms[i].jumpsFromStart;
-                furthestIndex = i;
-            }
+            maxDistance = currentDistance;
+            furthestRoom = current;
         }
         
-        ReplaceRoomAtIndex(furthestIndex, bossRoomPrefab);
+        foreach (Room neighbor in current.GetNeighbours())
+        {
+            if (!distances.ContainsKey(neighbor))
+            {
+                distances[neighbor] = currentDistance + 1;
+                queue.Enqueue(neighbor);
+            }
+        }
     }
+    
+    bossRoom = furthestRoom;
+    Debug.Log($"Boss room marked at distance {maxDistance} from start");
+}
 
-    // Replace a random room
-    public void ReplaceRandomRoom(Room specialRoomPrefab)
-    {
-        int randomIndex = Random.Range(0, rooms.Count);
-        ReplaceRoomAtIndex(randomIndex, specialRoomPrefab);
-    }
+
+    
+
 
     void Update()
     {

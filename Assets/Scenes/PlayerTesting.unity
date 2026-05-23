@@ -907,14 +907,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombat
   animator: {fileID: 1008829511}
   playerStat: {fileID: 313751847}
-  Cooldown: 0.6
+  ComboDelay: 0.6
   attackPoint: {fileID: 993104535}
   weaponRange: 1
   enemyLayers:
     serializedVersion: 2
     m_Bits: 128
   damage: 100
-  comboCounter: 0
 --- !u!4 &1008829509
 Transform:
   m_ObjectHideFlags: 0

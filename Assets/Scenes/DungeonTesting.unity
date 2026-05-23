@@ -124,7 +124,18 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3735885406799004357, guid: 04997e3713258874ca884dc12ef79b40, type: 3}
   m_PrefabInstance: {fileID: 1790533345}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &471526041
+--- !u!114 &471526042 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2237185179006846745, guid: 04997e3713258874ca884dc12ef79b40, type: 3}
+  m_PrefabInstance: {fileID: 1790533345}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 471526035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1d1d091534b0944f84fe85fb6cd5171, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &471526047
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -133,12 +144,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 471526035}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b1dffcb97cc0f248b53c86e5887bb22, type: 3}
+  m_Script: {fileID: 11500000, guid: d8782b3038a36c640b8999b1af47c5a7, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
-  enemyPrefabs:
-  - {fileID: 4565311123560629032, guid: 4016f9a83c7b38247ae61f31fa5f9fa8, type: 3}
-  numberOfEnemiesToSpawn: 10
+  m_EditorClassIdentifier: Assembly-CSharp::DungeonEntitySpawner
+  roomGenerator: {fileID: 471526042}
+  enemiesPerRoom: 10
 --- !u!1 &1626099989
 GameObject:
   m_ObjectHideFlags: 0
@@ -529,6 +539,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2237185179006846745, guid: 04997e3713258874ca884dc12ef79b40, type: 3}
+      propertyPath: dungeonTheme.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237185179006846745, guid: 04997e3713258874ca884dc12ef79b40, type: 3}
       propertyPath: 'roomPrefabs.Array.data[0]'
       value: 
       objectReference: {fileID: 64642975526893312, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
@@ -536,6 +550,10 @@ PrefabInstance:
       propertyPath: 'roomPrefabs.Array.data[1]'
       value: 
       objectReference: {fileID: 7355478086462602314, guid: b709a7a535628334aad0783753ab05d1, type: 3}
+    - target: {fileID: 2237185179006846745, guid: 04997e3713258874ca884dc12ef79b40, type: 3}
+      propertyPath: 'dungeonTheme.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 507caf9c14bb7c2438d9a8ed43620f7e, type: 2}
     - target: {fileID: 2312564692277456786, guid: 04997e3713258874ca884dc12ef79b40, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -599,7 +617,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3735885406799004357, guid: 04997e3713258874ca884dc12ef79b40, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 471526041}
+      addedObject: {fileID: 471526047}
   m_SourcePrefab: {fileID: 100100000, guid: 04997e3713258874ca884dc12ef79b40, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

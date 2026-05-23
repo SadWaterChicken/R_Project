@@ -53,10 +53,7 @@ public class PlayerController : MonoBehaviour
 
         void Update()
         {
-            if (Input.GetMouseButtonDown(0))
-            {
-                playerCombat.Attack();
-            }
+           
             if (Input.GetMouseButtonDown(1))
             {
                 playerCombat.GuardUp();

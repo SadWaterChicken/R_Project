@@ -4,49 +4,40 @@ public class PlayerCombat : MonoBehaviour
 {
     public Animator animator;
     public PlayerStat playerStat;
-    public float Cooldown = 2f;
-    private float Timer;
+    public float ComboDelay = 1f;
+    private int numbClicks = 0;
+    private float lastClickedTime = 3;
     public Transform attackPoint;
     public float weaponRange = 10;
     public LayerMask enemyLayers;
     public float damage;
-    public int comboCounter;
-    private bool isAnimationPlaying = false;
     private bool isGuarding = false;
     private float guardDamageReduction = 0.5f; // Reduce damage by 50% when guarding
 
     void Update()
     {
-        if(Timer > 0)
+        if(Time.time - lastClickedTime > ComboDelay)
         {
-            Timer -= Time.deltaTime;
+            numbClicks = 0;
+        }
+        if(Input.GetMouseButtonDown(0))
+        {
+            lastClickedTime = Time.time;
+            numbClicks++;
+            
+            if(numbClicks == 1)
+            {
+                animator.SetTrigger("hit1");
+            }
+            numbClicks = Mathf.Clamp(numbClicks, 0, 2);
+            
         }
     }
   
 
     public void Attack()
     {
-        if(Timer <= 0 && !isAnimationPlaying)// Check if the attack is ready and no attack animation is currently playing
-        {
-            animator.SetBool("hit1", false);
-            animator.SetBool("hit2", false);
-            //count combo attacks here and set the correct animation bools
-            comboCounter++;
-            if (comboCounter > 2)
-            {
-                comboCounter = 1;
-            }
-            if (comboCounter == 1)
-            {
-                animator.SetBool("hit1", true);
-            }
-            else if (comboCounter == 2)
-            {
-                animator.SetBool("hit2", true);
-            }
-
-            isAnimationPlaying = true;
-            Timer = Cooldown;
+        
         
         Collider[] enemies = Physics.OverlapSphere(attackPoint.position, weaponRange, enemyLayers);
         
@@ -55,12 +46,25 @@ public class PlayerCombat : MonoBehaviour
             EnemyStat stat = enemies[0].GetComponent<EnemyStat>();
             if(stat != null)
             {
+                if(isGuarding)
+                {
+                    damage *= guardDamageReduction; // Reduce damage if guarding
+                }
                 stat.changeHealth(damage);
             }
         }
         
+        
+    }
+
+    public void Combohit1Transition()
+    {
+        if(numbClicks >= 2)
+        {
+            animator.SetTrigger("hit2");
         }
     }
+    
 
 
     public void GuardUp()
@@ -81,18 +85,9 @@ public class PlayerCombat : MonoBehaviour
         return isGuarding;
     }
 
-
-    public void FinishHit1Attack()
+    public void resetAttack()
     {
-        animator.SetBool("hit1", false);
-        isAnimationPlaying = false;
+        numbClicks = 0;
     }
-
-    public void FinishHit2Attack()
-    {
-        animator.SetBool("hit2", false);
-        isAnimationPlaying = false;
-    }
-
 
 }
