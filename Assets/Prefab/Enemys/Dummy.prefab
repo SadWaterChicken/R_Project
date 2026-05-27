@@ -145,13 +145,13 @@ MonoBehaviour:
   maxHealth: 1000
   currentHealth: 0
   healAmount: 100
-  physicalArmor: 0
-  magicArmor: 0
+  physicalArmor: 50
+  magicArmor: 50
   speed: 6
-  physicalDamage: 0
-  attackRange: 0
-  attackCooldown: 0
-  detectionRange: 0
+  physicalDamage: 100
+  attackRange: 1
+  attackCooldown: 1
+  detectionRange: 10
   magicDamage: 0
   outOfCombatDelay: 3
 --- !u!54 &-3969084532332703413

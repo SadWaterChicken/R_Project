@@ -41,6 +41,13 @@ public class Door : MonoBehaviour, IInteractable
             return;
         }
 
+        if (parentRoom != null && !parentRoom.isCleared)
+        {
+            Debug.Log("Room is not cleared. Doors are locked!");
+            // Optional: Give UI feedback that the doors are locked.
+            return;
+        }
+
         // Teleport player to the connected room's center
         if (currentPlayer != null)
         {

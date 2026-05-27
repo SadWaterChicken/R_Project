@@ -24,7 +24,7 @@ public class InventoryInput : MonoBehaviour
         // Otherwise find it even if the UI object starts inactive
 #if UNITY_2023_1_OR_NEWER
         if (ui == null)
-            ui = Object.FindFirstObjectByType<InventoryUI>(FindObjectsInactive.Include);
+            ui = Object.FindAnyObjectByType<InventoryUI>();
 #else
         if (ui == null)
             ui = FindObjectOfType<InventoryUI>(true);

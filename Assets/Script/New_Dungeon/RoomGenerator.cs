@@ -6,17 +6,16 @@ using System.Collections;
 [RequireComponent(typeof(Room))]
 public class RoomGenerator : MonoBehaviour
 {
-    [SerializeField]
-    List<DungeonTheme> dungeonTheme;
+    [SerializeField] private List<DungeonThemeSetup> dungeonThemes;
+    public DungeonThemeSetup currentTheme { get; private set; }
 
-    public DungeonTheme currentTheme;
-
-    [SerializeField]
-    int amountOfRoomsToGenerate ;
-    public List<Room> roomPrefabs;
-    public Room bossRoomPrefab;
+    [SerializeField] private int amountOfRoomsToGenerate = 10;
+    [SerializeField] private int minEventRooms = 1;
+    [SerializeField] private int maxEventRooms = 3;
+    
+    private List<Room> roomPrefabs;
+    private List<Room> eventRoomPrefabs;
     public Room bossRoom { get; private set; }
-    public Room eventRoomPrefab;
     public System.Action onGenerationComplete;
     
 
@@ -42,59 +41,114 @@ public class RoomGenerator : MonoBehaviour
         generatorRoom.jumpsFromStart = 0;
         roomContainer = new GameObject("Rooms").transform;
 
-        // Pick a random theme
-        currentTheme = dungeonTheme[Random.Range(0, dungeonTheme.Count)];
-        Debug.Log("Selected Theme: " + currentTheme.themeName + " (" + currentTheme.sin + ")");
+        if (dungeonThemes == null || dungeonThemes.Count == 0)
+        {
+            Debug.LogError("[RoomGenerator] No dungeon themes assigned!");
+            return;
+        }
+
+        currentTheme = dungeonThemes[Random.Range(0, dungeonThemes.Count)];
+        
+        // Convert regular room prefabs
+        roomPrefabs = new List<Room>(currentTheme.roomPrefabs.ConvertAll(go => go.GetComponent<Room>()));
+        roomPrefabs.RemoveAll(r => r == null);
+        
+        // Convert event room prefabs
+        eventRoomPrefabs = new List<Room>(currentTheme.eventRoomPrefabs.ConvertAll(go => go.GetComponent<Room>()));
+        eventRoomPrefabs.RemoveAll(r => r == null);
+        
+        Debug.Log($"[RoomGenerator] Selected Theme: {currentTheme.themeName} ({currentTheme.sinType})");
+        Debug.Log($"[RoomGenerator] Regular rooms: {roomPrefabs.Count}, Event rooms: {eventRoomPrefabs.Count}");
     }
 
     IEnumerator Start()
     {
-        StartCoroutine(GenerateRooms(roomPrefabs));
-        while (generatingRoom)
-            yield return new WaitForSeconds(0.5f);
-        GenerateDoors();
+        if (currentTheme == null || roomPrefabs.Count == 0)
+        {
+            Debug.LogError("[RoomGenerator] Cannot start: theme or rooms not initialized!");
+            yield break;
+        }
         
-        // Replace rooms after generation
+        yield return StartCoroutine(GenerateRooms());
+        GenerateDoors();
         MarkFurthestRoomAsBoss();
         onGenerationComplete?.Invoke();
     }
 
-    private IEnumerator GenerateRooms(List<Room> Prefabs)
+    private IEnumerator GenerateRooms()
     {
         generatingRoom = true;
-        Vector3 last = transform.position;
+        Vector3 lastPos = transform.position;
         int placedRooms = 0;
+        
+        // Determine how many event rooms to spawn (1-3)
+        int eventRoomsToSpawn = Random.Range(minEventRooms, maxEventRooms + 1);
+        int eventRoomsSpawned = 0;
+        
+        // If no event rooms available, just generate regular rooms
+        if (eventRoomPrefabs == null || eventRoomPrefabs.Count == 0)
+            eventRoomsToSpawn = 0;
 
         while (placedRooms < amountOfRoomsToGenerate)
         {
-            Room.Directions dir = (Room.Directions)Random.Range(0, 4);
-            Vector3 offset = offsets[(int)dir];
-            Vector3 newRoomPos = last + offset;
-
-            // Randomly select a prefab from the list
-            Room randomPrefab = Prefabs[Random.Range(0, Prefabs.Count)];
+            Vector3 offset = offsets[Random.Range(0, offsets.Length)];
+            Vector3 newRoomPos = lastPos + offset;
+            
+            // Decide whether to spawn event room or regular room
+            bool shouldSpawnEvent = eventRoomsSpawned < eventRoomsToSpawn && Random.value > 0.6f;
+            
+            Room randomPrefab;
+            if (shouldSpawnEvent && eventRoomPrefabs.Count > 0)
+            {
+                randomPrefab = eventRoomPrefabs[Random.Range(0, eventRoomPrefabs.Count)];
+            }
+            else
+            {
+                randomPrefab = roomPrefabs[Random.Range(0, roomPrefabs.Count)];
+            }
+            
             Room newRoom = Instantiate(randomPrefab, newRoomPos, Quaternion.identity, roomContainer);
-            newRoom.gameObject.name = "Room " + placedRooms;
+            string roomType = shouldSpawnEvent && eventRoomPrefabs.Count > 0 ? "Event" : "Regular";
+            newRoom.gameObject.name = $"Room_{placedRooms}_{roomType}";
             
-            yield return new WaitForFixedUpdate(); // Let physics update
+            yield return new WaitForFixedUpdate();
             
-            // Check if colliding
             if (newRoom.collision)
             {
-                Destroy(newRoom.gameObject); // Remove overlapping room
+                Destroy(newRoom.gameObject);
                 newRoom.collision = false;
-                continue; // Try again
+                continue;
             }
             
             rooms.Add(newRoom);
-            last = newRoomPos;
-            placedRooms++;
+            if (shouldSpawnEvent && eventRoomPrefabs.Count > 0)
+                eventRoomsSpawned++;
             
-            yield return new WaitForSeconds(0.2f);
+            lastPos = newRoomPos;
+            placedRooms++;
+            yield return new WaitForSeconds(0.1f);
         }
         
+        // If we didn't spawn enough event rooms, add them at the end
+        if (eventRoomsSpawned < minEventRooms && eventRoomPrefabs.Count > 0)
+        {
+            Debug.LogWarning($"[RoomGenerator] Spawned {eventRoomsSpawned} event rooms but needed {minEventRooms}. Adding more...");
+            for (int i = eventRoomsSpawned; i < minEventRooms; i++)
+            {
+                Vector3 offset = offsets[Random.Range(0, offsets.Length)];
+                Vector3 newRoomPos = lastPos + offset;
+                Room eventPrefab = eventRoomPrefabs[Random.Range(0, eventRoomPrefabs.Count)];
+                Room newRoom = Instantiate(eventPrefab, newRoomPos, Quaternion.identity, roomContainer);
+                newRoom.gameObject.name = $"Room_{placedRooms}_Event";
+                rooms.Add(newRoom);
+                lastPos = newRoomPos;
+                placedRooms++;
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
+        
+        Debug.Log($"[RoomGenerator] Generated {placedRooms} rooms with {eventRoomsSpawned} event rooms");
         generatingRoom = false;
-        yield return null;
     }
 
     private void GenerateDoors()
@@ -142,14 +196,28 @@ public class RoomGenerator : MonoBehaviour
     }
     
     bossRoom = furthestRoom;
-    Debug.Log($"Boss room marked at distance {maxDistance} from start");
+    // NEW: Replace the furthest room with boss arena
+    Vector3 bossRoomPos = bossRoom.transform.position;
+    Destroy(bossRoom.gameObject);
+    rooms.Remove(bossRoom);
+    
+    BossSetup randomBoss = currentTheme.GetRandomBoss();
+    if (randomBoss.bossRoomPrefab != null)
+    {
+        bossRoom = Instantiate(
+            randomBoss.bossRoomPrefab, 
+            bossRoomPos, 
+            Quaternion.identity, 
+            roomContainer
+        ).GetComponent<Room>();
+        rooms.Add(bossRoom);
+        Debug.Log($"[RoomGenerator] Boss arena spawned: {randomBoss.bossName}");
+    }
 }
 
 
     
 
 
-    void Update()
-    {
-    }
+
 }

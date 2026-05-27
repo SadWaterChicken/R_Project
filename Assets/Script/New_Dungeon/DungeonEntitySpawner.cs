@@ -5,95 +5,100 @@ public class DungeonEntitySpawner : MonoBehaviour
 {
     [SerializeField] private RoomGenerator roomGenerator;
     [SerializeField] private int enemiesPerRoom = 3;
-    private const float SPAWN_HEIGHT = 3f;  // Increased for thin rooms
+    private const float SPAWN_HEIGHT = 1.5f;
 
     private void Start()
     {
         if (roomGenerator == null)
         {
-            Debug.LogError("RoomGenerator not assigned!");
+            Debug.LogError("[DungeonEntitySpawner] RoomGenerator not assigned!");
             return;
         }
-        
         roomGenerator.onGenerationComplete += SpawnAll;
     }
 
     private void SpawnAll()
     {
+        if (roomGenerator.currentTheme == null)
+        {
+            Debug.LogError("[DungeonEntitySpawner] No theme configured!");
+            return;
+        }
+        
         SpawnEnemies();
         SpawnBoss();
-        Debug.Log("Entity spawning complete!");
+        Debug.Log("[DungeonEntitySpawner] Entity spawning complete!");
     }
 
     private void SpawnEnemies()
     {
         foreach (Room room in roomGenerator.rooms)
         {
-            if (room == roomGenerator.bossRoom) 
-                continue;
-                
-            SpawnEntitiesInRoom(
-                room, 
-                roomGenerator.currentTheme.enemyPrefabs, 
-                Random.Range(1, enemiesPerRoom + 1)
-            );
+            if (room == roomGenerator.bossRoom) continue;
+            
+            int count = Random.Range(1, enemiesPerRoom + 1);
+            SpawnEntitiesInRoom(room, count);
         }
     }
 
     private void SpawnBoss()
     {
-        if (roomGenerator.bossRoom == null)
-            return;
+        if (roomGenerator.bossRoom == null) return;
         
         Room bossRoom = roomGenerator.bossRoom;
         BoxCollider collider = bossRoom.GetComponent<BoxCollider>();
         if (collider == null) return;
 
+        BossSetup randomBoss = roomGenerator.currentTheme.GetRandomBoss();
+        if (randomBoss.bossPrefab == null) return;
+
         Bounds bounds = collider.bounds;
-        
-        // Spawn boss at center of room
         Vector3 spawnPos = new Vector3(
             bounds.center.x,
-            bounds.min.y + SPAWN_HEIGHT,  // Above floor
+            bounds.min.y + SPAWN_HEIGHT,
             bounds.center.z
         );
 
-        List<GameObject> bossPrefabs = roomGenerator.currentTheme.bossPrefabs;
-        if (bossPrefabs.Count > 0)
-        {
-            GameObject bossPrefab = bossPrefabs[Random.Range(0, bossPrefabs.Count)];
-            Instantiate(bossPrefab, spawnPos, Quaternion.identity, bossRoom.transform);
-            Debug.Log("Boss spawned!");
-        }
+        GameObject bossObj = Instantiate(randomBoss.bossPrefab, spawnPos, Quaternion.identity, bossRoom.transform);
+        bossRoom.isBossRoom = true;
+        bossRoom.isCleared = false;
+        bossRoom.spawnedEnemies.Add(bossObj);
+        
+        Debug.Log($"[DungeonEntitySpawner] Boss spawned: {randomBoss.bossName}");
     }
 
-    private void SpawnEntitiesInRoom(Room room, List<GameObject> prefabs, int count)
+    private void SpawnEntitiesInRoom(Room room, int count)
     {
-        if (prefabs == null || prefabs.Count == 0)
-            return;
-
         BoxCollider collider = room.GetComponent<BoxCollider>();
-        if (collider == null) 
-            return;
+        if (collider == null) return;
 
-        // Get the actual bounds of the collider (accounts for center offset)
         Bounds bounds = collider.bounds;
-        
-        // Add padding to avoid spawning at walls
         Vector3 padding = new Vector3(1f, 0.5f, 1f);
         Vector3 minPos = bounds.min + padding;
         Vector3 maxPos = bounds.max - padding;
+
+        bool spawnedAny = false;
 
         for (int i = 0; i < count; i++)
         {
             Vector3 spawnPos = new Vector3(
                 Random.Range(minPos.x, maxPos.x),
-                bounds.min.y + SPAWN_HEIGHT,  // Above floor
+                bounds.min.y + SPAWN_HEIGHT,
                 Random.Range(minPos.z, maxPos.z)
             );
 
-            GameObject prefab = prefabs[Random.Range(0, prefabs.Count)];
-            Instantiate(prefab, spawnPos, Quaternion.identity, room.transform);
+            GameObject enemyPrefab = roomGenerator.currentTheme.GetRandomEnemyWithEliteChance();
+            if (enemyPrefab != null)
+            {
+                GameObject enemyObj = Instantiate(enemyPrefab, spawnPos, Quaternion.identity, room.transform);
+                room.spawnedEnemies.Add(enemyObj);
+                spawnedAny = true;
+            }
+        }
+
+        if (spawnedAny)
+        {
+            room.isCleared = false;
         }
     }
 

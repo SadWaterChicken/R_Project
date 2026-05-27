@@ -72,6 +72,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 6c763f5484edf024b9d119fd83d7a798, type: 2}
+    - target: {fileID: 7729691796071509496, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8685762605405110447, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
       propertyPath: m_Name
       value: Boss Room Variant

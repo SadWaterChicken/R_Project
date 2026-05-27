@@ -38,10 +38,55 @@ public class Room : MonoBehaviour
 
     public int jumpsFromStart = -1;
 
+    public bool isCleared = true;
+    public bool isBossRoom = false;
+    public System.Collections.Generic.List<GameObject> spawnedEnemies = new System.Collections.Generic.List<GameObject>();
+
     private void Awake()
     {
         myCollider = GetComponent<BoxCollider>();
         myCollider.isTrigger = true;
+    }
+
+    private void Update()
+    {
+        // Event system: Detect if all enemies/boss in this room are dead
+        if (!isCleared)
+        {
+            // Remove any destroyed enemies from the list
+            spawnedEnemies.RemoveAll(enemy => enemy == null);
+
+            if (spawnedEnemies.Count == 0)
+            {
+                ClearRoom();
+            }
+        }
+    }
+
+    public void CompleteEvent()
+    {
+        if (!isCleared)
+        {
+            Debug.Log($"{gameObject.name} event completed.");
+            ClearRoom();
+        }
+    }
+
+    private void ClearRoom()
+    {
+        isCleared = true;
+        Debug.Log($"{gameObject.name} cleared. Doors are now unlocked.");
+
+        if (isBossRoom)
+        {
+            Debug.Log("Boss defeated! Triggering reward and options.");
+            // Notify DungeonManager or general event system
+            DungeonManager.Instance?.OnBossDefeated();
+        }
+        else
+        {
+            // Optional: Give normal room reward here
+        }
     }
 
     private void OnTriggerEnter(Collider col)  // Changed from OnTriggerEnter2D
