@@ -50,6 +50,7 @@ public class DungeonThemeSetup : ScriptableObject
 
     #region Utility Methods
 
+    // GetRandomBoss: returns a random boss setup from the theme
     public BossSetup GetRandomBoss()
     {
         if (bossList == null || bossList.Count == 0)
@@ -60,40 +61,47 @@ public class DungeonThemeSetup : ScriptableObject
         return bossList[Random.Range(0, bossList.Count)];
     }
 
+    // GetRandomNormalRoom: returns a random normal room GameObject
     public GameObject GetRandomNormalRoom()
     {
         var validRooms = roomPrefabs?.FindAll(r => r != null);
         return validRooms?.Count > 0 ? validRooms[Random.Range(0, validRooms.Count)] : null;
     }
 
+    // GetRandomEventRoom: returns a random event room GameObject
     public GameObject GetRandomEventRoom()
     {
         var validRooms = eventRoomPrefabs?.FindAll(r => r != null);
         return validRooms?.Count > 0 ? validRooms[Random.Range(0, validRooms.Count)] : null;
     }
 
+    // GetRandomEnemy: returns a random normal enemy prefab
     public GameObject GetRandomEnemy()
     {
         var validEnemies = enemyPrefabs?.FindAll(e => e != null);
         return validEnemies?.Count > 0 ? validEnemies[Random.Range(0, validEnemies.Count)] : null;
     }
 
+    // GetRandomEliteEnemy: returns a random elite enemy prefab
     public GameObject GetRandomEliteEnemy()
     {
         var validElites = eliteEnemyPrefabs?.FindAll(e => e != null);
         return validElites?.Count > 0 ? validElites[Random.Range(0, validElites.Count)] : null;
     }
 
+    // ShouldSpawnElite: roll chance to determine elite spawn
     public bool ShouldSpawnElite()
     {
         return Random.Range(0f, 100f) <= eliteSpawnRate;
     }
 
+    // GetRandomEnemyWithEliteChance: choose elite or normal enemy based on chance
     public GameObject GetRandomEnemyWithEliteChance()
     {
         return ShouldSpawnElite() && GetRandomEliteEnemy() != null ? GetRandomEliteEnemy() : GetRandomEnemy();
     }
 
+    // GetChestByLevel: returns a chest prefab matching requested level
     public ScriptableObject GetChestByLevel(int chestLevel)
     {
         if (themeChests == null || themeChests.Count == 0) return null;
@@ -105,6 +113,7 @@ public class DungeonThemeSetup : ScriptableObject
         return themeChests.Count > 0 ? themeChests[0].chestPrefab : null;
     }
 
+    // ApplyDifficultyMultiplier: scale theme difficulty multipliers
     public void ApplyDifficultyMultiplier(float multiplier)
     {
         enemyStatMultiplier *= multiplier;
@@ -113,6 +122,7 @@ public class DungeonThemeSetup : ScriptableObject
 
     #endregion
 
+    // OnValidate: editor-time checks for theme configuration issues
     private void OnValidate()
     {
         if (string.IsNullOrEmpty(themeName))

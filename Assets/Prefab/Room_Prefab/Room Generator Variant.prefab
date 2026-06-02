@@ -16,6 +16,10 @@ PrefabInstance:
       propertyPath: centerDec
       value: 
       objectReference: {fileID: 2669608341028048594}
+    - target: {fileID: 64642975526893312, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+      propertyPath: isCleared
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1450266192693950076, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -111,12 +115,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1d1d091534b0944f84fe85fb6cd5171, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amountOfRoomsToGenerate: 16
-  roomPrefab: {fileID: 64642975526893312, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+  dungeonThemes: []
+  normalRoomsToGenerate: 10
+  minEventRooms: 1
+  maxEventRooms: 3
   rooms:
   - {fileID: 0}
   generatingRoom: 0
   generatorRoom: {fileID: 5455874108809557354}
+  currentEntranceID: -1
 --- !u!114 &5455874108809557354 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 64642975526893312, guid: afeaf2166aee28e469946ac40edfc985, type: 3}

@@ -9,6 +9,12 @@ public class Door : MonoBehaviour, IInteractable
     public KeyCode interactKey = KeyCode.F;
     public float interactionRange = 3f;  // Range to detect player
 
+    public bool allowToUseDoor = true;
+    public Renderer doorLockIndicator;
+
+    private static float lastInteractTime = -1f;
+    private const float interactCooldown = 0.2f;
+
     private void Start()
     {
         doorCollider = GetComponent<Collider>();
@@ -16,6 +22,7 @@ public class Door : MonoBehaviour, IInteractable
             doorCollider.isTrigger = true;
     }
 
+    // Update: checks for player input/interaction range each frame
     private void Update()
     {
         // Find player in range
@@ -27,12 +34,16 @@ public class Door : MonoBehaviour, IInteractable
             // If player is in range and presses the interact key
             if (distanceToPlayer <= interactionRange && Input.GetKeyDown(interactKey))
             {
+                if (Time.time < lastInteractTime + interactCooldown) return;
+                lastInteractTime = Time.time;
+
                 currentPlayer = player;
                 Interact();
             }
         }
     }
 
+    // Interact: handles player interaction with the door and teleports player
     public void Interact()
     {
         if (connectedRoom == null)
@@ -41,24 +52,58 @@ public class Door : MonoBehaviour, IInteractable
             return;
         }
 
-        if (parentRoom != null && !parentRoom.isCleared)
+        if (!allowToUseDoor)
         {
-            Debug.Log("Room is not cleared. Doors are locked!");
+            Debug.Log("Door is locked! Cannot pass.");
             // Optional: Give UI feedback that the doors are locked.
             return;
         }
 
-        // Teleport player to the connected room's center
+        // Teleport player to the connected room
         if (currentPlayer != null)
         {
-            currentPlayer.transform.position = connectedRoom.transform.position;
+            // Try to find the door in the connected room that links back here, spawn player in front of it
+            Vector3 teleportPos = connectedRoom.transform.position;
+            foreach (var door in connectedRoom.roomDoors)
+            {
+                if (door.active && door.leadsTo == parentRoom && door.doorRenderer != null)
+                {
+                    // Calculate a position slightly in front of the destination door
+                    Vector3 doorPos = door.doorRenderer.transform.position;
+                    Vector3 directionToCenter = (connectedRoom.transform.position - doorPos).normalized;
+                    teleportPos = doorPos + directionToCenter * 2f; 
+                    teleportPos.y = currentPlayer.transform.position.y; // Keep player height consistent
+                    break;
+                }
+            }
+
+            currentPlayer.transform.position = teleportPos;
             Debug.Log($"Teleported to {connectedRoom.gameObject.name}");
+            
+            // Update active room states
+            if (parentRoom != null) parentRoom.SetRoomActive(false);
+            if (connectedRoom != null) connectedRoom.SetRoomActive(true);
+
+            // Explicitly notify the room that the player has entered,
+            // as Unity's OnTriggerEnter can be flaky when teleporting directly inside a trigger.
+            connectedRoom.OnPlayerEnter();
         }
     }
 
+    // SetConnection: record parent and connected room references for this door
     public void SetConnection(Room from, Room to)
     {
         parentRoom = from;
         connectedRoom = to;
+    }
+
+    // SetLocked: lock/unlock the door and update visual indicator
+    public void SetLocked(bool locked)
+    {
+        allowToUseDoor = !locked;
+        if (doorLockIndicator != null)
+        {
+            doorLockIndicator.enabled = locked;
+        }
     }
 }

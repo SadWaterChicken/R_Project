@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(BoxCollider))]
 [RequireComponent(typeof(Rigidbody))]
@@ -11,6 +12,9 @@ public class Room : MonoBehaviour
         left,
         right
     }
+
+    [System.Serializable]
+    public class BossDefeatedEvent : UnityEvent<Room> { }
 
     [System.Serializable]
     public struct Doors
@@ -40,7 +44,33 @@ public class Room : MonoBehaviour
 
     public bool isCleared = true;
     public bool isBossRoom = false;
+    public bool isEventRoom = false;
     public System.Collections.Generic.List<GameObject> spawnedEnemies = new System.Collections.Generic.List<GameObject>();
+
+    [HideInInspector]
+    public bool hasSpawned = false;
+    
+    [HideInInspector]
+    public bool generationComplete = false;
+
+    public int roomID = -1;
+    public bool isActiveRoom = false; // Tracks if the player is currently inside this room
+
+    public System.Collections.Generic.List<Door> activeDoors = new System.Collections.Generic.List<Door>();
+
+    public BossDefeatedEvent onBossDefeated = new BossDefeatedEvent();
+    
+    public event System.Action<Room> onPlayerEntered;
+
+    // SetRoomActive: updates the room's active state and updates the global DungeonManager tracking
+    public void SetRoomActive(bool state)
+    {
+        isActiveRoom = state;
+        if (state && DungeonManager.Instance != null)
+        {
+            DungeonManager.Instance.currentActiveRoom = this;
+        }
+    }
 
     private void Awake()
     {
@@ -48,21 +78,7 @@ public class Room : MonoBehaviour
         myCollider.isTrigger = true;
     }
 
-    private void Update()
-    {
-        // Event system: Detect if all enemies/boss in this room are dead
-        if (!isCleared)
-        {
-            // Remove any destroyed enemies from the list
-            spawnedEnemies.RemoveAll(enemy => enemy == null);
-
-            if (spawnedEnemies.Count == 0)
-            {
-                ClearRoom();
-            }
-        }
-    }
-
+    // CompleteEvent: publicly mark an event room as completed and clear it
     public void CompleteEvent()
     {
         if (!isCleared)
@@ -72,16 +88,48 @@ public class Room : MonoBehaviour
         }
     }
 
+    // RegisterSpawnedEnemy: track a spawned enemy instance for clear checks
+    public void RegisterSpawnedEnemy(GameObject enemy)
+    {
+        if (enemy == null) return;
+
+        if (!spawnedEnemies.Contains(enemy))
+            spawnedEnemies.Add(enemy);
+
+        isCleared = false;
+    }
+
+    // OnEnemyDied: called when a tracked enemy dies to update room state
+    public void OnEnemyDied(GameObject enemy)
+    {
+        if (isCleared) return;
+
+        if (enemy != null)
+            spawnedEnemies.Remove(enemy);
+        else
+            spawnedEnemies.RemoveAll(item => item == null);
+
+        if (spawnedEnemies.Count == 0)
+            ClearRoom();
+    }
+
+    // ClearRoom: mark room cleared, unlock doors, and raise clear/boss events
     private void ClearRoom()
     {
         isCleared = true;
         Debug.Log($"{gameObject.name} cleared. Doors are now unlocked.");
 
+        foreach (Door door in activeDoors)
+        {
+            door.SetLocked(false);
+        }
+
+        DungeonEvents.RaiseRoomCleared(this);
+
         if (isBossRoom)
         {
             Debug.Log("Boss defeated! Triggering reward and options.");
-            // Notify DungeonManager or general event system
-            DungeonManager.Instance?.OnBossDefeated();
+            DungeonEvents.RaiseBossDefeated(this);
         }
         else
         {
@@ -89,55 +137,100 @@ public class Room : MonoBehaviour
         }
     }
 
+    // OnTriggerEnter: detect player entry or generation-phase overlaps
     private void OnTriggerEnter(Collider col)  // Changed from OnTriggerEnter2D
     {
-        collision = true;
+        if (!generationComplete)
+        {
+            // During generation phase: mark collision for overlap checking
+            collision = true;
+        }
+        else if (col.CompareTag("Player") && !hasSpawned)
+        {
+            // Post-generation phase: trigger lazy spawn
+            OnPlayerEnter();
+        }
     }
 
-    public void AssignAllNeighbours(Vector3[] offsets)
+    // OnPlayerEnter: invoked when player first enters to lock doors and raise entry events
+    public void OnPlayerEnter()
     {
-        BoxCollider col = GetComponent<BoxCollider>();
-        Vector3 roomSize = col.size / 2f;
+        if (hasSpawned) return;
         
+        DungeonEvents.RaisePlayerEnteredRoom(this);
+        onPlayerEntered?.Invoke(this);
+
+        if (isCleared) return;
+
+        foreach (Door door in activeDoors)
+        {
+            door.SetLocked(true);
+        }
+    }
+
+    // AssignAllNeighbours: discover and open doors to neighbouring rooms using Virtual Grid O(1) lookup
+    public void AssignAllNeighbours(RoomGenerator generator)
+    {
+        Vector2Int myGridPos = generator.WorldToGridPosition(transform.position);
+
         for (int i = 0; i < roomDoors.Length; i++)
         {
-            int dir = (int)roomDoors[i].direction;
-            Vector3 offset = offsets[dir].normalized;
+            Directions dir = roomDoors[i].direction;
+            Vector2Int neighborGridOffset = Vector2Int.zero;
             
-            // Calculate raycast origin based on direction
-            Vector3 rayOrigin = transform.position;
-            
-            if (dir == 0) rayOrigin += Vector3.forward * roomSize.z;
-            else if (dir == 1) rayOrigin -= Vector3.forward * roomSize.z;
-            else if (dir == 2) rayOrigin -= Vector3.right * roomSize.x;
-            else if (dir == 3) rayOrigin += Vector3.right * roomSize.x;
-            
-            if (Physics.Raycast(rayOrigin, offset, out RaycastHit hit, RoomGenerator.prefabsDistance))
+            switch (dir)
             {
-                Room hitRoomParent = hit.collider.GetComponentInParent<Room>();
-                
-                if (hitRoomParent == this || hitRoomParent == null)
-                    continue;
-                
-                OpenDoor(i, hitRoomParent);
-                
-                // Open matching door on neighbor
-                int oppositeIndex = (int)GetOppositeDirection((Directions)dir);
-                
-                for (int k = 0; k < hitRoomParent.roomDoors.Length; k++)
+                case Directions.up: neighborGridOffset = Vector2Int.up; break;
+                case Directions.down: neighborGridOffset = Vector2Int.down; break;
+                case Directions.left: neighborGridOffset = Vector2Int.left; break;
+                case Directions.right: neighborGridOffset = Vector2Int.right; break;
+            }
+
+            Vector2Int expectedNeighborGridPos = myGridPos + neighborGridOffset;
+
+            // Find if any room exists at expectedNeighborGridPos mathematically
+            if (generator.roomGrid.TryGetValue(expectedNeighborGridPos, out Room hitRoomParent))
+            {
+                if (hitRoomParent != this)
                 {
-                    if ((int)hitRoomParent.roomDoors[k].direction == oppositeIndex)
+                    OpenDoor(i, hitRoomParent);
+                    
+                    // Open matching door on neighbor
+                    int oppositeIndex = (int)GetOppositeDirection(dir);
+                    
+                    for (int k = 0; k < hitRoomParent.roomDoors.Length; k++)
                     {
-                        hitRoomParent.OpenDoor(k, this);
-                        break;
+                        if ((int)hitRoomParent.roomDoors[k].direction == oppositeIndex)
+                        {
+                            hitRoomParent.OpenDoor(k, this);
+                            break;
+                        }
                     }
                 }
             }
         }
     }
 
+    // OpenDoor: mark a door active and create its interactable representation
     private void OpenDoor(int i, Room neighbour)
     {
+        if (roomDoors[i].active)
+        {
+            // If the door is already active (e.g., connected to a room that was destroyed and replaced by a Boss Room),
+            // we update its connection instead of ignoring it.
+            roomDoors[i].leadsTo = neighbour;
+            
+            foreach (Door door in activeDoors)
+            {
+                // Update the physical Door script if its old connected room was destroyed
+                if (door.connectedRoom == null || door.connectedRoom.gameObject == null)
+                {
+                    door.connectedRoom = neighbour;
+                }
+            }
+            return;
+        }
+
         roomDoors[i].leadsTo = neighbour;
         roomDoors[i].active = true;
         
@@ -150,6 +243,7 @@ public class Room : MonoBehaviour
         CreateInteractableDoor(i, neighbour);
     }
 
+    // CreateInteractableDoor: instantiate an interactable Door object for the mesh
     private void CreateInteractableDoor(int doorIndex, Room connectedRoom)
     {
         // Create a GameObject for the door interaction
@@ -166,8 +260,11 @@ public class Room : MonoBehaviour
         // Add Door script
         Door doorScript = doorObj.AddComponent<Door>();
         doorScript.SetConnection(this, connectedRoom);
+        
+        activeDoors.Add(doorScript);
     }
 
+    // GetActiveDoorsAmount: count how many doors are active on this room
     public int GetActiveDoorsAmount()
     {
         int output = 0;
@@ -177,6 +274,7 @@ public class Room : MonoBehaviour
         return output;
     }
 
+    // GetNeighbours: return a list of adjacent rooms connected by doors
     public System.Collections.Generic.List<Room> GetNeighbours()
     {
         System.Collections.Generic.List<Room> output = new System.Collections.Generic.List<Room>();
@@ -186,6 +284,7 @@ public class Room : MonoBehaviour
         return output;
     }
 
+    // GetClosestToStartNeighbour: return neighbour closest to start by jumpsFromStart
     public Room GetClosestToStartNeighbour()
     {
         Room output = this;
@@ -196,6 +295,7 @@ public class Room : MonoBehaviour
         return output;
     }
 
+    // GetFurthestFromStartNeighbour: return neighbour furthest from start
     public Room GetFurthestFromStartNeighbour()
     {
         Room output = this;
@@ -206,6 +306,7 @@ public class Room : MonoBehaviour
         return output;
     }
 
+    // IsCollidingForPooled: used during generation to detect overlapping rooms
     public bool IsCollidingForPooled(System.Collections.Generic.List<int> chunk, System.Collections.Generic.List<Room> rooms, Vector3 generatorPosition)  // Changed Vector2 to Vector3
     {
         bool roomsCollision = false;
@@ -227,6 +328,7 @@ public class Room : MonoBehaviour
         return roomsCollision || generatorCollision;
     }
 
+    // GetOppositeDirection: helper to map a direction to its opposite
     public static Directions GetOppositeDirection(Directions d)
     {
         Directions output;

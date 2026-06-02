@@ -48,6 +48,18 @@ public class DungeonPortal : MonoBehaviour, IInteractable
     public void Interact()
     {
         Debug.Log($"[DungeonPortal] Interacting with {portalName} - Loading dungeon scene: {dungeonSceneName}");
+        
+        // Save the player's current position so they can return here later
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            PlayerPrefs.SetFloat("ReturnPosX", player.transform.position.x);
+            PlayerPrefs.SetFloat("ReturnPosY", player.transform.position.y);
+            PlayerPrefs.SetFloat("ReturnPosZ", player.transform.position.z);
+            PlayerPrefs.SetInt("HasReturnPos", 1);
+            PlayerPrefs.Save();
+        }
+
         SceneManager.LoadScene(dungeonSceneName);
     }
 

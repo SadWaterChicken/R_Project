@@ -301,13 +301,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 153561655}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.23911765, y: 0.3696438, z: -0.09904577, w: 0.89239913}
-  m_LocalPosition: {x: -6.123724, y: 5.000001, z: -6.123724}
+  m_LocalRotation: {x: 0.2588191, y: 0, z: 0, w: 0.9659258}
+  m_LocalPosition: {x: 0, y: 5.000001, z: -8.660254}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 313751853}
-  m_LocalEulerAnglesHint: {x: 30, y: 45, z: 0}
+  m_LocalEulerAnglesHint: {x: 30, y: 0, z: 0}
 --- !u!114 &153561657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -469,8 +469,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 264640372}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.23911765, y: 0.3696438, z: -0.09904577, w: 0.89239913}
-  m_LocalPosition: {x: -6.123724, y: 6.000001, z: -6.123724}
+  m_LocalRotation: {x: 0.2588191, y: 0, z: 0, w: 0.9659258}
+  m_LocalPosition: {x: 0, y: 6.000001, z: -8.660254}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -567,6 +567,7 @@ GameObject:
   - component: {fileID: 313751849}
   - component: {fileID: 313751848}
   - component: {fileID: 313751847}
+  - component: {fileID: 313751854}
   m_Layer: 0
   m_Name: Third Person Player
   m_TagString: Player
@@ -589,16 +590,29 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 80
   healthRegenRate: 0
-  physicalDamage: 500
-  magicDamage: 0
-  defense: 0
-  sanity: 0
-  sanityRegenRate: 0
-  mana: 0
+  maxMana: 100
+  currentMana: 0
   manaRegenRate: 0
-  gold: 50000
+  maxSanity: 100
+  currentSanity: 0
+  sanityRegenRate: 0
+  basePhysicalDamage: 10
+  physicalDamageBonus: 0
+  baseMagicDamage: 5
+  magicDamageBonus: 0
+  physicalArmour: 0
+  magicArmour: 0
   baseSpeed: 6
-  speed: 6
+  movementSpeed: 6
+  attackSpeed: 1
+  dashCooldown: 0.5
+  luck: 0
+  critChance: 0
+  shield: 0
+  maxShield: 50
+  shieldRegenRate: 0
+  shieldRechargeCooldown: 5
+  gold: 50000
 --- !u!114 &313751848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -713,6 +727,18 @@ Transform:
   - {fileID: 1008829509}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &313751854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 313751846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaf0b4b8480ddc749b41f8685b02d9fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerBuffManager
 --- !u!1 &560762033
 GameObject:
   m_ObjectHideFlags: 0
@@ -1279,6 +1305,14 @@ MonoBehaviour:
   maxHealth: 0
   currentHealth: 0
   healAmount: 100
+  physicalArmor: 0
+  magicArmor: 0
+  speed: 6
+  physicalDamage: 0
+  attackRange: 0
+  attackCooldown: 0
+  detectionRange: 0
+  magicDamage: 0
   outOfCombatDelay: 3
 --- !u!1 &1801421356
 GameObject:

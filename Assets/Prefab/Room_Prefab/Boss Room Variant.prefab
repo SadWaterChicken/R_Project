@@ -8,6 +8,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 64642975526893312, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+      propertyPath: onBossDefeated.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 64642975526893312, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+      propertyPath: onBossDefeated.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 64642975526893312, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+      propertyPath: onBossDefeated.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 64642975526893312, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+      propertyPath: onBossDefeated.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnBossDefeated
+      objectReference: {fileID: 0}
+    - target: {fileID: 64642975526893312, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+      propertyPath: onBossDefeated.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: DungeonManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 64642975526893312, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+      propertyPath: onBossDefeated.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 592002294769745864, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -22,15 +46,15 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 6c763f5484edf024b9d119fd83d7a798, type: 2}
     - target: {fileID: 5627462721326533710, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 17.686993
+      value: 59.67147
       objectReference: {fileID: 0}
     - target: {fileID: 5627462721326533710, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.0000056189656
+      value: -0.0000017928824
       objectReference: {fileID: 0}
     - target: {fileID: 5627462721326533710, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 57.543663
+      value: -2.7926972
       objectReference: {fileID: 0}
     - target: {fileID: 5627462721326533710, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
       propertyPath: m_LocalRotation.w

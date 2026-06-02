@@ -22,15 +22,15 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: ac696e7a865af114e9ce014ea3c53d39, type: 2}
     - target: {fileID: 5627462721326533710, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 35.61864
+      value: 129.9315
       objectReference: {fileID: 0}
     - target: {fileID: 5627462721326533710, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.0000037985446
+      value: -0.0000008265488
       objectReference: {fileID: 0}
     - target: {fileID: 5627462721326533710, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 58.709507
+      value: 87.60433
       objectReference: {fileID: 0}
     - target: {fileID: 5627462721326533710, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
       propertyPath: m_LocalRotation.w
@@ -71,5 +71,28 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8685762605405110447, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5049259505938550413}
   m_SourcePrefab: {fileID: 100100000, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+--- !u!1 &4471891865712484735 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8685762605405110447, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+  m_PrefabInstance: {fileID: 5081572102856466896}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5049259505938550413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4471891865712484735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47e99f4e51b9cea4ca32c89c4930a5f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventRoom
+  possibleBuffs:
+  - {fileID: 11400000, guid: 5fa32e264f324944e8a16d1cdf7b07c8, type: 2}
+  useThemeBuffs: 1

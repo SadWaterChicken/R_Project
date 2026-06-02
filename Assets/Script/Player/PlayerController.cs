@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     public float rotationSpeed = 5f;
     public float interactionRange = 2f;
     
-    private float targetYRotation = 45f;
+    private float targetYRotation = 0f;
     private float verticalVelocity = 0f;
     private float dashCooldownTimer = 0f;
     private Vector3 originalAttackPointPos;
@@ -28,6 +28,23 @@ public class PlayerController : MonoBehaviour
     {
         // Store the original attack point position
         originalAttackPointPos = playerCombat.attackPoint.localPosition;
+
+        // Check if we need to restore position after returning from the dungeon
+        if (PlayerPrefs.GetInt("HasReturnPos", 0) == 1)
+        {
+            float x = PlayerPrefs.GetFloat("ReturnPosX");
+            float y = PlayerPrefs.GetFloat("ReturnPosY");
+            float z = PlayerPrefs.GetFloat("ReturnPosZ");
+            
+            // Teleport Player
+            controller.enabled = false; // Disable CharacterController momentarily to allow teleporting
+            transform.position = new Vector3(x, y, z);
+            controller.enabled = true;
+            
+            // Clear the flag so they don't teleport every time they restart this scene
+            PlayerPrefs.SetInt("HasReturnPos", 0);
+            PlayerPrefs.Save();
+        }
     }
     private void Awake()
         {
@@ -97,7 +114,7 @@ public class PlayerController : MonoBehaviour
         
             
             // Move character
-            Vector3 velocity = direction * PlayerStat.Instance.speed;
+            Vector3 velocity = direction * PlayerStat.Instance.movementSpeed;
             
             // Handle dash
             dashCooldownTimer -= Time.deltaTime;
