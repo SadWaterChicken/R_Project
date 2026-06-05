@@ -2,15 +2,19 @@ using UnityEngine;
 
 public class RougeAttack : MonoBehaviour
 {
-    private Animator animator;
+    Animator animator;
 
-    private void Awake()
+    void Start()
     {
         animator = GetComponent<Animator>();
     }
 
-    public void Attack()
+    void Update()
     {
-        animator.SetTrigger("Attack");
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            Debug.Log("Trigger Attack");
+            animator.SetTrigger("Attack");
+        }
     }
 }

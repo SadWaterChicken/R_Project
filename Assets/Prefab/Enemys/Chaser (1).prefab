@@ -161,7 +161,8 @@ MonoBehaviour:
   m_BlackboardVariableOverridesList:
   - rid: 7321210413730496835
   - rid: 7321210413730496836
-  - rid: 7321210436808868090
+  - rid: 7321210444031983737
+  - rid: 7321210444031983834
   m_OriginalGraph: {fileID: -4111573791081526109, guid: 044fa44cb4822ee42a3faf84228e0d64, type: 2}
   m_IsInitialised: 0
   m_IsStarted: 0
@@ -184,13 +185,21 @@ MonoBehaviour:
           m_Value1: 15167164522617055273
         Name: Target
         m_Value: {fileID: 0}
-    - rid: 7321210436808868090
+    - rid: 7321210444031983737
+      type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 11692398678731278697
+          m_Value1: 2352684667443637171
+        Name: Sprite child
+        m_Value: {fileID: 5207020694090564975}
+    - rid: 7321210444031983834
       type: {class: 'BlackboardVariable`1[[UnityEngine.Animator, UnityEngine.AnimationModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         GUID:
-          m_Value0: 16979985688174901318
-          m_Value1: 11511063430229422064
-        Name: Sprite
+          m_Value0: 4865399885303369825
+          m_Value1: 7237030965995385993
+        Name: A
         m_Value: {fileID: 5163166265228518380}
 --- !u!195 &3272022405934795513
 NavMeshAgent:

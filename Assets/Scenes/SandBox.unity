@@ -1072,6 +1072,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef17b556046022d488841e1e65aa8aa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Pathfinding
+--- !u!95 &1519060384 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5163166265228518380, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
+  m_PrefabInstance: {fileID: 4556869377570035058}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1892507717
 GameObject:
   m_ObjectHideFlags: 0
@@ -1516,9 +1521,42 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2317661578285317477, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
+      propertyPath: 'managedReferences[7321210444031983836]'
+      value: 'Unity.Behavior Unity.Behavior.BlackboardVariable`1[[UnityEngine.Animator,
+        UnityEngine.AnimationModule]]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 2317661578285317477, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
+      propertyPath: managedReferences[7321210444031983836].Name
+      value: A
+      objectReference: {fileID: 0}
+    - target: {fileID: 2317661578285317477, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
+      propertyPath: m_BlackboardVariableOverridesList.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2317661578285317477, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
       propertyPath: managedReferences[7321210413730496836].m_Value
       value: 
       objectReference: {fileID: 2113209483}
+    - target: {fileID: 2317661578285317477, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
+      propertyPath: managedReferences[7321210444031983836].m_Value
+      value: 
+      objectReference: {fileID: 1519060384}
+    - target: {fileID: 2317661578285317477, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
+      propertyPath: 'm_BlackboardVariableOverridesList.Array.data[2]'
+      value: 7321210444031983737
+      objectReference: {fileID: 0}
+    - target: {fileID: 2317661578285317477, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
+      propertyPath: 'm_BlackboardVariableOverridesList.Array.data[3]'
+      value: 7321210444031983836
+      objectReference: {fileID: 0}
+    - target: {fileID: 2317661578285317477, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
+      propertyPath: managedReferences[7321210444031983836].GUID.m_Value0
+      value: 4865399885303369825
+      objectReference: {fileID: 0}
+    - target: {fileID: 2317661578285317477, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
+      propertyPath: managedReferences[7321210444031983836].GUID.m_Value1
+      value: 7237030965995385993
+      objectReference: {fileID: 0}
     - target: {fileID: 4073294042357489424, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
       propertyPath: m_Name
       value: Chaser (1)
