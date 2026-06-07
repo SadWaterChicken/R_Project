@@ -59,11 +59,16 @@ public class PlayerCombat : MonoBehaviour
             EnemyStat stat = enemies[0].GetComponent<EnemyStat>();
             if(stat != null)
             {
+                // Fetch dynamic damage from player stats (or fallback to base damage)
+                float appliedDamage = (playerStat != null) ? playerStat.GetPhysicalDamage() : damage;
+                
                 if(isGuarding)
                 {
-                    damage *= guardDamageReduction; // Reduce damage if guarding
+                    appliedDamage *= guardDamageReduction; // Reduce damage if guarding
                 }
-                stat.changeHealth(damage);
+                
+                // Deal physical damage instead of raw health modification
+                stat.TakePhysicalDamage(appliedDamage);
             }
         }
         

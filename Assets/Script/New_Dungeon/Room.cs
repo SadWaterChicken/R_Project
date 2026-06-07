@@ -129,12 +129,33 @@ public class Room : MonoBehaviour
         if (isBossRoom)
         {
             Debug.Log("Boss defeated! Triggering reward and options.");
+            if (GameStateManager.Instance != null)
+            {
+                GameStateManager.Instance.isBossKilled = true;
+            }
             DungeonEvents.RaiseBossDefeated(this);
+            SpawnDungeonExit();
         }
         else
         {
             // Optional: Give normal room reward here
         }
+    }
+
+    private void SpawnDungeonExit()
+    {
+        GameObject exitObj = new GameObject("DungeonExit_Portal");
+        
+        // Spawn slightly above the center of the boss room
+        exitObj.transform.position = transform.position + new Vector3(0, 1.5f, 0); 
+        
+        BoxCollider col = exitObj.AddComponent<BoxCollider>();
+        col.isTrigger = true;
+        col.size = new Vector3(2f, 2f, 2f); // Big enough to interact with easily
+        
+        exitObj.AddComponent<DungeonExit>();
+        
+        Debug.Log($"[{gameObject.name}] Spawned DungeonExit portal at {exitObj.transform.position}");
     }
 
     // OnTriggerEnter: detect player entry or generation-phase overlaps

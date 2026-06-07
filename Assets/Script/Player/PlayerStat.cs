@@ -36,6 +36,7 @@ public class PlayerStat : MonoBehaviour
     public float movementSpeed = 6f;
     public float attackSpeed = 1f;
     public float dashCooldown = 0.5f;
+    public bool isInvincible = false;
 
     [Header("Luck & Crit")]
     public float luck = 0f; // Affects drop rate and crit chance
@@ -270,6 +271,8 @@ public class PlayerStat : MonoBehaviour
     // ─── Damage Application ────────────────────────────────────────────────────
     public void TakeDamage(float damage, float armorPenetration = 0f)
     {
+        if (isInvincible) return;
+
         float reduction = (physicalArmour * (1f - armorPenetration)) / 100f;
         float finalDamage = damage * (1f - reduction);
 
@@ -296,6 +299,8 @@ public class PlayerStat : MonoBehaviour
 
     public void TakeMagicDamage(float damage, float resistancePenetration = 0f)
     {
+        if (isInvincible) return;
+
         float reduction = (magicArmour * (1f - resistancePenetration)) / 100f;
         float finalDamage = damage * (1f - reduction);
 

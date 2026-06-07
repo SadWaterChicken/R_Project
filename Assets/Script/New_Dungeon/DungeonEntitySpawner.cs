@@ -10,6 +10,8 @@ public class DungeonEntitySpawner : MonoBehaviour
     private readonly Dictionary<GameObject, ObjectPool<GameObject>> enemyPools = new Dictionary<GameObject, ObjectPool<GameObject>>();
     private Transform poolContainer;
 
+    private float currentStatMultiplier = 1.0f;
+
     // Start: initialize pool container and subscribe to generation complete
     private void Start()
     {
@@ -17,6 +19,17 @@ public class DungeonEntitySpawner : MonoBehaviour
         {
             Debug.LogError("[DungeonEntitySpawner] RoomGenerator not assigned!");
             return;
+        }
+
+        if (GameStateManager.Instance != null)
+        {
+            switch (GameStateManager.Instance.currentDifficulty)
+            {
+                case DungeonDifficultyTier.Easy: currentStatMultiplier = 0.8f; break;
+                case DungeonDifficultyTier.Normal: currentStatMultiplier = 1.0f; break;
+                case DungeonDifficultyTier.Hard: currentStatMultiplier = 1.5f; break;
+                case DungeonDifficultyTier.Impossible: currentStatMultiplier = 2.5f; break;
+            }
         }
 
         poolContainer = new GameObject("EnemyPools").transform;
@@ -114,7 +127,7 @@ public class DungeonEntitySpawner : MonoBehaviour
         if (bossTracker == null)
             bossTracker = bossObj.AddComponent<RoomEnemyTracker>();
             
-        bossTracker.Initialize(bossRoom, obi => Destroy(bossObj));
+        bossTracker.Initialize(bossRoom, obi => Destroy(bossObj), currentStatMultiplier);
         
         bossTracker.isSleeping = true; // Tell tracker we are just optimizing so it doesn't think the boss died!
         bossObj.SetActive(false); // Optimize: Keep inactive so it doesn't drain CPU before player arrives
@@ -155,7 +168,7 @@ public class DungeonEntitySpawner : MonoBehaviour
                 RoomEnemyTracker tracker = enemyObj.GetComponent<RoomEnemyTracker>();
                 if (tracker == null)
                     tracker = enemyObj.AddComponent<RoomEnemyTracker>();
-                tracker.Initialize(room, pool.Release);
+                tracker.Initialize(room, pool.Release, currentStatMultiplier);
 
                 room.RegisterSpawnedEnemy(enemyObj);
             }

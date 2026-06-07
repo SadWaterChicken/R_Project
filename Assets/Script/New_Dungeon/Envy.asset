@@ -15,18 +15,18 @@ MonoBehaviour:
   themeName: Envy
   sinType: 3
   roomPrefabs:
-  - {fileID: 2196709036237245413, guid: b709a7a535628334aad0783753ab05d1, type: 3}
   - {fileID: 8685762605405110447, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+  - {fileID: 2196709036237245413, guid: 35df8a48b14e6c04ca9bc1af50c6053a, type: 3}
   eventRoomPrefabs:
-  - {fileID: 4471891865712484735, guid: 35526ae80335c254487542cf27f24159, type: 3}
+  - {fileID: 4471891865712484735, guid: 4790eae3e36d8d74b88d874245639346, type: 3}
   enemyPrefabs:
-  - {fileID: 4565311123560629032, guid: 4016f9a83c7b38247ae61f31fa5f9fa8, type: 3}
+  - {fileID: 4073294042357489424, guid: 474b448f6d1bcef449bea39657564ea5, type: 3}
   eliteEnemyPrefabs:
-  - {fileID: 4565311123560629032, guid: 4016f9a83c7b38247ae61f31fa5f9fa8, type: 3}
+  - {fileID: 4073294042357489424, guid: 474b448f6d1bcef449bea39657564ea5, type: 3}
   bossList:
   - bossName: Envy
-    bossRoomPrefab: {fileID: 9192565812033854812, guid: f89381bcbc63df448a28bbcea7cccead, type: 3}
-    bossPrefab: {fileID: 4551235992430138568, guid: 51e45edc2cb28aa4d963013c2b279a09, type: 3}
+    bossRoomPrefab: {fileID: 9192565812033854812, guid: 8bc77b1b43b5af149b01e348b2cb452c, type: 3}
+    bossPrefab: {fileID: 4073294042357489424, guid: 8f8eb976df94dfa46b39d0d6a02ba472, type: 3}
   themeChests: []
   enemyStatMultiplier: 1
   lootQualityMultiplier: 1
