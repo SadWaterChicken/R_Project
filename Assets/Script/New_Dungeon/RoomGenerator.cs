@@ -55,19 +55,35 @@ public class RoomGenerator : MonoBehaviour
             Vector3.right * roomSpacing      // right (X+)
         };
 
-        // Ensure we only use valid themes
-        if (dungeonThemes != null)
+        if (GameStateManager.Instance != null && GameStateManager.Instance.currentTheme != null)
         {
-            dungeonThemes.RemoveAll(theme => theme == null);
+            currentTheme = GameStateManager.Instance.currentTheme;
+            
+            switch (GameStateManager.Instance.currentDifficulty)
+            {
+                case DungeonDifficultyTier.Normal: normalRoomsToGenerate += 5; break;
+                case DungeonDifficultyTier.Hard: normalRoomsToGenerate += 10; break;
+                case DungeonDifficultyTier.Impossible: normalRoomsToGenerate += 15; break;
+            }
         }
-
-        if (dungeonThemes == null || dungeonThemes.Count == 0)
+        else
         {
-            Debug.LogError("[RoomGenerator] No dungeon themes assigned!");
-            return;
-        }
+            // Ensure we only use valid themes for fallback
+            if (dungeonThemes != null)
+            {
+                dungeonThemes.RemoveAll(theme => theme == null);
+            }
 
-        currentTheme = dungeonThemes[Random.Range(0, dungeonThemes.Count)];
+            if (dungeonThemes != null && dungeonThemes.Count > 0)
+            {
+                currentTheme = dungeonThemes[Random.Range(0, dungeonThemes.Count)];
+            }
+            else
+            {
+                Debug.LogError("[RoomGenerator] No dungeon themes assigned in GameStateManager OR RoomGenerator fallback list!");
+                return;
+            }
+        }
         
         if (currentTheme == null)
         {
@@ -126,6 +142,28 @@ public class RoomGenerator : MonoBehaviour
         
         // Set the starting room as active by default
         generatorRoom.SetRoomActive(true);
+
+        // Teleport the player to the start room
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            // Place player slightly above the floor to avoid clipping
+            Vector3 targetPos = generatorRoom.transform.position + new Vector3(0, 1f, 0);
+            PlayerController pc = player.GetComponent<PlayerController>();
+            if (pc != null)
+            {
+                pc.Teleport(targetPos);
+            }
+            else
+            {
+                player.transform.position = targetPos;
+            }
+            Debug.Log("[RoomGenerator] Teleported player to starting room.");
+        }
+        else
+        {
+            Debug.LogWarning("[RoomGenerator] Player not found! Could not teleport to start room.");
+        }
         
         // Optimize Performance: Batch all room geometry into a single static mesh
         // This drastically reduces draw calls since rooms never move after generation
@@ -160,6 +198,9 @@ public class RoomGenerator : MonoBehaviour
             eventRoomsToSpawn = 0;
 
         int totalRoomsToGenerate = normalRoomsToGenerate + 1;
+        int attempts = 0;
+        int maxAttempts = 15;
+
         while (placedRooms < totalRoomsToGenerate)
         {
             Vector3 offset = offsets[Random.Range(0, offsets.Length)];
@@ -187,8 +228,20 @@ public class RoomGenerator : MonoBehaviour
             if (IsRoomOverlapping(newRoomPos))
             {
                 Destroy(newRoom.gameObject);
+                attempts++;
+                if (attempts > maxAttempts)
+                {
+                    if (rooms.Count > 0)
+                        lastPos = rooms[Random.Range(0, rooms.Count)].transform.position;
+                    else
+                        lastPos = transform.position;
+                    attempts = 0;
+                }
+                yield return null; // Prevenet Editor freezing
                 continue;
             }
+            
+            attempts = 0;
             
             rooms.Add(newRoom);
             roomGrid[WorldToGridPosition(newRoomPos)] = newRoom;
@@ -209,12 +262,31 @@ public class RoomGenerator : MonoBehaviour
         if (eventRoomsSpawned < minEventRooms && eventRoomPrefabs.Count > 0)
         {
             Debug.LogWarning($"[RoomGenerator] Spawned {eventRoomsSpawned} event rooms but needed {minEventRooms}. Adding more...");
-            for (int i = eventRoomsSpawned; i < minEventRooms; i++)
+            int eventAttempts = 0;
+            while (eventRoomsSpawned < minEventRooms)
             {
                 Vector3 offset = offsets[Random.Range(0, offsets.Length)];
                 Vector3 newRoomPos = lastPos + offset;
                 Room eventPrefab = eventRoomPrefabs[Random.Range(0, eventRoomPrefabs.Count)];
                 Room newRoom = Instantiate(eventPrefab, newRoomPos, Quaternion.identity, roomContainer);
+                
+                if (IsRoomOverlapping(newRoomPos))
+                {
+                    Destroy(newRoom.gameObject);
+                    eventAttempts++;
+                    if (eventAttempts > maxAttempts)
+                    {
+                        if (rooms.Count > 0)
+                            lastPos = rooms[Random.Range(0, rooms.Count)].transform.position;
+                        else
+                            lastPos = transform.position;
+                        eventAttempts = 0;
+                    }
+                    yield return null;
+                    continue;
+                }
+                
+                eventAttempts = 0;
                 newRoom.isEventRoom = true;
                 newRoom.gameObject.name = $"Room_{placedRooms}_Event";
                 rooms.Add(newRoom);
@@ -225,6 +297,7 @@ public class RoomGenerator : MonoBehaviour
                 
                 lastPos = newRoomPos;
                 placedRooms++;
+                eventRoomsSpawned++;
                 yield return null;
             }
         }
@@ -243,6 +316,17 @@ public class RoomGenerator : MonoBehaviour
         {
             rooms[i].AssignAllNeighbours(this);
         }
+    }
+
+    // GetGenerationProgress: returns 0.0 to 1.0 based on how many rooms have been generated
+    public float GetGenerationProgress()
+    {
+        if (rooms == null) return 0f;
+        if (!generatingRoom && generatorRoom != null && generatorRoom.generationComplete) return 1f;
+        
+        // Rough estimate of total rooms to be spawned
+        float expectedRooms = normalRoomsToGenerate + 1f;
+        return Mathf.Clamp01((float)rooms.Count / expectedRooms);
     }
 
     // WorldToGridPosition: maps a physical world position to our mathematical Virtual Grid

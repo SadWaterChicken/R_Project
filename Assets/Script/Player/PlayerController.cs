@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
     private float targetYRotation = 0f;
     private float verticalVelocity = 0f;
     private float dashCooldownTimer = 0f;
+    public float dashDuration = 0.2f;
+    private bool isDashing = false;
     private Vector3 originalAttackPointPos;
 
     private InputSystem_Actions inputActions;
@@ -46,42 +48,81 @@ public class PlayerController : MonoBehaviour
             PlayerPrefs.Save();
         }
     }
+    private static PlayerController instance;
+
     private void Awake()
+    {
+        if (instance != null && instance != this)
         {
-            inputActions = new InputSystem_Actions();
-            gameObject.tag = "Player";
+            Destroy(gameObject);
+            return;
         }
+        instance = this;
+        // Make the player persistent across scenes so they aren't destroyed when the dungeon loads
+        transform.parent = null; // Must be root for DontDestroyOnLoad
+        DontDestroyOnLoad(gameObject);
 
-        
-        private void OnEnable()
-        {
-            inputActions.Enable();
-        }
+        inputActions = new InputSystem_Actions();
+        gameObject.tag = "Player";
+    }
 
-        private void OnDisable()
-        {
-            inputActions.Disable();
-        }
+    private void OnEnable()
+    {
+        inputActions.Enable();
+    }
 
-        private void OnDestroy()
+    private void OnDisable()
+    {
+        inputActions.Disable();
+    }
+
+    private void OnDestroy()
+    {
+        if (inputActions != null)
         {
             inputActions.Dispose();
         }
+    }
 
-        void Update()
+    // Helper method to reliably teleport a CharacterController
+    public void Teleport(Vector3 position)
+    {
+        if (controller != null)
         {
-           
-            if (Input.GetMouseButtonDown(1))
+            controller.enabled = false;
+            transform.position = position;
+            controller.enabled = true;
+        }
+        else
+        {
+            transform.position = position;
+        }
+    }
+
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            playerCombat.GuardUp();
+        }
+        if (Input.GetMouseButtonUp(1))
+        {
+            playerCombat.GuardDown();
+        }
+
+        // If the camera was destroyed during a scene transition, automatically find the new Main Camera in this scene
+        if (cam == null)
+        {
+            if (Camera.main != null)
             {
-                playerCombat.GuardUp();
+                cam = Camera.main.transform;
+                Debug.Log("[PlayerController] Found new Main Camera after scene transition.");
             }
-            if (Input.GetMouseButtonUp(1))
+            else
             {
-                playerCombat.GuardDown();
+                return; // Wait until a camera is found
             }
-            // Safety check - if camera is destroyed, return
-            if (cam == null)
-                return;
+        }
             
             // Get input from the new Input System
             Vector2 moveInput = inputActions.Player.Move.ReadValue<Vector2>();
@@ -113,33 +154,40 @@ public class PlayerController : MonoBehaviour
             
         
             
-            // Move character
-            Vector3 velocity = direction * PlayerStat.Instance.movementSpeed;
-            
-            // Handle dash
+            // Handle dash input
             dashCooldownTimer -= Time.deltaTime;
-            if (inputActions.Player.Sprint.triggered && dashCooldownTimer <= 0f)
+            if (inputActions.Player.Sprint.triggered && dashCooldownTimer <= 0f && !isDashing)
             {
-                controller.Move(transform.forward * dashForce * Time.deltaTime);
-                dashCooldownTimer = dashCooldown;
-            }
-            
-            // Handle jumping
-            if (controller.isGrounded)
-            {
-                verticalVelocity = 0f;
-                if (inputActions.Player.Jump.triggered)
+                Vector3 dashDirection = direction;
+                if (dashDirection == Vector3.zero)
                 {
-                    verticalVelocity = jumpForce;
+                    dashDirection = spriteRenderer.flipX ? -camRight : camRight;
                 }
+                StartCoroutine(DashRoutine(dashDirection.normalized));
             }
-            
-            // Apply gravity
-            verticalVelocity += gravity * Time.deltaTime;
-            velocity.y = verticalVelocity;
-            
-            // Move controller
-            controller.Move(velocity * Time.deltaTime);
+
+            if (!isDashing)
+            {
+                // Move character
+                Vector3 velocity = direction * PlayerStat.Instance.movementSpeed;
+                
+                // Handle jumping
+                if (controller.isGrounded)
+                {
+                    verticalVelocity = 0f;
+                    if (inputActions.Player.Jump.triggered)
+                    {
+                        verticalVelocity = jumpForce;
+                    }
+                }
+                
+                // Apply gravity
+                verticalVelocity += gravity * Time.deltaTime;
+                velocity.y = verticalVelocity;
+                
+                // Move controller
+                controller.Move(velocity * Time.deltaTime);
+            }
 
             // Check for nearby interactables (Shop, Doors, etc.)
             DetectNearbyInteractables();
@@ -176,5 +224,25 @@ public class PlayerController : MonoBehaviour
                 break;
             }
         }
+    }
+
+    private System.Collections.IEnumerator DashRoutine(Vector3 dashDirection)
+    {
+        isDashing = true;
+        if (PlayerStat.Instance != null) PlayerStat.Instance.isInvincible = true;
+        
+        // Cooldown uses the stat if available, otherwise fallback to local dashCooldown
+        dashCooldownTimer = (PlayerStat.Instance != null) ? PlayerStat.Instance.dashCooldown : dashCooldown;
+
+        float startTime = Time.time;
+        
+        while (Time.time < startTime + dashDuration)
+        {
+            controller.Move(dashDirection * dashForce * Time.deltaTime);
+            yield return null;
+        }
+
+        if (PlayerStat.Instance != null) PlayerStat.Instance.isInvincible = false;
+        isDashing = false;
     }
 }

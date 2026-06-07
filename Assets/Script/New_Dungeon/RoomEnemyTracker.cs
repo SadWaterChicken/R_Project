@@ -8,11 +8,13 @@ public class RoomEnemyTracker : MonoBehaviour
     private bool notified;
 
     public bool isSleeping = false;
+    public float statMultiplier = 1.0f;
 
-    public void Initialize(Room targetRoom, Action<GameObject> onRelease)
+    public void Initialize(Room targetRoom, Action<GameObject> onRelease, float multiplier = 1.0f)
     {
         room = targetRoom;
         releaseAction = onRelease;
+        statMultiplier = multiplier;
         notified = false;
         isSleeping = false;
     }
