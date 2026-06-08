@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     public float dashForce = 15f;
     public float dashCooldown = 0.5f;
     public float rotationSpeed = 5f;
-    public float interactionRange = 2f;
+    public float interactionRange = 3f; // Increased from 2f to 3f for easier interaction
     
     private float targetYRotation = 0f;
     private float verticalVelocity = 0f;
@@ -192,8 +192,9 @@ public class PlayerController : MonoBehaviour
             // Check for nearby interactables (Shop, Doors, etc.)
             DetectNearbyInteractables();
 
-            // Handle interaction (F key)
-            if (inputActions.Player.Interact.triggered && nearbyInteractable != null)
+            // Handle interaction (F key or Input System)
+            // Note: Input System might have 'Hold' interaction assigned, so we also check raw GetKeyDown(F)
+            if ((inputActions.Player.Interact.triggered || Input.GetKeyDown(KeyCode.F)) && nearbyInteractable != null)
             {
                 nearbyInteractable.Interact();
             }
@@ -217,7 +218,8 @@ public class PlayerController : MonoBehaviour
 
         foreach (Collider col in colliders)
         {
-            IInteractable interactable = col.GetComponent<IInteractable>();
+            // Use GetComponentInParent to find interactable even if collider is on a child object
+            IInteractable interactable = col.GetComponentInParent<IInteractable>();
             if (interactable != null)
             {
                 nearbyInteractable = interactable;

@@ -17,9 +17,20 @@ public class ShopItemSlotUI : MonoBehaviour
         boundItem = item;
         onBuy = onBuyCallback;
 
+        if (icon == null)
+        {
+            Image[] imgs = GetComponentsInChildren<Image>(true);
+            foreach(var img in imgs) { 
+                if (img.gameObject != this.gameObject && img.gameObject.name.ToLower().Contains("icon")) { 
+                    icon = img; break; 
+                } 
+            }
+        }
+
         if (icon != null)
         {
             icon.sprite = string.IsNullOrEmpty(item.iconPath) ? null : Resources.Load<Sprite>(item.iconPath);
+            icon.color = icon.sprite == null ? new Color(1, 1, 1, 0) : Color.white;
         }
 
         if (priceText != null)

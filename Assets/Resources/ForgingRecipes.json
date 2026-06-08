@@ -1,0 +1,74 @@
+{
+  "recipes": [
+    {
+      "recipeID": "recipe_greatsword_iron",
+      "resultItemID": "greatsword_iron",
+      "requiredItemIDs": ["greatsword_wood"],
+      "requiredMaterials": [
+        { "materialID": "iron_ore", "quantity": 3 }
+      ],
+      "goldCost": 300,
+      "minWeaponCount": 1
+    },
+    {
+      "recipeID": "recipe_greatsword_steel",
+      "resultItemID": "greatsword_steel",
+      "requiredItemIDs": ["greatsword_iron"],
+      "requiredMaterials": [
+        { "materialID": "steel_ingot", "quantity": 2 },
+        { "materialID": "wolf_fang", "quantity": 5 }
+      ],
+      "goldCost": 800,
+      "minWeaponCount": 1
+    },
+    {
+      "recipeID": "recipe_katana_iron",
+      "resultItemID": "katana_iron",
+      "requiredItemIDs": ["katana_wood"],
+      "requiredMaterials": [
+        { "materialID": "iron_ore", "quantity": 2 },
+        { "materialID": "spirit_shard", "quantity": 1 }
+      ],
+      "goldCost": 400,
+      "minWeaponCount": 1
+    }
+  ],
+  "materials": [
+    {
+      "materialID": "iron_ore",
+      "materialName": "Iron Ore",
+      "description": "A chunk of raw iron, common in caves.",
+      "iconPath": "Icons/iron_ore",
+      "materialType": 3,
+      "rarity": 1,
+      "weight": 1.0
+    },
+    {
+      "materialID": "steel_ingot",
+      "materialName": "Steel Ingot",
+      "description": "Refined steel, stronger than iron.",
+      "iconPath": "Icons/steel_ingot",
+      "materialType": 1,
+      "rarity": 2,
+      "weight": 1.5
+    },
+    {
+      "materialID": "wolf_fang",
+      "materialName": "Wolf Fang",
+      "description": "A sharp fang from a wolf monster.",
+      "iconPath": "Icons/wolf_fang",
+      "materialType": 0,
+      "rarity": 1,
+      "weight": 0.2
+    },
+    {
+      "materialID": "spirit_shard",
+      "materialName": "Spirit Shard",
+      "description": "A crystallized fragment of spirit energy.",
+      "iconPath": "Icons/spirit_shard",
+      "materialType": 2,
+      "rarity": 3,
+      "weight": 0.5
+    }
+  ]
+}

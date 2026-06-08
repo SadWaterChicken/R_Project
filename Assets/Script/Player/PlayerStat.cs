@@ -359,6 +359,11 @@ public class PlayerStat : MonoBehaviour
         return true;
     }
 
+    public bool CanSpendGold(int amount)
+    {
+        return gold >= amount;
+    }
+
     // ─── Mana Management ────────────────────────────────────────────────────────
     public bool ConsumeMana(float amount)
     {
