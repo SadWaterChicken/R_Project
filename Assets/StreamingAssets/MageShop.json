@@ -2,16 +2,193 @@
   "shopName": "Emporium",
   "items": [
     {
+      "itemID": "wooden_greatsword",
+      "itemName": "Wooden Greatsword",
+      "description": "A heavy wooden practice sword.",
+      "price": 10,
+      "iconPath": "Amor_Pic/wooden_greatsword",
+      "stack": 1,
+      "equippable": true, "equipmentType": 1,
+      "equipped": false,
+      "isForgeable": true,
+      "weaponClassName": "Greatsword",
+      "modifiers": [
+        {
+          "stat": "physical damage",
+          "value": 15,
+          "percent": false
+        }
+      ]
+    },
+    {
+      "itemID": "rusty_dualblades",
+      "itemName": "Rusty Dual Blades",
+      "description": "Old twin blades.",
+      "price": 10,
+      "iconPath": "Amor_Pic/rusty_dualblades",
+      "stack": 1,
+      "equippable": true, "equipmentType": 1,
+      "equipped": false,
+      "isForgeable": true,
+      "weaponClassName": "DualBlades",
+      "modifiers": [
+        {
+          "stat": "physical damage",
+          "value": 8,
+          "percent": false
+        }
+      ]
+    },
+    {
+      "itemID": "bamboo_katana",
+      "itemName": "Bamboo Katana",
+      "description": "A lightweight bamboo sword.",
+      "price": 10,
+      "iconPath": "Amor_Pic/bamboo_katana",
+      "stack": 1,
+      "equippable": true, "equipmentType": 1,
+      "equipped": false,
+      "isForgeable": true,
+      "weaponClassName": "Katana",
+      "modifiers": [
+        {
+          "stat": "physical damage",
+          "value": 12,
+          "percent": false
+        }
+      ]
+    },
+    {
+      "itemID": "stone_warhammer",
+      "itemName": "Stone Warhammer",
+      "description": "A crude hammer made of stone.",
+      "price": 10,
+      "iconPath": "Amor_Pic/stone_warhammer",
+      "stack": 1,
+      "equippable": true, "equipmentType": 1,
+      "equipped": false,
+      "isForgeable": true,
+      "weaponClassName": "Warhammer",
+      "modifiers": [
+        {
+          "stat": "physical damage",
+          "value": 18,
+          "percent": false
+        }
+      ]
+    },
+    {
+      "itemID": "chipped_greatsaxe",
+      "itemName": "Chipped Greatsaxe",
+      "description": "A heavy axe with a damaged blade.",
+      "price": 10,
+      "iconPath": "Amor_Pic/chipped_greatsaxe",
+      "stack": 1,
+      "equippable": true, "equipmentType": 1,
+      "equipped": false,
+      "isForgeable": true,
+      "weaponClassName": "Greatsaxe",
+      "modifiers": [
+        {
+          "stat": "physical damage",
+          "value": 20,
+          "percent": false
+        }
+      ]
+    },
+    {
+      "itemID": "wooden_spear",
+      "itemName": "Wooden Spear",
+      "description": "A simple sharpened stick.",
+      "price": 10,
+      "iconPath": "Amor_Pic/wooden_spear",
+      "stack": 1,
+      "equippable": true, "equipmentType": 1,
+      "equipped": false,
+      "isForgeable": true,
+      "weaponClassName": "Spear",
+      "modifiers": [
+        {
+          "stat": "physical damage",
+          "value": 10,
+          "percent": false
+        }
+      ]
+    },
+    {
+      "itemID": "hunting_bow",
+      "itemName": "Hunting Bow",
+      "description": "A basic bow for hunting small game.",
+      "price": 10,
+      "iconPath": "Amor_Pic/hunting_bow",
+      "stack": 1,
+      "equippable": true, "equipmentType": 1,
+      "equipped": false,
+      "isForgeable": true,
+      "weaponClassName": "Bow",
+      "modifiers": [
+        {
+          "stat": "physical damage",
+          "value": 12,
+          "percent": false
+        }
+      ]
+    },
+    {
+      "itemID": "novice_staff",
+      "itemName": "Novice Staff",
+      "description": "A simple wooden staff for beginners.",
+      "price": 10,
+      "iconPath": "Amor_Pic/novice_staff",
+      "stack": 1,
+      "equippable": true, "equipmentType": 1,
+      "equipped": false,
+      "isForgeable": true,
+      "weaponClassName": "Staff",
+      "modifiers": [
+        {
+          "stat": "magic damage",
+          "value": 15,
+          "percent": false
+        }
+      ]
+    },
+    {
+      "itemID": "glass_orb",
+      "itemName": "Glass Orb",
+      "description": "A fragile orb holding weak magic.",
+      "price": 10,
+      "iconPath": "Amor_Pic/glass_orb",
+      "stack": 1,
+      "equippable": true, "equipmentType": 1,
+      "equipped": false,
+      "isForgeable": true,
+      "weaponClassName": "Orb",
+      "modifiers": [
+        {
+          "stat": "magic damage",
+          "value": 12,
+          "percent": false
+        }
+      ]
+    },
+    {
       "itemID": "fire_staff_magic",
       "itemName": "Fire Staff",
       "description": "A staff that channels raw magic power.",
       "price": 120,
-      "iconPath": "Sprites/Icons/firestaff",
+      "iconPath": "Amor_Pic/firestaff",
       "stack": 1,
-      "equippable": true,
+      "equippable": true, "equipmentType": 1,
       "equipped": false,
+      "isForgeable": true,
+      "weaponClassName": "Staff",
       "modifiers": [
-        { "stat": "Magic Damage", "value": 75, "percent": false }
+        {
+          "stat": "magic damage",
+          "value": 75,
+          "percent": false
+        }
       ]
     },
     {
@@ -19,12 +196,17 @@
       "itemName": "Iron Armor",
       "description": "Sturdy armor that increases physical defense.",
       "price": 140,
-      "iconPath": "Sprites/Icons/iron_armor",
+      "iconPath": "Amor_Pic/iron_armor",
       "stack": 1,
-      "equippable": true,
+      "equippable": true, "equipmentType": 1,
       "equipped": false,
+      "isForgeable": false,
       "modifiers": [
-        { "stat": "Defense", "value": 50, "percent": false }
+        {
+          "stat": "physical armour",
+          "value": 50,
+          "percent": false
+        }
       ]
     },
     {
@@ -32,12 +214,18 @@
       "itemName": "Battle Sword",
       "description": "A heavy sword built for stronger attacks.",
       "price": 150,
-      "iconPath": "Sprites/Icons/battle_sword",
+      "iconPath": "Amor_Pic/battle_sword",
       "stack": 1,
-      "equippable": true,
+      "equippable": true, "equipmentType": 1,
       "equipped": false,
+      "isForgeable": true,
+      "weaponClassName": "Greatsword",
       "modifiers": [
-        { "stat": "Physical Damage", "value": 100, "percent": false }
+        {
+          "stat": "physical damage",
+          "value": 100,
+          "percent": false
+        }
       ]
     },
     {
@@ -45,12 +233,17 @@
       "itemName": "Mystic Robe",
       "description": "Robe that aids in resisting magical damage.",
       "price": 115,
-      "iconPath": "Sprites/Icons/mystic_robe",
+      "iconPath": "Amor_Pic/mystic_robe",
       "stack": 1,
-      "equippable": true,
+      "equippable": true, "equipmentType": 1,
       "equipped": false,
+      "isForgeable": false,
       "modifiers": [
-        { "stat": "Defense", "value": 25, "percent": false }
+        {
+          "stat": "physical armour",
+          "value": 25,
+          "percent": false
+        }
       ]
     },
     {
@@ -58,12 +251,18 @@
       "itemName": "Assassin Dagger",
       "description": "A dagger that increases chance to land critical hits.",
       "price": 100,
-      "iconPath": "Sprites/Icons/assassin_dagger",
+      "iconPath": "Amor_Pic/assassin_dagger",
       "stack": 1,
-      "equippable": true,
+      "equippable": true, "equipmentType": 1,
       "equipped": false,
+      "isForgeable": true,
+      "weaponClassName": "DualBlades",
       "modifiers": [
-        { "stat": "Critical Chance", "value": 15, "percent": true }
+        {
+          "stat": "crit chance",
+          "value": 15,
+          "percent": true
+        }
       ]
     },
     {
@@ -71,12 +270,17 @@
       "itemName": "Death Band",
       "description": "An enchanted band that amplifies critical damage.",
       "price": 125,
-      "iconPath": "Sprites/Icons/death_band",
+      "iconPath": "Amor_Pic/death_band",
       "stack": 1,
-      "equippable": true,
+      "equippable": true, "equipmentType": 1,
       "equipped": false,
+      "isForgeable": false,
       "modifiers": [
-        { "stat": "Critical Damage", "value": 30, "percent": true }
+        {
+          "stat": "luck",
+          "value": 30,
+          "percent": true
+        }
       ]
     }
   ]
