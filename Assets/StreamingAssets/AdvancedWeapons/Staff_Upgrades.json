@@ -1,14 +1,55 @@
 {
-  "advancedWeapons": [
-    {
-      "itemID": "staff_t2", "itemName": "Apprentice Staff", "description": "A staff that focuses magical energy more efficiently.",
-      "price": 60, "iconPath": "Amor_Pic/apprentice_staff", "stack": 1, "equippable": true, "equipmentType": 1, "weaponClassName": "Staff",
-      "modifiers": [ { "stat": "magic damage", "value": 35, "percent": false }, { "stat": "mana regen", "value": 5, "percent": false } ]
-    },
-    {
-      "itemID": "staff_t3", "itemName": "Archmage Staff", "description": "A staff pulsating with pure arcane power.",
-      "price": 180, "iconPath": "Amor_Pic/archmage_staff", "stack": 1, "equippable": true, "equipmentType": 1, "weaponClassName": "Staff",
-      "modifiers": [ { "stat": "magic damage", "value": 95, "percent": false }, { "stat": "mana regen", "value": 20, "percent": false }, { "stat": "spell cooldown", "value": 15, "percent": false } ]
-    }
-  ]
+    "advancedWeapons":  [
+                            {
+                                "itemID":  "staff_t2",
+                                "itemName":  "Apprentice Staff",
+                                "description":  "A staff that focuses magical energy more efficiently.",
+                                "price":  60,
+                                "iconPath":  "Amor_Pic/staff_t2",
+                                "stack":  1,
+                                "equippable":  true,
+                                "equipmentType":  1,
+                                "weaponClassName":  "Staff",
+                                "modifiers":  [
+                                                  {
+                                                      "stat":  "magic damage",
+                                                      "value":  35,
+                                                      "percent":  false
+                                                  },
+                                                  {
+                                                      "stat":  "mana regen",
+                                                      "value":  5,
+                                                      "percent":  false
+                                                  }
+                                              ]
+                            },
+                            {
+                                "itemID":  "staff_t3",
+                                "itemName":  "Archmage Staff",
+                                "description":  "A staff pulsating with pure arcane power.",
+                                "price":  180,
+                                "iconPath":  "Amor_Pic/staff_t3",
+                                "stack":  1,
+                                "equippable":  true,
+                                "equipmentType":  1,
+                                "weaponClassName":  "Staff",
+                                "modifiers":  [
+                                                  {
+                                                      "stat":  "magic damage",
+                                                      "value":  95,
+                                                      "percent":  false
+                                                  },
+                                                  {
+                                                      "stat":  "mana regen",
+                                                      "value":  20,
+                                                      "percent":  false
+                                                  },
+                                                  {
+                                                      "stat":  "spell cooldown",
+                                                      "value":  15,
+                                                      "percent":  false
+                                                  }
+                                              ]
+                            }
+                        ]
 }

@@ -64,5 +64,10 @@ public class WeaponSlotUI : MonoBehaviour
         {
             weaponIcon.color = isInteractable ? Color.white : new Color(0.3f, 0.3f, 0.3f, 1f);
         }
+
+        if (weaponNameText != null)
+        {
+            weaponNameText.color = isInteractable ? Color.white : new Color(0.5f, 0.5f, 0.5f, 1f);
+        }
     }
 }

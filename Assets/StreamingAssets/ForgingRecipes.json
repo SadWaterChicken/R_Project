@@ -1,30 +1,324 @@
 {
   "materials": [
-    { "materialID": "iron_ingot", "materialName": "Iron Ingot", "iconPath": "Amor_Pic/iron_ingot", "description": "Tier 1 Forging Material." },
-    { "materialID": "steel_ingot", "materialName": "Steel Ingot", "iconPath": "Amor_Pic/steel_ingot", "description": "Tier 2 Forging Material." },
-    { "materialID": "mithril_ingot", "materialName": "Mithril Ingot", "iconPath": "Amor_Pic/mithril_ingot", "description": "Tier 3 Forging Material." },
-    { "materialID": "adamantite_ingot", "materialName": "Adamantite Ingot", "iconPath": "Amor_Pic/adamantite_ingot", "description": "Tier 4 Forging Material." },
-    { "materialID": "orichalcum_ingot", "materialName": "Orichalcum Ingot", "iconPath": "Amor_Pic/orichalcum_ingot", "description": "Tier 5 Forging Material." }
+    {
+      "materialID": "iron_ingot",
+      "materialName": "Iron Ingot",
+      "iconPath": "Amor_Pic/iron_ingot",
+      "description": "Tier 1 Forging Material."
+    },
+    {
+      "materialID": "steel_ingot",
+      "materialName": "Steel Ingot",
+      "iconPath": "Amor_Pic/steel_ingot",
+      "description": "Tier 2 Forging Material."
+    },
+    {
+      "materialID": "mithril_ingot",
+      "materialName": "Mithril Ingot",
+      "iconPath": "Amor_Pic/mithril_ingot",
+      "description": "Tier 3 Forging Material."
+    },
+    {
+      "materialID": "adamantite_ingot",
+      "materialName": "Adamantite Ingot",
+      "iconPath": "Amor_Pic/adamantite_ingot",
+      "description": "Tier 4 Forging Material."
+    },
+    {
+      "materialID": "orichalcum_ingot",
+      "materialName": "Orichalcum Ingot",
+      "iconPath": "Amor_Pic/orichalcum_ingot",
+      "description": "Tier 5 Forging Material."
+    }
   ],
   "recipes": [
-    { "recipeID": "r_greatsword_t2", "resultItemID": "greatsword_t2", "requiredItemIDs": ["wooden_greatsword"], "minWeaponCount": 1, "goldCost": 100, "requiredMaterials": [ {"materialID": "iron_ingot", "quantity": 5} ] },
-    { "recipeID": "r_katana_t2", "resultItemID": "katana_t2", "requiredItemIDs": ["bamboo_katana"], "minWeaponCount": 1, "goldCost": 100, "requiredMaterials": [ {"materialID": "iron_ingot", "quantity": 5} ] },
-    { "recipeID": "r_dualblades_t2", "resultItemID": "dualblades_t2", "requiredItemIDs": ["rusty_dual_blades"], "minWeaponCount": 1, "goldCost": 100, "requiredMaterials": [ {"materialID": "iron_ingot", "quantity": 5} ] },
-    { "recipeID": "r_warhammer_t2", "resultItemID": "warhammer_t2", "requiredItemIDs": ["stone_warhammer"], "minWeaponCount": 1, "goldCost": 100, "requiredMaterials": [ {"materialID": "iron_ingot", "quantity": 5} ] },
-    { "recipeID": "r_staff_t2", "resultItemID": "staff_t2", "requiredItemIDs": ["novice_staff"], "minWeaponCount": 1, "goldCost": 100, "requiredMaterials": [ {"materialID": "iron_ingot", "quantity": 5} ] },
-    { "recipeID": "r_spear_t2", "resultItemID": "spear_t2", "requiredItemIDs": ["wooden_spear"], "minWeaponCount": 1, "goldCost": 100, "requiredMaterials": [ {"materialID": "iron_ingot", "quantity": 5} ] },
-    { "recipeID": "r_bow_t2", "resultItemID": "bow_t2", "requiredItemIDs": ["hunting_bow"], "minWeaponCount": 1, "goldCost": 100, "requiredMaterials": [ {"materialID": "iron_ingot", "quantity": 5} ] },
-    { "recipeID": "r_orb_t2", "resultItemID": "orb_t2", "requiredItemIDs": ["glass_orb"], "minWeaponCount": 1, "goldCost": 100, "requiredMaterials": [ {"materialID": "iron_ingot", "quantity": 5} ] },
-    { "recipeID": "r_greatsaxe_t2", "resultItemID": "greatsaxe_t2", "requiredItemIDs": ["chipped_greatsaxe"], "minWeaponCount": 1, "goldCost": 100, "requiredMaterials": [ {"materialID": "iron_ingot", "quantity": 5} ] },
-
-    { "recipeID": "r_greatsword_t3", "resultItemID": "greatsword_t3", "requiredItemIDs": ["greatsword_t2"], "minWeaponCount": 1, "goldCost": 500, "requiredMaterials": [ {"materialID": "steel_ingot", "quantity": 10} ] },
-    { "recipeID": "r_katana_t3", "resultItemID": "katana_t3", "requiredItemIDs": ["katana_t2"], "minWeaponCount": 1, "goldCost": 500, "requiredMaterials": [ {"materialID": "steel_ingot", "quantity": 10} ] },
-    { "recipeID": "r_dualblades_t3", "resultItemID": "dualblades_t3", "requiredItemIDs": ["dualblades_t2"], "minWeaponCount": 1, "goldCost": 500, "requiredMaterials": [ {"materialID": "steel_ingot", "quantity": 10} ] },
-    { "recipeID": "r_warhammer_t3", "resultItemID": "warhammer_t3", "requiredItemIDs": ["warhammer_t2"], "minWeaponCount": 1, "goldCost": 500, "requiredMaterials": [ {"materialID": "steel_ingot", "quantity": 10} ] },
-    { "recipeID": "r_staff_t3", "resultItemID": "staff_t3", "requiredItemIDs": ["staff_t2"], "minWeaponCount": 1, "goldCost": 500, "requiredMaterials": [ {"materialID": "steel_ingot", "quantity": 10} ] },
-    { "recipeID": "r_spear_t3", "resultItemID": "spear_t3", "requiredItemIDs": ["spear_t2"], "minWeaponCount": 1, "goldCost": 500, "requiredMaterials": [ {"materialID": "steel_ingot", "quantity": 10} ] },
-    { "recipeID": "r_bow_t3", "resultItemID": "bow_t3", "requiredItemIDs": ["bow_t2"], "minWeaponCount": 1, "goldCost": 500, "requiredMaterials": [ {"materialID": "steel_ingot", "quantity": 10} ] },
-    { "recipeID": "r_orb_t3", "resultItemID": "orb_t3", "requiredItemIDs": ["orb_t2"], "minWeaponCount": 1, "goldCost": 500, "requiredMaterials": [ {"materialID": "steel_ingot", "quantity": 10} ] },
-    { "recipeID": "r_greatsaxe_t3", "resultItemID": "greatsaxe_t3", "requiredItemIDs": ["greatsaxe_t2"], "minWeaponCount": 1, "goldCost": 500, "requiredMaterials": [ {"materialID": "steel_ingot", "quantity": 10} ] }
+    {
+      "recipeID": "r_greatsword_t2",
+      "resultItemID": "greatsword_t2",
+      "requiredItemIDs": [
+        "wooden_greatsword"
+      ],
+      "minWeaponCount": 1,
+      "goldCost": 100,
+      "requiredMaterials": [
+        {
+          "materialID": "iron_ingot",
+          "quantity": 5
+        }
+      ],
+      "iconPath": "Amor_Pic/greatsword_t2"
+    },
+    {
+      "recipeID": "r_katana_t2",
+      "resultItemID": "katana_t2",
+      "requiredItemIDs": [
+        "bamboo_katana"
+      ],
+      "minWeaponCount": 1,
+      "goldCost": 100,
+      "requiredMaterials": [
+        {
+          "materialID": "iron_ingot",
+          "quantity": 5
+        }
+      ],
+      "iconPath": "Amor_Pic/katana_t2"
+    },
+    {
+      "recipeID": "r_dualblades_t2",
+      "resultItemID": "dualblades_t2",
+      "requiredItemIDs": [
+        "rusty_dual_blades"
+      ],
+      "minWeaponCount": 1,
+      "goldCost": 100,
+      "requiredMaterials": [
+        {
+          "materialID": "iron_ingot",
+          "quantity": 5
+        }
+      ],
+      "iconPath": "Amor_Pic/dualblades_t2"
+    },
+    {
+      "recipeID": "r_warhammer_t2",
+      "resultItemID": "warhammer_t2",
+      "requiredItemIDs": [
+        "stone_warhammer"
+      ],
+      "minWeaponCount": 1,
+      "goldCost": 100,
+      "requiredMaterials": [
+        {
+          "materialID": "iron_ingot",
+          "quantity": 5
+        }
+      ],
+      "iconPath": "Amor_Pic/warhammer_t2"
+    },
+    {
+      "recipeID": "r_staff_t2",
+      "resultItemID": "staff_t2",
+      "requiredItemIDs": [
+        "novice_staff"
+      ],
+      "minWeaponCount": 1,
+      "goldCost": 100,
+      "requiredMaterials": [
+        {
+          "materialID": "iron_ingot",
+          "quantity": 5
+        }
+      ],
+      "iconPath": "Amor_Pic/staff_t2"
+    },
+    {
+      "recipeID": "r_spear_t2",
+      "resultItemID": "spear_t2",
+      "requiredItemIDs": [
+        "wooden_spear"
+      ],
+      "minWeaponCount": 1,
+      "goldCost": 100,
+      "requiredMaterials": [
+        {
+          "materialID": "iron_ingot",
+          "quantity": 5
+        }
+      ],
+      "iconPath": "Amor_Pic/spear_t2"
+    },
+    {
+      "recipeID": "r_bow_t2",
+      "resultItemID": "bow_t2",
+      "requiredItemIDs": [
+        "hunting_bow"
+      ],
+      "minWeaponCount": 1,
+      "goldCost": 100,
+      "requiredMaterials": [
+        {
+          "materialID": "iron_ingot",
+          "quantity": 5
+        }
+      ],
+      "iconPath": "Amor_Pic/bow_t2"
+    },
+    {
+      "recipeID": "r_orb_t2",
+      "resultItemID": "orb_t2",
+      "requiredItemIDs": [
+        "glass_orb"
+      ],
+      "minWeaponCount": 1,
+      "goldCost": 100,
+      "requiredMaterials": [
+        {
+          "materialID": "iron_ingot",
+          "quantity": 5
+        }
+      ],
+      "iconPath": "Amor_Pic/orb_t2"
+    },
+    {
+      "recipeID": "r_greatsaxe_t2",
+      "resultItemID": "greatsaxe_t2",
+      "requiredItemIDs": [
+        "chipped_greatsaxe"
+      ],
+      "minWeaponCount": 1,
+      "goldCost": 100,
+      "requiredMaterials": [
+        {
+          "materialID": "iron_ingot",
+          "quantity": 5
+        }
+      ],
+      "iconPath": "Amor_Pic/greatsaxe_t2"
+    },
+    {
+      "recipeID": "r_greatsword_t3",
+      "resultItemID": "greatsword_t3",
+      "requiredItemIDs": [
+        "greatsword_t2"
+      ],
+      "minWeaponCount": 1,
+      "goldCost": 500,
+      "requiredMaterials": [
+        {
+          "materialID": "steel_ingot",
+          "quantity": 10
+        }
+      ],
+      "iconPath": "Amor_Pic/greatsword_t3"
+    },
+    {
+      "recipeID": "r_katana_t3",
+      "resultItemID": "katana_t3",
+      "requiredItemIDs": [
+        "katana_t2"
+      ],
+      "minWeaponCount": 1,
+      "goldCost": 500,
+      "requiredMaterials": [
+        {
+          "materialID": "steel_ingot",
+          "quantity": 10
+        }
+      ],
+      "iconPath": "Amor_Pic/katana_t3"
+    },
+    {
+      "recipeID": "r_dualblades_t3",
+      "resultItemID": "dualblades_t3",
+      "requiredItemIDs": [
+        "dualblades_t2"
+      ],
+      "minWeaponCount": 1,
+      "goldCost": 500,
+      "requiredMaterials": [
+        {
+          "materialID": "steel_ingot",
+          "quantity": 10
+        }
+      ],
+      "iconPath": "Amor_Pic/dualblades_t3"
+    },
+    {
+      "recipeID": "r_warhammer_t3",
+      "resultItemID": "warhammer_t3",
+      "requiredItemIDs": [
+        "warhammer_t2"
+      ],
+      "minWeaponCount": 1,
+      "goldCost": 500,
+      "requiredMaterials": [
+        {
+          "materialID": "steel_ingot",
+          "quantity": 10
+        }
+      ],
+      "iconPath": "Amor_Pic/warhammer_t3"
+    },
+    {
+      "recipeID": "r_staff_t3",
+      "resultItemID": "staff_t3",
+      "requiredItemIDs": [
+        "staff_t2"
+      ],
+      "minWeaponCount": 1,
+      "goldCost": 500,
+      "requiredMaterials": [
+        {
+          "materialID": "steel_ingot",
+          "quantity": 10
+        }
+      ],
+      "iconPath": "Amor_Pic/staff_t3"
+    },
+    {
+      "recipeID": "r_spear_t3",
+      "resultItemID": "spear_t3",
+      "requiredItemIDs": [
+        "spear_t2"
+      ],
+      "minWeaponCount": 1,
+      "goldCost": 500,
+      "requiredMaterials": [
+        {
+          "materialID": "steel_ingot",
+          "quantity": 10
+        }
+      ],
+      "iconPath": "Amor_Pic/spear_t3"
+    },
+    {
+      "recipeID": "r_bow_t3",
+      "resultItemID": "bow_t3",
+      "requiredItemIDs": [
+        "bow_t2"
+      ],
+      "minWeaponCount": 1,
+      "goldCost": 500,
+      "requiredMaterials": [
+        {
+          "materialID": "steel_ingot",
+          "quantity": 10
+        }
+      ],
+      "iconPath": "Amor_Pic/bow_t3"
+    },
+    {
+      "recipeID": "r_orb_t3",
+      "resultItemID": "orb_t3",
+      "requiredItemIDs": [
+        "orb_t2"
+      ],
+      "minWeaponCount": 1,
+      "goldCost": 500,
+      "requiredMaterials": [
+        {
+          "materialID": "steel_ingot",
+          "quantity": 10
+        }
+      ],
+      "iconPath": "Amor_Pic/orb_t3"
+    },
+    {
+      "recipeID": "r_greatsaxe_t3",
+      "resultItemID": "greatsaxe_t3",
+      "requiredItemIDs": [
+        "greatsaxe_t2"
+      ],
+      "minWeaponCount": 1,
+      "goldCost": 500,
+      "requiredMaterials": [
+        {
+          "materialID": "steel_ingot",
+          "quantity": 10
+        }
+      ],
+      "iconPath": "Amor_Pic/greatsaxe_t3"
+    }
   ]
 }

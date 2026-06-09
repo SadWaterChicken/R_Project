@@ -30,6 +30,9 @@ public class Inventory : MonoBehaviour
     {
         if (item == null) return;
 
+        // Ensure icon path is always correct
+        item.iconPath = "Amor_Pic/" + item.itemID;
+
         // Weapons should not stack so they can have individual mastery/forge levels
         bool canStack = string.IsNullOrEmpty(item.weaponClassName);
 
@@ -136,6 +139,13 @@ public class Inventory : MonoBehaviour
             if (data != null && data.items != null)
             {
                 ownedItems = data.items;
+                
+                // Ensure all loaded items have the correct icon path
+                foreach (var item in ownedItems)
+                {
+                    item.iconPath = "Amor_Pic/" + item.itemID;
+                }
+                
                 Debug.Log("[Inventory] Loaded from: " + path);
             }
         }

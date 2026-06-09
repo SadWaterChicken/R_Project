@@ -87,7 +87,11 @@ public class ShopUI : MonoBehaviour
         selectedItem = item;
 
         if (detailPanel != null) detailPanel.SetActive(true);
-        if (detailIcon != null) detailIcon.sprite = string.IsNullOrEmpty(item.iconPath) ? null : Resources.Load<Sprite>(item.iconPath);
+        if (detailIcon != null) 
+        {
+            detailIcon.sprite = string.IsNullOrEmpty(item.iconPath) ? null : Resources.Load<Sprite>(item.iconPath);
+            detailIcon.color = detailIcon.sprite == null ? new Color(1, 1, 1, 0) : Color.white;
+        }
         if (detailName != null) detailName.text = item.itemName;
         if (detailDesc != null) detailDesc.text = item.description;
         if (detailPrice != null) detailPrice.text = $"Price: {item.price}";

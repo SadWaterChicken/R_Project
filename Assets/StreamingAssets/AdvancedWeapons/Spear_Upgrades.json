@@ -1,6 +1,45 @@
 {
-  "advancedWeapons": [
-    { "itemID": "spear_t2", "itemName": "Iron Pike", "description": "A long iron pike.", "price": 45, "iconPath": "Amor_Pic/iron_pike", "stack": 1, "equippable": true, "equipmentType": 1, "weaponClassName": "Spear", "modifiers": [ { "stat": "physical damage", "value": 30, "percent": false } ] },
-    { "itemID": "spear_t3", "itemName": "Valkyrie Spear", "description": "A legendary spear.", "price": 140, "iconPath": "Amor_Pic/valkyrie_spear", "stack": 1, "equippable": true, "equipmentType": 1, "weaponClassName": "Spear", "modifiers": [ { "stat": "physical damage", "value": 75, "percent": false }, { "stat": "attack speed", "value": 1.2, "percent": false } ] }
-  ]
+    "advancedWeapons":  [
+                            {
+                                "itemID":  "spear_t2",
+                                "itemName":  "Iron Pike",
+                                "description":  "A long iron pike.",
+                                "price":  45,
+                                "iconPath":  "Amor_Pic/spear_t2",
+                                "stack":  1,
+                                "equippable":  true,
+                                "equipmentType":  1,
+                                "weaponClassName":  "Spear",
+                                "modifiers":  [
+                                                  {
+                                                      "stat":  "physical damage",
+                                                      "value":  30,
+                                                      "percent":  false
+                                                  }
+                                              ]
+                            },
+                            {
+                                "itemID":  "spear_t3",
+                                "itemName":  "Valkyrie Spear",
+                                "description":  "A legendary spear.",
+                                "price":  140,
+                                "iconPath":  "Amor_Pic/spear_t3",
+                                "stack":  1,
+                                "equippable":  true,
+                                "equipmentType":  1,
+                                "weaponClassName":  "Spear",
+                                "modifiers":  [
+                                                  {
+                                                      "stat":  "physical damage",
+                                                      "value":  75,
+                                                      "percent":  false
+                                                  },
+                                                  {
+                                                      "stat":  "attack speed",
+                                                      "value":  1.2,
+                                                      "percent":  false
+                                                  }
+                                              ]
+                            }
+                        ]
 }

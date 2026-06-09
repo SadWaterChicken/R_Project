@@ -1,14 +1,55 @@
 {
-  "advancedWeapons": [
-    {
-      "itemID": "warhammer_t2", "itemName": "Steel Warhammer", "description": "A heavy hammer that crushes bones with ease.",
-      "price": 55, "iconPath": "Amor_Pic/steel_warhammer", "stack": 1, "equippable": true, "equipmentType": 1, "weaponClassName": "Warhammer",
-      "modifiers": [ { "stat": "physical damage", "value": 45, "percent": false }, { "stat": "stun chance", "value": 10, "percent": false } ]
-    },
-    {
-      "itemID": "warhammer_t3", "itemName": "Earthshatter Hammer", "description": "A legendary hammer that causes earthquakes on impact.",
-      "price": 170, "iconPath": "Amor_Pic/earthshatter_hammer", "stack": 1, "equippable": true, "equipmentType": 1, "weaponClassName": "Warhammer",
-      "modifiers": [ { "stat": "physical damage", "value": 110, "percent": false }, { "stat": "stun chance", "value": 25, "percent": false }, { "stat": "armor penetration", "value": 30, "percent": false } ]
-    }
-  ]
+    "advancedWeapons":  [
+                            {
+                                "itemID":  "warhammer_t2",
+                                "itemName":  "Steel Warhammer",
+                                "description":  "A heavy hammer that crushes bones with ease.",
+                                "price":  55,
+                                "iconPath":  "Amor_Pic/warhammer_t2",
+                                "stack":  1,
+                                "equippable":  true,
+                                "equipmentType":  1,
+                                "weaponClassName":  "Warhammer",
+                                "modifiers":  [
+                                                  {
+                                                      "stat":  "physical damage",
+                                                      "value":  45,
+                                                      "percent":  false
+                                                  },
+                                                  {
+                                                      "stat":  "stun chance",
+                                                      "value":  10,
+                                                      "percent":  false
+                                                  }
+                                              ]
+                            },
+                            {
+                                "itemID":  "warhammer_t3",
+                                "itemName":  "Earthshatter Hammer",
+                                "description":  "A legendary hammer that causes earthquakes on impact.",
+                                "price":  170,
+                                "iconPath":  "Amor_Pic/warhammer_t3",
+                                "stack":  1,
+                                "equippable":  true,
+                                "equipmentType":  1,
+                                "weaponClassName":  "Warhammer",
+                                "modifiers":  [
+                                                  {
+                                                      "stat":  "physical damage",
+                                                      "value":  110,
+                                                      "percent":  false
+                                                  },
+                                                  {
+                                                      "stat":  "stun chance",
+                                                      "value":  25,
+                                                      "percent":  false
+                                                  },
+                                                  {
+                                                      "stat":  "armor penetration",
+                                                      "value":  30,
+                                                      "percent":  false
+                                                  }
+                                              ]
+                            }
+                        ]
 }

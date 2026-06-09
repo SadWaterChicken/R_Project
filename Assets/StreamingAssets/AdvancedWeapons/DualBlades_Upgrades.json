@@ -1,14 +1,55 @@
 {
-  "advancedWeapons": [
-    {
-      "itemID": "dualblades_t2", "itemName": "Rogue Daggers", "description": "Twin blades preferred by assassins.",
-      "price": 35, "iconPath": "Amor_Pic/rogue_daggers", "stack": 1, "equippable": true, "equipmentType": 1, "weaponClassName": "DualBlades",
-      "modifiers": [ { "stat": "physical damage", "value": 18, "percent": false }, { "stat": "critical chance", "value": 10, "percent": false } ]
-    },
-    {
-      "itemID": "dualblades_t3", "itemName": "Phantom Blades", "description": "Blades so fast they appear as phantoms.",
-      "price": 140, "iconPath": "Amor_Pic/phantom_blades", "stack": 1, "equippable": true, "equipmentType": 1, "weaponClassName": "DualBlades",
-      "modifiers": [ { "stat": "physical damage", "value": 50, "percent": false }, { "stat": "critical chance", "value": 30, "percent": false }, { "stat": "movement speed", "value": 20, "percent": false } ]
-    }
-  ]
+    "advancedWeapons":  [
+                            {
+                                "itemID":  "dualblades_t2",
+                                "itemName":  "Rogue Daggers",
+                                "description":  "Twin blades preferred by assassins.",
+                                "price":  35,
+                                "iconPath":  "Amor_Pic/dualblades_t2",
+                                "stack":  1,
+                                "equippable":  true,
+                                "equipmentType":  1,
+                                "weaponClassName":  "DualBlades",
+                                "modifiers":  [
+                                                  {
+                                                      "stat":  "physical damage",
+                                                      "value":  18,
+                                                      "percent":  false
+                                                  },
+                                                  {
+                                                      "stat":  "critical chance",
+                                                      "value":  10,
+                                                      "percent":  false
+                                                  }
+                                              ]
+                            },
+                            {
+                                "itemID":  "dualblades_t3",
+                                "itemName":  "Phantom Blades",
+                                "description":  "Blades so fast they appear as phantoms.",
+                                "price":  140,
+                                "iconPath":  "Amor_Pic/dualblades_t3",
+                                "stack":  1,
+                                "equippable":  true,
+                                "equipmentType":  1,
+                                "weaponClassName":  "DualBlades",
+                                "modifiers":  [
+                                                  {
+                                                      "stat":  "physical damage",
+                                                      "value":  50,
+                                                      "percent":  false
+                                                  },
+                                                  {
+                                                      "stat":  "critical chance",
+                                                      "value":  30,
+                                                      "percent":  false
+                                                  },
+                                                  {
+                                                      "stat":  "movement speed",
+                                                      "value":  20,
+                                                      "percent":  false
+                                                  }
+                                              ]
+                            }
+                        ]
 }

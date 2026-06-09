@@ -1,14 +1,55 @@
 {
-  "advancedWeapons": [
-    {
-      "itemID": "katana_t2", "itemName": "Steel Katana", "description": "A sharp, well-balanced blade for swift strikes.",
-      "price": 40, "iconPath": "Amor_Pic/steel_katana", "stack": 1, "equippable": true, "equipmentType": 1, "weaponClassName": "Katana",
-      "modifiers": [ { "stat": "physical damage", "value": 25, "percent": false }, { "stat": "attack speed", "value": 1.5, "percent": false } ]
-    },
-    {
-      "itemID": "katana_t3", "itemName": "Dragonbane Katana", "description": "A legendary katana that can slice through dragon scales.",
-      "price": 160, "iconPath": "Amor_Pic/dragonbane_katana", "stack": 1, "equippable": true, "equipmentType": 1, "weaponClassName": "Katana",
-      "modifiers": [ { "stat": "physical damage", "value": 65, "percent": false }, { "stat": "attack speed", "value": 2.0, "percent": false }, { "stat": "critical chance", "value": 25, "percent": false } ]
-    }
-  ]
+    "advancedWeapons":  [
+                            {
+                                "itemID":  "katana_t2",
+                                "itemName":  "Steel Katana",
+                                "description":  "A sharp, well-balanced blade for swift strikes.",
+                                "price":  40,
+                                "iconPath":  "Amor_Pic/katana_t2",
+                                "stack":  1,
+                                "equippable":  true,
+                                "equipmentType":  1,
+                                "weaponClassName":  "Katana",
+                                "modifiers":  [
+                                                  {
+                                                      "stat":  "physical damage",
+                                                      "value":  25,
+                                                      "percent":  false
+                                                  },
+                                                  {
+                                                      "stat":  "attack speed",
+                                                      "value":  1.5,
+                                                      "percent":  false
+                                                  }
+                                              ]
+                            },
+                            {
+                                "itemID":  "katana_t3",
+                                "itemName":  "Dragonbane Katana",
+                                "description":  "A legendary katana that can slice through dragon scales.",
+                                "price":  160,
+                                "iconPath":  "Amor_Pic/katana_t3",
+                                "stack":  1,
+                                "equippable":  true,
+                                "equipmentType":  1,
+                                "weaponClassName":  "Katana",
+                                "modifiers":  [
+                                                  {
+                                                      "stat":  "physical damage",
+                                                      "value":  65,
+                                                      "percent":  false
+                                                  },
+                                                  {
+                                                      "stat":  "attack speed",
+                                                      "value":  2.0,
+                                                      "percent":  false
+                                                  },
+                                                  {
+                                                      "stat":  "critical chance",
+                                                      "value":  25,
+                                                      "percent":  false
+                                                  }
+                                              ]
+                            }
+                        ]
 }
