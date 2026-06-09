@@ -32,7 +32,26 @@ public class FixForgeUI : EditorWindow
         ui.npcNameText = FindChild(prefab.transform, "Text_Title")?.GetComponent<TMP_Text>();
         ui.closeButton = FindChild(prefab.transform, "Button_Close")?.GetComponent<Button>();
 
-        ui.weaponListParent = FindChild(prefab.transform, "Content");
+        Transform wList = FindChild(prefab.transform, "Panel_WeaponList"); ui.weaponListParent = FindChild(wList != null ? wList : prefab.transform, "Content");
+        
+        // Add VerticalLayoutGroup and ContentSizeFitter if missing
+        if (ui.weaponListParent != null) {
+            var vlg = ui.weaponListParent.gameObject.GetComponent<VerticalLayoutGroup>();
+            if (vlg == null) {
+                vlg = ui.weaponListParent.gameObject.AddComponent<VerticalLayoutGroup>();
+                vlg.childControlHeight = false;
+                vlg.childControlWidth = false;
+                vlg.childForceExpandHeight = false;
+                vlg.childForceExpandWidth = false;
+                vlg.spacing = 10;
+                vlg.padding = new RectOffset(10, 10, 10, 10);
+            }
+            var csf = ui.weaponListParent.gameObject.GetComponent<ContentSizeFitter>();
+            if (csf == null) {
+                csf = ui.weaponListParent.gameObject.AddComponent<ContentSizeFitter>();
+                csf.verticalFit = ContentSizeFitter.FitMode.MinSize;
+            }
+        }
         
         // Load prefabs
         ui.weaponSlotPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefab/UI/WeaponSlot.prefab");
@@ -65,8 +84,22 @@ public class FixForgeUI : EditorWindow
         ui.weaponsNeededText = FindChild(prefab.transform, "Text_WeaponsNeeded")?.GetComponent<TMP_Text>();
         ui.forgeButton = FindChild(prefab.transform, "Button_Forge")?.GetComponent<Button>();
 
-        UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(prefab.scene); EditorUtility.SetDirty(ui);
+        UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(prefab.scene); Debug.Log("weaponListParent is: " + ui.weaponListParent.name + ", parent: " + ui.weaponListParent.parent.name); EditorUtility.SetDirty(ui);
         AssetDatabase.SaveAssets();
+
+        // Also fix WeaponSlot prefab
+        GameObject weaponSlotPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefab/UI/WeaponSlot.prefab");
+        if (weaponSlotPrefab != null) {
+            WeaponSlotUI slotUI = weaponSlotPrefab.GetComponent<WeaponSlotUI>();
+            if (slotUI != null) {
+                slotUI.weaponNameText = weaponSlotPrefab.GetComponentInChildren<TMP_Text>();
+                slotUI.weaponIcon = FindChild(weaponSlotPrefab.transform, "Image_Icon")?.GetComponent<Image>();
+                slotUI.selectButton = weaponSlotPrefab.GetComponent<Button>();
+                if (slotUI.selectButton == null) slotUI.selectButton = weaponSlotPrefab.GetComponentInChildren<Button>();
+                EditorUtility.SetDirty(weaponSlotPrefab);
+                Debug.Log("Fixed WeaponSlot.prefab references!");
+            }
+        }
 
         
         // Also fix ForgingSystem missing

@@ -42,6 +42,12 @@ public class ForgeUI : MonoBehaviour
     public Transform recipeBookContentParent;
     public GameObject recipeBookSlotPrefab;
 
+    [Header("Advanced Weapons Preview")]
+    public GameObject advancedWeaponsPanel;
+    public Transform advancedWeaponsContentParent;
+    public Button closeAdvancedWeaponsButton;
+    private List<GameObject> spawnedAdvancedWeaponSlots = new List<GameObject>();
+
     [Header("Stats Display")]
     public TMP_Text statsText;
 
@@ -61,6 +67,7 @@ public class ForgeUI : MonoBehaviour
     {
         forgePanel.SetActive(false);
         if (detailPanel != null) detailPanel.SetActive(false);
+        if (advancedWeaponsPanel != null) advancedWeaponsPanel.SetActive(false);
     }
 
     private void OnEnable()
@@ -92,6 +99,7 @@ public class ForgeUI : MonoBehaviour
         if (resultPreviewGroup != null) resultPreviewGroup.SetActive(false);
         if (detailPanel != null) detailPanel.SetActive(false);
         if (recipeBookPanel != null) recipeBookPanel.SetActive(false);
+        if (advancedWeaponsPanel != null) advancedWeaponsPanel.SetActive(false);
 
         if (closeButton != null)
         {
@@ -115,6 +123,22 @@ public class ForgeUI : MonoBehaviour
         {
             closeRecipeBookButton.onClick.RemoveAllListeners();
             closeRecipeBookButton.onClick.AddListener(() => { if (recipeBookPanel != null) recipeBookPanel.SetActive(false); });
+        }
+
+        if (closeAdvancedWeaponsButton != null)
+        {
+            closeAdvancedWeaponsButton.onClick.RemoveAllListeners();
+            closeAdvancedWeaponsButton.onClick.AddListener(() => { if (advancedWeaponsPanel != null) advancedWeaponsPanel.SetActive(false); });
+        }
+
+        if (resultWeaponIcon != null)
+        {
+            Button btn = resultWeaponIcon.GetComponent<Button>();
+            if (btn == null) btn = resultWeaponIcon.gameObject.AddComponent<Button>();
+            btn.onClick.RemoveAllListeners();
+            btn.onClick.AddListener(() => {
+                if (selectedWeapon != null) ShowAdvancedWeapons(selectedWeapon);
+            });
         }
 
         forgePanel.SetActive(true);
@@ -423,6 +447,7 @@ public class ForgeUI : MonoBehaviour
         forgePanel.SetActive(false);
         detailPanel.SetActive(false);
         if (recipeBookPanel != null) recipeBookPanel.SetActive(false);
+        if (advancedWeaponsPanel != null) advancedWeaponsPanel.SetActive(false);
     }
 
     private List<GameObject> spawnedRecipeSlots = new List<GameObject>();
@@ -468,6 +493,68 @@ public class ForgeUI : MonoBehaviour
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// Open the Advanced Weapons popup and show weapons of the same class
+    /// </summary>
+    public void ShowAdvancedWeapons(ItemData baseWeapon)
+    {
+        if (advancedWeaponsPanel == null || advancedWeaponsContentParent == null || weaponSlotPrefab == null)
+        {
+            Debug.LogWarning("[ForgeUI] Advanced Weapons Panel or Prefab is not assigned.");
+            return;
+        }
+
+        advancedWeaponsPanel.SetActive(true);
+        advancedWeaponsPanel.transform.SetAsLastSibling();
+
+        // Clear old slots
+        foreach (var slot in spawnedAdvancedWeaponSlots) Destroy(slot);
+        spawnedAdvancedWeaponSlots.Clear();
+
+        var forgeManager = ForgeManager.Instance;
+        if (forgeManager == null) return;
+
+        // Filter advanced weapons by class
+        var classWeapons = forgeManager.LoadAdvancedWeaponsForClass(baseWeapon.weaponClassName)
+            .Where(w => w.equipmentType == baseWeapon.equipmentType)
+            .ToList();
+
+        foreach (var weapon in classWeapons)
+        {
+            GameObject slot = Instantiate(weaponSlotPrefab, advancedWeaponsContentParent);
+            spawnedAdvancedWeaponSlots.Add(slot);
+
+            var slotUI = slot.GetComponent<WeaponSlotUI>();
+            if (slotUI != null)
+            {
+                // We use WeaponSlotUI to display it, and clicking it can show its details!
+                // Since it's a preview, we might just show its stats in the detail panel
+                slotUI.SetWeapon(weapon, () => {
+                    PreviewAdvancedWeapon(weapon);
+                });
+            }
+        }
+    }
+
+    /// <summary>
+    /// Preview an advanced weapon in the result slot and compare stats
+    /// </summary>
+    private void PreviewAdvancedWeapon(ItemData advancedWeapon)
+    {
+        if (selectedWeapon == null) return;
+
+        // Update the result preview group to show this advanced weapon
+        if (resultPreviewGroup != null) resultPreviewGroup.SetActive(true);
+        if (resultWeaponIcon != null) resultWeaponIcon.sprite = string.IsNullOrEmpty(advancedWeapon.iconPath) ? null : Resources.Load<Sprite>(advancedWeapon.iconPath);
+        if (resultWeaponNameText != null) resultWeaponNameText.text = advancedWeapon.itemName;
+
+        // Compare stats between base weapon and selected advanced weapon
+        UpdateStatsDisplay(selectedWeapon, advancedWeapon);
+        
+        // Close the popup after selecting
+        if (advancedWeaponsPanel != null) advancedWeaponsPanel.SetActive(false);
     }
 }
 

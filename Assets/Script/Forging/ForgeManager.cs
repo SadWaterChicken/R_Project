@@ -31,9 +31,44 @@ public class ForgeManager : MonoBehaviour
     private void Awake()
     {
         if (Instance == null)
+        {
             Instance = this;
+        }
         else
             Destroy(gameObject);
+    }
+
+    /// <summary>
+    /// Load advanced weapons dynamically from StreamingAssets for a specific weapon class.
+    /// </summary>
+    public List<ItemData> LoadAdvancedWeaponsForClass(string className)
+    {
+        if (string.IsNullOrEmpty(className)) return new List<ItemData>();
+
+        string path = System.IO.Path.Combine(Application.streamingAssetsPath, "AdvancedWeapons", $"{className}_Upgrades.json");
+        if (System.IO.File.Exists(path))
+        {
+            try
+            {
+                string json = System.IO.File.ReadAllText(path);
+                var wrapper = JsonUtility.FromJson<AdvancedWeaponWrapper>(json);
+                if (wrapper != null)
+                {
+                    Debug.Log($"[ForgeManager] Loaded {wrapper.advancedWeapons.Count} advanced weapons for class {className}.");
+                    return wrapper.advancedWeapons;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"[ForgeManager] Failed to load {className}_Upgrades.json: {e.Message}");
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"[ForgeManager] No advanced weapon data found at path: {path}");
+        }
+
+        return new List<ItemData>();
     }
 
     /// <summary>
@@ -229,4 +264,10 @@ public class ForgeManager : MonoBehaviour
 
     public float GetMaxMastery() => maxMastery;
     public int GetMaxForgeLevel() => maxForgeLevel;
+}
+
+[Serializable]
+public class AdvancedWeaponWrapper
+{
+    public List<ItemData> advancedWeapons = new List<ItemData>();
 }
