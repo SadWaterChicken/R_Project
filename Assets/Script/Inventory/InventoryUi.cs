@@ -18,14 +18,13 @@ public class InventoryUI : MonoBehaviour
     public TMP_Text detailStats;
     public Button useButton;
     public Button closeDetailButton;
+    public float toggleDebounce = 0.15f;
 
     private List<GameObject> spawned = new List<GameObject>();
     private bool visible = false;
-
-    // Guard: prevent multiple toggles in the same frame and debounce rapid presses
+    private ItemData _lastSelectedItem;
+    private float _nextToggleAllowedTime;
     private static int s_lastToggleFrame = -1;
-    [SerializeField] private float toggleDebounce = 0.15f; // seconds, unscaled
-    private float _nextToggleAllowedTime = 0f;
 
     private void Awake()
     {
@@ -100,11 +99,27 @@ public class InventoryUI : MonoBehaviour
 
             Debug.LogWarning("[InventoryUI] itemSlotPrefab has neither ShopItemSlotUI nor ItemSlotUI.", slotGO);
         }
+
+        // Auto-select first item or remember last selected
+        if (items.Count > 0)
+        {
+            ItemData itemToSelect = items[0];
+            if (detailPanel != null && detailPanel.activeSelf && _lastSelectedItem != null && items.Contains(_lastSelectedItem))
+            {
+                itemToSelect = _lastSelectedItem;
+            }
+            ShowDetail(itemToSelect);
+        }
+        else
+        {
+            if (detailPanel != null) detailPanel.SetActive(false);
+        }
     }
 
     public void ShowDetail(ItemData item)
     {
         if (item == null) return;
+        _lastSelectedItem = item;
 
         if (detailPanel != null) detailPanel.SetActive(true);
         if (detailIcon != null) 

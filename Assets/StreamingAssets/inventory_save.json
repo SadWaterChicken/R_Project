@@ -105,11 +105,32 @@
         {
             "itemID": "stone_warhammer",
             "itemName": "Stone Warhammer",
-            "description": "",
+            "description": "A crude hammer made of stone.",
             "price": 0,
             "iconPath": "Amor_Pic/stone_warhammer",
             "stack": 1,
-            "modifiers": [],
+            "modifiers": [
+                {
+                    "percent": false,
+                    "value": 18,
+                    "stat": "physical damage"
+                },
+                {
+                    "percent": false,
+                    "value": 5,
+                    "stat": "physical armour"
+                },
+                {
+                    "percent": false,
+                    "value": -1,
+                    "stat": "movement speed"
+                },
+                {
+                    "percent": true,
+                    "value": -0.3,
+                    "stat": "attack speed"
+                }
+            ],
             "equippable": true,
             "equipped": false,
             "equipmentType": 1,
@@ -122,11 +143,27 @@
         {
             "itemID": "novice_staff",
             "itemName": "Novice Staff",
-            "description": "",
+            "description": "A simple wooden staff for beginners.",
             "price": 0,
             "iconPath": "Amor_Pic/novice_staff",
             "stack": 1,
-            "modifiers": [],
+            "modifiers": [
+                {
+                    "percent": false,
+                    "value": 15,
+                    "stat": "magic damage"
+                },
+                {
+                    "percent": false,
+                    "value": 20,
+                    "stat": "max mana"
+                },
+                {
+                    "percent": false,
+                    "value": -2,
+                    "stat": "physical armour"
+                }
+            ],
             "equippable": true,
             "equipped": false,
             "equipmentType": 1,
@@ -139,11 +176,27 @@
         {
             "itemID": "wooden_spear",
             "itemName": "Wooden Spear",
-            "description": "",
+            "description": "A simple sharpened stick.",
             "price": 0,
             "iconPath": "Amor_Pic/wooden_spear",
             "stack": 1,
-            "modifiers": [],
+            "modifiers": [
+                {
+                    "percent": false,
+                    "value": 10,
+                    "stat": "physical damage"
+                },
+                {
+                    "percent": false,
+                    "value": 0.5,
+                    "stat": "movement speed"
+                },
+                {
+                    "percent": false,
+                    "value": 2,
+                    "stat": "physical armour"
+                }
+            ],
             "equippable": true,
             "equipped": false,
             "equipmentType": 1,
@@ -156,11 +209,27 @@
         {
             "itemID": "hunting_bow",
             "itemName": "Hunting Bow",
-            "description": "",
+            "description": "A basic bow for hunting small game.",
             "price": 0,
             "iconPath": "Amor_Pic/hunting_bow",
             "stack": 1,
-            "modifiers": [],
+            "modifiers": [
+                {
+                    "percent": false,
+                    "value": 12,
+                    "stat": "physical damage"
+                },
+                {
+                    "percent": true,
+                    "value": 15,
+                    "stat": "crit chance"
+                },
+                {
+                    "percent": false,
+                    "value": -5,
+                    "stat": "max health"
+                }
+            ],
             "equippable": true,
             "equipped": false,
             "equipmentType": 1,
@@ -173,11 +242,27 @@
         {
             "itemID": "glass_orb",
             "itemName": "Glass Orb",
-            "description": "",
+            "description": "A fragile orb holding weak magic.",
             "price": 0,
             "iconPath": "Amor_Pic/glass_orb",
             "stack": 1,
-            "modifiers": [],
+            "modifiers": [
+                {
+                    "percent": false,
+                    "value": 12,
+                    "stat": "magic damage"
+                },
+                {
+                    "percent": false,
+                    "value": 5,
+                    "stat": "luck"
+                },
+                {
+                    "percent": false,
+                    "value": 10,
+                    "stat": "max shield"
+                }
+            ],
             "equippable": true,
             "equipped": false,
             "equipmentType": 1,
@@ -190,11 +275,27 @@
         {
             "itemID": "chipped_greatsaxe",
             "itemName": "Chipped Greatsaxe",
-            "description": "",
+            "description": "A heavy axe with a damaged blade.",
             "price": 0,
             "iconPath": "Amor_Pic/chipped_greatsaxe",
             "stack": 1,
-            "modifiers": [],
+            "modifiers": [
+                {
+                    "percent": false,
+                    "value": 20,
+                    "stat": "physical damage"
+                },
+                {
+                    "percent": false,
+                    "value": -10,
+                    "stat": "max health"
+                },
+                {
+                    "percent": true,
+                    "value": -0.2,
+                    "stat": "attack speed"
+                }
+            ],
             "equippable": true,
             "equipped": false,
             "equipmentType": 1,
@@ -213,9 +314,19 @@
             "stack": 1,
             "modifiers": [
                 {
-                    "stat": "physical damage",
-                    "value": 8.0,
-                    "percent": false
+                    "percent": false,
+                    "value": 8,
+                    "stat": "physical damage"
+                },
+                {
+                    "percent": true,
+                    "value": 0.3,
+                    "stat": "attack speed"
+                },
+                {
+                    "percent": false,
+                    "value": 1,
+                    "stat": "movement speed"
                 }
             ],
             "equippable": true,
@@ -236,9 +347,19 @@
             "stack": 1,
             "modifiers": [
                 {
-                    "stat": "physical damage",
-                    "value": 15.0,
-                    "percent": false
+                    "percent": false,
+                    "value": 15,
+                    "stat": "physical damage"
+                },
+                {
+                    "percent": true,
+                    "value": -0.2,
+                    "stat": "attack speed"
+                },
+                {
+                    "percent": false,
+                    "value": -0.5,
+                    "stat": "movement speed"
                 }
             ],
             "equippable": true,

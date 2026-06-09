@@ -1,302 +1,397 @@
 {
-  "shopName": "Emporium",
-  "items": [
-    {
-      "itemID": "wooden_greatsword",
-      "itemName": "Wooden Greatsword",
-      "description": "A heavy wooden practice sword.",
-      "price": 10,
-      "iconPath": "Amor_Pic/wooden_greatsword",
-      "stack": 1,
-      "equippable": true,
-      "equipmentType": 1,
-      "equipped": false,
-      "isForgeable": true,
-      "weaponClassName": "Greatsword",
-      "modifiers": [
-        {
-          "stat": "physical damage",
-          "value": 15,
-          "percent": false
-        }
-      ]
-    },
-    {
-      "itemID": "rusty_dualblades",
-      "itemName": "Rusty Dual Blades",
-      "description": "Old twin blades.",
-      "price": 10,
-      "iconPath": "Amor_Pic/rusty_dualblades",
-      "stack": 1,
-      "equippable": true,
-      "equipmentType": 1,
-      "equipped": false,
-      "isForgeable": true,
-      "weaponClassName": "DualBlades",
-      "modifiers": [
-        {
-          "stat": "physical damage",
-          "value": 8,
-          "percent": false
-        }
-      ]
-    },
-    {
-      "itemID": "bamboo_katana",
-      "itemName": "Bamboo Katana",
-      "description": "A lightweight bamboo sword.",
-      "price": 10,
-      "iconPath": "Amor_Pic/bamboo_katana",
-      "stack": 1,
-      "equippable": true,
-      "equipmentType": 1,
-      "equipped": false,
-      "isForgeable": true,
-      "weaponClassName": "Katana",
-      "modifiers": [
-        {
-          "stat": "physical damage",
-          "value": 12,
-          "percent": false
-        }
-      ]
-    },
-    {
-      "itemID": "stone_warhammer",
-      "itemName": "Stone Warhammer",
-      "description": "A crude hammer made of stone.",
-      "price": 10,
-      "iconPath": "Amor_Pic/stone_warhammer",
-      "stack": 1,
-      "equippable": true,
-      "equipmentType": 1,
-      "equipped": false,
-      "isForgeable": true,
-      "weaponClassName": "Warhammer",
-      "modifiers": [
-        {
-          "stat": "physical damage",
-          "value": 18,
-          "percent": false
-        }
-      ]
-    },
-    {
-      "itemID": "chipped_greatsaxe",
-      "itemName": "Chipped Greatsaxe",
-      "description": "A heavy axe with a damaged blade.",
-      "price": 10,
-      "iconPath": "Amor_Pic/chipped_greatsaxe",
-      "stack": 1,
-      "equippable": true,
-      "equipmentType": 1,
-      "equipped": false,
-      "isForgeable": true,
-      "weaponClassName": "Greatsaxe",
-      "modifiers": [
-        {
-          "stat": "physical damage",
-          "value": 20,
-          "percent": false
-        }
-      ]
-    },
-    {
-      "itemID": "wooden_spear",
-      "itemName": "Wooden Spear",
-      "description": "A simple sharpened stick.",
-      "price": 10,
-      "iconPath": "Amor_Pic/wooden_spear",
-      "stack": 1,
-      "equippable": true,
-      "equipmentType": 1,
-      "equipped": false,
-      "isForgeable": true,
-      "weaponClassName": "Spear",
-      "modifiers": [
-        {
-          "stat": "physical damage",
-          "value": 10,
-          "percent": false
-        }
-      ]
-    },
-    {
-      "itemID": "hunting_bow",
-      "itemName": "Hunting Bow",
-      "description": "A basic bow for hunting small game.",
-      "price": 10,
-      "iconPath": "Amor_Pic/hunting_bow",
-      "stack": 1,
-      "equippable": true,
-      "equipmentType": 1,
-      "equipped": false,
-      "isForgeable": true,
-      "weaponClassName": "Bow",
-      "modifiers": [
-        {
-          "stat": "physical damage",
-          "value": 12,
-          "percent": false
-        }
-      ]
-    },
-    {
-      "itemID": "novice_staff",
-      "itemName": "Novice Staff",
-      "description": "A simple wooden staff for beginners.",
-      "price": 10,
-      "iconPath": "Amor_Pic/novice_staff",
-      "stack": 1,
-      "equippable": true,
-      "equipmentType": 1,
-      "equipped": false,
-      "isForgeable": true,
-      "weaponClassName": "Staff",
-      "modifiers": [
-        {
-          "stat": "magic damage",
-          "value": 15,
-          "percent": false
-        }
-      ]
-    },
-    {
-      "itemID": "glass_orb",
-      "itemName": "Glass Orb",
-      "description": "A fragile orb holding weak magic.",
-      "price": 10,
-      "iconPath": "Amor_Pic/glass_orb",
-      "stack": 1,
-      "equippable": true,
-      "equipmentType": 1,
-      "equipped": false,
-      "isForgeable": true,
-      "weaponClassName": "Orb",
-      "modifiers": [
-        {
-          "stat": "magic damage",
-          "value": 12,
-          "percent": false
-        }
-      ]
-    },
-    {
-      "itemID": "fire_staff_magic",
-      "itemName": "Fire Staff",
-      "description": "A staff that channels raw magic power.",
-      "price": 120,
-      "iconPath": "Amor_Pic/firestaff",
-      "stack": 1,
-      "equippable": true,
-      "equipmentType": 1,
-      "equipped": false,
-      "isForgeable": true,
-      "weaponClassName": "Staff",
-      "modifiers": [
-        {
-          "stat": "magic damage",
-          "value": 75,
-          "percent": false
-        }
-      ]
-    },
-    {
-      "itemID": "iron_armor_defense",
-      "itemName": "Iron Armor",
-      "description": "Sturdy armor that increases physical defense.",
-      "price": 140,
-      "iconPath": "Amor_Pic/iron_armor",
-      "stack": 1,
-      "equippable": true,
-      "equipmentType": 1,
-      "equipped": false,
-      "isForgeable": false,
-      "modifiers": [
-        {
-          "stat": "physical armour",
-          "value": 50,
-          "percent": false
-        }
-      ]
-    },
-    {
-      "itemID": "battlesword_attack",
-      "itemName": "Battle Sword",
-      "description": "A heavy sword built for stronger attacks.",
-      "price": 150,
-      "iconPath": "Amor_Pic/battle_sword",
-      "stack": 1,
-      "equippable": true,
-      "equipmentType": 1,
-      "equipped": false,
-      "isForgeable": true,
-      "weaponClassName": "Greatsword",
-      "modifiers": [
-        {
-          "stat": "physical damage",
-          "value": 100,
-          "percent": false
-        }
-      ]
-    },
-    {
-      "itemID": "mystic_robe_magicdef",
-      "itemName": "Mystic Robe",
-      "description": "Robe that aids in resisting magical damage.",
-      "price": 115,
-      "iconPath": "Amor_Pic/mystic_robe",
-      "stack": 1,
-      "equippable": true,
-      "equipmentType": 1,
-      "equipped": false,
-      "isForgeable": false,
-      "modifiers": [
-        {
-          "stat": "physical armour",
-          "value": 25,
-          "percent": false
-        }
-      ]
-    },
-    {
-      "itemID": "assassin_dagger_critchance",
-      "itemName": "Assassin Dagger",
-      "description": "A dagger that increases chance to land critical hits.",
-      "price": 100,
-      "iconPath": "Amor_Pic/assassin_dagger",
-      "stack": 1,
-      "equippable": true,
-      "equipmentType": 1,
-      "equipped": false,
-      "isForgeable": true,
-      "weaponClassName": "DualBlades",
-      "modifiers": [
-        {
-          "stat": "crit chance",
-          "value": 15,
-          "percent": true
-        }
-      ]
-    },
-    {
-      "itemID": "death_band_critdamage",
-      "itemName": "Death Band",
-      "description": "An enchanted band that amplifies critical damage.",
-      "price": 125,
-      "iconPath": "Amor_Pic/death_band",
-      "stack": 1,
-      "equippable": true,
-      "equipmentType": 1,
-      "equipped": false,
-      "isForgeable": false,
-      "modifiers": [
-        {
-          "stat": "luck",
-          "value": 30,
-          "percent": true
-        }
-      ]
-    }
-  ]
+    "shopName":  "Emporium",
+    "items":  [
+                  {
+                      "itemID":  "wooden_greatsword",
+                      "itemName":  "Wooden Greatsword",
+                      "description":  "A heavy wooden practice sword.",
+                      "price":  10,
+                      "iconPath":  "Amor_Pic/wooden_greatsword",
+                      "stack":  1,
+                      "equippable":  true,
+                      "equipmentType":  1,
+                      "equipped":  false,
+                      "isForgeable":  true,
+                      "weaponClassName":  "Greatsword",
+                      "modifiers":  [
+                                        {
+                                            "percent":  false,
+                                            "value":  15,
+                                            "stat":  "physical damage"
+                                        },
+                                        {
+                                            "percent":  true,
+                                            "value":  -0.2,
+                                            "stat":  "attack speed"
+                                        },
+                                        {
+                                            "percent":  false,
+                                            "value":  -0.5,
+                                            "stat":  "movement speed"
+                                        }
+                                    ]
+                  },
+                  {
+                      "itemID":  "rusty_dualblades",
+                      "itemName":  "Rusty Dual Blades",
+                      "description":  "Old twin blades.",
+                      "price":  10,
+                      "iconPath":  "Amor_Pic/rusty_dualblades",
+                      "stack":  1,
+                      "equippable":  true,
+                      "equipmentType":  1,
+                      "equipped":  false,
+                      "isForgeable":  true,
+                      "weaponClassName":  "DualBlades",
+                      "modifiers":  [
+                                        {
+                                            "percent":  false,
+                                            "value":  8,
+                                            "stat":  "physical damage"
+                                        },
+                                        {
+                                            "percent":  true,
+                                            "value":  0.3,
+                                            "stat":  "attack speed"
+                                        },
+                                        {
+                                            "percent":  false,
+                                            "value":  1,
+                                            "stat":  "movement speed"
+                                        }
+                                    ]
+                  },
+                  {
+                      "itemID":  "bamboo_katana",
+                      "itemName":  "Bamboo Katana",
+                      "description":  "A lightweight bamboo sword.",
+                      "price":  10,
+                      "iconPath":  "Amor_Pic/bamboo_katana",
+                      "stack":  1,
+                      "equippable":  true,
+                      "equipmentType":  1,
+                      "equipped":  false,
+                      "isForgeable":  true,
+                      "weaponClassName":  "Katana",
+                      "modifiers":  [
+                                        {
+                                            "percent":  false,
+                                            "value":  12,
+                                            "stat":  "physical damage"
+                                        },
+                                        {
+                                            "percent":  true,
+                                            "value":  10,
+                                            "stat":  "crit chance"
+                                        },
+                                        {
+                                            "percent":  true,
+                                            "value":  0.1,
+                                            "stat":  "attack speed"
+                                        }
+                                    ]
+                  },
+                  {
+                      "itemID":  "stone_warhammer",
+                      "itemName":  "Stone Warhammer",
+                      "description":  "A crude hammer made of stone.",
+                      "price":  10,
+                      "iconPath":  "Amor_Pic/stone_warhammer",
+                      "stack":  1,
+                      "equippable":  true,
+                      "equipmentType":  1,
+                      "equipped":  false,
+                      "isForgeable":  true,
+                      "weaponClassName":  "Warhammer",
+                      "modifiers":  [
+                                        {
+                                            "percent":  false,
+                                            "value":  18,
+                                            "stat":  "physical damage"
+                                        },
+                                        {
+                                            "percent":  false,
+                                            "value":  5,
+                                            "stat":  "physical armour"
+                                        },
+                                        {
+                                            "percent":  false,
+                                            "value":  -1,
+                                            "stat":  "movement speed"
+                                        },
+                                        {
+                                            "percent":  true,
+                                            "value":  -0.3,
+                                            "stat":  "attack speed"
+                                        }
+                                    ]
+                  },
+                  {
+                      "itemID":  "chipped_greatsaxe",
+                      "itemName":  "Chipped Greatsaxe",
+                      "description":  "A heavy axe with a damaged blade.",
+                      "price":  10,
+                      "iconPath":  "Amor_Pic/chipped_greatsaxe",
+                      "stack":  1,
+                      "equippable":  true,
+                      "equipmentType":  1,
+                      "equipped":  false,
+                      "isForgeable":  true,
+                      "weaponClassName":  "Greatsaxe",
+                      "modifiers":  [
+                                        {
+                                            "percent":  false,
+                                            "value":  20,
+                                            "stat":  "physical damage"
+                                        },
+                                        {
+                                            "percent":  false,
+                                            "value":  -10,
+                                            "stat":  "max health"
+                                        },
+                                        {
+                                            "percent":  true,
+                                            "value":  -0.2,
+                                            "stat":  "attack speed"
+                                        }
+                                    ]
+                  },
+                  {
+                      "itemID":  "wooden_spear",
+                      "itemName":  "Wooden Spear",
+                      "description":  "A simple sharpened stick.",
+                      "price":  10,
+                      "iconPath":  "Amor_Pic/wooden_spear",
+                      "stack":  1,
+                      "equippable":  true,
+                      "equipmentType":  1,
+                      "equipped":  false,
+                      "isForgeable":  true,
+                      "weaponClassName":  "Spear",
+                      "modifiers":  [
+                                        {
+                                            "percent":  false,
+                                            "value":  10,
+                                            "stat":  "physical damage"
+                                        },
+                                        {
+                                            "percent":  false,
+                                            "value":  0.5,
+                                            "stat":  "movement speed"
+                                        },
+                                        {
+                                            "percent":  false,
+                                            "value":  2,
+                                            "stat":  "physical armour"
+                                        }
+                                    ]
+                  },
+                  {
+                      "itemID":  "hunting_bow",
+                      "itemName":  "Hunting Bow",
+                      "description":  "A basic bow for hunting small game.",
+                      "price":  10,
+                      "iconPath":  "Amor_Pic/hunting_bow",
+                      "stack":  1,
+                      "equippable":  true,
+                      "equipmentType":  1,
+                      "equipped":  false,
+                      "isForgeable":  true,
+                      "weaponClassName":  "Bow",
+                      "modifiers":  [
+                                        {
+                                            "percent":  false,
+                                            "value":  12,
+                                            "stat":  "physical damage"
+                                        },
+                                        {
+                                            "percent":  true,
+                                            "value":  15,
+                                            "stat":  "crit chance"
+                                        },
+                                        {
+                                            "percent":  false,
+                                            "value":  -5,
+                                            "stat":  "max health"
+                                        }
+                                    ]
+                  },
+                  {
+                      "itemID":  "novice_staff",
+                      "itemName":  "Novice Staff",
+                      "description":  "A simple wooden staff for beginners.",
+                      "price":  10,
+                      "iconPath":  "Amor_Pic/novice_staff",
+                      "stack":  1,
+                      "equippable":  true,
+                      "equipmentType":  1,
+                      "equipped":  false,
+                      "isForgeable":  true,
+                      "weaponClassName":  "Staff",
+                      "modifiers":  [
+                                        {
+                                            "percent":  false,
+                                            "value":  15,
+                                            "stat":  "magic damage"
+                                        },
+                                        {
+                                            "percent":  false,
+                                            "value":  20,
+                                            "stat":  "max mana"
+                                        },
+                                        {
+                                            "percent":  false,
+                                            "value":  -2,
+                                            "stat":  "physical armour"
+                                        }
+                                    ]
+                  },
+                  {
+                      "itemID":  "glass_orb",
+                      "itemName":  "Glass Orb",
+                      "description":  "A fragile orb holding weak magic.",
+                      "price":  10,
+                      "iconPath":  "Amor_Pic/glass_orb",
+                      "stack":  1,
+                      "equippable":  true,
+                      "equipmentType":  1,
+                      "equipped":  false,
+                      "isForgeable":  true,
+                      "weaponClassName":  "Orb",
+                      "modifiers":  [
+                                        {
+                                            "percent":  false,
+                                            "value":  12,
+                                            "stat":  "magic damage"
+                                        },
+                                        {
+                                            "percent":  false,
+                                            "value":  5,
+                                            "stat":  "luck"
+                                        },
+                                        {
+                                            "percent":  false,
+                                            "value":  10,
+                                            "stat":  "max shield"
+                                        }
+                                    ]
+                  },
+                  {
+                      "itemID":  "fire_staff_magic",
+                      "itemName":  "Fire Staff",
+                      "description":  "A staff that channels raw magic power.",
+                      "price":  120,
+                      "iconPath":  "Amor_Pic/fire_staff_magic",
+                      "stack":  1,
+                      "equippable":  true,
+                      "equipmentType":  1,
+                      "equipped":  false,
+                      "isForgeable":  true,
+                      "weaponClassName":  "Staff",
+                      "modifiers":  [
+                                        {
+                                            "stat":  "magic damage",
+                                            "value":  75,
+                                            "percent":  false
+                                        }
+                                    ]
+                  },
+                  {
+                      "itemID":  "iron_armor_defense",
+                      "itemName":  "Iron Armor",
+                      "description":  "Sturdy armor that increases physical defense.",
+                      "price":  140,
+                      "iconPath":  "Amor_Pic/iron_armor_defense",
+                      "stack":  1,
+                      "equippable":  true,
+                      "equipmentType":  1,
+                      "equipped":  false,
+                      "isForgeable":  false,
+                      "modifiers":  [
+                                        {
+                                            "stat":  "physical armour",
+                                            "value":  50,
+                                            "percent":  false
+                                        }
+                                    ]
+                  },
+                  {
+                      "itemID":  "battlesword_attack",
+                      "itemName":  "Battle Sword",
+                      "description":  "A heavy sword built for stronger attacks.",
+                      "price":  150,
+                      "iconPath":  "Amor_Pic/battlesword_attack",
+                      "stack":  1,
+                      "equippable":  true,
+                      "equipmentType":  1,
+                      "equipped":  false,
+                      "isForgeable":  true,
+                      "weaponClassName":  "Greatsword",
+                      "modifiers":  [
+                                        {
+                                            "stat":  "physical damage",
+                                            "value":  100,
+                                            "percent":  false
+                                        }
+                                    ]
+                  },
+                  {
+                      "itemID":  "mystic_robe_magicdef",
+                      "itemName":  "Mystic Robe",
+                      "description":  "Robe that aids in resisting magical damage.",
+                      "price":  115,
+                      "iconPath":  "Amor_Pic/mystic_robe_magicdef",
+                      "stack":  1,
+                      "equippable":  true,
+                      "equipmentType":  1,
+                      "equipped":  false,
+                      "isForgeable":  false,
+                      "modifiers":  [
+                                        {
+                                            "stat":  "physical armour",
+                                            "value":  25,
+                                            "percent":  false
+                                        }
+                                    ]
+                  },
+                  {
+                      "itemID":  "assassin_dagger_critchance",
+                      "itemName":  "Assassin Dagger",
+                      "description":  "A dagger that increases chance to land critical hits.",
+                      "price":  100,
+                      "iconPath":  "Amor_Pic/assassin_dagger_critchance",
+                      "stack":  1,
+                      "equippable":  true,
+                      "equipmentType":  1,
+                      "equipped":  false,
+                      "isForgeable":  true,
+                      "weaponClassName":  "DualBlades",
+                      "modifiers":  [
+                                        {
+                                            "stat":  "crit chance",
+                                            "value":  15,
+                                            "percent":  true
+                                        }
+                                    ]
+                  },
+                  {
+                      "itemID":  "death_band_critdamage",
+                      "itemName":  "Death Band",
+                      "description":  "An enchanted band that amplifies critical damage.",
+                      "price":  125,
+                      "iconPath":  "Amor_Pic/death_band_critdamage",
+                      "stack":  1,
+                      "equippable":  true,
+                      "equipmentType":  1,
+                      "equipped":  false,
+                      "isForgeable":  false,
+                      "modifiers":  [
+                                        {
+                                            "stat":  "luck",
+                                            "value":  30,
+                                            "percent":  true
+                                        }
+                                    ]
+                  }
+              ]
 }
