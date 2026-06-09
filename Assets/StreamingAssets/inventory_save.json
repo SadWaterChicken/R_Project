@@ -137,6 +137,29 @@
             "weaponMastery": 0.0,
             "baseItemID": "",
             "isForgeable": true
+        },
+        {
+            "itemID": "bamboo_katana",
+            "itemName": "Bamboo Katana",
+            "description": "A lightweight bamboo sword.",
+            "price": 10,
+            "iconPath": "Amor_Pic/bamboo_katana",
+            "stack": 1,
+            "modifiers": [
+                {
+                    "stat": "physical damage",
+                    "value": 12.0,
+                    "percent": false
+                }
+            ],
+            "equippable": true,
+            "equipped": true,
+            "equipmentType": 1,
+            "weaponClassName": "Katana",
+            "forgeLevel": 0,
+            "weaponMastery": 0.0,
+            "baseItemID": "",
+            "isForgeable": true
         }
     ]
 }
