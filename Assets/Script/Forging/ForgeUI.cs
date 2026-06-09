@@ -370,6 +370,17 @@ public class ForgeUI : MonoBehaviour
 
         bool canForge = true;
 
+        // Check if selected weapon is valid for this recipe
+        if (currentRecipe.requiredItemIDs == null || !currentRecipe.requiredItemIDs.Contains(selectedWeapon.itemID))
+        {
+            canForge = false;
+            if (weaponsNeededText != null)
+            {
+                weaponsNeededText.gameObject.SetActive(true);
+                weaponsNeededText.text = "Requires proper base weapon!";
+            }
+        }
+
         // Check materials
         if (!forgingSystem.HasMaterials(currentRecipe.requiredMaterials))
             canForge = false;
@@ -529,11 +540,17 @@ public class ForgeUI : MonoBehaviour
             var slotUI = slot.GetComponent<WeaponSlotUI>();
             if (slotUI != null)
             {
-                // We use WeaponSlotUI to display it, and clicking it can show its details!
-                // Since it's a preview, we might just show its stats in the detail panel
+                // Check if this advanced weapon can be forged from the base weapon
+                bool canBeForged = ForgingSystem.Instance?.recipes.Any(r => 
+                    r.requiredItemIDs != null && 
+                    r.requiredItemIDs.Contains(baseWeapon.itemID) && 
+                    r.resultItemID == weapon.itemID) ?? false;
+
                 slotUI.SetWeapon(weapon, () => {
                     PreviewAdvancedWeapon(weapon);
                 });
+
+                slotUI.SetInteractable(canBeForged);
             }
         }
     }
@@ -544,6 +561,12 @@ public class ForgeUI : MonoBehaviour
     private void PreviewAdvancedWeapon(ItemData advancedWeapon)
     {
         if (selectedWeapon == null) return;
+
+        // Find the recipe that produces this advanced weapon
+        currentRecipe = ForgingSystem.Instance?.recipes.FirstOrDefault(r => r.resultItemID == advancedWeapon.itemID);
+
+        // Refresh materials display
+        RefreshMaterialRequirements();
 
         // Update the result preview group to show this advanced weapon
         if (resultPreviewGroup != null) resultPreviewGroup.SetActive(true);

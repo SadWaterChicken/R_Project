@@ -254,12 +254,30 @@ public class ForgeManager : MonoBehaviour
     public ItemData GetWeaponTemplate(string itemID)
     {
         var template = weaponDatabase.FirstOrDefault(w => w != null && w.itemID == itemID);
-        if (template == null)
+        if (template != null) return template.Clone();
+
+        // Search in dynamically loaded Advanced Weapons
+        string dir = System.IO.Path.Combine(Application.streamingAssetsPath, "AdvancedWeapons");
+        if (System.IO.Directory.Exists(dir))
         {
-            Debug.LogWarning($"[ForgeManager] Weapon template '{itemID}' not found. Please add an ItemData with that itemID to the Weapon Database in the Inspector.");
-            return null;
+            foreach (var file in System.IO.Directory.GetFiles(dir, "*.json"))
+            {
+                try
+                {
+                    string json = System.IO.File.ReadAllText(file);
+                    var wrapper = JsonUtility.FromJson<AdvancedWeaponWrapper>(json);
+                    if (wrapper != null && wrapper.advancedWeapons != null)
+                    {
+                        var advTemplate = wrapper.advancedWeapons.FirstOrDefault(w => w.itemID == itemID);
+                        if (advTemplate != null) return advTemplate.Clone();
+                    }
+                }
+                catch { /* Ignore errors */ }
+            }
         }
-        return template.Clone(); // Deep copy so we don't modify the original template
+
+        Debug.LogWarning($"[ForgeManager] Weapon template '{itemID}' not found in database or JSON files.");
+        return null;
     }
 
     public float GetMaxMastery() => maxMastery;

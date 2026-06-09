@@ -1,0 +1,6 @@
+{
+  "advancedWeapons": [
+    { "itemID": "bow_t2", "itemName": "Longbow", "description": "A long range bow.", "price": 40, "iconPath": "Amor_Pic/longbow", "stack": 1, "equippable": true, "equipmentType": 1, "weaponClassName": "Bow", "modifiers": [ { "stat": "physical damage", "value": 25, "percent": false } ] },
+    { "itemID": "bow_t3", "itemName": "Elven Bow", "description": "A legendary elven bow.", "price": 150, "iconPath": "Amor_Pic/elven_bow", "stack": 1, "equippable": true, "equipmentType": 1, "weaponClassName": "Bow", "modifiers": [ { "stat": "physical damage", "value": 65, "percent": false }, { "stat": "critical chance", "value": 20, "percent": false } ] }
+  ]
+}

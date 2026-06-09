@@ -1,0 +1,6 @@
+{
+  "advancedWeapons": [
+    { "itemID": "orb_t2", "itemName": "Crystal Orb", "description": "A magical crystal orb.", "price": 50, "iconPath": "Amor_Pic/crystal_orb", "stack": 1, "equippable": true, "equipmentType": 1, "weaponClassName": "Orb", "modifiers": [ { "stat": "magic damage", "value": 28, "percent": false } ] },
+    { "itemID": "orb_t3", "itemName": "Cosmic Orb", "description": "An orb containing the cosmos.", "price": 160, "iconPath": "Amor_Pic/cosmic_orb", "stack": 1, "equippable": true, "equipmentType": 1, "weaponClassName": "Orb", "modifiers": [ { "stat": "magic damage", "value": 85, "percent": false }, { "stat": "mana regen", "value": 15, "percent": false } ] }
+  ]
+}

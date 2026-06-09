@@ -1,0 +1,6 @@
+{
+  "advancedWeapons": [
+    { "itemID": "greatsaxe_t2", "itemName": "Battle Axe", "description": "A heavy battle axe.", "price": 60, "iconPath": "Amor_Pic/battle_axe", "stack": 1, "equippable": true, "equipmentType": 1, "weaponClassName": "Greatsaxe", "modifiers": [ { "stat": "physical damage", "value": 40, "percent": false } ] },
+    { "itemID": "greatsaxe_t3", "itemName": "Executioner Axe", "description": "A legendary executioner axe.", "price": 175, "iconPath": "Amor_Pic/executioner_axe", "stack": 1, "equippable": true, "equipmentType": 1, "weaponClassName": "Greatsaxe", "modifiers": [ { "stat": "physical damage", "value": 100, "percent": false }, { "stat": "armor penetration", "value": 25, "percent": false } ] }
+  ]
+}

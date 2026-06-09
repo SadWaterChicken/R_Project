@@ -29,11 +29,6 @@ public class BlacksmithNPC : MonoBehaviour, IInteractable
 
     private void Start()
     {
-        // Initialize forging system
-        if (ForgingSystem.Instance != null && forgingDataJson != null)
-        {
-            ForgingSystem.Instance.LoadRecipesFromJson(forgingDataJson);
-        }
     }
 
     private void OpenForgeUI()

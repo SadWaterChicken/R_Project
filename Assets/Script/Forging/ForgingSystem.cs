@@ -24,24 +24,41 @@ public class ForgingSystem : MonoBehaviour
     private void Awake()
     {
         if (Instance == null)
+        {
             Instance = this;
+            LoadRecipesFromStreamingAssets();
+        }
         else
             Destroy(gameObject);
     }
 
     /// <summary>
-    /// Load recipes and materials from JSON
+    /// Load recipes and materials dynamically from StreamingAssets
     /// </summary>
-    public void LoadRecipesFromJson(TextAsset jsonAsset)
+    public void LoadRecipesFromStreamingAssets()
     {
-        if (jsonAsset == null) return;
-
-        var wrapper = JsonUtility.FromJson<ForgingRecipeWrapper>(jsonAsset.text);
-        if (wrapper != null)
+        string path = System.IO.Path.Combine(Application.streamingAssetsPath, "ForgingRecipes.json");
+        if (System.IO.File.Exists(path))
         {
-            recipes = wrapper.recipes;
-            materials = wrapper.materials;
-            Debug.Log($"[ForgingSystem] Loaded {recipes.Count} recipes and {materials.Count} materials");
+            try
+            {
+                string json = System.IO.File.ReadAllText(path);
+                var wrapper = JsonUtility.FromJson<ForgingRecipeWrapper>(json);
+                if (wrapper != null)
+                {
+                    recipes = wrapper.recipes;
+                    materials = wrapper.materials;
+                    Debug.Log($"[ForgingSystem] Automatically loaded {recipes.Count} recipes and {materials.Count} materials from StreamingAssets.");
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"[ForgingSystem] Failed to load ForgingRecipes.json: {e.Message}");
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"[ForgingSystem] No ForgingRecipes.json found at {path}.");
         }
     }
 

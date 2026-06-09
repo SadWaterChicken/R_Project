@@ -52,4 +52,17 @@ public class WeaponSlotUI : MonoBehaviour
             selectButton.onClick.AddListener(() => onSelect?.Invoke());
         }
     }
+
+    public void SetInteractable(bool isInteractable)
+    {
+        if (selectButton != null)
+        {
+            selectButton.interactable = isInteractable;
+        }
+        
+        if (weaponIcon != null && weaponIcon.sprite != null)
+        {
+            weaponIcon.color = isInteractable ? Color.white : new Color(0.3f, 0.3f, 0.3f, 1f);
+        }
+    }
 }

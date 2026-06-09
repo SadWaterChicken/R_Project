@@ -1,19 +1,98 @@
 {
     "items": [
         {
+            "itemID": "iron_ingot",
+            "itemName": "Iron Ingot",
+            "description": "",
+            "price": 0,
+            "iconPath": "Amor_Pic/iron_ingot",
+            "stack": 95,
+            "modifiers": [],
+            "equippable": false,
+            "equipped": false,
+            "equipmentType": 0,
+            "weaponClassName": "",
+            "forgeLevel": 0,
+            "weaponMastery": 0.0,
+            "baseItemID": "",
+            "isForgeable": false
+        },
+        {
+            "itemID": "steel_ingot",
+            "itemName": "Steel Ingot",
+            "description": "",
+            "price": 0,
+            "iconPath": "Amor_Pic/steel_ingot",
+            "stack": 100,
+            "modifiers": [],
+            "equippable": false,
+            "equipped": false,
+            "equipmentType": 0,
+            "weaponClassName": "",
+            "forgeLevel": 0,
+            "weaponMastery": 0.0,
+            "baseItemID": "",
+            "isForgeable": false
+        },
+        {
+            "itemID": "mithril_ingot",
+            "itemName": "Mithril Ingot",
+            "description": "",
+            "price": 0,
+            "iconPath": "Amor_Pic/mithril_ingot",
+            "stack": 100,
+            "modifiers": [],
+            "equippable": false,
+            "equipped": false,
+            "equipmentType": 0,
+            "weaponClassName": "",
+            "forgeLevel": 0,
+            "weaponMastery": 0.0,
+            "baseItemID": "",
+            "isForgeable": false
+        },
+        {
+            "itemID": "adamantite_ingot",
+            "itemName": "Adamantite Ingot",
+            "description": "",
+            "price": 0,
+            "iconPath": "Amor_Pic/adamantite_ingot",
+            "stack": 100,
+            "modifiers": [],
+            "equippable": false,
+            "equipped": false,
+            "equipmentType": 0,
+            "weaponClassName": "",
+            "forgeLevel": 0,
+            "weaponMastery": 0.0,
+            "baseItemID": "",
+            "isForgeable": false
+        },
+        {
+            "itemID": "orichalcum_ingot",
+            "itemName": "Orichalcum Ingot",
+            "description": "",
+            "price": 0,
+            "iconPath": "Amor_Pic/orichalcum_ingot",
+            "stack": 100,
+            "modifiers": [],
+            "equippable": false,
+            "equipped": false,
+            "equipmentType": 0,
+            "weaponClassName": "",
+            "forgeLevel": 0,
+            "weaponMastery": 0.0,
+            "baseItemID": "",
+            "isForgeable": false
+        },
+        {
             "itemID": "bamboo_katana",
             "itemName": "Bamboo Katana",
-            "description": "A lightweight bamboo sword.",
-            "price": 10,
+            "description": "",
+            "price": 0,
             "iconPath": "Amor_Pic/bamboo_katana",
             "stack": 1,
-            "modifiers": [
-                {
-                    "stat": "physical damage",
-                    "value": 12.0,
-                    "percent": false
-                }
-            ],
+            "modifiers": [],
             "equippable": true,
             "equipped": false,
             "equipmentType": 1,
@@ -24,42 +103,13 @@
             "isForgeable": true
         },
         {
-            "itemID": "bamboo_katana",
-            "itemName": "Bamboo Katana",
-            "description": "A lightweight bamboo sword.",
-            "price": 10,
-            "iconPath": "Amor_Pic/bamboo_katana",
-            "stack": 1,
-            "modifiers": [
-                {
-                    "stat": "physical damage",
-                    "value": 12.0,
-                    "percent": false
-                }
-            ],
-            "equippable": true,
-            "equipped": false,
-            "equipmentType": 1,
-            "weaponClassName": "Katana",
-            "forgeLevel": 0,
-            "weaponMastery": 0.0,
-            "baseItemID": "",
-            "isForgeable": true
-        },
-        {
-            "itemID": "rusty_dualblades",
+            "itemID": "rusty_dual_blades",
             "itemName": "Rusty Dual Blades",
-            "description": "Old twin blades.",
-            "price": 10,
-            "iconPath": "Amor_Pic/rusty_dualblades",
+            "description": "",
+            "price": 0,
+            "iconPath": "Amor_Pic/rusty_dual_blades",
             "stack": 1,
-            "modifiers": [
-                {
-                    "stat": "physical damage",
-                    "value": 8.0,
-                    "percent": false
-                }
-            ],
+            "modifiers": [],
             "equippable": true,
             "equipped": false,
             "equipmentType": 1,
@@ -70,95 +120,133 @@
             "isForgeable": true
         },
         {
-            "itemID": "rusty_dualblades",
-            "itemName": "Rusty Dual Blades",
-            "description": "Old twin blades.",
-            "price": 10,
-            "iconPath": "Amor_Pic/rusty_dualblades",
+            "itemID": "stone_warhammer",
+            "itemName": "Stone Warhammer",
+            "description": "",
+            "price": 0,
+            "iconPath": "Amor_Pic/stone_warhammer",
             "stack": 1,
-            "modifiers": [
-                {
-                    "stat": "physical damage",
-                    "value": 8.0,
-                    "percent": false
-                }
-            ],
+            "modifiers": [],
             "equippable": true,
             "equipped": false,
             "equipmentType": 1,
-            "weaponClassName": "DualBlades",
+            "weaponClassName": "Warhammer",
             "forgeLevel": 0,
             "weaponMastery": 0.0,
             "baseItemID": "",
             "isForgeable": true
         },
         {
-            "itemID": "wooden_greatsword",
-            "itemName": "Wooden Greatsword",
-            "description": "A heavy wooden practice sword.",
-            "price": 10,
-            "iconPath": "Amor_Pic/wooden_greatsword",
+            "itemID": "novice_staff",
+            "itemName": "Novice Staff",
+            "description": "",
+            "price": 0,
+            "iconPath": "Amor_Pic/novice_staff",
             "stack": 1,
-            "modifiers": [
-                {
-                    "stat": "physical damage",
-                    "value": 15.0,
-                    "percent": false
-                }
-            ],
+            "modifiers": [],
             "equippable": true,
             "equipped": false,
             "equipmentType": 1,
-            "weaponClassName": "Greatsword",
+            "weaponClassName": "Staff",
             "forgeLevel": 0,
             "weaponMastery": 0.0,
             "baseItemID": "",
             "isForgeable": true
         },
         {
-            "itemID": "wooden_greatsword",
-            "itemName": "Wooden Greatsword",
-            "description": "A heavy wooden practice sword.",
-            "price": 10,
-            "iconPath": "Amor_Pic/wooden_greatsword",
+            "itemID": "wooden_spear",
+            "itemName": "Wooden Spear",
+            "description": "",
+            "price": 0,
+            "iconPath": "Amor_Pic/wooden_spear",
             "stack": 1,
-            "modifiers": [
-                {
-                    "stat": "physical damage",
-                    "value": 15.0,
-                    "percent": false
-                }
-            ],
+            "modifiers": [],
             "equippable": true,
             "equipped": false,
             "equipmentType": 1,
-            "weaponClassName": "Greatsword",
+            "weaponClassName": "Spear",
             "forgeLevel": 0,
             "weaponMastery": 0.0,
             "baseItemID": "",
             "isForgeable": true
         },
         {
-            "itemID": "bamboo_katana",
-            "itemName": "Bamboo Katana",
-            "description": "A lightweight bamboo sword.",
-            "price": 10,
-            "iconPath": "Amor_Pic/bamboo_katana",
+            "itemID": "hunting_bow",
+            "itemName": "Hunting Bow",
+            "description": "",
+            "price": 0,
+            "iconPath": "Amor_Pic/hunting_bow",
+            "stack": 1,
+            "modifiers": [],
+            "equippable": true,
+            "equipped": false,
+            "equipmentType": 1,
+            "weaponClassName": "Bow",
+            "forgeLevel": 0,
+            "weaponMastery": 0.0,
+            "baseItemID": "",
+            "isForgeable": true
+        },
+        {
+            "itemID": "glass_orb",
+            "itemName": "Glass Orb",
+            "description": "",
+            "price": 0,
+            "iconPath": "Amor_Pic/glass_orb",
+            "stack": 1,
+            "modifiers": [],
+            "equippable": true,
+            "equipped": false,
+            "equipmentType": 1,
+            "weaponClassName": "Orb",
+            "forgeLevel": 0,
+            "weaponMastery": 0.0,
+            "baseItemID": "",
+            "isForgeable": true
+        },
+        {
+            "itemID": "chipped_greatsaxe",
+            "itemName": "Chipped Greatsaxe",
+            "description": "",
+            "price": 0,
+            "iconPath": "Amor_Pic/chipped_greatsaxe",
+            "stack": 1,
+            "modifiers": [],
+            "equippable": true,
+            "equipped": false,
+            "equipmentType": 1,
+            "weaponClassName": "Greatsaxe",
+            "forgeLevel": 0,
+            "weaponMastery": 0.0,
+            "baseItemID": "",
+            "isForgeable": true
+        },
+        {
+            "itemID": "greatsword_t2",
+            "itemName": "Iron Greatsword",
+            "description": "A sturdy iron sword capable of cleaving through armor.",
+            "price": 50,
+            "iconPath": "Amor_Pic/iron_greatsword",
             "stack": 1,
             "modifiers": [
                 {
                     "stat": "physical damage",
-                    "value": 12.0,
+                    "value": 40.0,
+                    "percent": false
+                },
+                {
+                    "stat": "armor penetration",
+                    "value": 10.0,
                     "percent": false
                 }
             ],
             "equippable": true,
             "equipped": true,
             "equipmentType": 1,
-            "weaponClassName": "Katana",
-            "forgeLevel": 0,
-            "weaponMastery": 0.0,
-            "baseItemID": "",
+            "weaponClassName": "Greatsword",
+            "forgeLevel": 1,
+            "weaponMastery": 10.0,
+            "baseItemID": "wooden_greatsword",
             "isForgeable": true
         }
     ]

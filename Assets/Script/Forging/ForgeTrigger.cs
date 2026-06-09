@@ -22,18 +22,6 @@ public class ForgeTrigger : MonoBehaviour, IInteractable
 
     private void Start()
     {
-        // Load forging recipes from JSON at the start
-        if (ForgingSystem.Instance != null && forgingDataJson != null)
-        {
-            ForgingSystem.Instance.LoadRecipesFromJson(forgingDataJson);
-        }
-        else
-        {
-            if (ForgingSystem.Instance == null)
-                Debug.LogWarning("[ForgeTrigger] ForgingSystem not found in scene. Add it to your GameManager.");
-            if (forgingDataJson == null)
-                Debug.LogWarning("[ForgeTrigger] No forging recipe JSON assigned.");
-        }
     }
 
     // Called by the Interactor script when player presses F nearby
