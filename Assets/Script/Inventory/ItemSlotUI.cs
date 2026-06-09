@@ -18,18 +18,29 @@ public class ItemSlotUI : MonoBehaviour
         currentItem = item;
         quantity = qty;
 
+        if (icon == null)
+        {
+            Image[] imgs = GetComponentsInChildren<Image>(true);
+            foreach(var img in imgs) { 
+                if (img.gameObject != this.gameObject && img.gameObject.name.ToLower().Contains("icon")) { 
+                    icon = img; break; 
+                } 
+            }
+            if (icon == null) icon = GetComponent<Image>();
+        }
+
         if (icon != null)
         {
             if (item != null && !string.IsNullOrEmpty(item.iconPath))
             {
                 var sprite = Resources.Load<Sprite>(item.iconPath);
                 icon.sprite = sprite;
-                icon.enabled = sprite != null;
+                icon.color = sprite != null ? Color.white : new Color(1, 1, 1, 0);
             }
             else
             {
                 icon.sprite = null;
-                icon.enabled = false;
+                icon.color = new Color(1, 1, 1, 0);
             }
         }
 

@@ -1,0 +1,100 @@
+{
+  "recipes": [
+    {
+      "recipeID": "forge_sword_1",
+      "resultItemID": "sword_common_forged_1",
+      "requiredItemIDs": [
+        "sword_common_1",
+        "sword_common_2"
+      ],
+      "requiredMaterials": [
+        {
+          "materialID": "stone_red",
+          "quantity": 3
+        },
+        {
+          "materialID": "ore_copper",
+          "quantity": 2
+        }
+      ],
+      "goldCost": 100,
+      "minWeaponCount": 2
+    },
+    {
+      "recipeID": "forge_axe_1",
+      "resultItemID": "axe_common_forged_1",
+      "requiredItemIDs": [
+        "axe_common_1",
+        "axe_common_2"
+      ],
+      "requiredMaterials": [
+        {
+          "materialID": "stone_blue",
+          "quantity": 3
+        },
+        {
+          "materialID": "ore_iron",
+          "quantity": 2
+        }
+      ],
+      "goldCost": 120,
+      "minWeaponCount": 2
+    }
+  ],
+  "materials": [
+    {
+      "materialID": "stone_red",
+      "materialName": "Red Stone",
+      "description": "A shiny red stone dropped by Fire Slimes",
+      "iconPath": "Materials/stone_red",
+      "materialType": 0,
+      "rarity": 1,
+      "weight": 1.0
+    },
+    {
+      "materialID": "stone_blue",
+      "materialName": "Blue Stone",
+      "description": "A cold blue stone dropped by Ice Golems",
+      "iconPath": "Materials/stone_blue",
+      "materialType": 0,
+      "rarity": 1,
+      "weight": 1.0
+    },
+    {
+      "materialID": "ore_copper",
+      "materialName": "Copper Ore",
+      "description": "Raw copper ore for basic forging",
+      "iconPath": "Materials/ore_copper",
+      "materialType": 3,
+      "rarity": 1,
+      "weight": 1.5
+    },
+    {
+      "materialID": "ore_iron",
+      "materialName": "Iron Ore",
+      "description": "Durable iron ore for weapon enhancement",
+      "iconPath": "Materials/ore_iron",
+      "materialType": 3,
+      "rarity": 2,
+      "weight": 1.5
+    },
+    {
+      "materialID": "crystal_amethyst",
+      "materialName": "Amethyst Crystal",
+      "description": "A purple crystal containing magical essence",
+      "iconPath": "Materials/crystal_amethyst",
+      "materialType": 2,
+      "rarity": 3,
+      "weight": 0.8
+    },
+    {
+      "materialID": "essence_fire",
+      "materialName": "Fire Essence",
+      "description": "Pure fire essence for enchanting weapons",
+      "iconPath": "Materials/essence_fire",
+      "materialType": 4,
+      "rarity": 4,
+      "weight": 0.5
+    }
+  ]
+}

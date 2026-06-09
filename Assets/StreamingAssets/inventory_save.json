@@ -1,0 +1,142 @@
+{
+    "items": [
+        {
+            "itemID": "bamboo_katana",
+            "itemName": "Bamboo Katana",
+            "description": "A lightweight bamboo sword.",
+            "price": 10,
+            "iconPath": "Amor_Pic/bamboo_katana",
+            "stack": 1,
+            "modifiers": [
+                {
+                    "stat": "physical damage",
+                    "value": 12.0,
+                    "percent": false
+                }
+            ],
+            "equippable": true,
+            "equipped": false,
+            "equipmentType": 1,
+            "weaponClassName": "Katana",
+            "forgeLevel": 0,
+            "weaponMastery": 0.0,
+            "baseItemID": "",
+            "isForgeable": true
+        },
+        {
+            "itemID": "bamboo_katana",
+            "itemName": "Bamboo Katana",
+            "description": "A lightweight bamboo sword.",
+            "price": 10,
+            "iconPath": "Amor_Pic/bamboo_katana",
+            "stack": 1,
+            "modifiers": [
+                {
+                    "stat": "physical damage",
+                    "value": 12.0,
+                    "percent": false
+                }
+            ],
+            "equippable": true,
+            "equipped": false,
+            "equipmentType": 1,
+            "weaponClassName": "Katana",
+            "forgeLevel": 0,
+            "weaponMastery": 0.0,
+            "baseItemID": "",
+            "isForgeable": true
+        },
+        {
+            "itemID": "rusty_dualblades",
+            "itemName": "Rusty Dual Blades",
+            "description": "Old twin blades.",
+            "price": 10,
+            "iconPath": "Amor_Pic/rusty_dualblades",
+            "stack": 1,
+            "modifiers": [
+                {
+                    "stat": "physical damage",
+                    "value": 8.0,
+                    "percent": false
+                }
+            ],
+            "equippable": true,
+            "equipped": false,
+            "equipmentType": 1,
+            "weaponClassName": "DualBlades",
+            "forgeLevel": 0,
+            "weaponMastery": 0.0,
+            "baseItemID": "",
+            "isForgeable": true
+        },
+        {
+            "itemID": "rusty_dualblades",
+            "itemName": "Rusty Dual Blades",
+            "description": "Old twin blades.",
+            "price": 10,
+            "iconPath": "Amor_Pic/rusty_dualblades",
+            "stack": 1,
+            "modifiers": [
+                {
+                    "stat": "physical damage",
+                    "value": 8.0,
+                    "percent": false
+                }
+            ],
+            "equippable": true,
+            "equipped": false,
+            "equipmentType": 1,
+            "weaponClassName": "DualBlades",
+            "forgeLevel": 0,
+            "weaponMastery": 0.0,
+            "baseItemID": "",
+            "isForgeable": true
+        },
+        {
+            "itemID": "wooden_greatsword",
+            "itemName": "Wooden Greatsword",
+            "description": "A heavy wooden practice sword.",
+            "price": 10,
+            "iconPath": "Amor_Pic/wooden_greatsword",
+            "stack": 1,
+            "modifiers": [
+                {
+                    "stat": "physical damage",
+                    "value": 15.0,
+                    "percent": false
+                }
+            ],
+            "equippable": true,
+            "equipped": false,
+            "equipmentType": 1,
+            "weaponClassName": "Greatsword",
+            "forgeLevel": 0,
+            "weaponMastery": 0.0,
+            "baseItemID": "",
+            "isForgeable": true
+        },
+        {
+            "itemID": "wooden_greatsword",
+            "itemName": "Wooden Greatsword",
+            "description": "A heavy wooden practice sword.",
+            "price": 10,
+            "iconPath": "Amor_Pic/wooden_greatsword",
+            "stack": 1,
+            "modifiers": [
+                {
+                    "stat": "physical damage",
+                    "value": 15.0,
+                    "percent": false
+                }
+            ],
+            "equippable": true,
+            "equipped": false,
+            "equipmentType": 1,
+            "weaponClassName": "Greatsword",
+            "forgeLevel": 0,
+            "weaponMastery": 0.0,
+            "baseItemID": "",
+            "isForgeable": true
+        }
+    ]
+}

@@ -2,6 +2,16 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EquipmentType
+{
+    None,
+    Weapon,
+    ChestArmor,
+    LegArmor,
+    Jewelry,
+    Shoes
+}
+
 [Serializable]
 public class ItemData
 {
@@ -25,6 +35,13 @@ public class ItemData
     // Equip flags (optional)
     public bool equippable = true;
     public bool equipped = false;
+    public EquipmentType equipmentType = EquipmentType.None;
+
+    public string weaponClassName = "";  // Weapon type string ID (e.g. "Greatsword", "Scythe"). Empty means it's not a weapon.
+    public int forgeLevel = 0;                           // Forging enhancement level (0-10)
+    public float weaponMastery = 0f;                     // Weapon mastery progress (0-100)
+    public string baseItemID = "";                       // Original item ID before forging
+    public bool isForgeable = false;                     // Can this item be forged?
 
     public ItemData() { }
 
@@ -45,7 +62,13 @@ public class ItemData
         {
             equippable = equippable,
             equipped = equipped,
-            modifiers = new List<StatMod>()
+            equipmentType = equipmentType,
+            modifiers = new List<StatMod>(),
+            weaponClassName = weaponClassName,
+            forgeLevel = forgeLevel,
+            weaponMastery = weaponMastery,
+            baseItemID = baseItemID,
+            isForgeable = isForgeable
         };
         if (modifiers != null)
         {
