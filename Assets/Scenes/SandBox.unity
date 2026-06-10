@@ -2128,6 +2128,11 @@ PrefabInstance:
         UnityEngine.CoreModule]], mscorlib]]'
       objectReference: {fileID: 0}
     - target: {fileID: 2317661578285317477, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
+      propertyPath: 'managedReferences[7321210561944617369]'
+      value: 'Unity.Behavior Unity.Behavior.BlackboardVariable`1[[SimpleDetector,
+        Assembly-CSharp]]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 2317661578285317477, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
       propertyPath: managedReferences[7321210444031983836].Name
       value: A
       objectReference: {fileID: 0}
@@ -2136,8 +2141,12 @@ PrefabInstance:
       value: PatrolPoints
       objectReference: {fileID: 0}
     - target: {fileID: 2317661578285317477, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
+      propertyPath: managedReferences[7321210561944617369].Name
+      value: Detector
+      objectReference: {fileID: 0}
+    - target: {fileID: 2317661578285317477, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
       propertyPath: m_BlackboardVariableOverridesList.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2317661578285317477, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
       propertyPath: managedReferences[7321210413730496836].m_Value
@@ -2147,6 +2156,10 @@ PrefabInstance:
       propertyPath: managedReferences[7321210444031983836].m_Value
       value: 
       objectReference: {fileID: 1519060384}
+    - target: {fileID: 2317661578285317477, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
+      propertyPath: managedReferences[7321210561944617369].m_Value
+      value: 
+      objectReference: {fileID: 4556869377570035068}
     - target: {fileID: 2317661578285317477, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
       propertyPath: 'm_BlackboardVariableOverridesList.Array.data[2]'
       value: 7321210444031983737
@@ -2158,6 +2171,10 @@ PrefabInstance:
     - target: {fileID: 2317661578285317477, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
       propertyPath: 'm_BlackboardVariableOverridesList.Array.data[4]'
       value: 7321210458918092800
+      objectReference: {fileID: 0}
+    - target: {fileID: 2317661578285317477, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
+      propertyPath: 'm_BlackboardVariableOverridesList.Array.data[5]'
+      value: 7321210561944617369
       objectReference: {fileID: 0}
     - target: {fileID: 2317661578285317477, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
       propertyPath: managedReferences[7321210444031983836].GUID.m_Value0
@@ -2174,6 +2191,14 @@ PrefabInstance:
     - target: {fileID: 2317661578285317477, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
       propertyPath: managedReferences[7321210458918092800].GUID.m_Value1
       value: 9465368793767914233
+      objectReference: {fileID: 0}
+    - target: {fileID: 2317661578285317477, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
+      propertyPath: managedReferences[7321210561944617369].GUID.m_Value0
+      value: 12874689832820238761
+      objectReference: {fileID: 0}
+    - target: {fileID: 2317661578285317477, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
+      propertyPath: managedReferences[7321210561944617369].GUID.m_Value1
+      value: 15187699872466779006
       objectReference: {fileID: 0}
     - target: {fileID: 2317661578285317477, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
       propertyPath: managedReferences[7321210458918092800].m_Value.Array.size
@@ -2195,6 +2220,10 @@ PrefabInstance:
       propertyPath: 'managedReferences[7321210458918092800].m_Value.Array.data[3]'
       value: 
       objectReference: {fileID: 592005052}
+    - target: {fileID: 2702944064029599358, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 2113209488}
     - target: {fileID: 4073294042357489424, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
       propertyPath: m_Name
       value: Chaser (1)
@@ -2250,30 +2279,19 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4073294042357489424, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4556869377570035060}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
---- !u!1 &4556869377570035059 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4073294042357489424, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
+--- !u!114 &4556869377570035068 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2702944064029599358, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
   m_PrefabInstance: {fileID: 4556869377570035058}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4556869377570035060
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4556869377570035059}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 235ee10a2d05ad445918ffa852bd851e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SimpleDetector
-  player: {fileID: 2113209488}
-  detectionRange: 5
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
