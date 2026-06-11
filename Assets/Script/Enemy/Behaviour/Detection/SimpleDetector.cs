@@ -55,14 +55,17 @@ public class SimpleDetector : MonoBehaviour
     }
 
 
-    public GameObject DetectingRange(GameObject potentialTarget)
+    public GameObject DetectingSight(GameObject potentialTarget)
     {
         RaycastHit hit;
-        Vector3 direction = potentialTarget.transform.position;
+        Vector3 direction =
+    (potentialTarget.transform.position -
+     (transform.position + Vector3.up * detectionHeight)).normalized;
         Physics.Raycast(transform.position + Vector3.up * detectionHeight, direction, out hit, detectionRange, detectionLayer);
 
         if (hit.collider != null && hit.collider.gameObject == potentialTarget)
         {
+            Debug.DrawLine(transform.position + Vector3.up * detectionHeight, potentialTarget.transform.position, Color.green);
             return hit.collider.gameObject;
         }
         else
@@ -70,6 +73,7 @@ public class SimpleDetector : MonoBehaviour
             return null;
         }
     }
+
 
     private void OnDrawGizmos()
     {

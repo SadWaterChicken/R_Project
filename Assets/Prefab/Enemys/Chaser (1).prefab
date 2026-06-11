@@ -224,11 +224,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SimpleDetector
   player: {fileID: 0}
-  detectionRange: 5
   detectionRadius: 5
-  playerLayer:
+  detectionLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 0
+  detectionHeight: 5
+  detectionRange: 10
 --- !u!195 &3272022405934795513
 NavMeshAgent:
   m_ObjectHideFlags: 0
