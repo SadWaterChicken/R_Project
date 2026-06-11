@@ -4,13 +4,15 @@ using UnityEngine;
 public class SimpleDetector : MonoBehaviour
 {
     public Transform player;
-    public float detectionRange = 5f;
     [SerializeField] private float detectionRadius = 5f;
-    [SerializeField] private LayerMask playerLayer;
+    [SerializeField] private LayerMask detectionLayer;
 
-
+    [SerializeField] private float detectionHeight = 5f;
+    [SerializeField] private float detectionRange = 5f;
     private Collider myCollider;
-    private List<GameObject> detectedTargets = new();
+
+    public GameObject detectedTargets { get; set; }
+     
     public Transform currentTarget { get; private set; }
 
     private void Awake()
@@ -34,7 +36,7 @@ public class SimpleDetector : MonoBehaviour
         Collider[] hits = Physics.OverlapSphere(
             transform.position,
             detectionRadius,
-            playerLayer);
+            detectionLayer);
 
         float closestDistance = float.MaxValue;
 
@@ -52,9 +54,40 @@ public class SimpleDetector : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmosSelected()
+
+    public GameObject DetectingRange(GameObject potentialTarget)
     {
-        Gizmos.color = Color.yellow;
+        RaycastHit hit;
+        Vector3 direction = potentialTarget.transform.position;
+        Physics.Raycast(transform.position + Vector3.up * detectionHeight, direction, out hit, detectionRange, detectionLayer);
+
+        if (hit.collider != null && hit.collider.gameObject == potentialTarget)
+        {
+            return hit.collider.gameObject;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = currentTarget != null ? Color.green : Color.yellow;
         Gizmos.DrawWireSphere(transform.position, detectionRadius);
+    }
+    public GameObject UpdateDetector()
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, detectionRadius, detectionLayer);
+
+        if(colliders.Length > 0) 
+        {   
+            detectedTargets = colliders[0].gameObject;        
+        }
+        else
+        {
+            detectedTargets = null;
+        }
+        return detectedTargets;
     }
 }
