@@ -1524,6 +1524,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 313751853}
+    - target: {fileID: 2702944064029599358, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
+      propertyPath: detectionLayer.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
     - target: {fileID: 4073294042357489424, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
       propertyPath: m_Name
       value: Chaser (1)
