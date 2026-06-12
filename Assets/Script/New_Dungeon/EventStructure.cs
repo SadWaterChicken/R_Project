@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 
 namespace New_Dungeon
 {
@@ -8,48 +9,67 @@ namespace New_Dungeon
     {
         public EventRoomController roomController;
 
-        [Header("UI References")]
+        [Header("Shared UI")]
         public GameObject uiPanel;
-        public Slider cubeSlider;
-        public Button plusButton;
-        public Button minusButton;
-        public Button activateButton;
-        public TextMeshProUGUI cubeAmountText;
+        public GameObject backgroundOverlay; 
+
+        [Header("Phase 1: Start Event UI")]
+        public GameObject phase1Container; 
+        public TextMeshProUGUI p1_HeaderTitle;
+        public TextMeshProUGUI p1_Description;
+        public GameObject p1_RewardPreview; 
+        public Button p1_StartButton; 
+        public TextMeshProUGUI p1_StartButtonText; // To show cost on button
         
-        private int currentCubesToOffer = 0;
-        private int maxCubesPlayerHas = 0; // Set this by reading player inventory
+        [Header("Phase 2: Mid-Event UI")]
+        public GameObject phase2Container;
+        public TextMeshProUGUI p2_HeaderTitle;
+        public TextMeshProUGUI p2_CurrentRewardText;
+        public TextMeshProUGUI p2_WarningText; 
+        public Button p2_TakeButton; 
+        public Button p2_ContinueButton; 
+        public TextMeshProUGUI p2_ContinueButtonText; // To show cost on button
+
+        [Header("Animation")]
+        public float submergeDepth = -10f;
+        public float animationDuration = 1.5f;
+        private Vector3 initialPosition;
 
         private void Start()
         {
-            if (uiPanel != null)
-                uiPanel.SetActive(false);
+            initialPosition = transform.position;
 
-            if (cubeSlider != null)
-                cubeSlider.onValueChanged.AddListener(OnSliderValueChanged);
+            if (uiPanel != null) uiPanel.SetActive(false);
 
-            if (plusButton != null)
-                plusButton.onClick.AddListener(IncreaseOffer);
+            // Phase 1 Button
+            if (p1_StartButton != null)
+            {
+                p1_StartButton.onClick.RemoveAllListeners();
+                p1_StartButton.onClick.AddListener(OnDoubleClicked);
+            }
 
-            if (minusButton != null)
-                minusButton.onClick.AddListener(DecreaseOffer);
+            // Phase 2 Buttons
+            if (p2_ContinueButton != null)
+            {
+                p2_ContinueButton.onClick.RemoveAllListeners();
+                p2_ContinueButton.onClick.AddListener(OnDoubleClicked);
+            }
 
-            if (activateButton != null)
-                activateButton.onClick.AddListener(ActivateEvent);
+            if (p2_TakeButton != null)
+            {
+                p2_TakeButton.onClick.RemoveAllListeners();
+                p2_TakeButton.onClick.AddListener(OnTakeClicked);
+            }
         }
 
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Player") && !roomController.isEventRunning)
             {
-                // In reality, get real amount from MainInventory
-                // maxCubesPlayerHas = MainInventory.Instance.GetItemCount("item_energy_cube");
-                maxCubesPlayerHas = 100; // Mock for testing
-
-                currentCubesToOffer = 0;
-                UpdateUI();
-                
-                if (uiPanel != null)
-                    uiPanel.SetActive(true);
+                if (roomController.currentWave == 0)
+                {
+                    ShowPhase1();
+                }
             }
         }
 
@@ -57,70 +77,126 @@ namespace New_Dungeon
         {
             if (other.CompareTag("Player"))
             {
-                if (uiPanel != null)
-                    uiPanel.SetActive(false);
+                if (uiPanel != null) uiPanel.SetActive(false);
             }
         }
 
-        private void UpdateUI()
+        private void ShowPhase1()
         {
-            if (cubeSlider != null)
+            int cost = GetNextWaveCost();
+            int playerCubes = GetPlayerCubes();
+
+            if (phase1Container != null) phase1Container.SetActive(true);
+            if (phase2Container != null) phase2Container.SetActive(false);
+
+            if (p1_HeaderTitle != null) 
+                p1_HeaderTitle.text = "THỬ THÁCH SINH TỬ";
+            
+            string desc = "Dâng lên Energy Cube để triệu hồi quái vật.\nHoàn thành đợt để nhận Rương.\nBạn có thể dừng lại chốt lời sau mỗi đợt hoặc tiếp tục thử thách để nhận nhiều rương hơn!";
+            if (playerCubes < cost)
             {
-                cubeSlider.maxValue = maxCubesPlayerHas;
-                cubeSlider.value = currentCubesToOffer;
+                int needed = cost - playerCubes;
+                desc += $"\n\n<color=red>Chưa đủ điều kiện! Bạn cần tìm thêm {needed} Energy Cube nữa để bắt đầu.</color>";
             }
 
-            if (cubeAmountText != null)
-            {
-                cubeAmountText.text = currentCubesToOffer.ToString();
-            }
+            if (p1_Description != null) 
+                p1_Description.text = desc;
+
+            if (p1_StartButtonText != null)
+                p1_StartButtonText.text = $"BẮT ĐẦU\n(Tiêu hao {cost} Cube)";
+            
+            if (p1_StartButton != null)
+                p1_StartButton.interactable = (playerCubes >= cost);
+
+            if (uiPanel != null) uiPanel.SetActive(true);
         }
 
-        public void OnSliderValueChanged(float value)
+        public void ShowMidEventChoice()
         {
-            currentCubesToOffer = Mathf.RoundToInt(value);
-            UpdateUI();
+            RiseUp(); 
+
+            int cost = GetNextWaveCost();
+            int playerCubes = GetPlayerCubes();
+            int currentReward = roomController.currentWave;
+
+            if (phase1Container != null) phase1Container.SetActive(false);
+            if (phase2Container != null) phase2Container.SetActive(true);
+
+            if (p2_HeaderTitle != null) 
+                p2_HeaderTitle.text = "THỬ THÁCH HOÀN THÀNH!";
+            
+            if (p2_CurrentRewardText != null) 
+                p2_CurrentRewardText.text = $"Bạn đã tích lũy được: <color=yellow>{currentReward} RƯƠNG</color>";
+
+            string warning = "Dừng lại để nhận rương an toàn.\nHoặc dâng thêm Cube để khiêu chiến đợt tiếp theo.\n<color=red>Cảnh báo: Độ khó sẽ tăng cao!</color>";
+            if (playerCubes < cost)
+            {
+                int needed = cost - playerCubes;
+                warning += $"\n\n<color=red>Chưa đủ điều kiện! Bạn cần tìm thêm {needed} Energy Cube nữa để đi tiếp.</color>";
+            }
+
+            if (p2_WarningText != null)
+                p2_WarningText.text = warning;
+
+            if (p2_ContinueButtonText != null)
+                p2_ContinueButtonText.text = $"ĐI TIẾP\n(Tiêu hao {cost} Cube)";
+
+            if (p2_ContinueButton != null)
+                p2_ContinueButton.interactable = (playerCubes >= cost);
+
+            if (uiPanel != null) uiPanel.SetActive(true);
         }
 
-        public void IncreaseOffer()
+        private int GetPlayerCubes()
         {
-            if (currentCubesToOffer < maxCubesPlayerHas)
-            {
-                currentCubesToOffer++;
-                UpdateUI();
-            }
+            return PlayerStat.Instance != null ? PlayerStat.Instance.currentEnergyCubes : 0;
         }
 
-        public void DecreaseOffer()
+        private int GetNextWaveCost()
         {
-            if (currentCubesToOffer > 0)
-            {
-                currentCubesToOffer--;
-                UpdateUI();
-            }
+            return 1 + roomController.currentWave;
         }
 
-        public void ActivateEvent()
+        public void OnDoubleClicked()
         {
-            if (currentCubesToOffer > 0)
+            int cost = GetNextWaveCost();
+
+            if (PlayerStat.Instance != null)
             {
-                // Deduct from inventory
-                // MainInventory.Instance.RemoveItem("item_energy_cube", currentCubesToOffer);
-
-                if (uiPanel != null)
-                    uiPanel.SetActive(false);
-
-                // Start Event
-                roomController.StartEvent(currentCubesToOffer);
-
-                // Submerge structure
-                transform.position = new Vector3(transform.position.x, -10f, transform.position.z);
+                bool success = PlayerStat.Instance.SpendEnergyCubes(cost);
+                if (!success) return; 
             }
+
+            if (uiPanel != null) uiPanel.SetActive(false);
+
+            StartCoroutine(LerpPosition(initialPosition + Vector3.up * submergeDepth));
+            roomController.StartNextWave();
+        }
+
+        public void OnTakeClicked()
+        {
+            if (uiPanel != null) uiPanel.SetActive(false);
+            roomController.TakeChestsAndEnd();
         }
 
         public void RiseUp()
         {
-            transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
+            StartCoroutine(LerpPosition(initialPosition));
+        }
+
+        private IEnumerator LerpPosition(Vector3 targetPos)
+        {
+            Vector3 startPos = transform.position;
+            float elapsed = 0f;
+
+            while (elapsed < animationDuration)
+            {
+                transform.position = Vector3.Lerp(startPos, targetPos, elapsed / animationDuration);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            transform.position = targetPos;
         }
     }
 }

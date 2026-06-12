@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38deab7e75f9f7647936eef7a022a606, type: 3}
+  m_Name: Envy 1
+  m_EditorClassIdentifier: Assembly-CSharp::DungeonThemeSetup
+  themeName: Envy
+  sinType: 3
+  roomPrefabs:
+  - {fileID: 8685762605405110447, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+  - {fileID: 2196709036237245413, guid: 35df8a48b14e6c04ca9bc1af50c6053a, type: 3}
+  eventRoomPrefabs:
+  - {fileID: 4471891865712484735, guid: 4790eae3e36d8d74b88d874245639346, type: 3}
+  enemyPrefabs:
+  - {fileID: 4565311123560629032, guid: 4016f9a83c7b38247ae61f31fa5f9fa8, type: 3}
+  eliteEnemyPrefabs:
+  - {fileID: 4565311123560629032, guid: c57d51924ee1f0a4890fdae51b5bb451, type: 3}
+  bossList:
+  - bossName: Envy
+    bossRoomPrefab: {fileID: 9192565812033854812, guid: 8bc77b1b43b5af149b01e348b2cb452c, type: 3}
+    bossPrefab: {fileID: 4551235992430138568, guid: 51e45edc2cb28aa4d963013c2b279a09, type: 3}
+  themeChests: []
+  enemyStatMultiplier: 1
+  lootQualityMultiplier: 1
+  eliteSpawnRate: 15

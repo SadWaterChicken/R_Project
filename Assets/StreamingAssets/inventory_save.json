@@ -6,7 +6,7 @@
             "description": "",
             "price": 0,
             "iconPath": "Amor_Pic/iron_ingot",
-            "stack": 90,
+            "stack": 85,
             "modifiers": [],
             "equippable": false,
             "equipped": false,
@@ -23,7 +23,7 @@
             "description": "",
             "price": 0,
             "iconPath": "Amor_Pic/steel_ingot",
-            "stack": 100,
+            "stack": 90,
             "modifiers": [],
             "equippable": false,
             "equipped": false,
@@ -103,44 +103,6 @@
             "isForgeable": true
         },
         {
-            "itemID": "stone_warhammer",
-            "itemName": "Stone Warhammer",
-            "description": "A crude hammer made of stone.",
-            "price": 0,
-            "iconPath": "Amor_Pic/stone_warhammer",
-            "stack": 1,
-            "modifiers": [
-                {
-                    "percent": false,
-                    "value": 18,
-                    "stat": "physical damage"
-                },
-                {
-                    "percent": false,
-                    "value": 5,
-                    "stat": "physical armour"
-                },
-                {
-                    "percent": false,
-                    "value": -1,
-                    "stat": "movement speed"
-                },
-                {
-                    "percent": true,
-                    "value": -0.3,
-                    "stat": "attack speed"
-                }
-            ],
-            "equippable": true,
-            "equipped": false,
-            "equipmentType": 1,
-            "weaponClassName": "Warhammer",
-            "forgeLevel": 0,
-            "weaponMastery": 0.0,
-            "baseItemID": "",
-            "isForgeable": true
-        },
-        {
             "itemID": "novice_staff",
             "itemName": "Novice Staff",
             "description": "A simple wooden staff for beginners.",
@@ -149,19 +111,19 @@
             "stack": 1,
             "modifiers": [
                 {
-                    "percent": false,
-                    "value": 15,
-                    "stat": "magic damage"
+                    "stat": "magic damage",
+                    "value": 15.0,
+                    "percent": false
                 },
                 {
-                    "percent": false,
-                    "value": 20,
-                    "stat": "max mana"
+                    "stat": "max mana",
+                    "value": 20.0,
+                    "percent": false
                 },
                 {
-                    "percent": false,
-                    "value": -2,
-                    "stat": "physical armour"
+                    "stat": "physical armour",
+                    "value": -2.0,
+                    "percent": false
                 }
             ],
             "equippable": true,
@@ -182,19 +144,19 @@
             "stack": 1,
             "modifiers": [
                 {
-                    "percent": false,
-                    "value": 10,
-                    "stat": "physical damage"
+                    "stat": "physical damage",
+                    "value": 10.0,
+                    "percent": false
                 },
                 {
-                    "percent": false,
+                    "stat": "movement speed",
                     "value": 0.5,
-                    "stat": "movement speed"
+                    "percent": false
                 },
                 {
-                    "percent": false,
-                    "value": 2,
-                    "stat": "physical armour"
+                    "stat": "physical armour",
+                    "value": 2.0,
+                    "percent": false
                 }
             ],
             "equippable": true,
@@ -215,19 +177,19 @@
             "stack": 1,
             "modifiers": [
                 {
-                    "percent": false,
-                    "value": 12,
-                    "stat": "physical damage"
+                    "stat": "physical damage",
+                    "value": 12.0,
+                    "percent": false
                 },
                 {
-                    "percent": true,
-                    "value": 15,
-                    "stat": "crit chance"
+                    "stat": "crit chance",
+                    "value": 15.0,
+                    "percent": true
                 },
                 {
-                    "percent": false,
-                    "value": -5,
-                    "stat": "max health"
+                    "stat": "max health",
+                    "value": -5.0,
+                    "percent": false
                 }
             ],
             "equippable": true,
@@ -248,19 +210,19 @@
             "stack": 1,
             "modifiers": [
                 {
-                    "percent": false,
-                    "value": 12,
-                    "stat": "magic damage"
+                    "stat": "magic damage",
+                    "value": 12.0,
+                    "percent": false
                 },
                 {
-                    "percent": false,
-                    "value": 5,
-                    "stat": "luck"
+                    "stat": "luck",
+                    "value": 5.0,
+                    "percent": false
                 },
                 {
-                    "percent": false,
-                    "value": 10,
-                    "stat": "max shield"
+                    "stat": "max shield",
+                    "value": 10.0,
+                    "percent": false
                 }
             ],
             "equippable": true,
@@ -281,19 +243,19 @@
             "stack": 1,
             "modifiers": [
                 {
-                    "percent": false,
-                    "value": 20,
-                    "stat": "physical damage"
+                    "stat": "physical damage",
+                    "value": 20.0,
+                    "percent": false
                 },
                 {
-                    "percent": false,
-                    "value": -10,
-                    "stat": "max health"
+                    "stat": "max health",
+                    "value": -10.0,
+                    "percent": false
                 },
                 {
-                    "percent": true,
-                    "value": -0.2,
-                    "stat": "attack speed"
+                    "stat": "attack speed",
+                    "value": -0.20000000298023225,
+                    "percent": true
                 }
             ],
             "equippable": true,
@@ -314,19 +276,19 @@
             "stack": 1,
             "modifiers": [
                 {
-                    "percent": false,
-                    "value": 8,
-                    "stat": "physical damage"
+                    "stat": "physical damage",
+                    "value": 8.0,
+                    "percent": false
                 },
                 {
-                    "percent": true,
-                    "value": 0.3,
-                    "stat": "attack speed"
+                    "stat": "attack speed",
+                    "value": 0.30000001192092898,
+                    "percent": true
                 },
                 {
-                    "percent": false,
-                    "value": 1,
-                    "stat": "movement speed"
+                    "stat": "movement speed",
+                    "value": 1.0,
+                    "percent": false
                 }
             ],
             "equippable": true,
@@ -347,23 +309,23 @@
             "stack": 1,
             "modifiers": [
                 {
-                    "percent": false,
-                    "value": 15,
-                    "stat": "physical damage"
+                    "stat": "physical damage",
+                    "value": 15.0,
+                    "percent": false
                 },
                 {
-                    "percent": true,
-                    "value": -0.2,
-                    "stat": "attack speed"
+                    "stat": "attack speed",
+                    "value": -0.20000000298023225,
+                    "percent": true
                 },
                 {
-                    "percent": false,
+                    "stat": "movement speed",
                     "value": -0.5,
-                    "stat": "movement speed"
+                    "percent": false
                 }
             ],
             "equippable": true,
-            "equipped": false,
+            "equipped": true,
             "equipmentType": 1,
             "weaponClassName": "Greatsword",
             "forgeLevel": 0,
@@ -372,21 +334,26 @@
             "isForgeable": true
         },
         {
-            "itemID": "katana_t2",
-            "itemName": "Steel Katana",
-            "description": "A sharp, well-balanced blade for swift strikes.",
-            "price": 40,
-            "iconPath": "Amor_Pic/katana_t2",
+            "itemID": "katana_t3",
+            "itemName": "Dragonbane Katana",
+            "description": "A legendary katana that can slice through dragon scales.",
+            "price": 160,
+            "iconPath": "Amor_Pic/katana_t3",
             "stack": 1,
             "modifiers": [
                 {
                     "stat": "physical damage",
-                    "value": 30.0,
+                    "value": 70.0,
                     "percent": false
                 },
                 {
                     "stat": "attack speed",
-                    "value": 6.5,
+                    "value": 7.0,
+                    "percent": false
+                },
+                {
+                    "stat": "critical chance",
+                    "value": 30.0,
                     "percent": false
                 }
             ],
@@ -395,8 +362,36 @@
             "equipmentType": 1,
             "weaponClassName": "Katana",
             "forgeLevel": 1,
+            "weaponMastery": 20.0,
+            "baseItemID": "katana_t2",
+            "isForgeable": true
+        },
+        {
+            "itemID": "warhammer_t2",
+            "itemName": "Steel Warhammer",
+            "description": "A heavy hammer that crushes bones with ease.",
+            "price": 55,
+            "iconPath": "Amor_Pic/warhammer_t2",
+            "stack": 1,
+            "modifiers": [
+                {
+                    "stat": "physical damage",
+                    "value": 50.0,
+                    "percent": false
+                },
+                {
+                    "stat": "stun chance",
+                    "value": 15.0,
+                    "percent": false
+                }
+            ],
+            "equippable": true,
+            "equipped": false,
+            "equipmentType": 1,
+            "weaponClassName": "Warhammer",
+            "forgeLevel": 1,
             "weaponMastery": 10.0,
-            "baseItemID": "bamboo_katana",
+            "baseItemID": "stone_warhammer",
             "isForgeable": true
         }
     ]

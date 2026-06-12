@@ -22,24 +22,28 @@ public class Door : MonoBehaviour, IInteractable
             doorCollider.isTrigger = true;
     }
 
+    private static GameObject cachedPlayer;
+
     // Update: checks for player input/interaction range each frame
     private void Update()
     {
-        // Find player in range
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
+        // Optimize: Cache the player reference to avoid FindGameObjectWithTag running on every door every frame
+        if (cachedPlayer == null)
         {
-            float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
-            
-            // If player is in range and presses the interact key
-            if (distanceToPlayer <= interactionRange && Input.GetKeyDown(interactKey))
-            {
-                if (Time.time < lastInteractTime + interactCooldown) return;
-                lastInteractTime = Time.time;
+            cachedPlayer = GameObject.FindGameObjectWithTag("Player");
+            if (cachedPlayer == null) return;
+        }
 
-                currentPlayer = player;
-                Interact();
-            }
+        float distanceToPlayer = Vector3.Distance(transform.position, cachedPlayer.transform.position);
+            
+        // If player is in range and presses the interact key
+        if (distanceToPlayer <= interactionRange && Input.GetKeyDown(interactKey))
+        {
+            if (Time.time < lastInteractTime + interactCooldown) return;
+            lastInteractTime = Time.time;
+
+            currentPlayer = cachedPlayer;
+            Interact();
         }
     }
 

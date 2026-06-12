@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5130359778624185310}
   - component: {fileID: 1028239078368322389}
   - component: {fileID: 2317661578285317477}
+  - component: {fileID: 8107951829288881254}
   - component: {fileID: 3272022405934795513}
   - component: {fileID: 4100346155083727756}
   - component: {fileID: -6505103303107778912}
@@ -165,6 +166,7 @@ MonoBehaviour:
   - rid: 7321210413730496836
   - rid: 7321210444031983737
   - rid: 7321210444031983834
+  - rid: 8606472597325742175
   m_OriginalGraph: {fileID: -4111573791081526109, guid: 044fa44cb4822ee42a3faf84228e0d64, type: 2}
   m_IsInitialised: 0
   m_IsStarted: 0
@@ -203,6 +205,32 @@ MonoBehaviour:
           m_Value1: 7237030965995385993
         Name: A
         m_Value: {fileID: 5163166265228518380}
+    - rid: 8606472597325742175
+      type: {class: 'BlackboardVariable`1[[SimpleDetector, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 12874689832820238761
+          m_Value1: 15187699872466779006
+        Name: Detector
+        m_Value: {fileID: 8107951829288881254}
+--- !u!114 &8107951829288881254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4073294042357489424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 235ee10a2d05ad445918ffa852bd851e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SimpleDetector
+  player: {fileID: 0}
+  detectionRange: 5
+  detectionRadius: 5
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!195 &3272022405934795513
 NavMeshAgent:
   m_ObjectHideFlags: 0

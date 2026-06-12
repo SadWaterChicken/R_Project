@@ -99,15 +99,32 @@ public class Room : MonoBehaviour
         isCleared = false;
     }
 
-    // OnEnemyDied: called when a tracked enemy dies to update room state
     public void OnEnemyDied(GameObject enemy)
     {
         if (isCleared) return;
 
         if (enemy != null)
+        {
             spawnedEnemies.Remove(enemy);
+            
+            // Chance to drop Energy Cube if not in Boss Room or Event Room
+            if (!isBossRoom && !isEventRoom)
+            {
+                // 10% chance to drop 1 Energy Cube
+                if (Random.value < 0.1f)
+                {
+                    if (PlayerStat.Instance != null)
+                    {
+                        PlayerStat.Instance.AddEnergyCubes(1);
+                        Debug.Log($"[{gameObject.name}] Enemy died and dropped 1 Energy Cube!");
+                    }
+                }
+            }
+        }
         else
+        {
             spawnedEnemies.RemoveAll(item => item == null);
+        }
 
         if (spawnedEnemies.Count == 0)
             ClearRoom();
@@ -135,10 +152,6 @@ public class Room : MonoBehaviour
             }
             DungeonEvents.RaiseBossDefeated(this);
             SpawnDungeonExit();
-        }
-        else
-        {
-            // Optional: Give normal room reward here
         }
     }
 
@@ -181,7 +194,8 @@ public class Room : MonoBehaviour
         DungeonEvents.RaisePlayerEnteredRoom(this);
         onPlayerEntered?.Invoke(this);
 
-        if (isCleared) return;
+        // Event rooms should not automatically lock doors upon entry. They only lock when the event starts.
+        if (isCleared || isEventRoom) return;
 
         foreach (Door door in activeDoors)
         {

@@ -1554,7 +1554,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2237185179006846745, guid: 04997e3713258874ca884dc12ef79b40, type: 3}
       propertyPath: dungeonThemes.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2237185179006846745, guid: 04997e3713258874ca884dc12ef79b40, type: 3}
       propertyPath: 'roomPrefabs.Array.data[0]'
@@ -1684,7 +1684,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 031e5fb236239984f970f7c1a2bcf05f, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 39bd32a06aaa5464b94af81cfaeed9f3, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &1877533775
 Transform:

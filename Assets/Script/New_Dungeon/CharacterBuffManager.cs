@@ -1,35 +1,24 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class PlayerBuffManager : MonoBehaviour
+public class CharacterBuffManager : MonoBehaviour
 {
-    public static PlayerBuffManager Instance { get; private set; }
-
     private Dictionary<DungeonBuff.BuffType, float> activeBuffs = new Dictionary<DungeonBuff.BuffType, float>();
     private Dictionary<DungeonBuff.BuffType, int> buffStacks = new Dictionary<DungeonBuff.BuffType, int>();
-
-    // Awake: singleton initialization for PlayerBuffManager
-    private void Awake()
-    {
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(gameObject);
-    }
 
     // ApplyBuff: add or stack a buff, enforce stacking rules, and raise event
     public void ApplyBuff(DungeonBuff buff)
     {
         if (buff == null)
         {
-            Debug.LogWarning("[PlayerBuffManager] Trying to apply null buff!");
+            Debug.LogWarning("[CharacterBuffManager] Trying to apply null buff!");
             return;
         }
 
         // Check if stackable
         if (!buff.isStackable && activeBuffs.ContainsKey(buff.type))
         {
-            Debug.Log($"[PlayerBuffManager] Buff {buff.buffName} is not stackable and already active!");
+            Debug.Log($"[CharacterBuffManager] Buff {buff.buffName} is not stackable and already active!");
             return;
         }
 
@@ -41,7 +30,7 @@ public class PlayerBuffManager : MonoBehaviour
 
             if (buffStacks[buff.type] >= buff.maxStacks)
             {
-                Debug.Log($"[PlayerBuffManager] Buff {buff.buffName} reached max stacks ({buff.maxStacks})!");
+                Debug.Log($"[CharacterBuffManager] Buff {buff.buffName} reached max stacks ({buff.maxStacks})!");
                 return;
             }
 
@@ -54,8 +43,8 @@ public class PlayerBuffManager : MonoBehaviour
 
         activeBuffs[buff.type] += buff.value;
 
-        Debug.Log($"[PlayerBuffManager] Applied buff: {buff.buffName} (Type: {buff.type}, Value: +{buff.value * 100}%)");
-        Debug.Log($"[PlayerBuffManager] Total {buff.type}: {activeBuffs[buff.type] * 100}%");
+        Debug.Log($"[CharacterBuffManager] Applied buff: {buff.buffName} (Type: {buff.type}, Value: +{buff.value * 100}%)");
+        Debug.Log($"[CharacterBuffManager] Total {buff.type}: {activeBuffs[buff.type] * 100}%");
 
         // Raise event for UI updates
         DungeonEvents.RaiseBuffApplied(buff);
@@ -76,7 +65,7 @@ public class PlayerBuffManager : MonoBehaviour
     // ClearAllBuffs: remove all active buffs and stacks
     public void ClearAllBuffs()
     {
-        Debug.Log("[PlayerBuffManager] Clearing all buffs!");
+        Debug.Log("[CharacterBuffManager] Clearing all buffs!");
         activeBuffs.Clear();
         buffStacks.Clear();
     }

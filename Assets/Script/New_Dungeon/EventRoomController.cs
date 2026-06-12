@@ -1,6 +1,6 @@
 using UnityEngine;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace New_Dungeon
 {
@@ -17,35 +17,24 @@ namespace New_Dungeon
         [Header("Event Settings")]
         public EventStructure eventStructure;
         public GameObject eventChestPrefab;
-        public DungeonEntitySpawner spawner; // Reference to existing spawner in room
         
-        [Header("Enemy Prefabs for Event")]
+        [Header("Enemy Configuration")]
         public List<GameObject> normalEventEnemies;
         public List<GameObject> eliteEventEnemies;
+        public int baseEnemiesPerWave = 3;
+        public float eliteSpawnChanceIncreasePerWave = 0.2f;
 
         [HideInInspector] public bool isEventRunning = false;
 
-        private int hiddenScore = 0;
-        private int currentWave = 0;
-        private int totalWaves = 0;
-        private int enemiesAliveInWave = 0;
+        public int currentWave { get; private set; } = 0;
+        public const int MAX_WAVES = 6;
 
-        public void StartEvent(int cubesOffered)
+        public void StartNextWave()
         {
-            if (isEventRunning) return;
-
             isEventRunning = true;
-            hiddenScore = 0;
-            currentWave = 0;
+            currentWave++;
 
-            int points = cubesOffered * 5;
-
-            // Calculate Threshold
-            if (points >= 300) totalWaves = 3;
-            else if (points >= 200) totalWaves = 2;
-            else totalWaves = 1;
-
-            Debug.Log($"[EventRoom] Event Started! Cubes: {cubesOffered}, Points: {points}, Waves: {totalWaves}");
+            Debug.Log($"[EventRoom] Starting Wave {currentWave}/{MAX_WAVES}");
 
             // Lock doors
             foreach (Door door in baseRoom.activeDoors)
@@ -53,159 +42,129 @@ namespace New_Dungeon
                 door.SetLocked(true);
             }
 
-            StartNextWave();
+            StartCoroutine(WaveRoutine());
         }
 
-        private void StartNextWave()
+        private IEnumerator WaveRoutine()
         {
-            if (currentWave >= totalWaves)
+            SpawnWave();
+
+            // Wait until all spawned enemies are dead
+            yield return new WaitUntil(() => baseRoom.spawnedEnemies.Count == 0);
+
+            Debug.Log($"[EventRoom] Wave {currentWave} cleared!");
+
+            yield return new WaitForSeconds(1.5f);
+
+            if (currentWave >= MAX_WAVES)
             {
-                EndEvent();
-                return;
+                // Reached max waves, auto take
+                TakeChestsAndEnd();
             }
+            else
+            {
+                // Show mid-event choice
+                if (eventStructure != null)
+                {
+                    eventStructure.ShowMidEventChoice();
+                }
+            }
+        }
 
-            currentWave++;
-            Debug.Log($"[EventRoom] Starting Wave {currentWave}/{totalWaves}");
+        private void SpawnWave()
+        {
+            int numEnemies = baseEnemiesPerWave + (currentWave - 1); 
+            float eliteChance = (currentWave - 1) * eliteSpawnChanceIncreasePerWave;
 
-            // Example spawn logic
-            int numEnemies = 3 + currentWave * 2; // Arbitrary formula for testing
-            enemiesAliveInWave = numEnemies;
+            BoxCollider collider = baseRoom.GetComponent<BoxCollider>();
+            if (collider == null) return;
+
+            Bounds bounds = collider.bounds;
+            Vector3 padding = new Vector3(1f, 0.5f, 1f);
+            Vector3 minPos = bounds.min + padding;
+            Vector3 maxPos = bounds.max - padding;
 
             for (int i = 0; i < numEnemies; i++)
             {
-                bool spawnElite = false;
-                
-                // Higher waves = more elites
-                if (currentWave == 1)
-                {
-                    spawnElite = Random.value < 0.2f; // 20% elite
-                }
-                else if(currentWave == 2)
-                {
-                    spawnElite = Random.value < 0.5f; // 50% elite in wave 2
-                }
-                else if(currentWave == 3)
-                {
-                    spawnElite = Random.value < 0.7f; // 70% elite in wave 3
-                }
-
+                bool spawnElite = Random.value < eliteChance;
                 GameObject toSpawn = null;
-                int scoreValue = 5;
 
-                if (spawnElite && eliteEventEnemies.Count > 0)
+                if (spawnElite && eliteEventEnemies != null && eliteEventEnemies.Count > 0)
                 {
                     toSpawn = eliteEventEnemies[Random.Range(0, eliteEventEnemies.Count)];
-                    scoreValue = 10;
                 }
-                else if (normalEventEnemies.Count > 0)
+                else if (normalEventEnemies != null && normalEventEnemies.Count > 0)
                 {
                     toSpawn = normalEventEnemies[Random.Range(0, normalEventEnemies.Count)];
-                    scoreValue = 5;
                 }
 
                 if (toSpawn != null)
                 {
-                    // Call spawner (assuming you have a method to spawn at random points)
-                    // We mock spawn point here
-                    Vector3 spawnPos = transform.position + new Vector3(Random.Range(-2f, 2f), 0, Random.Range(-2f, 2f));
+                    Vector3 spawnPos = new Vector3(
+                        Random.Range(minPos.x, maxPos.x),
+                        bounds.min.y + 1.5f,
+                        Random.Range(minPos.z, maxPos.z)
+                    );
+
+                    GameObject enemyObj = Instantiate(toSpawn, spawnPos, Quaternion.identity, baseRoom.transform);
                     
-                    GameObject enemyObj = Instantiate(toSpawn, spawnPos, Quaternion.identity);
-                    
-                    // Add a script to detect death and report to this room
-                    EventEnemyTracker tracker = enemyObj.AddComponent<EventEnemyTracker>();
-                    tracker.Initialize(this, scoreValue);
-                    
-                    // TODO: If enemyObj has a normal Drop script, disable it here 
-                    // so it doesn't drop normal items.
+                    RoomEnemyTracker tracker = enemyObj.GetComponent<RoomEnemyTracker>();
+                    if (tracker == null)
+                    {
+                        tracker = enemyObj.AddComponent<RoomEnemyTracker>();
+                    }
+                    tracker.Initialize(baseRoom, obj => Destroy(obj), 1.0f);
                     
                     baseRoom.RegisterSpawnedEnemy(enemyObj);
                 }
             }
         }
 
-        public void OnEventEnemyDied(GameObject enemy, int scoreValue)
-        {
-            hiddenScore += scoreValue;
-            enemiesAliveInWave--;
-
-            // Handle drops (Buff items only)
-            // RollDrop();
-
-            baseRoom.OnEnemyDied(enemy); // Call base room logic
-
-            if (enemiesAliveInWave <= 0)
-            {
-                StartCoroutine(WaitAndStartNextWave());
-            }
-        }
-
-        private IEnumerator WaitAndStartNextWave()
-        {
-            yield return new WaitForSeconds(2f);
-            StartNextWave();
-        }
-
-        private void EndEvent()
+        public void TakeChestsAndEnd()
         {
             isEventRunning = false;
-            Debug.Log($"[EventRoom] Event Finished! Hidden Score: {hiddenScore}");
-
-            // Spawn Chest based on Hidden Score
-            int numChests = 1 + (hiddenScore / 50); // E.g., 100 score = 3 chests
+            int chestsToSpawn = currentWave;
             
-            for (int i=0; i<numChests; i++)
+            Debug.Log($"[EventRoom] Event Finished! Spawning {chestsToSpawn} Chests.");
+
+            // Spawn Chests
+            for (int i = 0; i < chestsToSpawn; i++)
             {
                 if (eventChestPrefab != null)
                 {
-                    Vector3 pos = transform.position + new Vector3(i * 1.5f, 0, 0);
+                    Vector3 pos = transform.position + new Vector3(i * 1.5f - ((chestsToSpawn - 1) * 0.75f), 0, 0);
                     Instantiate(eventChestPrefab, pos, Quaternion.identity);
+                }
+            }
+
+            if (eventStructure != null)
+            {
+                if (currentWave >= MAX_WAVES)
+                {
+                    // If maxed out, deactivate structure entirely
+                    eventStructure.gameObject.SetActive(false);
                 }
                 else
                 {
-                    Debug.Log($"[EventRoom] Spawning Mock Chest {i+1}!");
+                    eventStructure.RiseUp();
+                    // Optionally disable its UI so it can't be interacted with again
+                    eventStructure.enabled = false; 
                 }
             }
 
-            // Restore structure
-            if (eventStructure != null)
-            {
-                eventStructure.RiseUp();
-            }
-
-            // Unlock doors (handled by base Room if spawnedEnemies.Count == 0, but we do it manually to be safe)
+            // Unlock doors
             foreach (Door door in baseRoom.activeDoors)
             {
                 door.SetLocked(false);
             }
             baseRoom.isCleared = true;
         }
-    }
 
-    // Helper script attached to event enemies to track death and points
-    public class EventEnemyTracker : MonoBehaviour
-    {
-        private EventRoomController room;
-        private int score;
-        private bool isQuitting = false;
-
-        public void Initialize(EventRoomController room, int score)
+        public void FailEvent()
         {
-            this.room = room;
-            this.score = score;
-        }
-
-        private void OnApplicationQuit()
-        {
-            isQuitting = true;
-        }
-
-        private void OnDestroy()
-        {
-            if (isQuitting || !gameObject.scene.isLoaded) return;
-            if (room != null)
-            {
-                room.OnEventEnemyDied(gameObject, score);
-            }
+            // Called if player dies or leaves, they lose the chests.
+            // Assuming player death reloads scene, this might not be needed.
+            isEventRunning = false;
         }
     }
 }

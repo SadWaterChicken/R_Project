@@ -2,63 +2,34 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 
-public class PlayerStat : MonoBehaviour
+public class PlayerStat : CharacterStats
 {
     public static PlayerStat Instance { get; private set; }
-
-    [Header("Health Stats")]
-    public int maxHealth = 100;
-    public float currentHealth;
-    public float healthRegenRate = 0f;
-
-    [Header("Mana Stats")]
-    public int maxMana = 100;
-    public float currentMana;
-    public float manaRegenRate = 2f; // per second
 
     [Header("Sanity Stats")]
     public int maxSanity = 100;
     public float currentSanity;
     public float sanityRegenRate = 5f; // per second
 
-    [Header("Damage Stats")]
-    public float basePhysicalDamage = 10f;
-    public float physicalDamageBonus = 0f;
-    public float baseMagicDamage = 5f;
-    public float magicDamageBonus = 0f;
+    [Header("Luck")]
+    public float luck = 0f; // Affects drop rate and crit chance
 
-    [Header("Defence Stats")]
-    public float physicalArmour = 0f;
-    public float magicArmour = 0f;
-
-    [Header("Movement & Combat")]
-    public float baseSpeed = 6f;
-    public float movementSpeed = 6f;
-    public float attackSpeed = 1f;
+    [Header("Movement Options")]
     public float dashCooldown = 0.5f;
     public bool isInvincible = false;
 
-    [Header("Luck & Crit")]
-    public float luck = 0f; // Affects drop rate and crit chance
-    public float critChance = 0f;
-
-    [Header("Shield Stats")]
-    public float shield = 0f;
-    public float maxShield = 50f;
-    public float shieldRegenRate = 0f;
-    public float shieldRechargeCooldown = 5f; // Time before shield starts regenerating
-
     [Header("Economy")]
     public int gold = 0;
+    public int currentEnergyCubes = 0;
 
-    private float shieldRechargeTimer = 0f;
-
-    private void Awake()
+    protected override void Awake()
     {
         if (Instance == null)
             Instance = this;
         else
             Destroy(gameObject);
+
+        base.Awake();
     }
 
     private void OnEnable()
@@ -82,17 +53,16 @@ public class PlayerStat : MonoBehaviour
         }
     }
 
-    private void Start()
+    protected override void Start()
     {
-        currentHealth = maxHealth;
-        currentMana = maxMana;
+        base.Start();
         currentSanity = maxSanity;
-        shield = 0f;
-        shieldRechargeTimer = 0f;
     }
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
+
         // Regenerate health
         if (currentHealth < maxHealth && healthRegenRate > 0)
         {
@@ -112,21 +82,6 @@ public class PlayerStat : MonoBehaviour
         {
             currentSanity += sanityRegenRate * Time.deltaTime;
             currentSanity = Mathf.Min(currentSanity, maxSanity);
-        }
-
-        // Shield regeneration logic
-        UpdateShieldRegeneration();
-    }
-
-    private void UpdateShieldRegeneration()
-    {
-        if (shield >= maxShield) return;
-
-        shieldRechargeTimer -= Time.deltaTime;
-        if (shieldRechargeTimer <= 0 && shieldRegenRate > 0)
-        {
-            shield += shieldRegenRate * Time.deltaTime;
-            shield = Mathf.Min(shield, maxShield);
         }
     }
 
@@ -175,13 +130,13 @@ public class PlayerStat : MonoBehaviour
                 case "physicalarmour":
                 case "physical armor":
                 case "physicalarmor":
-                    physicalArmour += value;
+                    physicalArmor += value;
                     break;
                 case "magic armour":
                 case "magicarmour":
                 case "magic armor":
                 case "magicarmor":
-                    magicArmour += value;
+                    magicArmor += value;
                     break;
                 case "max health":
                 case "maxhealth":
@@ -216,118 +171,43 @@ public class PlayerStat : MonoBehaviour
             }
         }
 
-        Debug.Log($"[PlayerStat] Stats updated - PhysicalDmg: {GetPhysicalDamage()}, MagicDmg: {GetMagicDamage()}, Armour: {physicalArmour}/{magicArmour}");
+        Debug.Log($"[PlayerStat] Stats updated - PhysicalDmg: {GetPhysicalDamage()}, MagicDmg: {GetMagicDamage()}, Armour: {physicalArmor}/{magicArmor}");
     }
 
-    // ─── Damage Getters ────────────────────────────────────────────────────────
-    public float GetPhysicalDamage()
-    {
-        float buffBonus = PlayerBuffManager.Instance?.GetBuffValue(DungeonBuff.BuffType.DamageBoost) ?? 0f;
-        return basePhysicalDamage + physicalDamageBonus + (basePhysicalDamage * buffBonus);
-    }
-
-    public float GetMagicDamage()
-    {
-        float buffBonus = PlayerBuffManager.Instance?.GetBuffValue(DungeonBuff.BuffType.DamageBoost) ?? 0f;
-        return baseMagicDamage + magicDamageBonus + (baseMagicDamage * buffBonus);
-    }
-
-    public float GetMovementSpeed()
-    {
-        float buffBonus = PlayerBuffManager.Instance?.GetBuffValue(DungeonBuff.BuffType.SpeedBoost) ?? 0f;
-        return movementSpeed + (baseSpeed * buffBonus);
-    }
-
-    public float GetCritChance()
+    // ─── Stat Getters (Overrides) ──────────────────────────────────────────────
+    public override float GetCritChance()
     {
         float luckBonus = luck * 0.1f; // 1 luck = 0.1% crit
-        float buffBonus = PlayerBuffManager.Instance?.GetBuffValue(DungeonBuff.BuffType.CritChance) ?? 0f;
-        return Mathf.Clamp01(critChance + luckBonus + buffBonus);
+        return Mathf.Clamp01(base.GetCritChance() + luckBonus);
     }
 
     public float GetGoldMultiplier()
     {
-        float buffBonus = PlayerBuffManager.Instance?.GetBuffValue(DungeonBuff.BuffType.GoldMultiplier) ?? 0f;
+        float buffBonus = buffManager != null ? buffManager.GetBuffValue(DungeonBuff.BuffType.GoldMultiplier) : 0f;
         return 1f + buffBonus;
     }
 
     public float GetDropRateMultiplier()
     {
         float luckBonus = luck * 0.05f; // 1 luck = 0.05 drop rate bonus
-        float buffBonus = PlayerBuffManager.Instance?.GetBuffValue(DungeonBuff.BuffType.DropRate) ?? 0f;
+        float buffBonus = buffManager != null ? buffManager.GetBuffValue(DungeonBuff.BuffType.DropRate) : 0f;
         return 1f + luckBonus + buffBonus;
     }
 
-    public float GetDefense()
-    {
-        return (physicalArmour + magicArmour) / 2f;
-    }
-
-    public float GetMaxHealth()
-    {
-        return maxHealth;
-    }
-
     // ─── Damage Application ────────────────────────────────────────────────────
-    public void TakeDamage(float damage, float armorPenetration = 0f)
+    public override void TakePhysicalDamage(float damage, float armorPenetration = 0f)
     {
         if (isInvincible) return;
-
-        float reduction = (physicalArmour * (1f - armorPenetration)) / 100f;
-        float finalDamage = damage * (1f - reduction);
-
-        // Apply shield first
-        if (shield > 0)
-        {
-            float shieldDamage = Mathf.Min(finalDamage, shield);
-            shield -= shieldDamage;
-            finalDamage -= shieldDamage;
-            shieldRechargeTimer = shieldRechargeCooldown;
-        }
-
-        if (finalDamage > 0)
-        {
-            currentHealth -= finalDamage;
-            if (currentHealth <= 0)
-            {
-                Die();
-            }
-        }
-
-        Debug.Log($"[PlayerStat] Took {finalDamage} damage. Health: {currentHealth}/{maxHealth}");
+        base.TakePhysicalDamage(damage, armorPenetration);
     }
 
-    public void TakeMagicDamage(float damage, float resistancePenetration = 0f)
+    public override void TakeMagicDamage(float damage, float resistancePenetration = 0f)
     {
         if (isInvincible) return;
-
-        float reduction = (magicArmour * (1f - resistancePenetration)) / 100f;
-        float finalDamage = damage * (1f - reduction);
-
-        currentHealth -= finalDamage;
-        if (currentHealth <= 0)
-        {
-            Die();
-        }
-
-        Debug.Log($"[PlayerStat] Took {finalDamage} magic damage. Health: {currentHealth}/{maxHealth}");
+        base.TakeMagicDamage(damage, resistancePenetration);
     }
 
-    public void Heal(float amount)
-    {
-        currentHealth += amount;
-        currentHealth = Mathf.Min(currentHealth, maxHealth);
-        Debug.Log($"[PlayerStat] Healed {amount}. Health: {currentHealth}/{maxHealth}");
-    }
-
-    public void RestoreShield(float amount)
-    {
-        shield += amount;
-        shield = Mathf.Min(shield, maxShield);
-        shieldRechargeTimer = shieldRechargeCooldown;
-    }
-
-    private void Die()
+    protected override void Die()
     {
         Debug.Log("[PlayerStat] Player has died.");
         // TODO: Handle player death (animation, UI, respawn, etc.)
@@ -362,6 +242,25 @@ public class PlayerStat : MonoBehaviour
     public bool CanSpendGold(int amount)
     {
         return gold >= amount;
+    }
+
+    // ─── Energy Cubes ───────────────────────────────────────────────────────────
+    public void AddEnergyCubes(int amount)
+    {
+        if (amount > 0)
+        {
+            currentEnergyCubes += amount;
+            Debug.Log($"[PlayerStat] Added {amount} Energy Cubes. Total: {currentEnergyCubes}");
+        }
+    }
+
+    public bool SpendEnergyCubes(int amount)
+    {
+        if (amount <= 0) return true;
+        if (currentEnergyCubes < amount) return false;
+        currentEnergyCubes -= amount;
+        Debug.Log($"[PlayerStat] Spent {amount} Energy Cubes. Remaining: {currentEnergyCubes}");
+        return true;
     }
 
     // ─── Mana Management ────────────────────────────────────────────────────────

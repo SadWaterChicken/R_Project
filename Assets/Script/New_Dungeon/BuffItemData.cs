@@ -14,10 +14,14 @@ namespace New_Dungeon
 
         public void UseBuff()
         {
-            if (buffToApply != null && PlayerBuffManager.Instance != null)
+            if (buffToApply != null && PlayerStat.Instance != null)
             {
-                PlayerBuffManager.Instance.ApplyBuff(buffToApply);
-                Debug.Log($"[BuffItem] Used {itemName} to apply {buffToApply.buffName}");
+                CharacterBuffManager buffManager = PlayerStat.Instance.GetComponent<CharacterBuffManager>();
+                if (buffManager != null)
+                {
+                    buffManager.ApplyBuff(buffToApply);
+                    Debug.Log($"[BuffItem] Used {itemName} to apply {buffToApply.buffName}");
+                }
             }
         }
     }

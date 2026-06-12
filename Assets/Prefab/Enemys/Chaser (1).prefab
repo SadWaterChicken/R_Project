@@ -163,8 +163,9 @@ MonoBehaviour:
   - rid: 7321210413730496835
   - rid: 7321210413730496836
   - rid: 7321210444031983737
-  - rid: 7321210444031983834
-  - rid: 7321210561944617367
+  - rid: 7321210444031983836
+  - rid: 7321210458918092800
+  - rid: 7321210561944617369
   m_OriginalGraph: {fileID: -4111573791081526109, guid: 044fa44cb4822ee42a3faf84228e0d64, type: 2}
   m_IsInitialised: 0
   m_IsStarted: 0
@@ -195,7 +196,7 @@ MonoBehaviour:
           m_Value1: 2352684667443637171
         Name: Sprite child
         m_Value: {fileID: 5207020694090564975}
-    - rid: 7321210444031983834
+    - rid: 7321210444031983836
       type: {class: 'BlackboardVariable`1[[UnityEngine.Animator, UnityEngine.AnimationModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         GUID:
@@ -203,7 +204,19 @@ MonoBehaviour:
           m_Value1: 7237030965995385993
         Name: A
         m_Value: {fileID: 5163166265228518380}
-    - rid: 7321210561944617367
+    - rid: 7321210458918092800
+      type: {class: 'BlackboardVariable`1[[System.Collections.Generic.List`1[[UnityEngine.GameObject, UnityEngine.CoreModule]], mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 5168916248240715388
+          m_Value1: 9465368793767914233
+        Name: PatrolPoints
+        m_Value:
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+    - rid: 7321210561944617369
       type: {class: 'BlackboardVariable`1[[SimpleDetector, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         GUID:
@@ -279,7 +292,7 @@ Transform:
   m_GameObject: {fileID: 5207020694090564975}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.71, y: 0.17, z: -1.25}
+  m_LocalPosition: {x: -0.71, y: 1.2, z: -1.25}
   m_LocalScale: {x: 2.612, y: 1.953, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
