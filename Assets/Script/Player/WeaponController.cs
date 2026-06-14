@@ -64,10 +64,15 @@ public class WeaponController : MonoBehaviour
             // Chuyển Box sang bên trái/phải
             weaponHitbox.transform.localPosition = new Vector3(Mathf.Abs(originalLocalPos.x) * sideMultiplier, originalLocalPos.y, originalLocalPos.z);
             
-            // Lật chiều xoay của Box (nếu gắn hình cây kiếm vào nó sẽ xoay mũi kiếm theo)
-            Vector3 scale = weaponHitbox.transform.localScale;
-            scale.x = Mathf.Abs(scale.x) * sideMultiplier;
-            weaponHitbox.transform.localScale = scale;
+            // Xoay góc (Rotation) thay vì dùng Scale âm (Scale âm sẽ bị Unity cảnh báo BoxCollider)
+            if (sideMultiplier < 0)
+            {
+                weaponHitbox.transform.localRotation = Quaternion.Euler(0, 180, 0);
+            }
+            else
+            {
+                weaponHitbox.transform.localRotation = Quaternion.identity; // Xoay về 0,0,0
+            }
         }
     }
 }

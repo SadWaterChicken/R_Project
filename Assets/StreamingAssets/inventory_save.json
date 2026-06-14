@@ -259,7 +259,7 @@
                 }
             ],
             "equippable": true,
-            "equipped": false,
+            "equipped": true,
             "equipmentType": 1,
             "weaponClassName": "Greatsaxe",
             "forgeLevel": 0,

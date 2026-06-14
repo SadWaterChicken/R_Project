@@ -11,11 +11,7 @@ public enum EquipmentType
     Jewelry,
     Shoes,
     Helmet,
-    Offhand,
-    Belt,
-    Amulet,
-    Ring,
-    Gloves
+    Offhand
 }
 
 [Serializable]
