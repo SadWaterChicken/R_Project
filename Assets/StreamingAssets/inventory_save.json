@@ -325,7 +325,7 @@
                 }
             ],
             "equippable": true,
-            "equipped": true,
+            "equipped": false,
             "equipmentType": 1,
             "weaponClassName": "Greatsword",
             "forgeLevel": 0,

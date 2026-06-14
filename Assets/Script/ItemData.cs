@@ -9,7 +9,13 @@ public enum EquipmentType
     ChestArmor,
     LegArmor,
     Jewelry,
-    Shoes
+    Shoes,
+    Helmet,
+    Offhand,
+    Belt,
+    Amulet,
+    Ring,
+    Gloves
 }
 
 [Serializable]
