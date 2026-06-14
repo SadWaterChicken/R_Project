@@ -5,13 +5,13 @@ using UnityEngine;
 public enum EquipmentType
 {
     None,
-    Weapon,
+    PrimaryWeapon,
     ChestArmor,
     LegArmor,
     Jewelry,
     Shoes,
     Helmet,
-    Offhand
+    SecondaryWeapon
 }
 
 [Serializable]

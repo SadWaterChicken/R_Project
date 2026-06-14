@@ -68,8 +68,8 @@ public class EquipmentManagerUI : MonoBehaviour
         {
             if (item.equipped && item.equipmentType != EquipmentType.None)
             {
-                // Tìm đúng cái ô trên UI có type tương ứng
-                EquipSlotMap slot = equipmentSlots.Find(s => s.type == item.equipmentType);
+                // Tìm đúng cái ô trên UI có type tương ứng và CÒN TRỐNG (chưa có đồ)
+                EquipSlotMap slot = equipmentSlots.Find(s => s.type == item.equipmentType && s.currentItem == null);
                 if (slot != null && slot.iconImage != null)
                 {
                     slot.currentItem = item;

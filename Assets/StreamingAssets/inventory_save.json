@@ -292,7 +292,7 @@
                 }
             ],
             "equippable": true,
-            "equipped": false,
+            "equipped": true,
             "equipmentType": 1,
             "weaponClassName": "DualBlades",
             "forgeLevel": 0,

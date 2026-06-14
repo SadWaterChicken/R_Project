@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 /// <summary>
 /// Weapon attributes specific to each weapon class/type
-/// Based on game design: Greatsword, Dual Blades, Katana, Warhammer, Greatsaxe, Spear, Bow, Staff, Orb
+/// Based on game design: Greatsword, Katana, Warhammer, Greatsaxe, Spear, Bow, Staff, Orb
 /// </summary>
 [System.Serializable]
 public class WeaponAttribute
@@ -12,7 +12,6 @@ public class WeaponAttribute
     public enum WeaponType
     {
         Greatsword,   // Heavy sword - Commit, finisher
-        DualBlades,   // Short blades - Uptempo, stamina weaving
         Katana,       // Long sword - React, parry/dodge, counter
         Warhammer,    // Impact melee - Windup, control, impact turns
         Greatsaxe,    // Brutal melee - Greed, riposte, cashout usage

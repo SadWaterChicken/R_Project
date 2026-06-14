@@ -90,12 +90,24 @@ public class Inventory : MonoBehaviour
 
         if (isTryingToEquip && item.equipmentType != EquipmentType.None)
         {
-            // Check if another item of the same EquipmentType is already equipped
-            bool isSlotTaken = ownedItems.Exists(x => x != item && x.equipped && x.equipmentType == item.equipmentType);
-            if (isSlotTaken)
+            // Cài đặt số lượng đồ tối đa được phép mặc cùng lúc (Vũ khí cho phép 2 tay = 2 món)
+            int maxAllowed = (item.equipmentType == EquipmentType.PrimaryWeapon) ? 2 : 1;
+            
+            // Đếm xem người chơi đang mặc bao nhiêu món thuộc loại này rồi
+            int currentlyEquippedCount = 0;
+            foreach (var x in ownedItems)
             {
-                Debug.Log($"[Inventory] Blocked equipping {item.itemName}: An item of type {item.equipmentType} is already equipped. Please unequip it first.");
-                return; // Block equipping!
+                // Bỏ qua chính nó, đếm các món khác có cùng loại và đang được mặc
+                if (x != item && x.equipped && x.equipmentType == item.equipmentType)
+                {
+                    currentlyEquippedCount++;
+                }
+            }
+
+            if (currentlyEquippedCount >= maxAllowed)
+            {
+                Debug.Log($"[Inventory] Blocked equipping {item.itemName}: Đã mặc tối đa {maxAllowed} món thuộc loại {item.equipmentType}. Hãy tháo bớt ra trước.");
+                return; // Chặn không cho mặc thêm
             }
         }
 
