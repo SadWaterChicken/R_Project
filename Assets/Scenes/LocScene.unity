@@ -1248,7 +1248,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4133c12c34bea64383335a039ec4373, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InteractRange: 0
+  interactRange: 3
+  hintUI: {fileID: 0}
 --- !u!114 &542189117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1273,6 +1274,7 @@ MonoBehaviour:
   dashCooldown: 0.5
   rotationSpeed: 5
   interactionRange: 2
+  interactHintUI: {fileID: 0}
   dashDuration: 0.2
 --- !u!136 &542189118
 CapsuleCollider:
@@ -1376,12 +1378,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9b7ae7622360144982df42ffe766be3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponController
-  weaponHitbox: {fileID: 0}
-  hideDelay: 10
-  lastAttackTime: 0
-  hitboxScript: {fileID: 0}
-  playerSprite: {fileID: 0}
-  originalLocalPos: {x: 0, y: 0, z: 0}
 --- !u!1 &623877757
 GameObject:
   m_ObjectHideFlags: 0
@@ -2212,9 +2208,9 @@ MonoBehaviour:
   ComboDelay: 0.6
   attackPoint: {fileID: 1273820490}
   weaponRange: 1
-  enemyLayers:
+  Enemy:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 0
   damage: 100
 --- !u!4 &1367081442
 Transform:

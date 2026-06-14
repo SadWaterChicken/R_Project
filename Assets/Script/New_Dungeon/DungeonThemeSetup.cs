@@ -11,12 +11,21 @@ public struct BossSetup
     public GameObject bossPrefab;
 }
 
-[System.Serializable]
-public struct ChestSetup
+public enum ChestTier
 {
-    public int level;
-    public ScriptableObject chestPrefab;
-    public int dropWeight;
+    Common,
+    Uncommon,
+    Rare,
+    Epic,
+    Legendary
+}
+
+[System.Serializable]
+public struct ThemeChestData
+{
+    public ChestTier tier;
+    public GameObject chestPrefab;
+    public List<ItemData> possibleRewards;
 }
 
 /// <summary>
@@ -41,7 +50,7 @@ public class DungeonThemeSetup : ScriptableObject
     public List<BossSetup> bossList;
 
     [Header("=== LOOT ===")]
-    public List<ChestSetup> themeChests;
+    public List<ThemeChestData> themeChests;
 
     [Header("=== DIFFICULTY ===")]
     [Range(0.5f, 3f)] public float enemyStatMultiplier = 1f;
@@ -101,16 +110,16 @@ public class DungeonThemeSetup : ScriptableObject
         return ShouldSpawnElite() && GetRandomEliteEnemy() != null ? GetRandomEliteEnemy() : GetRandomEnemy();
     }
 
-    // GetChestByLevel: returns a chest prefab matching requested level
-    public ScriptableObject GetChestByLevel(int chestLevel)
+    // GetChestDataByTier: returns the chest setup matching requested tier
+    public ThemeChestData GetChestDataByTier(ChestTier tier)
     {
-        if (themeChests == null || themeChests.Count == 0) return null;
+        if (themeChests == null || themeChests.Count == 0) return default;
         
         foreach (var chest in themeChests)
-            if (chest.level == chestLevel && chest.chestPrefab != null)
-                return chest.chestPrefab;
+            if (chest.tier == tier && chest.chestPrefab != null)
+                return chest;
         
-        return themeChests.Count > 0 ? themeChests[0].chestPrefab : null;
+        return themeChests[0]; // fallback
     }
 
     // ApplyDifficultyMultiplier: scale theme difficulty multipliers

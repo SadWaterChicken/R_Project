@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     public float dashCooldown = 0.5f;
     public float rotationSpeed = 5f;
     public float interactionRange = 3f; // Increased from 2f to 3f for easier interaction
+    public GameObject interactHintUI; // Universal hint UI (e.g. "Press F") that appears over interactables
     
     private float targetYRotation = 0f;
     private float verticalVelocity = 0f;
@@ -146,11 +147,18 @@ public class PlayerController : MonoBehaviour
             animator.SetFloat("vertical", Mathf.Abs(vertical));
 
             // Calculate direction RELATIVE TO CAMERA
-            Vector3 camForward = cam.transform.forward;
-            Vector3 camRight = cam.transform.right;
+            // Use Camera.main to get the actual view rotation, as Cinemachine FreeLook objects do not rotate their own transforms.
+            Transform activeCam = Camera.main != null ? Camera.main.transform : cam;
+            Vector3 camForward = activeCam.forward;
+            Vector3 camRight = activeCam.right;
+            
+            // Flatten vectors to ensure movement is purely horizontal
+            camForward.y = 0f;
+            camRight.y = 0f;
+            camForward.Normalize();
+            camRight.Normalize();
             
             Vector3 direction = (camForward * vertical + camRight * horizontal).normalized;
-            direction.y = 0f; // Ensure movement is horizontal
             
         
             
@@ -189,44 +197,13 @@ public class PlayerController : MonoBehaviour
                 controller.Move(velocity * Time.deltaTime);
             }
 
-            // Check for nearby interactables (Shop, Doors, etc.)
-            DetectNearbyInteractables();
-
-            // Handle interaction (F key or Input System)
-            // Note: Input System might have 'Hold' interaction assigned, so we also check raw GetKeyDown(F)
-            if ((inputActions.Player.Interact.triggered || Input.GetKeyDown(KeyCode.F)) && nearbyInteractable != null)
-            {
-                nearbyInteractable.Interact();
-            }
-
-            // Camera rotation (Q/E for yaw - left/right)
-            if (Input.GetKeyDown(KeyCode.Q)) targetYRotation -= 90f;
-            if (Input.GetKeyDown(KeyCode.E)) targetYRotation += 90f;
-
-            // Smoothly rotate the virtual camera
-            float currentY = cam.transform.eulerAngles.y;
-            float nextY = Mathf.LerpAngle(currentY, targetYRotation, Time.deltaTime * rotationSpeed);
-
-            cam.transform.eulerAngles = new Vector3(cam.transform.eulerAngles.x, nextY, 0);
+            // Interaction logic is now handled by Interactor scripts on the objects themselves
+            // Camera rotation is now handled completely by Cinemachine FreeLook
+            // Removed manual Q/E rotation to prevent conflicts and jitter
         }
         
 
-    private void DetectNearbyInteractables()
-    {
-        nearbyInteractable = null;
-        Collider[] colliders = Physics.OverlapSphere(transform.position, interactionRange);
 
-        foreach (Collider col in colliders)
-        {
-            // Use GetComponentInParent to find interactable even if collider is on a child object
-            IInteractable interactable = col.GetComponentInParent<IInteractable>();
-            if (interactable != null)
-            {
-                nearbyInteractable = interactable;
-                break;
-            }
-        }
-    }
 
     private System.Collections.IEnumerator DashRoutine(Vector3 dashDirection)
     {

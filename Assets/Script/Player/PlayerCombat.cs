@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using UnityEngine;
 
 public class PlayerCombat : MonoBehaviour
@@ -9,7 +10,7 @@ public class PlayerCombat : MonoBehaviour
     private float lastClickedTime = 3;
     public Transform attackPoint;
     public float weaponRange = 10;
-    public LayerMask enemyLayers;
+    public LayerMask Enemy;
     public float damage;
     private bool isGuarding = false;
     private float guardDamageReduction = 0.5f; // Reduce damage by 50% when guarding
@@ -50,29 +51,46 @@ public class PlayerCombat : MonoBehaviour
 
     public void Attack()
     {
+        // Create a visual sphere in the actual game to see the hitbox
+        GameObject debugSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        debugSphere.transform.position = attackPoint.position;
+        // weaponRange is a radius, so we multiply by 2 for the diameter scale
+        debugSphere.transform.localScale = new Vector3(weaponRange * 2, weaponRange * 2, weaponRange * 2);
         
+        Destroy(debugSphere.GetComponent<Collider>()); // Prevent it from interfering with actual physics
         
-        Collider[] enemies = Physics.OverlapSphere(attackPoint.position, weaponRange, enemyLayers);
+        Renderer rend = debugSphere.GetComponent<Renderer>();
+        if (rend != null) rend.material.color = new Color(1f, 0f, 0f, 0.5f); // Color it red
         
-        if(enemies.Length > 0)
+        Destroy(debugSphere, 0.3f); // Destroy it after 0.3 seconds
+        
+        // Find ALL colliders in range without using a layer mask
+        Collider[] allHit = Physics.OverlapSphere(attackPoint.position, weaponRange);
+        
+        System.Collections.Generic.HashSet<EnemyStat> hitEnemies = new System.Collections.Generic.HashSet<EnemyStat>();
+
+        foreach (Collider col in allHit)
         {
-            EnemyStat stat = enemies[0].GetComponent<EnemyStat>();
-            if(stat != null)
+            // Only damage colliders that are explicitly tagged as "Enemy"
+            if (col.CompareTag("Enemy"))
             {
-                // Fetch dynamic damage from player stats (or fallback to base damage)
-                float appliedDamage = (playerStat != null) ? playerStat.GetPhysicalDamage() : damage;
+                EnemyStat stat = col.GetComponentInParent<EnemyStat>();
                 
-                if(isGuarding)
+                if (stat != null && !hitEnemies.Contains(stat))
                 {
-                    appliedDamage *= guardDamageReduction; // Reduce damage if guarding
+                    hitEnemies.Add(stat);
+
+                    float appliedDamage = (playerStat != null) ? playerStat.GetPhysicalDamage() : damage;
+                    
+                    if(isGuarding)
+                    {
+                        appliedDamage *= guardDamageReduction;
+                    }
+                    
+                    stat.TakePhysicalDamage(appliedDamage);
                 }
-                
-                // Deal physical damage instead of raw health modification
-                stat.TakePhysicalDamage(appliedDamage);
             }
         }
-        
-        
     }
 
     public void Combohit1Transition()

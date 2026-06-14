@@ -10,11 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 64642975526893312, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
       propertyPath: onBossDefeated.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 64642975526893312, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
       propertyPath: onBossDefeated.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 64642975526893312, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
       propertyPath: onBossDefeated.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -22,15 +22,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 64642975526893312, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
       propertyPath: onBossDefeated.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnBossDefeated
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 64642975526893312, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
       propertyPath: onBossDefeated.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: DungeonManager, Assembly-CSharp
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 64642975526893312, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
       propertyPath: onBossDefeated.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 592002294769745864, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -107,5 +107,27 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8685762605405110447, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1276079197751293233}
   m_SourcePrefab: {fileID: 100100000, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+--- !u!1 &9192565812033854812 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8685762605405110447, guid: afeaf2166aee28e469946ac40edfc985, type: 3}
+  m_PrefabInstance: {fileID: 511311341808950771}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1276079197751293233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9192565812033854812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c757a86ff6fee848b1c976035510cb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::New_Dungeon.BossRoomController
+  exitPortalPrefab: {fileID: 947716524232082371, guid: 90a1dcefb99d5594189cfb66550fbba1, type: 3}
+  bossChestPrefab: {fileID: 7056306788243686916, guid: 52a3f3496c6273746954123a3ac15f7c, type: 3}

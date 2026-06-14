@@ -1,39 +1,72 @@
 using UnityEngine;
-
-/// <summary>
-/// DEPRECATED: Use PlayerController instead.
-/// This script is kept for backward compatibility but is no longer the primary interaction handler.
-/// 
-/// PlayerController now handles all interaction detection and input processing.
-/// All interactable objects should implement IInteractable interface.
-/// 
-/// To remove: Delete this script and ensure objects use IInteractable with PlayerController.
-/// </summary>
+using UnityEngine.UI;
 
 public class Interactor : MonoBehaviour
 {
-    public float InteractRange = 3f;
-    private IInteractable nearbyInteractable;
+    [Header("Interaction Settings")]
+    public float interactRange = 3f;
+    
+    [Tooltip("The UI Canvas or Button GameObject attached to this object that should appear when the player is close.")]
+    public GameObject hintUI; 
 
-    void Update()
+    private bool inRange = false;
+    private IInteractable interactable;
+
+    private void Awake()
     {
-        // Check for nearby interactable objects
-        Collider[] colliders = Physics.OverlapSphere(transform.position, InteractRange);
-        nearbyInteractable = null;
-
-        foreach (Collider collider in colliders)
+        interactable = GetComponent<IInteractable>();
+        
+        // Ensure the hint UI is hidden by default
+        if (hintUI != null) 
         {
-            if (collider.TryGetComponent(out IInteractable interactable))
+            hintUI.SetActive(false);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            inRange = true;
+            if (hintUI != null)
             {
-                nearbyInteractable = interactable;
-                break;
+                hintUI.SetActive(true);
             }
         }
+    }
 
-        // If near an interactable and press F, interact
-        if (Input.GetKeyDown(KeyCode.F) && nearbyInteractable != null)
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
         {
-            nearbyInteractable.Interact();
+            inRange = false;
+            if (hintUI != null)
+            {
+                hintUI.SetActive(false);
+            }
+        }
+    }
+
+    private void Update()
+    {
+        // If the player is in the collider zone and presses F, trigger the interaction
+        if (inRange && Input.GetKeyDown(KeyCode.F))
+        {
+            TriggerInteraction();
+        }
+    }
+
+    // You can link your UI Button's OnClick event directly to this function in the inspector!
+    public void TriggerInteraction()
+    {
+        if (interactable == null)
+        {
+            interactable = GetComponent<IInteractable>();
+        }
+
+        if (interactable != null)
+        {
+            interactable.Interact();
         }
     }
 }

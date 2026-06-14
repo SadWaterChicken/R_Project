@@ -5,30 +5,14 @@ using System.Collections;
 
 namespace New_Dungeon
 {
-    public class EventStructure : MonoBehaviour
+    public class EventStructure : MonoBehaviour, IInteractable
     {
         public EventRoomController roomController;
 
-        [Header("Shared UI")]
-        public GameObject uiPanel;
-        public GameObject backgroundOverlay; 
-
-        [Header("Phase 1: Start Event UI")]
-        public GameObject phase1Container; 
-        public TextMeshProUGUI p1_HeaderTitle;
-        public TextMeshProUGUI p1_Description;
-        public GameObject p1_RewardPreview; 
-        public Button p1_StartButton; 
-        public TextMeshProUGUI p1_StartButtonText; // To show cost on button
-        
-        [Header("Phase 2: Mid-Event UI")]
-        public GameObject phase2Container;
-        public TextMeshProUGUI p2_HeaderTitle;
-        public TextMeshProUGUI p2_CurrentRewardText;
-        public TextMeshProUGUI p2_WarningText; 
-        public Button p2_TakeButton; 
-        public Button p2_ContinueButton; 
-        public TextMeshProUGUI p2_ContinueButtonText; // To show cost on button
+        [Header("UI Elements")]
+        public GameObject mainPanel;  // Screen space panel
+        public TextMeshProUGUI messageText; 
+        public Button startButton;
 
         [Header("Animation")]
         public float submergeDepth = -10f;
@@ -39,117 +23,80 @@ namespace New_Dungeon
         {
             initialPosition = transform.position;
 
-            if (uiPanel != null) uiPanel.SetActive(false);
+            if (mainPanel != null) mainPanel.SetActive(false);
 
-            // Phase 1 Button
-            if (p1_StartButton != null)
+            if (messageText != null)
             {
-                p1_StartButton.onClick.RemoveAllListeners();
-                p1_StartButton.onClick.AddListener(OnDoubleClicked);
+                // Automatically fix the massive font size issue
+                messageText.enableAutoSizing = true;
+                messageText.fontSizeMax = 8; 
+                messageText.alignment = TextAlignmentOptions.Center;
             }
 
-            // Phase 2 Buttons
-            if (p2_ContinueButton != null)
+            if (startButton != null)
             {
-                p2_ContinueButton.onClick.RemoveAllListeners();
-                p2_ContinueButton.onClick.AddListener(OnDoubleClicked);
-            }
-
-            if (p2_TakeButton != null)
-            {
-                p2_TakeButton.onClick.RemoveAllListeners();
-                p2_TakeButton.onClick.AddListener(OnTakeClicked);
+                startButton.onClick.RemoveAllListeners();
+                startButton.onClick.AddListener(OnStartClicked);
             }
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag("Player") && !roomController.isEventRunning)
-            {
-                if (roomController.currentWave == 0)
-                {
-                    ShowPhase1();
-                }
-            }
+            // Removed hintCanvas logic, PlayerController handles it now.
         }
 
         private void OnTriggerExit(Collider other)
         {
             if (other.CompareTag("Player"))
             {
-                if (uiPanel != null) uiPanel.SetActive(false);
+                // Auto close UI when walking away
+                if (mainPanel != null && mainPanel.activeSelf) 
+                {
+                    mainPanel.SetActive(false);
+                    
+                    // Lock cursor back when walking away
+                    Cursor.lockState = CursorLockMode.Locked;
+                    Cursor.visible = false;
+                }
             }
         }
 
-        private void ShowPhase1()
+        public void Interact()
         {
-            int cost = GetNextWaveCost();
-            int playerCubes = GetPlayerCubes();
-
-            if (phase1Container != null) phase1Container.SetActive(true);
-            if (phase2Container != null) phase2Container.SetActive(false);
-
-            if (p1_HeaderTitle != null) 
-                p1_HeaderTitle.text = "THỬ THÁCH SINH TỬ";
+            if (roomController.isEventRunning) return;
             
-            string desc = "Dâng lên Energy Cube để triệu hồi quái vật.\nHoàn thành đợt để nhận Rương.\nBạn có thể dừng lại chốt lời sau mỗi đợt hoặc tiếp tục thử thách để nhận nhiều rương hơn!";
-            if (playerCubes < cost)
+            if (mainPanel != null) 
             {
-                int needed = cost - playerCubes;
-                desc += $"\n\n<color=red>Chưa đủ điều kiện! Bạn cần tìm thêm {needed} Energy Cube nữa để bắt đầu.</color>";
+                mainPanel.SetActive(true);
+                UpdateUIState();
+                
+                // Unlock cursor so player can click UI
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
             }
-
-            if (p1_Description != null) 
-                p1_Description.text = desc;
-
-            if (p1_StartButtonText != null)
-                p1_StartButtonText.text = $"BẮT ĐẦU\n(Tiêu hao {cost} Cube)";
-            
-            if (p1_StartButton != null)
-                p1_StartButton.interactable = (playerCubes >= cost);
-
-            if (uiPanel != null) uiPanel.SetActive(true);
         }
 
         public void ShowMidEventChoice()
         {
             RiseUp(); 
-
-            int cost = GetNextWaveCost();
-            int playerCubes = GetPlayerCubes();
-            int currentReward = roomController.currentWave;
-
-            if (phase1Container != null) phase1Container.SetActive(false);
-            if (phase2Container != null) phase2Container.SetActive(true);
-
-            if (p2_HeaderTitle != null) 
-                p2_HeaderTitle.text = "THỬ THÁCH HOÀN THÀNH!";
-            
-            if (p2_CurrentRewardText != null) 
-                p2_CurrentRewardText.text = $"Bạn đã tích lũy được: <color=yellow>{currentReward} RƯƠNG</color>";
-
-            string warning = "Dừng lại để nhận rương an toàn.\nHoặc dâng thêm Cube để khiêu chiến đợt tiếp theo.\n<color=red>Cảnh báo: Độ khó sẽ tăng cao!</color>";
-            if (playerCubes < cost)
-            {
-                int needed = cost - playerCubes;
-                warning += $"\n\n<color=red>Chưa đủ điều kiện! Bạn cần tìm thêm {needed} Energy Cube nữa để đi tiếp.</color>";
-            }
-
-            if (p2_WarningText != null)
-                p2_WarningText.text = warning;
-
-            if (p2_ContinueButtonText != null)
-                p2_ContinueButtonText.text = $"ĐI TIẾP\n(Tiêu hao {cost} Cube)";
-
-            if (p2_ContinueButton != null)
-                p2_ContinueButton.interactable = (playerCubes >= cost);
-
-            if (uiPanel != null) uiPanel.SetActive(true);
+            // The panel doesn't auto-open anymore. The player has to press F to interact with the structure again.
+            // The global PlayerController hint UI will automatically handle showing "F" if they are in range.
         }
 
-        private int GetPlayerCubes()
+        private void UpdateUIState()
         {
-            return PlayerStat.Instance != null ? PlayerStat.Instance.currentEnergyCubes : 0;
+            if (messageText == null) return;
+            
+            int cost = GetNextWaveCost();
+            
+            if (roomController.currentWave == 0)
+            {
+                messageText.text = $"Start Trial?\nCost: {cost} Energy Cubes";
+            }
+            else
+            {
+                messageText.text = $"Wave {roomController.currentWave} Completed!\nReward added to Sack.\nNext Wave Cost: {cost} Energy Cubes";
+            }
         }
 
         private int GetNextWaveCost()
@@ -157,26 +104,40 @@ namespace New_Dungeon
             return 1 + roomController.currentWave;
         }
 
-        public void OnDoubleClicked()
+        private int GetPlayerCubes()
+        {
+            return PlayerStat.Instance != null ? PlayerStat.Instance.currentEnergyCubes : 0;
+        }
+
+        public void OnStartClicked()
         {
             int cost = GetNextWaveCost();
+            int playerCubes = GetPlayerCubes();
 
+            if (playerCubes < cost)
+            {
+                if (messageText != null)
+                {
+                    messageText.text = "You don't have enough Energy cube";
+                }
+                return;
+            }
+
+            // Spend cubes
             if (PlayerStat.Instance != null)
             {
                 bool success = PlayerStat.Instance.SpendEnergyCubes(cost);
                 if (!success) return; 
             }
 
-            if (uiPanel != null) uiPanel.SetActive(false);
+            if (mainPanel != null) mainPanel.SetActive(false);
+
+            // Lock cursor back when starting event
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
 
             StartCoroutine(LerpPosition(initialPosition + Vector3.up * submergeDepth));
             roomController.StartNextWave();
-        }
-
-        public void OnTakeClicked()
-        {
-            if (uiPanel != null) uiPanel.SetActive(false);
-            roomController.TakeChestsAndEnd();
         }
 
         public void RiseUp()

@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 1810055393809211156}
   - component: {fileID: 1605145289023425857}
   - component: {fileID: -3969084532332703413}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: Elit_Dummy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -142,7 +142,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae4ea46037439d44b85de08b5b423fe5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EmenyStat
-  enemyLevel: 1
   maxHealth: 150
   currentHealth: 0
   healthRegenRate: 0
@@ -158,14 +157,15 @@ MonoBehaviour:
   baseSpeed: 6
   movementSpeed: 6
   attackSpeed: 1
-  attackRange: 1
-  attackCooldown: 1
-  detectionRange: 10
   critChance: 0
   shield: 0
   maxShield: 0
   shieldRegenRate: 0
   shieldRechargeCooldown: 5
+  enemyLevel: 1
+  attackRange: 1
+  attackCooldown: 1
+  detectionRange: 10
   outOfCombatDelay: 3
 --- !u!54 &-3969084532332703413
 Rigidbody:

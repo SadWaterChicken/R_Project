@@ -1,13 +1,19 @@
 using UnityEngine;
 
-public class DungeonExit : MonoBehaviour
+public class DungeonExit : MonoBehaviour, IInteractable
 {
-    private void OnTriggerEnter(Collider other)
+    public void Interact()
     {
-        if (other.CompareTag("Player"))
+        Debug.Log("[DungeonExit] Player interacting with DungeonExit portal!");
+
+        // Return to the overworld (this automatically handles the loading screen and teleporting)
+        if (GameStateManager.Instance != null)
         {
-            Debug.Log("Player entered DungeonExit portal!");
-            // Add logic here to load the next level or return to town
+            GameStateManager.Instance.ReturnToOverworld();
+        }
+        else
+        {
+            Debug.LogError("[DungeonExit] GameStateManager.Instance is null! Cannot return to overworld.");
         }
     }
 }

@@ -16,7 +16,9 @@ namespace New_Dungeon
 
         [Header("Event Settings")]
         public EventStructure eventStructure;
-        public GameObject eventChestPrefab;
+        // The chest spawning is now handled globally by DungeonRewardManager based on Theme and Difficulty
+        // public GameObject eventChestPrefab; 
+        // public List<ItemData> possibleRewards;
         
         [Header("Enemy Configuration")]
         public List<GameObject> normalEventEnemies;
@@ -56,18 +58,49 @@ namespace New_Dungeon
 
             yield return new WaitForSeconds(1.5f);
 
-            if (currentWave >= MAX_WAVES)
+            SpawnChest();
+            
+            // We do NOT RiseUp or unlock doors here. We wait for the chest to be opened!
+        }
+
+        private void SpawnChest()
+        {
+            Vector3 spawnPos = transform.position + new Vector3(0, 0, 0); // Adjust as needed
+            
+            if (DungeonRewardManager.Instance != null)
             {
-                // Reached max waves, auto take
-                TakeChestsAndEnd();
+                DungeonRewardManager.Instance.SpawnRewardChest(spawnPos, transform, OnChestOpened);
             }
             else
             {
-                // Show mid-event choice
+                Debug.LogError("[EventRoom] DungeonRewardManager is missing! Cannot spawn reward chest.");
+                OnChestOpened(); // Auto-continue to prevent softlock
+            }
+        }
+
+
+
+        public void OnChestOpened()
+        {
+            if (currentWave >= MAX_WAVES)
+            {
+                isEventRunning = false;
+                if (eventStructure != null) eventStructure.gameObject.SetActive(false);
+                baseRoom.isCleared = true;
+            }
+            else
+            {
+                isEventRunning = false;
                 if (eventStructure != null)
                 {
-                    eventStructure.ShowMidEventChoice();
+                    eventStructure.RiseUp();
                 }
+            }
+
+            // Unlock doors after chest is opened so player can leave
+            foreach (Door door in baseRoom.activeDoors)
+            {
+                door.SetLocked(false);
             }
         }
 
@@ -120,50 +153,9 @@ namespace New_Dungeon
             }
         }
 
-        public void TakeChestsAndEnd()
-        {
-            isEventRunning = false;
-            int chestsToSpawn = currentWave;
-            
-            Debug.Log($"[EventRoom] Event Finished! Spawning {chestsToSpawn} Chests.");
-
-            // Spawn Chests
-            for (int i = 0; i < chestsToSpawn; i++)
-            {
-                if (eventChestPrefab != null)
-                {
-                    Vector3 pos = transform.position + new Vector3(i * 1.5f - ((chestsToSpawn - 1) * 0.75f), 0, 0);
-                    Instantiate(eventChestPrefab, pos, Quaternion.identity);
-                }
-            }
-
-            if (eventStructure != null)
-            {
-                if (currentWave >= MAX_WAVES)
-                {
-                    // If maxed out, deactivate structure entirely
-                    eventStructure.gameObject.SetActive(false);
-                }
-                else
-                {
-                    eventStructure.RiseUp();
-                    // Optionally disable its UI so it can't be interacted with again
-                    eventStructure.enabled = false; 
-                }
-            }
-
-            // Unlock doors
-            foreach (Door door in baseRoom.activeDoors)
-            {
-                door.SetLocked(false);
-            }
-            baseRoom.isCleared = true;
-        }
-
         public void FailEvent()
         {
-            // Called if player dies or leaves, they lose the chests.
-            // Assuming player death reloads scene, this might not be needed.
+            // Called if player dies or leaves
             isEventRunning = false;
         }
     }

@@ -130,7 +130,6 @@ public class Room : MonoBehaviour
             ClearRoom();
     }
 
-    // ClearRoom: mark room cleared, unlock doors, and raise clear/boss events
     private void ClearRoom()
     {
         isCleared = true;
@@ -151,24 +150,10 @@ public class Room : MonoBehaviour
                 GameStateManager.Instance.isBossKilled = true;
             }
             DungeonEvents.RaiseBossDefeated(this);
-            SpawnDungeonExit();
+            
+            // Invoke the local unity event so BossRoomController can react
+            onBossDefeated?.Invoke(this);
         }
-    }
-
-    private void SpawnDungeonExit()
-    {
-        GameObject exitObj = new GameObject("DungeonExit_Portal");
-        
-        // Spawn slightly above the center of the boss room
-        exitObj.transform.position = transform.position + new Vector3(0, 1.5f, 0); 
-        
-        BoxCollider col = exitObj.AddComponent<BoxCollider>();
-        col.isTrigger = true;
-        col.size = new Vector3(2f, 2f, 2f); // Big enough to interact with easily
-        
-        exitObj.AddComponent<DungeonExit>();
-        
-        Debug.Log($"[{gameObject.name}] Spawned DungeonExit portal at {exitObj.transform.position}");
     }
 
     // OnTriggerEnter: detect player entry or generation-phase overlaps

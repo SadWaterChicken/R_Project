@@ -240,13 +240,17 @@ public class DungeonManager : MonoBehaviour
         UpdateGoDeeperLabel();
     }
 
-    // SetBossOptionsVisible: show/hide the boss options UI
     private void SetBossOptionsVisible(bool visible)
     {
-        bossOptionsPanel?.SetActive(visible);
+        if (bossOptionsPanel != null)
+        {
+            bossOptionsPanel.SetActive(visible);
+        }
 
         if (bossOptionsCanvas != null)
+        {
             bossOptionsCanvas.enabled = visible;
+        }
     }
 
     // UpdateGoDeeperLabel: refresh Go Deeper button label with floor info
