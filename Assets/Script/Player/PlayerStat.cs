@@ -198,12 +198,28 @@ public class PlayerStat : CharacterStats
     public override void TakePhysicalDamage(float damage, float armorPenetration = 0f)
     {
         if (isInvincible) return;
+        
+        PlayerCombat combat = GetComponent<PlayerCombat>();
+        if (combat != null && combat.IsGuarding())
+        {
+            damage *= combat.guardDamageReduction;
+            Debug.Log($"[PlayerStat] Guarding! Reduced incoming physical damage to {damage}");
+        }
+
         base.TakePhysicalDamage(damage, armorPenetration);
     }
 
     public override void TakeMagicDamage(float damage, float resistancePenetration = 0f)
     {
         if (isInvincible) return;
+
+        PlayerCombat combat = GetComponent<PlayerCombat>();
+        if (combat != null && combat.IsGuarding())
+        {
+            damage *= combat.guardDamageReduction;
+            Debug.Log($"[PlayerStat] Guarding! Reduced incoming magic damage to {damage}");
+        }
+
         base.TakeMagicDamage(damage, resistancePenetration);
     }
 

@@ -117,18 +117,30 @@ namespace New_Dungeon
             Vector3 minPos = bounds.min + padding;
             Vector3 maxPos = bounds.max - padding;
 
+            DungeonThemeSetup theme = null;
+            RoomGenerator generator = Object.FindAnyObjectByType<RoomGenerator>();
+            if (generator != null) theme = generator.currentTheme;
+
             for (int i = 0; i < numEnemies; i++)
             {
                 bool spawnElite = Random.value < eliteChance;
                 GameObject toSpawn = null;
 
-                if (spawnElite && eliteEventEnemies != null && eliteEventEnemies.Count > 0)
+                if (spawnElite)
                 {
-                    toSpawn = eliteEventEnemies[Random.Range(0, eliteEventEnemies.Count)];
+                    if (eliteEventEnemies != null && eliteEventEnemies.Count > 0)
+                        toSpawn = eliteEventEnemies[Random.Range(0, eliteEventEnemies.Count)];
+                    else if (theme != null)
+                        toSpawn = theme.GetRandomEliteEnemy();
                 }
-                else if (normalEventEnemies != null && normalEventEnemies.Count > 0)
+
+                // If not elite, or if elite prefab was missing, spawn a normal enemy
+                if (toSpawn == null)
                 {
-                    toSpawn = normalEventEnemies[Random.Range(0, normalEventEnemies.Count)];
+                    if (normalEventEnemies != null && normalEventEnemies.Count > 0)
+                        toSpawn = normalEventEnemies[Random.Range(0, normalEventEnemies.Count)];
+                    else if (theme != null)
+                        toSpawn = theme.GetRandomEnemy();
                 }
 
                 if (toSpawn != null)

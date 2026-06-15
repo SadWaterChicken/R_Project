@@ -226,7 +226,7 @@
                 }
             ],
             "equippable": true,
-            "equipped": false,
+            "equipped": true,
             "equipmentType": 1,
             "weaponClassName": "Orb",
             "forgeLevel": 0,

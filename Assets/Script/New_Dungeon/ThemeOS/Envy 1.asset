@@ -27,7 +27,10 @@ MonoBehaviour:
   - bossName: Envy
     bossRoomPrefab: {fileID: 9192565812033854812, guid: 8bc77b1b43b5af149b01e348b2cb452c, type: 3}
     bossPrefab: {fileID: 4551235992430138568, guid: 51e45edc2cb28aa4d963013c2b279a09, type: 3}
-  themeChests: []
+  themeChests:
+  - tier: 0
+    chestPrefab: {fileID: 7056306788243686916, guid: 52a3f3496c6273746954123a3ac15f7c, type: 3}
+    possibleRewards: []
   enemyStatMultiplier: 1
   lootQualityMultiplier: 1
   eliteSpawnRate: 15

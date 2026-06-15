@@ -880,12 +880,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::New_Dungeon.EventRoomController
   eventStructure: {fileID: 7497165837551034500}
-  eventChestPrefab: {fileID: 7056306788243686916, guid: 52a3f3496c6273746954123a3ac15f7c, type: 3}
-  possibleRewards: []
-  normalEventEnemies:
-  - {fileID: 4565311123560629032, guid: 4016f9a83c7b38247ae61f31fa5f9fa8, type: 3}
-  eliteEventEnemies:
-  - {fileID: 4565311123560629032, guid: c57d51924ee1f0a4890fdae51b5bb451, type: 3}
+  normalEventEnemies: []
+  eliteEventEnemies: []
   baseEnemiesPerWave: 3
   eliteSpawnChanceIncreasePerWave: 0.2
   isEventRunning: 0

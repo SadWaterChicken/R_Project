@@ -62,18 +62,14 @@ public class SceneTransitionManager : MonoBehaviour
         // Wait until the asynchronous scene fully loads (Scene load is first 50% of the bar)
         while (!asyncLoad.isDone)
         {
-            // asyncLoad.progress goes from 0.0 to 0.9 while loading, and 1.0 when done.
-            // We clamp it and divide by 0.9f to get a smooth 0.0 to 1.0 value.
             float progressValue = Mathf.Clamp01(asyncLoad.progress / 0.9f);
-            
             targetProgress = progressValue * 0.5f; // Max 50% for scene load
             
+            currentProgress = Mathf.Lerp(currentProgress, targetProgress, Time.deltaTime * 5f);
+            currentProgress = Mathf.MoveTowards(currentProgress, targetProgress, Time.deltaTime * 0.5f);
+
             if (loadingBar != null)
             {
-                // Lerp provides a buttery smooth ease-out effect
-                currentProgress = Mathf.Lerp(currentProgress, targetProgress, Time.deltaTime * 5f);
-                // MoveTowards guarantees it never gets stuck mathematically
-                currentProgress = Mathf.MoveTowards(currentProgress, targetProgress, Time.deltaTime * 0.5f);
                 loadingBar.value = currentProgress;
             }
             
@@ -86,7 +82,6 @@ public class SceneTransitionManager : MonoBehaviour
         {
             bool isDungeonGenerated = false;
             
-            // Subscribe to the generation complete event
             System.Action onComplete = () => isDungeonGenerated = true;
             dungeonGenerator.onGenerationComplete += onComplete;
 
@@ -95,16 +90,16 @@ public class SceneTransitionManager : MonoBehaviour
             {
                 targetProgress = 0.5f + (dungeonGenerator.GetGenerationProgress() * 0.5f);
                 
+                currentProgress = Mathf.Lerp(currentProgress, targetProgress, Time.deltaTime * 5f);
+                currentProgress = Mathf.MoveTowards(currentProgress, targetProgress, Time.deltaTime * 0.5f);
+
                 if (loadingBar != null)
                 {
-                    currentProgress = Mathf.Lerp(currentProgress, targetProgress, Time.deltaTime * 5f);
-                    currentProgress = Mathf.MoveTowards(currentProgress, targetProgress, Time.deltaTime * 0.5f);
                     loadingBar.value = currentProgress;
                 }
                 yield return null;
             }
 
-            // Unsubscribe just to be clean
             dungeonGenerator.onGenerationComplete -= onComplete;
         }
 
@@ -112,10 +107,11 @@ public class SceneTransitionManager : MonoBehaviour
         targetProgress = 1f;
         while (currentProgress < 0.99f)
         {
+            currentProgress = Mathf.Lerp(currentProgress, targetProgress, Time.deltaTime * 8f); // faster at the very end
+            currentProgress = Mathf.MoveTowards(currentProgress, targetProgress, Time.deltaTime * 2f);
+
             if (loadingBar != null)
             {
-                currentProgress = Mathf.Lerp(currentProgress, targetProgress, Time.deltaTime * 8f); // faster at the very end
-                currentProgress = Mathf.MoveTowards(currentProgress, targetProgress, Time.deltaTime * 2f);
                 loadingBar.value = currentProgress;
             }
             yield return null;

@@ -39,6 +39,7 @@ public class RoomGenerator : MonoBehaviour
         roomGrid[Vector2Int.zero] = generatorRoom;
         
         roomContainer = new GameObject("Rooms").transform;
+        roomContainer.SetParent(this.transform); // Make it a child of the generator so NavMesh can easily target it
 
         BoxCollider generatorCollider = generatorRoom.GetComponent<BoxCollider>();
         if (generatorCollider != null)
@@ -165,9 +166,23 @@ public class RoomGenerator : MonoBehaviour
             Debug.LogWarning("[RoomGenerator] Player not found! Could not teleport to start room.");
         }
         
+        // --- NAVMESH BAKING ---
+        Unity.AI.Navigation.NavMeshSurface surface = GetComponent<Unity.AI.Navigation.NavMeshSurface>();
+        if (surface != null)
+        {
+            surface.BuildNavMesh();
+            Debug.Log("[RoomGenerator] NavMesh baked successfully at runtime!");
+        }
+        else
+        {
+            Debug.LogWarning("[RoomGenerator] NavMeshSurface component missing! Cannot bake NavMesh.");
+        }    
+        
         // Optimize Performance: Batch all room geometry into a single static mesh
-        // This drastically reduces draw calls since rooms never move after generation
-        StaticBatchingUtility.Combine(roomContainer.gameObject);
+        // MUST BE DONE AFTER NAVMESH BAKING, otherwise the combined mesh blocks CPU read access.
+        // TẠM THỜI TẮT LỆNH NÀY: Lệnh này gom tất cả model thành 1 cục tĩnh (Static) để nhẹ máy.
+        // NHƯNG nó làm cho các vật thể có Animation di chuyển (như EventStructure thụt xuống/trồi lên) bị đóng băng!
+        // StaticBatchingUtility.Combine(roomContainer.gameObject);
         
         onGenerationComplete?.Invoke();
     }
