@@ -197,13 +197,34 @@ public class PlayerController : MonoBehaviour
                 controller.Move(velocity * Time.deltaTime);
             }
 
-            // Interaction logic is now handled by Interactor scripts on the objects themselves
+            // Interaction logic
+            DetectNearbyInteractables();
+            if ((inputActions.Player.Interact.triggered || Input.GetKeyDown(KeyCode.F)) && nearbyInteractable != null)
+            {
+                nearbyInteractable.Interact();
+            }
+
             // Camera rotation is now handled completely by Cinemachine FreeLook
             // Removed manual Q/E rotation to prevent conflicts and jitter
         }
         
 
+    private void DetectNearbyInteractables()
+    {
+        nearbyInteractable = null;
+        Collider[] colliders = Physics.OverlapSphere(transform.position, interactionRange);
 
+        foreach (Collider col in colliders)
+        {
+            // Use GetComponentInParent to find interactable even if collider is on a child object
+            IInteractable interactable = col.GetComponentInParent<IInteractable>();
+            if (interactable != null)
+            {
+                nearbyInteractable = interactable;
+                break;
+            }
+        }
+    }
 
     private System.Collections.IEnumerator DashRoutine(Vector3 dashDirection)
     {

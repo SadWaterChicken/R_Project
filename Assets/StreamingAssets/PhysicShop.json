@@ -1,31 +1,145 @@
-{
-  "shopName": "Black",
-  "npcName": "Rogan",
-  "shopType": "Physic",
-  "items": [
-    {
-      "id": "socket_upgrade",
-      "name": "Socket Infusion",
-      "description": "Embed sockets into weapons to increase physical damage.",
-      "price": 300,
-      "iconPath": "Icons/armor",
-      "type": "Socket"
-    },
-    {
-      "id": "armor_01",
-      "name": "Leather Armor",
-      "description": "Light leather armor that boosts defense and movement speed.",
-      "price": 150,
-      "iconPath": "Icons/armor",
-      "type": "Armor"
-    },
-    {
-      "id": "ring_01",
-      "name": "Silver Ring",
-      "description": "A silver ring that increases critical hit rate by 5%.",
-      "price": 180,
-      "iconPath": "Icons/armor",
-      "type": "Accessory"
-    }
-  ]
+﻿{
+    "shopName":  "Black",
+    "npcName":  "Rogan",
+    "shopType":  "Physic",
+    "items":  [
+                  {
+                      "id":  "socket_upgrade",
+                      "name":  "Socket Infusion",
+                      "description":  "Embed sockets into weapons to increase physical damage.",
+                      "price":  300,
+                      "iconPath":  "Icons/armor",
+                      "type":  "Socket",
+                      "itemTier":  1,
+                      "modifiers":  [
+                                        {
+                                            "isMainStat":  true,
+                                            "percent":  false,
+                                            "value":  10,
+                                            "stat":  "physicalDamage",
+                                            "percentValue":  0
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "magicDamage",
+                                            "percentValue":  0.02
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "physicalDamage",
+                                            "percentValue":  0.02
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "physicalArmour",
+                                            "percentValue":  0.03
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "magicDamage",
+                                            "percentValue":  0.01
+                                        }
+                                    ]
+                  },
+                  {
+                      "id":  "armor_01",
+                      "name":  "Leather Armor",
+                      "description":  "Light leather armor that boosts defense and movement speed.",
+                      "price":  150,
+                      "iconPath":  "Icons/armor",
+                      "type":  "Armor",
+                      "itemTier":  1,
+                      "modifiers":  [
+                                        {
+                                            "isMainStat":  true,
+                                            "percent":  false,
+                                            "value":  10,
+                                            "stat":  "physicalDamage",
+                                            "percentValue":  0
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "physicalArmour",
+                                            "percentValue":  0.03
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "physicalDamage",
+                                            "percentValue":  0.01
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "criticalChance",
+                                            "percentValue":  0.02
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "magicDamage",
+                                            "percentValue":  0.02
+                                        }
+                                    ]
+                  },
+                  {
+                      "id":  "ring_01",
+                      "name":  "Silver Ring",
+                      "description":  "A silver ring that increases critical hit rate by 5%.",
+                      "price":  180,
+                      "iconPath":  "Icons/armor",
+                      "type":  "Accessory",
+                      "itemTier":  1,
+                      "modifiers":  [
+                                        {
+                                            "isMainStat":  true,
+                                            "percent":  false,
+                                            "value":  10,
+                                            "stat":  "physicalDamage",
+                                            "percentValue":  0
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "physicalDamage",
+                                            "percentValue":  0.02
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "criticalChance",
+                                            "percentValue":  0.03
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "physicalArmour",
+                                            "percentValue":  0.02
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "criticalChance",
+                                            "percentValue":  0.02
+                                        }
+                                    ]
+                  }
+              ]
 }

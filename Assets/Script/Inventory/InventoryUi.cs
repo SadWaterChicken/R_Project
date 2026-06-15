@@ -185,12 +185,29 @@ public class InventoryUI : MonoBehaviour
     {
         if (item.modifiers == null || item.modifiers.Count == 0) return "";
         var sb = new StringBuilder();
+
+        // 1. In ra Dòng Chính trước (Màu Vàng / Cam) - Tương thích ngược với các file JSON cũ
         foreach (var m in item.modifiers)
         {
-            var sign = m.value >= 0 ? "+" : "";
-            var val = m.percent ? $"{sign}{m.value}%" : $"{sign}{m.value}";
-            sb.AppendLine($"{m.stat}: {val}");
+            if (m.isMainStat)
+            {
+                var sign = m.value >= 0 ? "+" : "";
+                var val = m.percent ? $"{sign}{m.value}%" : $"{sign}{m.value}";
+                sb.AppendLine($"<color=#FFB300><b>{m.stat}: {val}</b></color>");
+            }
         }
+
+        // 2. In ra Dòng Phụ (Màu Trắng/Xám)
+        foreach (var m in item.modifiers)
+        {
+            if (!m.isMainStat)
+            {
+                var sign = m.value >= 0 ? "+" : "";
+                var val = m.percent ? $"{sign}{(m.percentValue * 100).ToString("0.##")}%" : $"{sign}{m.value}";
+                sb.AppendLine($"  <color=#DDDDDD>• {m.stat}: {val}</color>");
+            }
+        }
+
         return sb.ToString().TrimEnd();
     }
 }
