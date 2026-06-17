@@ -20,14 +20,17 @@ MonoBehaviour:
   eventRoomPrefabs:
   - {fileID: 4471891865712484735, guid: 4790eae3e36d8d74b88d874245639346, type: 3}
   enemyPrefabs:
-  - {fileID: 4073294042357489424, guid: 474b448f6d1bcef449bea39657564ea5, type: 3}
+  - {fileID: 905590682323825698, guid: 064ae417df88e74459215df5f71713a4, type: 3}
   eliteEnemyPrefabs:
-  - {fileID: 4073294042357489424, guid: 474b448f6d1bcef449bea39657564ea5, type: 3}
+  - {fileID: 9103955058456482240, guid: f87045dedda1bc64f9000e35f2f7363b, type: 3}
   bossList:
   - bossName: Envy
     bossRoomPrefab: {fileID: 9192565812033854812, guid: 8bc77b1b43b5af149b01e348b2cb452c, type: 3}
-    bossPrefab: {fileID: 4073294042357489424, guid: 8f8eb976df94dfa46b39d0d6a02ba472, type: 3}
-  themeChests: []
+    bossPrefab: {fileID: 3797828930190832348, guid: 84948612c5d0c1f49ad42c9f588b0138, type: 3}
+  themeChests:
+  - tier: 0
+    chestPrefab: {fileID: 7056306788243686916, guid: 52a3f3496c6273746954123a3ac15f7c, type: 3}
+    possibleRewards: []
   enemyStatMultiplier: 1
   lootQualityMultiplier: 1
   eliteSpawnRate: 15

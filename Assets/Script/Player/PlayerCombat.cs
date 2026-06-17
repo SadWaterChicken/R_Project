@@ -13,7 +13,7 @@ public class PlayerCombat : MonoBehaviour
     public LayerMask Enemy;
     public float damage;
     private bool isGuarding = false;
-    private float guardDamageReduction = 0.5f; // Reduce damage by 50% when guarding
+    public float guardDamageReduction = 0.5f; // Reduce damage by 50% when guarding
 
     void Update()
     {
@@ -60,7 +60,12 @@ public class PlayerCombat : MonoBehaviour
         Destroy(debugSphere.GetComponent<Collider>()); // Prevent it from interfering with actual physics
         
         Renderer rend = debugSphere.GetComponent<Renderer>();
-        if (rend != null) rend.material.color = new Color(1f, 0f, 0f, 0.5f); // Color it red
+        if (rend != null) 
+        {
+            // Use the built-in Sprite shader which supports transparency natively
+            rend.material = new Material(Shader.Find("Sprites/Default"));
+            rend.material.color = new Color(1f, 0f, 0f, 0.2f); // 0.2 opacity
+        }
         
         Destroy(debugSphere, 0.3f); // Destroy it after 0.3 seconds
         
@@ -81,11 +86,6 @@ public class PlayerCombat : MonoBehaviour
                     hitEnemies.Add(stat);
 
                     float appliedDamage = (playerStat != null) ? playerStat.GetPhysicalDamage() : damage;
-                    
-                    if(isGuarding)
-                    {
-                        appliedDamage *= guardDamageReduction;
-                    }
                     
                     stat.TakePhysicalDamage(appliedDamage);
                 }

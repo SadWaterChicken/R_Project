@@ -2156,6 +2156,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Chaser (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7802447950946551585, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7802447950946551585, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7802447950946551585, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8719746386153494580, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
       propertyPath: m_LocalPosition.x
       value: 12.56

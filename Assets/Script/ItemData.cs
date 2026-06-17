@@ -23,14 +23,17 @@ public class ItemData
     public int price;
     public string iconPath;
     public int stack = 1;
+    public int itemTier = 1; // Từ 1 đến 5 sao
 
     // Flexible stat mods shown in detailStats
     [Serializable]
     public class StatMod
     {
         public string stat;
-        public float value;
-        public bool percent;
+        public float value;         // Giá trị Flat thực tế sẽ được cộng vào PlayerStat
+        public bool percent;        // Đánh dấu đây là dòng %
+        public float percentValue;  // Lưu % gốc (VD: 0.05) để UI in ra chữ "5%"
+        public bool isMainStat = true; // Phân biệt Dòng chính (True) và Dòng phụ (False)
     }
     public List<StatMod> modifiers = new List<StatMod>();
 

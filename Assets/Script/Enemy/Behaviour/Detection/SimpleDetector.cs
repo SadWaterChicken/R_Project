@@ -18,6 +18,27 @@ public class SimpleDetector : MonoBehaviour
     private void Awake()
     {
         myCollider = GetComponent<Collider>();
+        
+        // Auto-assign the player if it's not set in the inspector
+        if (player == null)
+        {
+            // Find all active GameObjects in the scene
+            GameObject[] allObjects = FindObjectsOfType<GameObject>();
+            foreach (GameObject obj in allObjects)
+            {
+                // Check if this object's layer is part of the detectionLayer mask
+                if ((detectionLayer.value & (1 << obj.layer)) != 0)
+                {
+                    player = obj.transform;
+                    break;
+                }
+            }
+            
+            if (player == null)
+            {
+                Debug.LogWarning("SimpleDetector: Could not automatically find an object within the detectionLayer.");
+            }
+        }
     }
 
     private void Update()

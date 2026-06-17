@@ -144,26 +144,47 @@ public class DungeonEntitySpawner : MonoBehaviour
         BoxCollider collider = room.GetComponent<BoxCollider>();
         if (collider == null) return;
 
+        // TÂM CỦA PHÒNG PHẢI LÀ bounds.center (Bởi vì transform.position của bạn có thể đang nằm ở góc phòng!)
         Bounds bounds = collider.bounds;
-        Vector3 padding = new Vector3(1f, 0.5f, 1f);
-        Vector3 minPos = bounds.min + padding;
-        Vector3 maxPos = bounds.max - padding;
+        Vector3 roomCenter = bounds.center;
+        
+        // Bán kính sinh quái = 80% chiều rộng của phòng để đảm bảo không bị dính vào tường
+        float spawnRadius = (bounds.size.x / 2f) * 0.8f;
 
         for (int i = 0; i < count; i++)
         {
-            Vector3 spawnPos = new Vector3(
-                Random.Range(minPos.x, maxPos.x),
-                bounds.min.y + SPAWN_HEIGHT,
-                Random.Range(minPos.z, maxPos.z)
-            );
+            Vector2 randomCircle = Random.insideUnitCircle * spawnRadius;
+            Vector3 randomPos = new Vector3(roomCenter.x + randomCircle.x, bounds.min.y + SPAWN_HEIGHT, roomCenter.z + randomCircle.y);
+
+            Vector3 spawnPos = randomPos;
+            if (UnityEngine.AI.NavMesh.SamplePosition(randomPos, out UnityEngine.AI.NavMeshHit hit, 5f, UnityEngine.AI.NavMesh.AllAreas))
+            {
+                spawnPos = hit.position + new Vector3(0, SPAWN_HEIGHT, 0);
+            }
 
             GameObject enemyPrefab = roomGenerator.currentTheme.GetRandomEnemyWithEliteChance();
             if (enemyPrefab != null)
             {
                 ObjectPool<GameObject> pool = GetPool(enemyPrefab);
                 GameObject enemyObj = pool.Get();
+
+                // LỖI KINH ĐIỂN CỦA NAVMESH AGENT: Khi lấy ra từ Pool, NavMeshAgent bị Active ở vị trí cũ (0,0,0)
+                // Nó sẽ ghi đè vị trí mới và khiến quái bị kẹt ở phòng bắt đầu!
+                // CÁCH SỬA: Tạm tắt Agent đi, dịch chuyển, rồi bật lại!
+                UnityEngine.AI.NavMeshAgent agent = enemyObj.GetComponentInChildren<UnityEngine.AI.NavMeshAgent>();
+                if (agent != null)
+                {
+                    agent.enabled = false;
+                }
+
                 enemyObj.transform.SetParent(room.transform, false);
                 enemyObj.transform.SetPositionAndRotation(spawnPos, Quaternion.identity);
+
+                if (agent != null)
+                {
+                    agent.enabled = true;
+                    agent.Warp(spawnPos); // Bắt NavMeshAgent nhận diện ngay lập tức vị trí mới
+                }
 
                 RoomEnemyTracker tracker = enemyObj.GetComponent<RoomEnemyTracker>();
                 if (tracker == null)

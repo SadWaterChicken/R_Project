@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -131.50085, y: -128.32724}
+  m_AnchoredPosition: {x: -144, y: -249}
   m_SizeDelta: {x: 188, y: 79}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8810612755707709155
@@ -1466,8 +1466,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 3.1395, y: -23.191}
-  m_SizeDelta: {x: 484.28, y: 151.27}
+  m_AnchoredPosition: {x: -5.269, y: -17.5488}
+  m_SizeDelta: {x: 535.74, y: 144.3676}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8901478196826100362
 CanvasRenderer:
@@ -1718,7 +1718,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4451156035225481927}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -146}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1726,7 +1726,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 60, y: 234}
+  m_AnchoredPosition: {x: 86, y: 269}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8100224999043393080
@@ -2446,7 +2446,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 177.49915, y: -123.82724}
+  m_AnchoredPosition: {x: 167, y: -264}
   m_SizeDelta: {x: 95, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8213676440977186055
@@ -2657,6 +2657,7 @@ MonoBehaviour:
       price: 0
       iconPath: 
       stack: 0
+      itemTier: 1
       modifiers: []
       equippable: 0
       equipped: 0
@@ -2676,6 +2677,7 @@ MonoBehaviour:
       price: 0
       iconPath: 
       stack: 0
+      itemTier: 1
       modifiers: []
       equippable: 0
       equipped: 0
@@ -2695,6 +2697,7 @@ MonoBehaviour:
       price: 0
       iconPath: 
       stack: 0
+      itemTier: 1
       modifiers: []
       equippable: 0
       equipped: 0
@@ -2714,6 +2717,7 @@ MonoBehaviour:
       price: 0
       iconPath: 
       stack: 0
+      itemTier: 1
       modifiers: []
       equippable: 0
       equipped: 0
@@ -2733,6 +2737,7 @@ MonoBehaviour:
       price: 0
       iconPath: 
       stack: 0
+      itemTier: 1
       modifiers: []
       equippable: 0
       equipped: 0
@@ -2752,6 +2757,7 @@ MonoBehaviour:
       price: 0
       iconPath: 
       stack: 0
+      itemTier: 1
       modifiers: []
       equippable: 0
       equipped: 0
@@ -2771,6 +2777,7 @@ MonoBehaviour:
       price: 0
       iconPath: 
       stack: 0
+      itemTier: 1
       modifiers: []
       equippable: 0
       equipped: 0
@@ -3250,8 +3257,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 112.551, y: 142.09}
-  m_SizeDelta: {x: 300.102, y: 131.82}
+  m_AnchoredPosition: {x: 110, y: 166}
+  m_SizeDelta: {x: 299.65, y: 156.5032}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5091714397447040774
 CanvasRenderer:
@@ -3349,7 +3356,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: 0, w: 2.0532227}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

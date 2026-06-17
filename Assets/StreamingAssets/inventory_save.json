@@ -6,8 +6,45 @@
             "description": "",
             "price": 0,
             "iconPath": "Amor_Pic/iron_ingot",
-            "stack": 85,
-            "modifiers": [],
+            "stack": 80,
+            "itemTier": 1,
+            "modifiers": [
+                {
+                    "stat": "physicalDamage",
+                    "value": 10.0,
+                    "percent": false,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "magicDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.019999999552965165,
+                    "isMainStat": false
+                },
+                {
+                    "stat": "magicDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.019999999552965165,
+                    "isMainStat": false
+                },
+                {
+                    "stat": "maxHealth",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.019999999552965165,
+                    "isMainStat": false
+                },
+                {
+                    "stat": "physicalArmour",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.009999999776482582,
+                    "isMainStat": false
+                }
+            ],
             "equippable": false,
             "equipped": false,
             "equipmentType": 0,
@@ -23,8 +60,45 @@
             "description": "",
             "price": 0,
             "iconPath": "Amor_Pic/steel_ingot",
-            "stack": 90,
-            "modifiers": [],
+            "stack": 80,
+            "itemTier": 1,
+            "modifiers": [
+                {
+                    "stat": "physicalDamage",
+                    "value": 10.0,
+                    "percent": false,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "maxHealth",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.019999999552965165,
+                    "isMainStat": false
+                },
+                {
+                    "stat": "maxHealth",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.019999999552965165,
+                    "isMainStat": false
+                },
+                {
+                    "stat": "maxHealth",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.019999999552965165,
+                    "isMainStat": false
+                },
+                {
+                    "stat": "maxHealth",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.009999999776482582,
+                    "isMainStat": false
+                }
+            ],
             "equippable": false,
             "equipped": false,
             "equipmentType": 0,
@@ -41,7 +115,44 @@
             "price": 0,
             "iconPath": "Amor_Pic/mithril_ingot",
             "stack": 100,
-            "modifiers": [],
+            "itemTier": 1,
+            "modifiers": [
+                {
+                    "stat": "physicalDamage",
+                    "value": 10.0,
+                    "percent": false,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "maxHealth",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.019999999552965165,
+                    "isMainStat": false
+                },
+                {
+                    "stat": "magicDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.029999999329447748,
+                    "isMainStat": false
+                },
+                {
+                    "stat": "physicalArmour",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.009999999776482582,
+                    "isMainStat": false
+                },
+                {
+                    "stat": "physicalDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.019999999552965165,
+                    "isMainStat": false
+                }
+            ],
             "equippable": false,
             "equipped": false,
             "equipmentType": 0,
@@ -58,7 +169,44 @@
             "price": 0,
             "iconPath": "Amor_Pic/adamantite_ingot",
             "stack": 100,
-            "modifiers": [],
+            "itemTier": 1,
+            "modifiers": [
+                {
+                    "stat": "physicalDamage",
+                    "value": 10.0,
+                    "percent": false,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "maxHealth",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.019999999552965165,
+                    "isMainStat": false
+                },
+                {
+                    "stat": "criticalChance",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.019999999552965165,
+                    "isMainStat": false
+                },
+                {
+                    "stat": "criticalChance",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.029999999329447748,
+                    "isMainStat": false
+                },
+                {
+                    "stat": "maxHealth",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.029999999329447748,
+                    "isMainStat": false
+                }
+            ],
             "equippable": false,
             "equipped": false,
             "equipmentType": 0,
@@ -75,7 +223,44 @@
             "price": 0,
             "iconPath": "Amor_Pic/orichalcum_ingot",
             "stack": 100,
-            "modifiers": [],
+            "itemTier": 1,
+            "modifiers": [
+                {
+                    "stat": "physicalDamage",
+                    "value": 10.0,
+                    "percent": false,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "physicalDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.029999999329447748,
+                    "isMainStat": false
+                },
+                {
+                    "stat": "magicDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.019999999552965165,
+                    "isMainStat": false
+                },
+                {
+                    "stat": "magicDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.019999999552965165,
+                    "isMainStat": false
+                },
+                {
+                    "stat": "maxHealth",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.029999999329447748,
+                    "isMainStat": false
+                }
+            ],
             "equippable": false,
             "equipped": false,
             "equipmentType": 0,
@@ -92,7 +277,44 @@
             "price": 0,
             "iconPath": "Amor_Pic/rusty_dual_blades",
             "stack": 1,
-            "modifiers": [],
+            "itemTier": 1,
+            "modifiers": [
+                {
+                    "stat": "physicalDamage",
+                    "value": 10.0,
+                    "percent": false,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "criticalChance",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.009999999776482582,
+                    "isMainStat": false
+                },
+                {
+                    "stat": "criticalChance",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.019999999552965165,
+                    "isMainStat": false
+                },
+                {
+                    "stat": "criticalChance",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.009999999776482582,
+                    "isMainStat": false
+                },
+                {
+                    "stat": "physicalDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.009999999776482582,
+                    "isMainStat": false
+                }
+            ],
             "equippable": true,
             "equipped": false,
             "equipmentType": 1,
@@ -109,21 +331,42 @@
             "price": 0,
             "iconPath": "Amor_Pic/novice_staff",
             "stack": 1,
+            "itemTier": 1,
             "modifiers": [
                 {
                     "stat": "magic damage",
                     "value": 15.0,
-                    "percent": false
+                    "percent": false,
+                    "percentValue": 0.0,
+                    "isMainStat": true
                 },
                 {
-                    "stat": "max mana",
-                    "value": 20.0,
-                    "percent": false
+                    "stat": "physicalDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.029999999329447748,
+                    "isMainStat": false
                 },
                 {
-                    "stat": "physical armour",
-                    "value": -2.0,
-                    "percent": false
+                    "stat": "physicalDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.019999999552965165,
+                    "isMainStat": false
+                },
+                {
+                    "stat": "magicDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.029999999329447748,
+                    "isMainStat": false
+                },
+                {
+                    "stat": "physicalDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.009999999776482582,
+                    "isMainStat": false
                 }
             ],
             "equippable": true,
@@ -136,60 +379,48 @@
             "isForgeable": true
         },
         {
-            "itemID": "wooden_spear",
-            "itemName": "Wooden Spear",
-            "description": "A simple sharpened stick.",
-            "price": 0,
-            "iconPath": "Amor_Pic/wooden_spear",
-            "stack": 1,
-            "modifiers": [
-                {
-                    "stat": "physical damage",
-                    "value": 10.0,
-                    "percent": false
-                },
-                {
-                    "stat": "movement speed",
-                    "value": 0.5,
-                    "percent": false
-                },
-                {
-                    "stat": "physical armour",
-                    "value": 2.0,
-                    "percent": false
-                }
-            ],
-            "equippable": true,
-            "equipped": false,
-            "equipmentType": 1,
-            "weaponClassName": "Spear",
-            "forgeLevel": 0,
-            "weaponMastery": 0.0,
-            "baseItemID": "",
-            "isForgeable": true
-        },
-        {
             "itemID": "hunting_bow",
             "itemName": "Hunting Bow",
             "description": "A basic bow for hunting small game.",
             "price": 0,
             "iconPath": "Amor_Pic/hunting_bow",
             "stack": 1,
+            "itemTier": 1,
             "modifiers": [
                 {
                     "stat": "physical damage",
                     "value": 12.0,
-                    "percent": false
+                    "percent": false,
+                    "percentValue": 0.0,
+                    "isMainStat": true
                 },
                 {
-                    "stat": "crit chance",
-                    "value": 15.0,
-                    "percent": true
+                    "stat": "maxHealth",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.009999999776482582,
+                    "isMainStat": false
                 },
                 {
-                    "stat": "max health",
-                    "value": -5.0,
-                    "percent": false
+                    "stat": "criticalChance",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.009999999776482582,
+                    "isMainStat": false
+                },
+                {
+                    "stat": "physicalDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.029999999329447748,
+                    "isMainStat": false
+                },
+                {
+                    "stat": "physicalDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.029999999329447748,
+                    "isMainStat": false
                 }
             ],
             "equippable": true,
@@ -208,25 +439,46 @@
             "price": 0,
             "iconPath": "Amor_Pic/glass_orb",
             "stack": 1,
+            "itemTier": 1,
             "modifiers": [
                 {
                     "stat": "magic damage",
                     "value": 12.0,
-                    "percent": false
+                    "percent": false,
+                    "percentValue": 0.0,
+                    "isMainStat": true
                 },
                 {
-                    "stat": "luck",
+                    "stat": "physicalArmour",
                     "value": 5.0,
-                    "percent": false
+                    "percent": true,
+                    "percentValue": 0.019999999552965165,
+                    "isMainStat": false
                 },
                 {
-                    "stat": "max shield",
-                    "value": 10.0,
-                    "percent": false
+                    "stat": "criticalChance",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.029999999329447748,
+                    "isMainStat": false
+                },
+                {
+                    "stat": "magicDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.009999999776482582,
+                    "isMainStat": false
+                },
+                {
+                    "stat": "physicalDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.009999999776482582,
+                    "isMainStat": false
                 }
             ],
             "equippable": true,
-            "equipped": false,
+            "equipped": true,
             "equipmentType": 1,
             "weaponClassName": "Orb",
             "forgeLevel": 0,
@@ -241,21 +493,42 @@
             "price": 0,
             "iconPath": "Amor_Pic/chipped_greatsaxe",
             "stack": 1,
+            "itemTier": 1,
             "modifiers": [
                 {
                     "stat": "physical damage",
                     "value": 20.0,
-                    "percent": false
+                    "percent": false,
+                    "percentValue": 0.0,
+                    "isMainStat": true
                 },
                 {
-                    "stat": "max health",
-                    "value": -10.0,
-                    "percent": false
+                    "stat": "magicDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.019999999552965165,
+                    "isMainStat": false
                 },
                 {
-                    "stat": "attack speed",
-                    "value": -0.20000000298023225,
-                    "percent": true
+                    "stat": "physicalArmour",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.019999999552965165,
+                    "isMainStat": false
+                },
+                {
+                    "stat": "criticalChance",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.019999999552965165,
+                    "isMainStat": false
+                },
+                {
+                    "stat": "magicDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.009999999776482582,
+                    "isMainStat": false
                 }
             ],
             "equippable": true,
@@ -274,21 +547,42 @@
             "price": 10,
             "iconPath": "Amor_Pic/rusty_dualblades",
             "stack": 1,
+            "itemTier": 1,
             "modifiers": [
                 {
                     "stat": "physical damage",
                     "value": 8.0,
-                    "percent": false
+                    "percent": false,
+                    "percentValue": 0.0,
+                    "isMainStat": true
                 },
                 {
-                    "stat": "attack speed",
-                    "value": 0.30000001192092898,
-                    "percent": true
+                    "stat": "magicDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.029999999329447748,
+                    "isMainStat": false
                 },
                 {
-                    "stat": "movement speed",
-                    "value": 1.0,
-                    "percent": false
+                    "stat": "physicalDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.019999999552965165,
+                    "isMainStat": false
+                },
+                {
+                    "stat": "magicDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.029999999329447748,
+                    "isMainStat": false
+                },
+                {
+                    "stat": "magicDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.009999999776482582,
+                    "isMainStat": false
                 }
             ],
             "equippable": true,
@@ -307,21 +601,42 @@
             "price": 10,
             "iconPath": "Amor_Pic/wooden_greatsword",
             "stack": 1,
+            "itemTier": 1,
             "modifiers": [
                 {
                     "stat": "physical damage",
                     "value": 15.0,
-                    "percent": false
+                    "percent": false,
+                    "percentValue": 0.0,
+                    "isMainStat": true
                 },
                 {
-                    "stat": "attack speed",
-                    "value": -0.20000000298023225,
-                    "percent": true
+                    "stat": "physicalDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.009999999776482582,
+                    "isMainStat": false
                 },
                 {
-                    "stat": "movement speed",
-                    "value": -0.5,
-                    "percent": false
+                    "stat": "magicDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.009999999776482582,
+                    "isMainStat": false
+                },
+                {
+                    "stat": "physicalArmour",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.019999999552965165,
+                    "isMainStat": false
+                },
+                {
+                    "stat": "maxHealth",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.029999999329447748,
+                    "isMainStat": false
                 }
             ],
             "equippable": true,
@@ -340,21 +655,42 @@
             "price": 160,
             "iconPath": "Amor_Pic/katana_t3",
             "stack": 1,
+            "itemTier": 1,
             "modifiers": [
                 {
                     "stat": "physical damage",
                     "value": 70.0,
-                    "percent": false
+                    "percent": false,
+                    "percentValue": 0.0,
+                    "isMainStat": true
                 },
                 {
-                    "stat": "attack speed",
-                    "value": 7.0,
-                    "percent": false
+                    "stat": "physicalArmour",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.009999999776482582,
+                    "isMainStat": false
                 },
                 {
-                    "stat": "critical chance",
-                    "value": 30.0,
-                    "percent": false
+                    "stat": "physicalArmour",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.009999999776482582,
+                    "isMainStat": false
+                },
+                {
+                    "stat": "maxHealth",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.029999999329447748,
+                    "isMainStat": false
+                },
+                {
+                    "stat": "criticalChance",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.019999999552965165,
+                    "isMainStat": false
                 }
             ],
             "equippable": true,
@@ -373,16 +709,42 @@
             "price": 55,
             "iconPath": "Amor_Pic/warhammer_t2",
             "stack": 1,
+            "itemTier": 1,
             "modifiers": [
                 {
                     "stat": "physical damage",
                     "value": 50.0,
-                    "percent": false
+                    "percent": false,
+                    "percentValue": 0.0,
+                    "isMainStat": true
                 },
                 {
-                    "stat": "stun chance",
-                    "value": 15.0,
-                    "percent": false
+                    "stat": "physicalDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.009999999776482582,
+                    "isMainStat": false
+                },
+                {
+                    "stat": "criticalChance",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.009999999776482582,
+                    "isMainStat": false
+                },
+                {
+                    "stat": "criticalChance",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.019999999552965165,
+                    "isMainStat": false
+                },
+                {
+                    "stat": "maxHealth",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.009999999776482582,
+                    "isMainStat": false
                 }
             ],
             "equippable": true,
@@ -392,6 +754,255 @@
             "forgeLevel": 1,
             "weaponMastery": 10.0,
             "baseItemID": "stone_warhammer",
+            "isForgeable": true
+        },
+        {
+            "itemID": "spear_t3",
+            "itemName": "Valkyrie Spear",
+            "description": "A legendary spear.",
+            "price": 140,
+            "iconPath": "Amor_Pic/spear_t3",
+            "stack": 1,
+            "itemTier": 1,
+            "modifiers": [
+                {
+                    "stat": "physical damage",
+                    "value": 80.0,
+                    "percent": false,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "attack speed",
+                    "value": 6.199999809265137,
+                    "percent": false,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                }
+            ],
+            "equippable": true,
+            "equipped": false,
+            "equipmentType": 1,
+            "weaponClassName": "Spear",
+            "forgeLevel": 1,
+            "weaponMastery": 20.0,
+            "baseItemID": "spear_t2",
+            "isForgeable": true
+        },
+        {
+            "itemID": "bamboo_katana",
+            "itemName": "Bamboo Katana",
+            "description": "A lightweight bamboo sword.",
+            "price": 10,
+            "iconPath": "Amor_Pic/bamboo_katana",
+            "stack": 1,
+            "itemTier": 1,
+            "modifiers": [
+                {
+                    "stat": "physical damage",
+                    "value": 12.0,
+                    "percent": false,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "maxHealth",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "magicDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "physicalDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "physicalArmour",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                }
+            ],
+            "equippable": true,
+            "equipped": false,
+            "equipmentType": 1,
+            "weaponClassName": "Katana",
+            "forgeLevel": 0,
+            "weaponMastery": 0.0,
+            "baseItemID": "",
+            "isForgeable": true
+        },
+        {
+            "itemID": "bamboo_katana",
+            "itemName": "Bamboo Katana",
+            "description": "A lightweight bamboo sword.",
+            "price": 10,
+            "iconPath": "Amor_Pic/bamboo_katana",
+            "stack": 1,
+            "itemTier": 1,
+            "modifiers": [
+                {
+                    "stat": "physical damage",
+                    "value": 12.0,
+                    "percent": false,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "maxHealth",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "magicDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "physicalDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "physicalArmour",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                }
+            ],
+            "equippable": true,
+            "equipped": false,
+            "equipmentType": 1,
+            "weaponClassName": "Katana",
+            "forgeLevel": 0,
+            "weaponMastery": 0.0,
+            "baseItemID": "",
+            "isForgeable": true
+        },
+        {
+            "itemID": "bamboo_katana",
+            "itemName": "Bamboo Katana",
+            "description": "A lightweight bamboo sword.",
+            "price": 10,
+            "iconPath": "Amor_Pic/bamboo_katana",
+            "stack": 1,
+            "itemTier": 1,
+            "modifiers": [
+                {
+                    "stat": "physical damage",
+                    "value": 12.0,
+                    "percent": false,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "maxHealth",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "magicDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "physicalDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "physicalArmour",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                }
+            ],
+            "equippable": true,
+            "equipped": false,
+            "equipmentType": 1,
+            "weaponClassName": "Katana",
+            "forgeLevel": 0,
+            "weaponMastery": 0.0,
+            "baseItemID": "",
+            "isForgeable": true
+        },
+        {
+            "itemID": "bamboo_katana",
+            "itemName": "Bamboo Katana",
+            "description": "A lightweight bamboo sword.",
+            "price": 10,
+            "iconPath": "Amor_Pic/bamboo_katana",
+            "stack": 1,
+            "itemTier": 1,
+            "modifiers": [
+                {
+                    "stat": "physical damage",
+                    "value": 12.0,
+                    "percent": false,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "maxHealth",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "magicDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "physicalDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "physicalArmour",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                }
+            ],
+            "equippable": true,
+            "equipped": false,
+            "equipmentType": 1,
+            "weaponClassName": "Katana",
+            "forgeLevel": 0,
+            "weaponMastery": 0.0,
+            "baseItemID": "",
             "isForgeable": true
         }
     ]

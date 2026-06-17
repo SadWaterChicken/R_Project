@@ -77,7 +77,7 @@ public class ShopTrigger : MonoBehaviour, IInteractable
     }
 #endif
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
@@ -85,7 +85,7 @@ public class ShopTrigger : MonoBehaviour, IInteractable
         }
     }
 
-    private void OnTriggerExit2D(Collider2D other)
+    private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
         {

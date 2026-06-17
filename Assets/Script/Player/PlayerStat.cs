@@ -17,6 +17,7 @@ public class PlayerStat : CharacterStats
     [Header("Movement Options")]
     public float dashCooldown = 0.5f;
     public bool isInvincible = false;
+    private bool isDead = false;
 
     [Header("Economy")]
     public int gold = 0;
@@ -62,6 +63,12 @@ public class PlayerStat : CharacterStats
     protected override void Update()
     {
         base.Update();
+
+        // Hard check for testing purpose (so if someone sets health to 0 in Inspector, they die)
+        if (currentHealth <= 0 && !isDead)
+        {
+            Die();
+        }
 
         // Regenerate health
         if (currentHealth < maxHealth && healthRegenRate > 0)
@@ -198,18 +205,44 @@ public class PlayerStat : CharacterStats
     public override void TakePhysicalDamage(float damage, float armorPenetration = 0f)
     {
         if (isInvincible) return;
+        
+        PlayerCombat combat = GetComponent<PlayerCombat>();
+        if (combat != null && combat.IsGuarding())
+        {
+            damage *= combat.guardDamageReduction;
+            Debug.Log($"[PlayerStat] Guarding! Reduced incoming physical damage to {damage}");
+        }
+
         base.TakePhysicalDamage(damage, armorPenetration);
     }
 
     public override void TakeMagicDamage(float damage, float resistancePenetration = 0f)
     {
         if (isInvincible) return;
+
+        PlayerCombat combat = GetComponent<PlayerCombat>();
+        if (combat != null && combat.IsGuarding())
+        {
+            damage *= combat.guardDamageReduction;
+            Debug.Log($"[PlayerStat] Guarding! Reduced incoming magic damage to {damage}");
+        }
+
         base.TakeMagicDamage(damage, resistancePenetration);
     }
 
     protected override void Die()
     {
+        if (isDead) return;
+        isDead = true;
+
         Debug.Log("[PlayerStat] Player has died.");
+        
+        // Mất đồ trong túi tạm khi chết
+        if (DungeonSack.Instance != null)
+        {
+            DungeonSack.Instance.Clear();
+        }
+
         // TODO: Handle player death (animation, UI, respawn, etc.)
     }
 

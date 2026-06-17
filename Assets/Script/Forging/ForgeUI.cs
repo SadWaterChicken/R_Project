@@ -267,15 +267,18 @@ public class ForgeUI : MonoBehaviour
         var sb = new System.Text.StringBuilder();
         if (weapon.modifiers != null && weapon.modifiers.Count > 0)
         {
+            // 1. In ra Dòng Chính trước (Màu Vàng / Cam)
             foreach (var mod in weapon.modifiers)
             {
+                if (!mod.isMainStat) continue;
+
                 var sign = mod.value >= 0 ? "+" : "";
                 var val = mod.percent ? $"{sign}{mod.value}%" : $"{sign}{mod.value}";
                 
                 // If we have a preview, look for the same stat to show the difference
                 if (resultWeapon != null && resultWeapon.modifiers != null)
                 {
-                    var resultMod = resultWeapon.modifiers.FirstOrDefault(m => m.stat == mod.stat);
+                    var resultMod = resultWeapon.modifiers.FirstOrDefault(m => m.stat == mod.stat && m.isMainStat);
                     if (resultMod != null)
                     {
                         float diff = resultMod.value - mod.value;
@@ -284,15 +287,44 @@ public class ForgeUI : MonoBehaviour
                             var diffVal = resultMod.percent ? $"+{diff}%" : $"+{diff}";
                             var newVal = resultMod.percent ? $"{resultMod.value}%" : $"{resultMod.value}";
                             
-                            // Rich text formatting for preview difference (e.g., Damage: 120 -> 210 (+90))
-                            sb.AppendLine($"{mod.stat}: {mod.value} <color=yellow>➔</color> <color=#4CAF50>{newVal} ({diffVal})</color>");
+                            // Rich text formatting for preview difference
+                            sb.AppendLine($"<color=#FFB300><b>{mod.stat}: {mod.value} ➔ <color=#4CAF50>{newVal} ({diffVal})</color></b></color>");
                             continue;
                         }
                     }
                 }
                 
                 // Fallback to normal display if no result weapon or no difference
-                sb.AppendLine($"{mod.stat}: {val}");
+                sb.AppendLine($"<color=#FFB300><b>{mod.stat}: {val}</b></color>");
+            }
+
+            // 2. In ra Dòng Phụ (Màu Trắng/Xám)
+            foreach (var mod in weapon.modifiers)
+            {
+                if (mod.isMainStat) continue;
+
+                var sign = mod.value >= 0 ? "+" : "";
+                var val = mod.percent ? $"{sign}{(mod.percentValue * 100).ToString("0.##")}%" : $"{sign}{mod.value}";
+                
+                if (resultWeapon != null && resultWeapon.modifiers != null)
+                {
+                    var resultMod = resultWeapon.modifiers.FirstOrDefault(m => m.stat == mod.stat && !m.isMainStat);
+                    if (resultMod != null)
+                    {
+                        // Sub stats value are generally compared via percentValue if they are percent
+                        float diff = resultMod.percentValue > 0 ? (resultMod.percentValue - mod.percentValue) * 100 : (resultMod.value - mod.value);
+                        if (diff > 0)
+                        {
+                            var diffVal = mod.percent ? $"+{diff.ToString("0.##")}%" : $"+{diff}";
+                            var newVal = mod.percent ? $"{(resultMod.percentValue * 100).ToString("0.##")}%" : $"{resultMod.value}";
+                            
+                            sb.AppendLine($"  <color=#DDDDDD>• {mod.stat}: {val} ➔ <color=#4CAF50>{newVal} ({diffVal})</color></color>");
+                            continue;
+                        }
+                    }
+                }
+                
+                sb.AppendLine($"  <color=#DDDDDD>• {mod.stat}: {val}</color>");
             }
         }
 

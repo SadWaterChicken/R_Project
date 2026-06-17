@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 2317661578285317477}
   - component: {fileID: 2702944064029599358}
   - component: {fileID: 3272022405934795513}
+  - component: {fileID: 1410325922610906343}
   m_Layer: 7
   m_Name: Chaser (1)
   m_TagString: Untagged
@@ -37,6 +38,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7802447950946551585}
+  - {fileID: 8748580402771485614}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1715942238243818474
@@ -142,7 +144,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
@@ -240,7 +242,7 @@ MonoBehaviour:
   detectionRadius: 20
   detectionLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   detectionHeight: 5
   detectionRange: 20
 --- !u!195 &3272022405934795513
@@ -265,6 +267,43 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1410325922610906343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4073294042357489424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae4ea46037439d44b85de08b5b423fe5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyStat
+  maxHealth: 0
+  currentHealth: 0
+  healthRegenRate: 0
+  maxMana: 0
+  currentMana: 0
+  manaRegenRate: 0
+  basePhysicalDamage: 0
+  physicalDamageBonus: 0
+  baseMagicDamage: 0
+  magicDamageBonus: 0
+  physicalArmor: 0
+  magicArmor: 0
+  baseSpeed: 0
+  movementSpeed: 0
+  attackSpeed: 0
+  critChance: 0
+  shield: 0
+  maxShield: 0
+  shieldRegenRate: 0
+  shieldRechargeCooldown: 0
+  enemyLevel: 1
+  attackRange: 1
+  attackCooldown: 1
+  detectionRange: 10
+  outOfCombatDelay: 3
 --- !u!1 &5207020694090564975
 GameObject:
   m_ObjectHideFlags: 0
@@ -277,6 +316,8 @@ GameObject:
   - component: {fileID: 2271714210117355345}
   - component: {fileID: 5163166265228518380}
   - component: {fileID: 6334265803504929623}
+  - component: {fileID: 2864815054087855061}
+  - component: {fileID: 5973591965350461581}
   m_Layer: 7
   m_Name: Sprite
   m_TagString: Untagged
@@ -293,7 +334,7 @@ Transform:
   m_GameObject: {fileID: 5207020694090564975}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.71, y: 1.2, z: -1.25}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2.612, y: 1.953, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -392,3 +433,69 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 030182b2244f6d443924def970ca58ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RougeAttack
+--- !u!114 &2864815054087855061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5207020694090564975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90685da00bea96f4cad3e0205a89af52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyCombat
+  animator: {fileID: 5163166265228518380}
+  enemyStat: {fileID: 1410325922610906343}
+  attackPoint: {fileID: 8748580402771485614}
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 256
+--- !u!114 &5973591965350461581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5207020694090564975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a60371ec5cca3bc42ac8da19b93261f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyFlip
+  spriteRenderer: {fileID: 2271714210117355345}
+  attackPoint: {fileID: 8748580402771485614}
+  detector: {fileID: 2702944064029599358}
+  agent: {fileID: 3272022405934795513}
+  flipBasedOnMovement: 1
+--- !u!1 &8934263693633274188
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8748580402771485614}
+  m_Layer: 7
+  m_Name: AttackPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8748580402771485614
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8934263693633274188}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.56, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8719746386153494580}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

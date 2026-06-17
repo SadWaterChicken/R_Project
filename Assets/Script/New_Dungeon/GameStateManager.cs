@@ -62,6 +62,12 @@ public class GameStateManager : MonoBehaviour
     {
         Debug.Log($"[GameStateManager] Returning to Overworld. Boss Killed: {isBossKilled}");
         
+        // Chuyển toàn bộ phần thưởng từ Dungeon Sack sang Inventory chính
+        if (DungeonSack.Instance != null)
+        {
+            DungeonSack.Instance.TransferToInventory();
+        }
+        
         if (SceneTransitionManager.Instance != null)
         {
             SceneTransitionManager.Instance.LoadScene("PlayerTesting"); // Name must match exactly

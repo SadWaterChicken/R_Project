@@ -1,4 +1,4 @@
-{
+﻿{
     "shopName":  "Emporium",
     "items":  [
                   {
@@ -20,16 +20,35 @@
                                             "stat":  "physical damage"
                                         },
                                         {
+                                            "isMainStat":  false,
                                             "percent":  true,
-                                            "value":  -0.2,
-                                            "stat":  "attack speed"
+                                            "value":  5,
+                                            "stat":  "maxHealth",
+                                            "percentValue":  0.01
                                         },
                                         {
-                                            "percent":  false,
-                                            "value":  -0.5,
-                                            "stat":  "movement speed"
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "maxHealth",
+                                            "percentValue":  0.02
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "magicDamage",
+                                            "percentValue":  0.01
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "maxHealth",
+                                            "percentValue":  0.01
                                         }
-                                    ]
+                                    ],
+                      "itemTier":  1
                   },
                   {
                       "itemID":  "rusty_dualblades",
@@ -50,16 +69,35 @@
                                             "stat":  "physical damage"
                                         },
                                         {
+                                            "isMainStat":  false,
                                             "percent":  true,
-                                            "value":  0.3,
-                                            "stat":  "attack speed"
+                                            "value":  5,
+                                            "stat":  "physicalArmour",
+                                            "percentValue":  0.01
                                         },
                                         {
-                                            "percent":  false,
-                                            "value":  1,
-                                            "stat":  "movement speed"
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "physicalDamage",
+                                            "percentValue":  0.03
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "maxHealth",
+                                            "percentValue":  0.03
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "magicDamage",
+                                            "percentValue":  0.02
                                         }
-                                    ]
+                                    ],
+                      "itemTier":  1
                   },
                   {
                       "itemID":  "bamboo_katana",
@@ -80,16 +118,35 @@
                                             "stat":  "physical damage"
                                         },
                                         {
+                                            "isMainStat":  false,
                                             "percent":  true,
-                                            "value":  10,
-                                            "stat":  "crit chance"
+                                            "value":  5,
+                                            "stat":  "maxHealth",
+                                            "percentValue":  0.03
                                         },
                                         {
+                                            "isMainStat":  false,
                                             "percent":  true,
-                                            "value":  0.1,
-                                            "stat":  "attack speed"
+                                            "value":  5,
+                                            "stat":  "magicDamage",
+                                            "percentValue":  0.01
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "physicalDamage",
+                                            "percentValue":  0.01
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "physicalArmour",
+                                            "percentValue":  0.02
                                         }
-                                    ]
+                                    ],
+                      "itemTier":  1
                   },
                   {
                       "itemID":  "stone_warhammer",
@@ -110,21 +167,35 @@
                                             "stat":  "physical damage"
                                         },
                                         {
-                                            "percent":  false,
-                                            "value":  5,
-                                            "stat":  "physical armour"
-                                        },
-                                        {
-                                            "percent":  false,
-                                            "value":  -1,
-                                            "stat":  "movement speed"
-                                        },
-                                        {
+                                            "isMainStat":  false,
                                             "percent":  true,
-                                            "value":  -0.3,
-                                            "stat":  "attack speed"
+                                            "value":  5,
+                                            "stat":  "magicDamage",
+                                            "percentValue":  0.03
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "maxHealth",
+                                            "percentValue":  0.02
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "physicalArmour",
+                                            "percentValue":  0.03
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "magicDamage",
+                                            "percentValue":  0.02
                                         }
-                                    ]
+                                    ],
+                      "itemTier":  1
                   },
                   {
                       "itemID":  "chipped_greatsaxe",
@@ -145,16 +216,35 @@
                                             "stat":  "physical damage"
                                         },
                                         {
-                                            "percent":  false,
-                                            "value":  -10,
-                                            "stat":  "max health"
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "magicDamage",
+                                            "percentValue":  0.03
                                         },
                                         {
+                                            "isMainStat":  false,
                                             "percent":  true,
-                                            "value":  -0.2,
-                                            "stat":  "attack speed"
+                                            "value":  5,
+                                            "stat":  "maxHealth",
+                                            "percentValue":  0.03
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "maxHealth",
+                                            "percentValue":  0.01
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "criticalChance",
+                                            "percentValue":  0.03
                                         }
-                                    ]
+                                    ],
+                      "itemTier":  1
                   },
                   {
                       "itemID":  "wooden_spear",
@@ -175,16 +265,35 @@
                                             "stat":  "physical damage"
                                         },
                                         {
-                                            "percent":  false,
-                                            "value":  0.5,
-                                            "stat":  "movement speed"
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "magicDamage",
+                                            "percentValue":  0.02
                                         },
                                         {
-                                            "percent":  false,
-                                            "value":  2,
-                                            "stat":  "physical armour"
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "maxHealth",
+                                            "percentValue":  0.01
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "criticalChance",
+                                            "percentValue":  0.03
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "physicalDamage",
+                                            "percentValue":  0.02
                                         }
-                                    ]
+                                    ],
+                      "itemTier":  1
                   },
                   {
                       "itemID":  "hunting_bow",
@@ -205,16 +314,35 @@
                                             "stat":  "physical damage"
                                         },
                                         {
+                                            "isMainStat":  false,
                                             "percent":  true,
-                                            "value":  15,
-                                            "stat":  "crit chance"
+                                            "value":  5,
+                                            "stat":  "physicalDamage",
+                                            "percentValue":  0.02
                                         },
                                         {
-                                            "percent":  false,
-                                            "value":  -5,
-                                            "stat":  "max health"
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "physicalDamage",
+                                            "percentValue":  0.02
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "criticalChance",
+                                            "percentValue":  0.02
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "physicalDamage",
+                                            "percentValue":  0.03
                                         }
-                                    ]
+                                    ],
+                      "itemTier":  1
                   },
                   {
                       "itemID":  "novice_staff",
@@ -235,16 +363,35 @@
                                             "stat":  "magic damage"
                                         },
                                         {
-                                            "percent":  false,
-                                            "value":  20,
-                                            "stat":  "max mana"
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "physicalArmour",
+                                            "percentValue":  0.03
                                         },
                                         {
-                                            "percent":  false,
-                                            "value":  -2,
-                                            "stat":  "physical armour"
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "magicDamage",
+                                            "percentValue":  0.03
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "maxHealth",
+                                            "percentValue":  0.02
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "maxHealth",
+                                            "percentValue":  0.01
                                         }
-                                    ]
+                                    ],
+                      "itemTier":  1
                   },
                   {
                       "itemID":  "glass_orb",
@@ -265,16 +412,35 @@
                                             "stat":  "magic damage"
                                         },
                                         {
-                                            "percent":  false,
+                                            "isMainStat":  false,
+                                            "percent":  true,
                                             "value":  5,
-                                            "stat":  "luck"
+                                            "stat":  "criticalChance",
+                                            "percentValue":  0.03
                                         },
                                         {
-                                            "percent":  false,
-                                            "value":  10,
-                                            "stat":  "max shield"
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "physicalArmour",
+                                            "percentValue":  0.01
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "criticalChance",
+                                            "percentValue":  0.02
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "physicalArmour",
+                                            "percentValue":  0.03
                                         }
-                                    ]
+                                    ],
+                      "itemTier":  1
                   },
                   {
                       "itemID":  "fire_staff_magic",
@@ -293,8 +459,37 @@
                                             "stat":  "magic damage",
                                             "value":  75,
                                             "percent":  false
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "magicDamage",
+                                            "percentValue":  0.03
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "magicDamage",
+                                            "percentValue":  0.02
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "physicalDamage",
+                                            "percentValue":  0.01
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "maxHealth",
+                                            "percentValue":  0.02
                                         }
-                                    ]
+                                    ],
+                      "itemTier":  1
                   },
                   {
                       "itemID":  "iron_armor_defense",
@@ -312,8 +507,37 @@
                                             "stat":  "physical armour",
                                             "value":  50,
                                             "percent":  false
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "criticalChance",
+                                            "percentValue":  0.03
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "criticalChance",
+                                            "percentValue":  0.02
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "magicDamage",
+                                            "percentValue":  0.03
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "physicalDamage",
+                                            "percentValue":  0.02
                                         }
-                                    ]
+                                    ],
+                      "itemTier":  1
                   },
                   {
                       "itemID":  "battlesword_attack",
@@ -332,8 +556,37 @@
                                             "stat":  "physical damage",
                                             "value":  100,
                                             "percent":  false
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "physicalArmour",
+                                            "percentValue":  0.02
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "maxHealth",
+                                            "percentValue":  0.03
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "magicDamage",
+                                            "percentValue":  0.01
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "magicDamage",
+                                            "percentValue":  0.02
                                         }
-                                    ]
+                                    ],
+                      "itemTier":  1
                   },
                   {
                       "itemID":  "mystic_robe_magicdef",
@@ -351,8 +604,37 @@
                                             "stat":  "physical armour",
                                             "value":  25,
                                             "percent":  false
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "criticalChance",
+                                            "percentValue":  0.01
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "physicalDamage",
+                                            "percentValue":  0.01
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "physicalDamage",
+                                            "percentValue":  0.01
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "physicalArmour",
+                                            "percentValue":  0.02
                                         }
-                                    ]
+                                    ],
+                      "itemTier":  1
                   },
                   {
                       "itemID":  "assassin_dagger_critchance",
@@ -371,8 +653,37 @@
                                             "stat":  "crit chance",
                                             "value":  15,
                                             "percent":  true
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "maxHealth",
+                                            "percentValue":  0.01
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "maxHealth",
+                                            "percentValue":  0.02
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "physicalDamage",
+                                            "percentValue":  0.02
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "physicalArmour",
+                                            "percentValue":  0.01
                                         }
-                                    ]
+                                    ],
+                      "itemTier":  1
                   },
                   {
                       "itemID":  "death_band_critdamage",
@@ -390,8 +701,37 @@
                                             "stat":  "luck",
                                             "value":  30,
                                             "percent":  true
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "criticalChance",
+                                            "percentValue":  0.01
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "maxHealth",
+                                            "percentValue":  0.02
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "physicalDamage",
+                                            "percentValue":  0.03
+                                        },
+                                        {
+                                            "isMainStat":  false,
+                                            "percent":  true,
+                                            "value":  5,
+                                            "stat":  "criticalChance",
+                                            "percentValue":  0.02
                                         }
-                                    ]
+                                    ],
+                      "itemTier":  1
                   }
               ]
 }
