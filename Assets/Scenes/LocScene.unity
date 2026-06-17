@@ -1161,7 +1161,6 @@ GameObject:
   - component: {fileID: 542189117}
   - component: {fileID: 542189116}
   - component: {fileID: 542189115}
-  - component: {fileID: 542189122}
   - component: {fileID: 542189113}
   - component: {fileID: 542189114}
   - component: {fileID: 542189121}
@@ -1366,18 +1365,6 @@ MonoBehaviour:
   luckBonus: 0
   maxShieldBonus: 0
   shieldRegenRateBonus: 0
---- !u!114 &542189122
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 542189112}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9b7ae7622360144982df42ffe766be3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WeaponController
 --- !u!1 &623877757
 GameObject:
   m_ObjectHideFlags: 0
@@ -3325,6 +3312,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: InventoryPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 6900591228110127585, guid: 7630bcb1ec889054d8a350d96771b9da, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8567019328143082015, guid: 7630bcb1ec889054d8a350d96771b9da, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -3440,11 +3431,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2908742731211946193, guid: 23878b4c238558042a02ecc887ecace6, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 3
+      value: 0.29999924
       objectReference: {fileID: 0}
     - target: {fileID: 2908742731211946193, guid: 23878b4c238558042a02ecc887ecace6, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 4
+      value: 0.70000076
       objectReference: {fileID: 0}
     - target: {fileID: 3322888423796347352, guid: 23878b4c238558042a02ecc887ecace6, type: 3}
       propertyPath: m_SizeDelta.x
@@ -3485,6 +3476,18 @@ PrefabInstance:
     - target: {fileID: 4625604131500116812, guid: 23878b4c238558042a02ecc887ecace6, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -236
+      objectReference: {fileID: 0}
+    - target: {fileID: 4725945661565534322, guid: 23878b4c238558042a02ecc887ecace6, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4725945661565534322, guid: 23878b4c238558042a02ecc887ecace6, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4725945661565534322, guid: 23878b4c238558042a02ecc887ecace6, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4970530270459126718, guid: 23878b4c238558042a02ecc887ecace6, type: 3}
       propertyPath: m_Name
@@ -3564,11 +3567,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7969909703686905516, guid: 23878b4c238558042a02ecc887ecace6, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1634
+      value: 1631.2
       objectReference: {fileID: 0}
     - target: {fileID: 7969909703686905516, guid: 23878b4c238558042a02ecc887ecace6, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -48
+      value: -43.3
       objectReference: {fileID: 0}
     - target: {fileID: 8022212490741083648, guid: 23878b4c238558042a02ecc887ecace6, type: 3}
       propertyPath: m_AnchoredPosition.x

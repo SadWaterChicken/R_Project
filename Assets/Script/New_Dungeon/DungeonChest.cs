@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 namespace New_Dungeon
 {
@@ -27,8 +28,42 @@ namespace New_Dungeon
 
         private void GiveReward()
         {
-            // Logic temporarily removed. The chest will just disappear on interact.
-            Debug.Log("[DungeonChest] Chest opened! (Reward logic is currently disabled)");
+            if (possibleRewards == null || possibleRewards.Count == 0)
+            {
+                Debug.LogWarning("[DungeonChest] Chest has no possible rewards!");
+                return;
+            }
+
+            // Chọn ngẫu nhiên 1 món đồ từ list
+            int randomIndex = Random.Range(0, possibleRewards.Count);
+            ItemData rewardItem = possibleRewards[randomIndex];
+
+            if (rewardItem == null) return;
+
+            // Kiểm tra xem có đang ở trong Dungeon không
+            string currentScene = SceneManager.GetActiveScene().name.ToLower();
+            bool isDungeon = currentScene.Contains("dungeon");
+
+            if (isDungeon)
+            {
+                if (DungeonSack.Instance != null)
+                {
+                    DungeonSack.Instance.AddItem(rewardItem);
+                    Debug.Log($"[DungeonChest] Added {rewardItem.itemName} to DungeonSack!");
+                }
+                else
+                {
+                    Debug.LogWarning("[DungeonChest] DungeonSack.Instance is null! Lost item.");
+                }
+            }
+            else
+            {
+                if (Inventory.Instance != null)
+                {
+                    Inventory.Instance.AddItem(rewardItem);
+                    Debug.Log($"[DungeonChest] Added {rewardItem.itemName} to main Inventory!");
+                }
+            }
         }
     }
 }

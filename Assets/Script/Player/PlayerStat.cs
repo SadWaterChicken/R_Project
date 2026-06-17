@@ -17,6 +17,7 @@ public class PlayerStat : CharacterStats
     [Header("Movement Options")]
     public float dashCooldown = 0.5f;
     public bool isInvincible = false;
+    private bool isDead = false;
 
     [Header("Economy")]
     public int gold = 0;
@@ -62,6 +63,12 @@ public class PlayerStat : CharacterStats
     protected override void Update()
     {
         base.Update();
+
+        // Hard check for testing purpose (so if someone sets health to 0 in Inspector, they die)
+        if (currentHealth <= 0 && !isDead)
+        {
+            Die();
+        }
 
         // Regenerate health
         if (currentHealth < maxHealth && healthRegenRate > 0)
@@ -225,7 +232,17 @@ public class PlayerStat : CharacterStats
 
     protected override void Die()
     {
+        if (isDead) return;
+        isDead = true;
+
         Debug.Log("[PlayerStat] Player has died.");
+        
+        // Mất đồ trong túi tạm khi chết
+        if (DungeonSack.Instance != null)
+        {
+            DungeonSack.Instance.Clear();
+        }
+
         // TODO: Handle player death (animation, UI, respawn, etc.)
     }
 

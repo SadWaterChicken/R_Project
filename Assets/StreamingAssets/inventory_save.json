@@ -788,6 +788,222 @@
             "weaponMastery": 20.0,
             "baseItemID": "spear_t2",
             "isForgeable": true
+        },
+        {
+            "itemID": "bamboo_katana",
+            "itemName": "Bamboo Katana",
+            "description": "A lightweight bamboo sword.",
+            "price": 10,
+            "iconPath": "Amor_Pic/bamboo_katana",
+            "stack": 1,
+            "itemTier": 1,
+            "modifiers": [
+                {
+                    "stat": "physical damage",
+                    "value": 12.0,
+                    "percent": false,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "maxHealth",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "magicDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "physicalDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "physicalArmour",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                }
+            ],
+            "equippable": true,
+            "equipped": false,
+            "equipmentType": 1,
+            "weaponClassName": "Katana",
+            "forgeLevel": 0,
+            "weaponMastery": 0.0,
+            "baseItemID": "",
+            "isForgeable": true
+        },
+        {
+            "itemID": "bamboo_katana",
+            "itemName": "Bamboo Katana",
+            "description": "A lightweight bamboo sword.",
+            "price": 10,
+            "iconPath": "Amor_Pic/bamboo_katana",
+            "stack": 1,
+            "itemTier": 1,
+            "modifiers": [
+                {
+                    "stat": "physical damage",
+                    "value": 12.0,
+                    "percent": false,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "maxHealth",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "magicDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "physicalDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "physicalArmour",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                }
+            ],
+            "equippable": true,
+            "equipped": false,
+            "equipmentType": 1,
+            "weaponClassName": "Katana",
+            "forgeLevel": 0,
+            "weaponMastery": 0.0,
+            "baseItemID": "",
+            "isForgeable": true
+        },
+        {
+            "itemID": "bamboo_katana",
+            "itemName": "Bamboo Katana",
+            "description": "A lightweight bamboo sword.",
+            "price": 10,
+            "iconPath": "Amor_Pic/bamboo_katana",
+            "stack": 1,
+            "itemTier": 1,
+            "modifiers": [
+                {
+                    "stat": "physical damage",
+                    "value": 12.0,
+                    "percent": false,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "maxHealth",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "magicDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "physicalDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "physicalArmour",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                }
+            ],
+            "equippable": true,
+            "equipped": false,
+            "equipmentType": 1,
+            "weaponClassName": "Katana",
+            "forgeLevel": 0,
+            "weaponMastery": 0.0,
+            "baseItemID": "",
+            "isForgeable": true
+        },
+        {
+            "itemID": "bamboo_katana",
+            "itemName": "Bamboo Katana",
+            "description": "A lightweight bamboo sword.",
+            "price": 10,
+            "iconPath": "Amor_Pic/bamboo_katana",
+            "stack": 1,
+            "itemTier": 1,
+            "modifiers": [
+                {
+                    "stat": "physical damage",
+                    "value": 12.0,
+                    "percent": false,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "maxHealth",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "magicDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "physicalDamage",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                },
+                {
+                    "stat": "physicalArmour",
+                    "value": 5.0,
+                    "percent": true,
+                    "percentValue": 0.0,
+                    "isMainStat": true
+                }
+            ],
+            "equippable": true,
+            "equipped": false,
+            "equipmentType": 1,
+            "weaponClassName": "Katana",
+            "forgeLevel": 0,
+            "weaponMastery": 0.0,
+            "baseItemID": "",
+            "isForgeable": true
         }
     ]
 }
