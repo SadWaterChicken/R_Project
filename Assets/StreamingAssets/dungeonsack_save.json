@@ -1,3 +1,58 @@
 {
-    "items": []
+    "items": [
+        {
+            "itemID": "Stone_Fire",
+            "itemName": "Đá Cường Hóa Hỏa",
+            "description": "Nguyên liệu dùng để rèn vũ khí hệ Hỏa. Tăng sát thương rực cháy.",
+            "price": 150,
+            "iconPath": "Amor_Pic/Stone_Fire",
+            "stack": 5,
+            "itemTier": 3,
+            "modifiers": [],
+            "equippable": false,
+            "equipped": false,
+            "equipmentType": 0,
+            "weaponClassName": "",
+            "forgeLevel": 0,
+            "weaponMastery": 0,
+            "baseItemID": "",
+            "isForgeable": false
+        },
+        {
+            "itemID": "Stone_Ice",
+            "itemName": "Đá Cường Hóa Băng",
+            "description": "Nguyên liệu quý hiếm để đúc vũ khí Băng. Mang theo hơi lạnh buốt giá.",
+            "price": 200,
+            "iconPath": "Amor_Pic/Stone_Ice",
+            "stack": 2,
+            "itemTier": 4,
+            "modifiers": [],
+            "equippable": false,
+            "equipped": false,
+            "equipmentType": 0,
+            "weaponClassName": "",
+            "forgeLevel": 0,
+            "weaponMastery": 0,
+            "baseItemID": "",
+            "isForgeable": false
+        },
+        {
+            "itemID": "Stone_Basic",
+            "itemName": "Đá Rèn Thô",
+            "description": "Nguyên liệu cơ bản nhất để nâng cấp mọi loại trang bị.",
+            "price": 50,
+            "iconPath": "Amor_Pic/Stone_Basic",
+            "stack": 25,
+            "itemTier": 1,
+            "modifiers": [],
+            "equippable": false,
+            "equipped": false,
+            "equipmentType": 0,
+            "weaponClassName": "",
+            "forgeLevel": 0,
+            "weaponMastery": 0,
+            "baseItemID": "",
+            "isForgeable": false
+        }
+    ]
 }

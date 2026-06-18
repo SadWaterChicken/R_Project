@@ -35,6 +35,11 @@ public class ShopTrigger : MonoBehaviour, IInteractable
                     var shop = JsonUtility.FromJson<ShopDataJson>(json);
                     if (shop != null)
                     {
+                        foreach(var item in shop.items) {
+                            if (item.BaseData == null) {
+                                var _ = item.BaseData;
+                            }
+                        }
                         cachedShop = shop;
                         Debug.Log("ShopTrigger: Preloaded shop JSON synchronously at Start.");
                     }
@@ -54,6 +59,11 @@ public class ShopTrigger : MonoBehaviour, IInteractable
                         var shop = JsonUtility.FromJson<ShopDataJson>(json);
                         if (shop != null)
                         {
+                            foreach(var item in shop.items) {
+                                if (item.BaseData == null) {
+                                    var _ = item.BaseData;
+                                }
+                            }
                             cachedShop = shop;
                             Debug.Log("ShopTrigger: Preloaded shop JSON via coroutine at Start.");
                         }
@@ -133,6 +143,11 @@ public class ShopTrigger : MonoBehaviour, IInteractable
                 var shop = JsonUtility.FromJson<ShopDataJson>(json);
                 if (shop != null)
                 {
+                    foreach(var item in shop.items) {
+                        if (item.BaseData == null) {
+                            var _ = item.BaseData;
+                        }
+                    }
                     Debug.Log("ShopTrigger: Loaded shop JSON synchronously and opening shop.");
                     shopManager.OpenShop(shop);
                 }
@@ -154,7 +169,15 @@ public class ShopTrigger : MonoBehaviour, IInteractable
             json =>
             {
                 var shop = JsonUtility.FromJson<ShopDataJson>(json);
-                if (shop != null) shopManager.OpenShop(shop);
+                if (shop != null) 
+                {
+                    foreach(var item in shop.items) {
+                        if (item.BaseData == null) {
+                            var _ = item.BaseData;
+                        }
+                    }
+                    shopManager.OpenShop(shop);
+                }
                 else Debug.LogWarning("Failed to parse shop JSON from StreamingAssets.");
             },
             err => Debug.LogWarning($"Failed to load shop JSON: {err}")

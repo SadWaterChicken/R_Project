@@ -12,11 +12,9 @@ public partial class LungeAction : Action
     [SerializeReference] public BlackboardVariable<GameObject> Self;
     [SerializeReference] public BlackboardVariable<GameObject> Target;
 
-    private float LungeDistance = 10f;
     private float LungeSpeed = 10f;
     private float LungeDuration = 0.5f;
     private Vector3 lungeDirection;
-    private float minimumLungeDuration = 0.5f;
     private float lungeStartTime;
 
 

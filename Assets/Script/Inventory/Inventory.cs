@@ -47,8 +47,8 @@ public class Inventory : MonoBehaviour
     {
         if (item == null) return;
 
-        // Ensure icon path is always correct
-        item.iconPath = "Amor_Pic/" + item.itemID;
+        // Ensure icon path is always correct (Now handled by BaseItemData)
+        // item.iconPath = "Amor_Pic/" + item.itemID;
 
         // Weapons should not stack so they can have individual mastery/forge levels
         bool canStack = string.IsNullOrEmpty(item.weaponClassName);
@@ -112,12 +112,17 @@ public class Inventory : MonoBehaviour
             
             // Đếm xem người chơi đang mặc bao nhiêu món thuộc loại này rồi
             int currentlyEquippedCount = 0;
+            bool mainHandTaken = false;
+            bool offHandTaken = false;
+
             foreach (var x in ownedItems)
             {
                 // Bỏ qua chính nó, đếm các món khác có cùng loại và đang được mặc
                 if (x != item && x.equipped && x.equipmentType == item.equipmentType)
                 {
                     currentlyEquippedCount++;
+                    if (x.equipSlot == EquipSlot.MainHand) mainHandTaken = true;
+                    if (x.equipSlot == EquipSlot.OffHand) offHandTaken = true;
                 }
             }
 
@@ -126,6 +131,22 @@ public class Inventory : MonoBehaviour
                 Debug.Log($"[Inventory] Blocked equipping {item.itemName}: Đã mặc tối đa {maxAllowed} món thuộc loại {item.equipmentType}. Hãy tháo bớt ra trước.");
                 return; // Chặn không cho mặc thêm
             }
+
+            // Gán Slot
+            if (item.equipmentType == EquipmentType.PrimaryWeapon)
+            {
+                if (!mainHandTaken) item.equipSlot = EquipSlot.MainHand;
+                else if (!offHandTaken) item.equipSlot = EquipSlot.OffHand;
+            }
+            else
+            {
+                // Armor/Trang sức không dùng slot tay, nhưng cứ gán tạm MainHand hoặc None
+                item.equipSlot = EquipSlot.None; 
+            }
+        }
+        else if (!isTryingToEquip)
+        {
+            item.equipSlot = EquipSlot.None;
         }
 
         item.equipped = isTryingToEquip;
@@ -147,7 +168,7 @@ public class Inventory : MonoBehaviour
     // --- SAVE / LOAD SYSTEM ---
     private string GetSavePath()
     {
-        return System.IO.Path.Combine(Application.streamingAssetsPath, "inventory_save.json");
+        return System.IO.Path.Combine(Application.persistentDataPath, "inventory_save.json");
     }
 
     public void SaveInventory()
@@ -169,10 +190,13 @@ public class Inventory : MonoBehaviour
             {
                 ownedItems = data.items;
                 
-                // Ensure all loaded items have the correct icon path
+                // Ensure all loaded items fetch their BaseData
                 foreach (var item in ownedItems)
                 {
-                    item.iconPath = "Amor_Pic/" + item.itemID;
+                    if (item.BaseData == null) {
+                        // Kích hoạt property getter để load BaseData từ Resources
+                        var _ = item.BaseData;
+                    }
                 }
                 
                 Debug.Log("[Inventory] Loaded from: " + path);

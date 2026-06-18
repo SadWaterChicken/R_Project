@@ -16,8 +16,6 @@ public class PlayerController : MonoBehaviour
     public float rotationSpeed = 5f;
     public float interactionRange = 3f; // Increased from 2f to 3f for easier interaction
     public GameObject interactHintUI; // Universal hint UI (e.g. "Press F") that appears over interactables
-    
-    private float targetYRotation = 0f;
     private float verticalVelocity = 0f;
     private float dashCooldownTimer = 0f;
     public float dashDuration = 0.2f;

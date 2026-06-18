@@ -32,8 +32,8 @@ public class DungeonSack : MonoBehaviour
     {
         if (item == null) return;
 
-        // Ensure icon path is always correct
-        item.iconPath = "Amor_Pic/" + item.itemID;
+        // Ensure icon path is always correct (Now handled by BaseItemData)
+        // item.iconPath = "Amor_Pic/" + item.itemID;
 
         // Weapons should not stack
         bool canStack = string.IsNullOrEmpty(item.weaponClassName);
@@ -103,7 +103,7 @@ public class DungeonSack : MonoBehaviour
     // --- SAVE / LOAD SYSTEM ---
     private string GetSavePath()
     {
-        return System.IO.Path.Combine(Application.streamingAssetsPath, "dungeonsack_save.json");
+        return System.IO.Path.Combine(Application.persistentDataPath, "dungeonsack_save.json");
     }
 
     public void SaveSack()
@@ -127,7 +127,9 @@ public class DungeonSack : MonoBehaviour
                 
                 foreach (var item in sackedItems)
                 {
-                    item.iconPath = "Amor_Pic/" + item.itemID;
+                    if (item.BaseData == null) {
+                        var _ = item.BaseData;
+                    }
                     item.equipped = false; // Đảm bảo luôn tắt trạng thái Equip
                 }
                 
