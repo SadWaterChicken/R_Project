@@ -33,7 +33,13 @@ public class ItemData
     public int forgeLevel = 0;                           // Forging enhancement level (0-10)
     public float weaponMastery = 0f;                     // Weapon mastery progress (0-100)
     public string baseItemID = "";                       // Original item ID before forging
-    public bool isForgeable = false;                     // Can this item be forged?
+    
+    [NonSerialized] private bool? _isForgeableOverride;
+    public bool isForgeable 
+    {
+        get => _isForgeableOverride.HasValue ? _isForgeableOverride.Value : (BaseData != null ? BaseData.isForgeable : false);
+        set => _isForgeableOverride = value;
+    }
     [Serializable]
     public class StatMod
     {
@@ -111,7 +117,7 @@ public class ItemData
             forgeLevel = forgeLevel,
             weaponMastery = weaponMastery,
             baseItemID = baseItemID,
-            isForgeable = isForgeable,
+            _isForgeableOverride = _isForgeableOverride,
             _baseData = _baseData
         };
         if (modifiers != null)
