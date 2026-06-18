@@ -18,12 +18,29 @@ public class Inventory : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null) 
+        if (Instance != null && Instance != this)
         {
-            Instance = this;
-            LoadInventory(); // Load data on startup
+            if (transform.root != transform)
+            {
+                Destroy(transform.root.gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+            return;
         }
-        else Destroy(gameObject);
+
+        Instance = this;
+        if (transform.root != transform)
+        {
+            DontDestroyOnLoad(transform.root.gameObject);
+        }
+        else
+        {
+            DontDestroyOnLoad(gameObject);
+        }
+        LoadInventory(); // Load data on startup
     }
 
     public void AddItem(ItemData item)
