@@ -28,6 +28,7 @@ public class BaseItemData : ScriptableObject
     public GameObject weaponPrefab; // 3D/2D model with Collider and MeleeWeapon script
     public int customStanceID = 0;  // 0: default, 1: shoulder carry, etc.
 
+
     [Header("Forging Requirements")]
     [Tooltip("Check this if this item can be forged by the player")]
     public bool isForgeable = false;
