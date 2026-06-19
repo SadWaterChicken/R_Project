@@ -102,11 +102,21 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(1))
         {
-            playerCombat.GuardUp();
+            if (playerCombat.equipmentManager != null && playerCombat.equipmentManager.HasOffHandWeapon())
+            {
+                playerCombat.equipmentManager.TriggerOffHandAttack();
+            }
+            else
+            {
+                playerCombat.GuardUp();
+            }
         }
         if (Input.GetMouseButtonUp(1))
         {
-            playerCombat.GuardDown();
+            if (playerCombat.equipmentManager == null || !playerCombat.equipmentManager.HasOffHandWeapon())
+            {
+                playerCombat.GuardDown();
+            }
         }
 
         // If the camera was destroyed during a scene transition, automatically find the new Main Camera in this scene

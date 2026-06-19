@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3856097634066723235}
   - component: {fileID: 2020376277457639093}
   - component: {fileID: 3725911517111463796}
-  - component: {fileID: 7719244760453099353}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -113,17 +112,3 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7719244760453099353
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2114244515397699940}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c91ec32ef5bf453489d16cc215952092, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WeaponHitbox
-  playerStat: {fileID: 0}
-  baseDamage: 10

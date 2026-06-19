@@ -6,14 +6,29 @@ public class EquipmentManager : MonoBehaviour
     public Transform mainHandSocket;
     public Transform offHandSocket;
 
-    private GameObject currentMainHandWeapon;
-    private GameObject currentOffHandWeapon;
+    private WeaponController currentMainHandWeapon;
+    private WeaponController currentOffHandWeapon;
 
     private Animator playerAnimator;
+    private AnimationEventHandler playerAnimEventHandler;
 
     private void Awake()
     {
         playerAnimator = GetComponentInChildren<Animator>();
+        if (playerAnimator != null)
+        {
+            playerAnimEventHandler = playerAnimator.GetComponent<AnimationEventHandler>();
+            if (playerAnimEventHandler == null)
+            {
+                playerAnimEventHandler = playerAnimator.gameObject.AddComponent<AnimationEventHandler>();
+            }
+            // Khởi tạo UnityEvent nếu chưa có
+            if (playerAnimEventHandler.OnEventTriggered == null)
+            {
+                playerAnimEventHandler.OnEventTriggered = new UnityEngine.Events.UnityEvent<string>();
+            }
+            playerAnimEventHandler.OnEventTriggered.AddListener(ForwardEventToWeapons);
+        }
     }
 
     private void Start()
@@ -25,7 +40,7 @@ public class EquipmentManager : MonoBehaviour
             // Khởi tạo vũ khí ban đầu (nếu có lúc load game)
             foreach (var item in Inventory.Instance.ownedItems)
             {
-                if (item.equipped && item.equipmentType == EquipmentType.PrimaryWeapon)
+                if (item.equipped && item.equipmentType == EquipmentType.Weapon)
                 {
                     HandleEquipChange(item, true);
                 }
@@ -43,7 +58,7 @@ public class EquipmentManager : MonoBehaviour
 
     private void HandleEquipChange(ItemData item, bool isEquipped)
     {
-        if (item.equipmentType != EquipmentType.PrimaryWeapon) return;
+        if (item.equipmentType != EquipmentType.Weapon) return;
 
         if (isEquipped)
         {
@@ -63,6 +78,14 @@ public class EquipmentManager : MonoBehaviour
             return;
         }
 
+        WeaponData wData = item.BaseData as WeaponData;
+        if (wData == null)
+        {
+            // Tạm thời nếu vẫn dùng BaseItemData cũ thì giữ logic cũ, nhưng in cảnh báo
+            Debug.LogWarning($"[EquipmentManager] Đang nâng cấp cấu trúc. Cần tạo lại {item.itemName} dưới dạng WeaponData.");
+            return;
+        }
+
         Transform targetSocket = (item.equipSlot == EquipSlot.MainHand) ? mainHandSocket : offHandSocket;
         if (targetSocket == null)
         {
@@ -70,40 +93,87 @@ public class EquipmentManager : MonoBehaviour
             return;
         }
 
-        // Xóa vũ khí cũ nếu có
+        // 1. Xóa vũ khí cũ nếu có
         UnequipWeapon(item.equipSlot);
 
-        // Sinh ra vũ khí mới
-        GameObject newWeaponObj = Instantiate(item.BaseData.weaponPrefab, targetSocket);
-        newWeaponObj.transform.localPosition = Vector3.zero;
-        newWeaponObj.transform.localRotation = Quaternion.identity;
+        // 2. Tạo Parent Weapon Object (Root)
+        GameObject parentObj = new GameObject($"[Weapon] {item.itemName}");
+        parentObj.transform.SetParent(targetSocket);
+        parentObj.transform.localPosition = Vector3.zero;
+        parentObj.transform.localRotation = Quaternion.identity;
+        
+        WeaponController weaponController = parentObj.AddComponent<WeaponController>();
 
-        // Lưu trữ reference
-        if (item.equipSlot == EquipSlot.MainHand)
+        // 3. Tạo Base Game Object (Core Animator)
+        GameObject baseObj = new GameObject("BaseAnimator");
+        baseObj.transform.SetParent(parentObj.transform);
+        baseObj.transform.localPosition = Vector3.zero;
+        baseObj.transform.localRotation = Quaternion.identity;
+
+        Animator baseAnim = baseObj.AddComponent<Animator>();
+        if (wData.weaponAnimatorController != null)
         {
-            currentMainHandWeapon = newWeaponObj;
+            baseAnim.runtimeAnimatorController = wData.weaponAnimatorController;
+        }
+        
+        AnimationEventHandler eventHandler = baseObj.AddComponent<AnimationEventHandler>();
+        eventHandler.OnEventTriggered = new UnityEngine.Events.UnityEvent<string>();
+        eventHandler.OnEventTriggered.AddListener(weaponController.HandleAnimationEvent);
+
+        weaponController.baseAnimator = baseAnim;
+
+        // 3.5 Tự động lắp ráp Component Logic dựa trên danh sách tùy chọn (Data-Driven)
+        if (wData.weaponComponents != null && wData.weaponComponents.Count > 0)
+        {
+            foreach (string compName in wData.weaponComponents)
+            {
+                if (string.IsNullOrWhiteSpace(compName)) continue;
+                
+                System.Type compType = System.Type.GetType(compName) ?? System.Type.GetType(compName + ", Assembly-CSharp");
+                if (compType != null && compType.IsSubclassOf(typeof(WeaponComponent)))
+                {
+                    parentObj.AddComponent(compType);
+                }
+                else
+                {
+                    Debug.LogWarning($"[EquipmentManager] Không thể thêm Component '{compName}'. Hãy đảm bảo đúng tên Class và class đó kế thừa từ WeaponComponent.");
+                }
+            }
         }
         else
         {
-            currentOffHandWeapon = newWeaponObj;
-        }
-
-        // Gửi sát thương vào vũ khí
-        MeleeWeapon meleeScript = newWeaponObj.GetComponent<MeleeWeapon>();
-        if (meleeScript != null)
-        {
-            float totalPhysicalDamage = 0f;
-            foreach(var mod in item.modifiers)
+            // Fallback (Tương thích ngược với các vũ khí chưa thiết lập List)
+            if (wData.combatStyle == CombatStyle.Melee)
             {
-                if (mod.stat == "physicalDamage") totalPhysicalDamage += mod.value;
+                parentObj.AddComponent<MeleeDamageComponent>();
             }
-            meleeScript.Initialize(totalPhysicalDamage, item.equipSlot);
         }
 
-        // Cập nhật dáng đứng (WeaponStance) cho Player Animator
+        // 4. Tạo 3D Weapon Model (Thực thể hiển thị)
+        // Tham số 'false' giúp giữ nguyên tọa độ Local (vị trí đã căn sẵn) của Prefab
+        GameObject modelObj = Instantiate(wData.weaponPrefab, baseObj.transform, false);
+        modelObj.name = "3D_Model";
+
+        // 5. Initialize WeaponController (Tự nạp dữ liệu vào Component)
+        weaponController.Initialize(item);
+
+        // 6. Lưu trữ Reference
+        if (item.equipSlot == EquipSlot.MainHand)
+        {
+            currentMainHandWeapon = weaponController;
+        }
+        else
+        {
+            currentOffHandWeapon = weaponController;
+        }
+
+        // Cập nhật dáng đứng (WeaponStance) cho Player Animator gốc (Ví dụ: cách cầm vũ khí)
         if (playerAnimator != null && item.equipSlot == EquipSlot.MainHand)
         {
-            playerAnimator.SetInteger("WeaponStance", item.BaseData.customStanceID);
+            if (System.Array.Exists(playerAnimator.parameters, p => p.name == "WeaponStance"))
+            {
+                playerAnimator.SetInteger("WeaponStance", item.BaseData.customStanceID);
+            }
         }
     }
 
@@ -111,13 +181,13 @@ public class EquipmentManager : MonoBehaviour
     {
         if (slot == EquipSlot.MainHand && currentMainHandWeapon != null)
         {
-            Destroy(currentMainHandWeapon);
+            Destroy(currentMainHandWeapon.gameObject);
             currentMainHandWeapon = null;
             if (playerAnimator != null) playerAnimator.SetInteger("WeaponStance", 0); // Về dáng tay không
         }
         else if (slot == EquipSlot.OffHand && currentOffHandWeapon != null)
         {
-            Destroy(currentOffHandWeapon);
+            Destroy(currentOffHandWeapon.gameObject);
             currentOffHandWeapon = null;
         }
     }
@@ -126,8 +196,7 @@ public class EquipmentManager : MonoBehaviour
     {
         if (currentMainHandWeapon != null)
         {
-            Animator weaponAnim = currentMainHandWeapon.GetComponent<Animator>();
-            if (weaponAnim != null) weaponAnim.SetTrigger("Attack");
+            currentMainHandWeapon.Attack();
         }
     }
 
@@ -135,8 +204,25 @@ public class EquipmentManager : MonoBehaviour
     {
         if (currentOffHandWeapon != null)
         {
-            Animator weaponAnim = currentOffHandWeapon.GetComponent<Animator>();
-            if (weaponAnim != null) weaponAnim.SetTrigger("Attack");
+            currentOffHandWeapon.Attack();
         }
+    }
+
+    // Forward events từ Player Animator xuống cho tất cả vũ khí đang cầm
+    private void ForwardEventToWeapons(string eventName)
+    {
+        if (currentMainHandWeapon != null)
+        {
+            currentMainHandWeapon.HandleAnimationEvent(eventName);
+        }
+        if (currentOffHandWeapon != null)
+        {
+            currentOffHandWeapon.HandleAnimationEvent(eventName);
+        }
+    }
+
+    public bool HasOffHandWeapon()
+    {
+        return currentOffHandWeapon != null;
     }
 }
