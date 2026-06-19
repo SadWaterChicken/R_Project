@@ -16,7 +16,8 @@ GameObject:
   - component: {fileID: 2317661578285317477}
   - component: {fileID: 2702944064029599358}
   - component: {fileID: 3272022405934795513}
-  - component: {fileID: 1410325922610906343}
+  - component: {fileID: 452581346912153236}
+  - component: {fileID: 4012361119424020317}
   m_Layer: 7
   m_Name: Chaser (1)
   m_TagString: Untagged
@@ -267,7 +268,7 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &1410325922610906343
+--- !u!114 &452581346912153236
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -279,7 +280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae4ea46037439d44b85de08b5b423fe5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStat
-  maxHealth: 0
+  maxHealth: 100
   currentHealth: 0
   healthRegenRate: 0
   maxMana: 0
@@ -300,10 +301,24 @@ MonoBehaviour:
   shieldRegenRate: 0
   shieldRechargeCooldown: 0
   enemyLevel: 1
-  attackRange: 1
+  attackRange: 2
   attackCooldown: 1
   detectionRange: 10
   outOfCombatDelay: 3
+--- !u!114 &4012361119424020317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4073294042357489424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8d95be18e3d8064e9c4505260aca949, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageRecieve
+  enemy: {fileID: 452581346912153236}
+  damageAmount: 10
 --- !u!1 &5207020694090564975
 GameObject:
   m_ObjectHideFlags: 0
@@ -446,7 +461,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyCombat
   animator: {fileID: 5163166265228518380}
-  enemyStat: {fileID: 1410325922610906343}
+  enemyStat: {fileID: 0}
   attackPoint: {fileID: 8748580402771485614}
   targetLayer:
     serializedVersion: 2
