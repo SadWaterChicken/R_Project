@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+[ExecuteAlways]
 public class WorldMinimapController : MonoBehaviour
 {
     [Header("References")]
