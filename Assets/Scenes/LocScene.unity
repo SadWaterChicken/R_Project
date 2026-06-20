@@ -2190,8 +2190,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombat
   animator: {fileID: 1367081444}
-  playerStat: {fileID: 542189114}
   equipmentManager: {fileID: 1367081446}
+  playerStat: {fileID: 542189114}
   ComboDelay: 0.6
   attackPoint: {fileID: 1273820490}
   weaponRange: 1
@@ -3296,6 +3296,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 246875248}
     m_Modifications:
+    - target: {fileID: 65099236632839208, guid: 7630bcb1ec889054d8a350d96771b9da, type: 3}
+      propertyPath: equipmentSlots.Array.data[1].specificSlot
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 65099236632839208, guid: 7630bcb1ec889054d8a350d96771b9da, type: 3}
+      propertyPath: equipmentSlots.Array.data[2].specificSlot
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 544168609553804393, guid: 7630bcb1ec889054d8a350d96771b9da, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

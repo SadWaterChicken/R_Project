@@ -157,9 +157,11 @@ public class ForgeUI : MonoBehaviour
 
         if (Inventory.Instance == null) return;
 
-        // Filter forgeable weapons
+        // Filter forgeable weapons (Weapons that have at least one recipe asking for them as a base weapon)
         var forgeableWeapons = Inventory.Instance.ownedItems
-            .Where(w => w.isForgeable && !string.IsNullOrEmpty(w.weaponClassName))
+            .Where(w => !string.IsNullOrEmpty(w.weaponClassName) && 
+                        ForgingSystem.Instance != null && 
+                        ForgingSystem.Instance.recipes.Any(r => r.requiredItemIDs != null && r.requiredItemIDs.Contains(w.itemID)))
             .ToList();
 
         foreach (var weapon in forgeableWeapons)
@@ -560,9 +562,7 @@ public class ForgeUI : MonoBehaviour
         if (forgeManager == null) return;
 
         // Filter advanced weapons by class
-        var classWeapons = forgeManager.LoadAdvancedWeaponsForClass(baseWeapon.weaponClassName)
-            .Where(w => w.equipmentType == baseWeapon.equipmentType)
-            .ToList();
+        var classWeapons = forgeManager.LoadAdvancedWeaponsForClass(baseWeapon.weaponClassName).ToList();
 
         foreach (var weapon in classWeapons)
         {

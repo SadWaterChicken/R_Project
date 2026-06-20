@@ -5,13 +5,12 @@ using UnityEngine;
 public enum EquipmentType
 {
     None,
-    PrimaryWeapon,
+    Weapon,
     ChestArmor,
     LegArmor,
     Jewelry,
     Shoes,
-    Helmet,
-    SecondaryWeapon
+    Helmet
 }
 
 public enum EquipSlot

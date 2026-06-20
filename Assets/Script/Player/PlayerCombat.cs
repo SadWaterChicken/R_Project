@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerCombat : MonoBehaviour
 {
     public Animator animator;
+    public EquipmentManager equipmentManager;
     public PlayerStat playerStat;
     public float ComboDelay = 0.5f;
     private int numbClicks = 0;
@@ -37,60 +38,36 @@ public class PlayerCombat : MonoBehaviour
             {
                 animator.ResetTrigger("hit2"); // Clear any ghost triggers
                 animator.SetTrigger("hit1");
+                if (equipmentManager != null) equipmentManager.TriggerMainHandAttack();
             }
             else if (numbClicks >= 2)
             {
                 // Queue hit2 instantly so you don't miss the animation event window
                 animator.SetTrigger("hit2");
+                if (equipmentManager != null) equipmentManager.TriggerMainHandAttack();
             }
             
             numbClicks = Mathf.Clamp(numbClicks, 0, 2);
+        }
+
+        // Đỡ đòn gốc (Giữ nguyên cho team Combat xử lý)
+        if (Input.GetMouseButtonDown(1))
+        {
+            GuardUp();
+        }
+        
+        if (Input.GetMouseButtonUp(1))
+        {
+            GuardDown();
         }
     }
   
 
     public void Attack()
     {
-        // Create a visual sphere in the actual game to see the hitbox
-        GameObject debugSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        debugSphere.transform.position = attackPoint.position;
-        // weaponRange is a radius, so we multiply by 2 for the diameter scale
-        debugSphere.transform.localScale = new Vector3(weaponRange * 2, weaponRange * 2, weaponRange * 2);
-        
-        Destroy(debugSphere.GetComponent<Collider>()); // Prevent it from interfering with actual physics
-        
-        Renderer rend = debugSphere.GetComponent<Renderer>();
-        if (rend != null) 
-        {
-            // Use the built-in Sprite shader which supports transparency natively
-            rend.material = new Material(Shader.Find("Sprites/Default"));
-            rend.material.color = new Color(1f, 0f, 0f, 0.2f); // 0.2 opacity
-        }
-        
-        Destroy(debugSphere, 0.3f); // Destroy it after 0.3 seconds
-        
-        // Find ALL colliders in range without using a layer mask
-        Collider[] allHit = Physics.OverlapSphere(attackPoint.position, weaponRange);
-        
-        System.Collections.Generic.HashSet<EnemyStat> hitEnemies = new System.Collections.Generic.HashSet<EnemyStat>();
-
-        foreach (Collider col in allHit)
-        {
-            // Only damage colliders that are explicitly tagged as "Enemy"
-            if (col.CompareTag("Enemy"))
-            {
-                EnemyStat stat = col.GetComponentInParent<EnemyStat>();
-                
-                if (stat != null && !hitEnemies.Contains(stat))
-                {
-                    hitEnemies.Add(stat);
-
-                    float appliedDamage = (playerStat != null) ? playerStat.GetPhysicalDamage() : damage;
-                    
-                    stat.TakePhysicalDamage(appliedDamage);
-                }
-            }
-        }
+        // [DEPRECATED] Logic gây sát thương cũ đã được gỡ bỏ.
+        // Hàm này được giữ lại với nội dung rỗng để Animator cũ gọi vào không bị văng lỗi Missing Method.
+        // Sát thương thực tế đã được chuyển sang Component mới.
     }
 
     public void Combohit1Transition()

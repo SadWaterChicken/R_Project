@@ -9,17 +9,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e355dc9725927d146b329a9ab64ce010, type: 3}
+  m_Script: {fileID: 11500000, guid: 33e2658a55ad2a545abf5a00e799e7dd, type: 3}
   m_Name: glass_orb
-  m_EditorClassIdentifier: Assembly-CSharp::BaseItemData
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponData
   itemID: glass_orb
   itemName: Glass Orb
   description: A fragile orb holding weak magic.
   basePrice: 0
   iconPath: Amor_Pic/glass_orb
+  itemTier: 1
+  rarity: 1
   equippable: 1
   equipmentType: 1
   weaponClassName: Orb
   baseModifiers: []
   weaponPrefab: {fileID: 0}
   customStanceID: 0
+  isForgeable: 0
+  forgingRecipe:
+    recipeID: 
+    resultItemID: 
+    requiredItemIDs: []
+    requiredMaterials: []
+    goldCost: 0
+    minWeaponCount: 2
+  gripType: 0
+  combatStyle: 0
+  weaponAnimatorController: {fileID: 0}
+  weaponComponents:
+  - MeleeDamageComponent
