@@ -18,20 +18,37 @@ public class Inventory : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null) 
+        if (Instance != null && Instance != this)
         {
-            Instance = this;
-            LoadInventory(); // Load data on startup
+            if (transform.root != transform)
+            {
+                Destroy(transform.root.gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+            return;
         }
-        else Destroy(gameObject);
+
+        Instance = this;
+        if (transform.root != transform)
+        {
+            DontDestroyOnLoad(transform.root.gameObject);
+        }
+        else
+        {
+            DontDestroyOnLoad(gameObject);
+        }
+        LoadInventory(); // Load data on startup
     }
 
     public void AddItem(ItemData item)
     {
         if (item == null) return;
 
-        // Ensure icon path is always correct
-        item.iconPath = "Amor_Pic/" + item.itemID;
+        // Ensure icon path is always correct (Now handled by BaseItemData)
+        // item.iconPath = "Amor_Pic/" + item.itemID;
 
         // Weapons should not stack so they can have individual mastery/forge levels
         bool canStack = string.IsNullOrEmpty(item.weaponClassName);
@@ -91,16 +108,21 @@ public class Inventory : MonoBehaviour
         if (isTryingToEquip && item.equipmentType != EquipmentType.None)
         {
             // Cài đặt số lượng đồ tối đa được phép mặc cùng lúc (Vũ khí cho phép 2 tay = 2 món)
-            int maxAllowed = (item.equipmentType == EquipmentType.PrimaryWeapon) ? 2 : 1;
+            int maxAllowed = (item.equipmentType == EquipmentType.Weapon) ? 2 : 1;
             
             // Đếm xem người chơi đang mặc bao nhiêu món thuộc loại này rồi
             int currentlyEquippedCount = 0;
+            bool mainHandTaken = false;
+            bool offHandTaken = false;
+
             foreach (var x in ownedItems)
             {
                 // Bỏ qua chính nó, đếm các món khác có cùng loại và đang được mặc
                 if (x != item && x.equipped && x.equipmentType == item.equipmentType)
                 {
                     currentlyEquippedCount++;
+                    if (x.equipSlot == EquipSlot.MainHand) mainHandTaken = true;
+                    if (x.equipSlot == EquipSlot.OffHand) offHandTaken = true;
                 }
             }
 
@@ -109,15 +131,111 @@ public class Inventory : MonoBehaviour
                 Debug.Log($"[Inventory] Blocked equipping {item.itemName}: Đã mặc tối đa {maxAllowed} món thuộc loại {item.equipmentType}. Hãy tháo bớt ra trước.");
                 return; // Chặn không cho mặc thêm
             }
-        }
 
+            if (item.equipmentType == EquipmentType.Weapon)
+            {
+                WeaponData wData = item.BaseData as WeaponData;
+                bool isTwoHanded = wData != null && wData.gripType == GripType.TwoHanded;
+
+                if (isTwoHanded)
+                {
+                    // Nếu là vũ khí 2 tay, tự động tháo sạch mọi vũ khí đang cầm trên tay
+                    foreach (var x in ownedItems)
+                    {
+                        if (x.equipped && x.equipmentType == EquipmentType.Weapon)
+                        {
+                            x.equipped = false;
+                            OnItemEquipChanged?.Invoke(x, false);
+                            x.equipSlot = EquipSlot.None;
+                        }
+                    }
+                    item.equipSlot = EquipSlot.MainHand; // Cầm 2 tay, gắn vào slot Main
+                }
+                else
+                {
+                    // Vũ khí 1 tay: Kiểm tra xem đang cầm vũ khí 2 tay không
+                    foreach (var x in ownedItems)
+                    {
+                        if (x.equipped && x.equipmentType == EquipmentType.Weapon)
+                        {
+                            WeaponData equippedWData = x.BaseData as WeaponData;
+                            if (equippedWData != null && equippedWData.gripType == GripType.TwoHanded)
+                            {
+                                // Tháo vũ khí 2 tay cũ ra
+                                x.equipped = false;
+                                OnItemEquipChanged?.Invoke(x, false);
+                                x.equipSlot = EquipSlot.None;
+                                mainHandTaken = false;
+                                offHandTaken = false;
+                                currentlyEquippedCount = 0;
+                            }
+                        }
+                    }
+
+                    if (currentlyEquippedCount >= maxAllowed)
+                    {
+                        Debug.Log($"[Inventory] Blocked equipping {item.itemName}: Đã mặc 2 món One-Handed. Kín 2 tay.");
+                        return; // Chặn không cho mặc thêm
+                    }
+
+                    if (!mainHandTaken) item.equipSlot = EquipSlot.MainHand;
+                    else if (!offHandTaken) item.equipSlot = EquipSlot.OffHand;
+                }
+            }
+            else
+            {
+                // Armor/Trang sức không dùng slot tay, nhưng cứ gán tạm MainHand hoặc None
+                item.equipSlot = EquipSlot.None; 
+            }
+        }
         item.equipped = isTryingToEquip;
 
-        // notify listeners (e.g., PlayerData) and refresh UI
+        // notify listeners (e.g., PlayerData, EquipmentManager) so they can use the CURRENT equipSlot
         OnItemEquipChanged?.Invoke(item, item.equipped);
+
+        if (!isTryingToEquip)
+        {
+            item.equipSlot = EquipSlot.None;
+        }
+
+        // refresh UI
         inventoryUIReference?.Refresh();
         OnInventoryChanged?.Invoke();
         SaveInventory(); // Save changes
+    }
+
+    // NEW: Cho phép ép buộc trang bị một vũ khí vào ĐÚNG tay trái hoặc phải
+    public void EquipToSpecificSlot(ItemData item, EquipSlot targetSlot)
+    {
+        if (item == null || !ownedItems.Contains(item) || !item.equippable || item.equipmentType != EquipmentType.Weapon) return;
+
+        // Nếu vũ khí là loại 2 tay, không được chọn tay, xài hàm mặc định
+        WeaponData wData = item.BaseData as WeaponData;
+        if (wData != null && wData.gripType == GripType.TwoHanded)
+        {
+            ToggleEquip(item);
+            return;
+        }
+
+        // 1. Nếu đang có vũ khí ở tay targetSlot, tháo nó ra trước
+        foreach (var x in ownedItems)
+        {
+            if (x.equipped && x.equipSlot == targetSlot)
+            {
+                x.equipped = false;
+                OnItemEquipChanged?.Invoke(x, false);
+                x.equipSlot = EquipSlot.None;
+            }
+        }
+
+        // 2. Mặc món mới vào đúng targetSlot
+        item.equipSlot = targetSlot;
+        item.equipped = true;
+        OnItemEquipChanged?.Invoke(item, true);
+
+        inventoryUIReference?.Refresh();
+        OnInventoryChanged?.Invoke();
+        SaveInventory();
     }
 
     public void Clear()
@@ -130,7 +248,7 @@ public class Inventory : MonoBehaviour
     // --- SAVE / LOAD SYSTEM ---
     private string GetSavePath()
     {
-        return System.IO.Path.Combine(Application.streamingAssetsPath, "inventory_save.json");
+        return System.IO.Path.Combine(Application.persistentDataPath, "inventory_save.json");
     }
 
     public void SaveInventory()
@@ -152,10 +270,13 @@ public class Inventory : MonoBehaviour
             {
                 ownedItems = data.items;
                 
-                // Ensure all loaded items have the correct icon path
+                // Ensure all loaded items fetch their BaseData
                 foreach (var item in ownedItems)
                 {
-                    item.iconPath = "Amor_Pic/" + item.itemID;
+                    if (item.BaseData == null) {
+                        // Kích hoạt property getter để load BaseData từ Resources
+                        var _ = item.BaseData;
+                    }
                 }
                 
                 Debug.Log("[Inventory] Loaded from: " + path);

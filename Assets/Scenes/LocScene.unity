@@ -711,6 +711,37 @@ MonoBehaviour:
   maxMastery: 100
   classDatabase: []
   weaponDatabase: []
+--- !u!1 &430734660
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 430734661}
+  m_Layer: 0
+  m_Name: MainHand_Socket
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &430734661
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 430734660}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.23, y: 0.01, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1367081442}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &434535987
 GameObject:
   m_ObjectHideFlags: 0
@@ -2138,6 +2169,7 @@ GameObject:
   - component: {fileID: 1367081443}
   - component: {fileID: 1367081444}
   - component: {fileID: 1367081441}
+  - component: {fileID: 1367081446}
   m_Layer: 0
   m_Name: PlayerSprite
   m_TagString: Untagged
@@ -2158,6 +2190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombat
   animator: {fileID: 1367081444}
+  equipmentManager: {fileID: 1367081446}
   playerStat: {fileID: 542189114}
   ComboDelay: 0.6
   attackPoint: {fileID: 1273820490}
@@ -2181,6 +2214,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1273820490}
+  - {fileID: 430734661}
+  - {fileID: 1506024797}
   m_Father: {fileID: 542189120}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1367081443
@@ -2276,6 +2311,20 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1367081446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1367081440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebf5087735767aa468c6b6b80ad65dbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EquipmentManager
+  mainHandSocket: {fileID: 430734661}
+  offHandSocket: {fileID: 1506024797}
 --- !u!1 &1431987856 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6384449085140067688, guid: 775c03fbb3a28c240ae6950705b2cbcd, type: 3}
@@ -2955,6 +3004,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ff2667a31825504c98e7a5ad783a004, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1506024796
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1506024797}
+  m_Layer: 0
+  m_Name: OffHand_Socket
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1506024797
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1506024796}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.63, y: 0.02, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1367081442}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1555904333 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2995868771668676286, guid: 775c03fbb3a28c240ae6950705b2cbcd, type: 3}
@@ -3216,6 +3296,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 246875248}
     m_Modifications:
+    - target: {fileID: 65099236632839208, guid: 7630bcb1ec889054d8a350d96771b9da, type: 3}
+      propertyPath: equipmentSlots.Array.data[1].specificSlot
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 65099236632839208, guid: 7630bcb1ec889054d8a350d96771b9da, type: 3}
+      propertyPath: equipmentSlots.Array.data[2].specificSlot
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 544168609553804393, guid: 7630bcb1ec889054d8a350d96771b9da, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

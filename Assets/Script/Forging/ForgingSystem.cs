@@ -18,7 +18,6 @@ public class ForgingSystem : MonoBehaviour
 
     // Events
     public event Action<ForgingMaterialStack> OnMaterialAdded;
-    public event Action<ForgingMaterialStack> OnMaterialRemoved;
     public event Action OnMaterialInventoryChanged;
 
     private void Awake()
@@ -26,17 +25,34 @@ public class ForgingSystem : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            LoadRecipesFromStreamingAssets();
+            LoadRecipesFromResources();
         }
         else
             Destroy(gameObject);
     }
 
     /// <summary>
-    /// Load recipes and materials dynamically from StreamingAssets
+    /// Load recipes dynamically from all BaseItemData in Resources
     /// </summary>
-    public void LoadRecipesFromStreamingAssets()
+    public void LoadRecipesFromResources()
     {
+        BaseItemData[] allItems = Resources.LoadAll<BaseItemData>("");
+        foreach (var item in allItems)
+        {
+            if (item.isForgeable && item.forgingRecipe != null && !string.IsNullOrEmpty(item.forgingRecipe.recipeID))
+            {
+                // Force the result item to be this item itself
+                item.forgingRecipe.resultItemID = item.itemID;
+                
+                if (!recipes.Any(r => r.recipeID == item.forgingRecipe.recipeID))
+                {
+                    recipes.Add(item.forgingRecipe);
+                }
+            }
+        }
+        Debug.Log($"[ForgingSystem] Auto-loaded {recipes.Count} recipes directly from BaseItemData.");
+
+        // Khôi phục nạp Materials từ JSON (vì Material không phải là BaseItemData)
         string path = System.IO.Path.Combine(Application.streamingAssetsPath, "ForgingRecipes.json");
         if (System.IO.File.Exists(path))
         {
@@ -46,19 +62,11 @@ public class ForgingSystem : MonoBehaviour
                 var wrapper = JsonUtility.FromJson<ForgingRecipeWrapper>(json);
                 if (wrapper != null)
                 {
-                    recipes = wrapper.recipes;
                     materials = wrapper.materials;
-                    Debug.Log($"[ForgingSystem] Automatically loaded {recipes.Count} recipes and {materials.Count} materials from StreamingAssets.");
+                    Debug.Log($"[ForgingSystem] Loaded {materials.Count} materials from JSON.");
                 }
             }
-            catch (Exception e)
-            {
-                Debug.LogError($"[ForgingSystem] Failed to load ForgingRecipes.json: {e.Message}");
-            }
-        }
-        else
-        {
-            Debug.LogWarning($"[ForgingSystem] No ForgingRecipes.json found at {path}.");
+            catch { }
         }
     }
 

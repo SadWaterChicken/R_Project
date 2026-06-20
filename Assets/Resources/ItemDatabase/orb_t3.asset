@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33e2658a55ad2a545abf5a00e799e7dd, type: 3}
+  m_Name: orb_t3
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponData
+  itemID: orb_t3
+  itemName: Orb Tier 3
+  description: 
+  basePrice: 0
+  iconPath: 
+  itemTier: 3
+  rarity: 3
+  equippable: 1
+  equipmentType: 1
+  weaponClassName: Orb
+  baseModifiers: []
+  weaponPrefab: {fileID: 0}
+  customStanceID: 0
+  isForgeable: 1
+  forgingRecipe:
+    recipeID: r_orb_t3
+    resultItemID: orb_t3
+    requiredItemIDs:
+    - orb_t2
+    requiredMaterials:
+    - materialID: steel_ingot
+      quantity: 10
+    goldCost: 500
+    minWeaponCount: 1
+  gripType: 0
+  combatStyle: 0
+  weaponAnimatorController: {fileID: 0}
+  weaponComponents:
+  - MeleeDamageComponent

@@ -39,36 +39,26 @@ public class ForgeManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Load advanced weapons dynamically from StreamingAssets for a specific weapon class.
+    /// Scan all BaseItemData in Resources to find forgeable weapons for a specific class.
     /// </summary>
     public List<ItemData> LoadAdvancedWeaponsForClass(string className)
     {
         if (string.IsNullOrEmpty(className)) return new List<ItemData>();
 
-        string path = System.IO.Path.Combine(Application.streamingAssetsPath, "AdvancedWeapons", $"{className}_Upgrades.json");
-        if (System.IO.File.Exists(path))
+        List<ItemData> advancedWeapons = new List<ItemData>();
+        BaseItemData[] allItems = Resources.LoadAll<BaseItemData>("");
+        
+        foreach (var baseItem in allItems)
         {
-            try
+            // If it's the same class, is forgeable, and has a recipe defined
+            if (baseItem.weaponClassName == className && baseItem.isForgeable && baseItem.forgingRecipe != null && !string.IsNullOrEmpty(baseItem.forgingRecipe.recipeID))
             {
-                string json = System.IO.File.ReadAllText(path);
-                var wrapper = JsonUtility.FromJson<AdvancedWeaponWrapper>(json);
-                if (wrapper != null)
-                {
-                    Debug.Log($"[ForgeManager] Loaded {wrapper.advancedWeapons.Count} advanced weapons for class {className}.");
-                    return wrapper.advancedWeapons;
-                }
+                advancedWeapons.Add(new ItemData(baseItem.itemID));
             }
-            catch (Exception e)
-            {
-                Debug.LogError($"[ForgeManager] Failed to load {className}_Upgrades.json: {e.Message}");
-            }
-        }
-        else
-        {
-            Debug.LogWarning($"[ForgeManager] No advanced weapon data found at path: {path}");
         }
 
-        return new List<ItemData>();
+        Debug.Log($"[ForgeManager] Found {advancedWeapons.Count} advanced weapons for class {className} directly from Resources.");
+        return advancedWeapons;
     }
 
     /// <summary>
@@ -226,6 +216,23 @@ public class ForgeManager : MonoBehaviour
             return false;
         }
 
+        // --- NEW: Rarity vs Tier restriction ---
+        // Ensure that the materials used are high enough quality for this weapon's tier
+        int targetTier = weaponsToForge[0].itemTier + 1; // Forging upgrades tier by 1 conceptually
+        foreach (var req in recipe.requiredMaterials)
+        {
+            ForgingMaterial matInfo = forgingSystem.GetMaterial(req.materialID);
+            if (matInfo != null)
+            {
+                // Quy tắc: Rarity của đá rèn phải lớn hơn hoặc bằng Tier hiện tại của vũ khí
+                if (matInfo.rarity < weaponsToForge[0].itemTier)
+                {
+                    Debug.LogWarning($"[ForgeManager] Material '{matInfo.materialName}' (Rarity {matInfo.rarity}) is too low quality to forge a Tier {weaponsToForge[0].itemTier} weapon!");
+                    return false;
+                }
+            }
+        }
+
         return true;
     }
 
@@ -248,35 +255,21 @@ public class ForgeManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Get a deep-copied weapon template from the database by itemID.
-    /// Assign all craftable weapons to the Weapon Database list in the Inspector.
+    /// Get a deep-copied weapon template from the database or construct from BaseItemData
     /// </summary>
     public ItemData GetWeaponTemplate(string itemID)
     {
         var template = weaponDatabase.FirstOrDefault(w => w != null && w.itemID == itemID);
         if (template != null) return template.Clone();
 
-        // Search in dynamically loaded Advanced Weapons
-        string dir = System.IO.Path.Combine(Application.streamingAssetsPath, "AdvancedWeapons");
-        if (System.IO.Directory.Exists(dir))
+        // Search in Resources (BaseItemData)
+        var baseData = Resources.Load<BaseItemData>($"ItemDatabase/{itemID}");
+        if (baseData != null)
         {
-            foreach (var file in System.IO.Directory.GetFiles(dir, "*.json"))
-            {
-                try
-                {
-                    string json = System.IO.File.ReadAllText(file);
-                    var wrapper = JsonUtility.FromJson<AdvancedWeaponWrapper>(json);
-                    if (wrapper != null && wrapper.advancedWeapons != null)
-                    {
-                        var advTemplate = wrapper.advancedWeapons.FirstOrDefault(w => w.itemID == itemID);
-                        if (advTemplate != null) return advTemplate.Clone();
-                    }
-                }
-                catch { /* Ignore errors */ }
-            }
+            return new ItemData(itemID);
         }
 
-        Debug.LogWarning($"[ForgeManager] Weapon template '{itemID}' not found in database or JSON files.");
+        Debug.LogWarning($"[ForgeManager] Weapon template '{itemID}' not found in database or Resources/ItemDatabase.");
         return null;
     }
 

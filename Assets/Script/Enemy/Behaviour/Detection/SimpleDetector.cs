@@ -23,7 +23,7 @@ public class SimpleDetector : MonoBehaviour
         if (player == null)
         {
             // Find all active GameObjects in the scene
-            GameObject[] allObjects = FindObjectsOfType<GameObject>();
+            GameObject[] allObjects = FindObjectsByType<GameObject>(FindObjectsInactive.Exclude);
             foreach (GameObject obj in allObjects)
             {
                 // Check if this object's layer is part of the detectionLayer mask

@@ -91,8 +91,7 @@ public class GachaItemGenerator : MonoBehaviour
         // Ví dụ: Vũ khí ưu tiên sát thương, Giáp ưu tiên phòng thủ/máu
         switch (type)
         {
-            case EquipmentType.PrimaryWeapon:
-            case EquipmentType.SecondaryWeapon:
+            case EquipmentType.Weapon:
                 return Random.value > 0.5f ? "physicalDamage" : "magicDamage";
             case EquipmentType.Helmet:
             case EquipmentType.ChestArmor:

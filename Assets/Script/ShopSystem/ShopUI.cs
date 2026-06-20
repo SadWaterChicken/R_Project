@@ -19,6 +19,7 @@ public class ShopUI : MonoBehaviour
     public Button buyButton;
     public Button sellButton;                // NEW: Sell button
     public Button closeButton;
+    public Button closeDetailButton;         // Nút đóng riêng cho detailPanel
 
     // NEW: optional stats text (assign in Inspector). If null, stats will be appended to detailDesc.
     public TMP_Text detailStats;
@@ -45,6 +46,14 @@ public class ShopUI : MonoBehaviour
         {
             closeButton.onClick.RemoveAllListeners();
             closeButton.onClick.AddListener(() => manager.CloseShop());
+        }
+
+        if (closeDetailButton != null)
+        {
+            closeDetailButton.onClick.RemoveAllListeners();
+            closeDetailButton.onClick.AddListener(() => {
+                if (detailPanel != null) detailPanel.SetActive(false);
+            });
         }
     }
 

@@ -16,8 +16,6 @@ public class PlayerController : MonoBehaviour
     public float rotationSpeed = 5f;
     public float interactionRange = 3f; // Increased from 2f to 3f for easier interaction
     public GameObject interactHintUI; // Universal hint UI (e.g. "Press F") that appears over interactables
-    
-    private float targetYRotation = 0f;
     private float verticalVelocity = 0f;
     private float dashCooldownTimer = 0f;
     public float dashDuration = 0.2f;
@@ -104,11 +102,21 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(1))
         {
-            playerCombat.GuardUp();
+            if (playerCombat.equipmentManager != null && playerCombat.equipmentManager.HasOffHandWeapon())
+            {
+                playerCombat.equipmentManager.TriggerOffHandAttack();
+            }
+            else
+            {
+                playerCombat.GuardUp();
+            }
         }
         if (Input.GetMouseButtonUp(1))
         {
-            playerCombat.GuardDown();
+            if (playerCombat.equipmentManager == null || !playerCombat.equipmentManager.HasOffHandWeapon())
+            {
+                playerCombat.GuardDown();
+            }
         }
 
         // If the camera was destroyed during a scene transition, automatically find the new Main Camera in this scene
