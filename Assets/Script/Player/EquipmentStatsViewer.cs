@@ -8,9 +8,15 @@ public class EquipmentStatsViewer : MonoBehaviour
     public int maxManaBonus;
     public float healthRegenRateBonus;
 
-    [Header("Damage Stats")]
+    [Header("Core Damage Stats (Armor & Buffs)")]
     public float physicalDamageBonus;
     public float magicDamageBonus;
+
+    [Header("Weapon Damage (Independent)")]
+    public float mainHandPhysicalDamage;
+    public float offHandPhysicalDamage;
+    public float mainHandMagicDamage;
+    public float offHandMagicDamage;
 
     [Header("Defence Stats")]
     public float physicalArmorBonus;
@@ -76,13 +82,29 @@ public class EquipmentStatsViewer : MonoBehaviour
                 case "physicaldamage":
                 case "physical damage bonus":
                 case "physicaldamagebonus":
-                    physicalDamageBonus += value;
+                    if (item.equipmentType == EquipmentType.Weapon)
+                    {
+                        if (item.equipSlot == EquipSlot.MainHand) mainHandPhysicalDamage += value;
+                        else if (item.equipSlot == EquipSlot.OffHand) offHandPhysicalDamage += value;
+                    }
+                    else
+                    {
+                        physicalDamageBonus += value;
+                    }
                     break;
                 case "magic damage":
                 case "magicdamage":
                 case "magic damage bonus":
                 case "magicdamagebonus":
-                    magicDamageBonus += value;
+                    if (item.equipmentType == EquipmentType.Weapon)
+                    {
+                        if (item.equipSlot == EquipSlot.MainHand) mainHandMagicDamage += value;
+                        else if (item.equipSlot == EquipSlot.OffHand) offHandMagicDamage += value;
+                    }
+                    else
+                    {
+                        magicDamageBonus += value;
+                    }
                     break;
                 case "physical armour":
                 case "physicalarmour":

@@ -4,13 +4,14 @@ using UnityEngine;
 /// <summary>
 /// Represents a material/stone used for forging weapons
 /// </summary>
-[System.Serializable]
-public class ForgingMaterial
+[CreateAssetMenu(fileName = "New Forging Material", menuName = "R-Project/Forging Material")]
+public class ForgingMaterial : ScriptableObject
 {
     public string materialID;
     public string materialName;
-    public string description;
-    public string iconPath;
+    [TextArea] public string description;
+    public string iconPath; // Giữ lại để migration
+    public Sprite icon;
 
     [System.Serializable]
     public enum MaterialType
@@ -33,20 +34,30 @@ public class ForgingMaterial
 [System.Serializable]
 public class ForgingRecipe
 {
-    public string recipeID;
-    public string resultItemID;        // The weapon you get after forging
-    public List<string> requiredItemIDs = new List<string>(); // Same weapon class items to combine
+    [HideInInspector] public string recipeID;
+    [HideInInspector] public string resultItemID;        // Thường vẫn dùng string hoặc BaseItemData, để tiện lưu file ta nên giữ ID hoặc chuyển sang BaseItemData
+    [HideInInspector] public BaseItemData resultItem;    // Tùy chọn kéo thả Prefab kết quả
+    [HideInInspector] public List<string> requiredItemIDs = new List<string>(); // Dùng để phục hồi data cũ
+    [HideInInspector] [UnityEngine.Serialization.FormerlySerializedAs("requiredWeapons")] public List<BaseItemData> oldRequiredWeapons = new List<BaseItemData>(); // Giữ tạm để Migration
+    
+    [System.Serializable]
+    public class WeaponRequirement
+    {
+        public BaseItemData weapon;
+        public int quantity;
+    }
+    public List<WeaponRequirement> requiredWeapons = new List<WeaponRequirement>();
 
     [System.Serializable]
     public class MaterialRequirement
     {
-        public string materialID;
+        [HideInInspector] public string materialID; // Dùng để phục hồi data cũ
+        public ForgingMaterial material; // Không dùng chuỗi nữa
         public int quantity;
     }
 
     public List<MaterialRequirement> requiredMaterials = new List<MaterialRequirement>();
     public int goldCost = 0;           // Gold needed to forge
-    public int minWeaponCount = 2;     // Minimum weapons of same class needed
 }
 
 /// <summary>

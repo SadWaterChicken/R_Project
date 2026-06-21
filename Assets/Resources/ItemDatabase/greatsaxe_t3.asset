@@ -29,15 +29,19 @@ MonoBehaviour:
   forgingRecipe:
     recipeID: r_greatsaxe_t3
     resultItemID: greatsaxe_t3
-    requiredItemIDs:
-    - greatsaxe_t2
+    resultItem: {fileID: 0}
+    requiredItemIDs: []
+    oldRequiredWeapons: []
+    requiredWeapons:
+    - weapon: {fileID: 11400000, guid: 9df362bb54dd6f040a39d84c0a4a6038, type: 2}
+      quantity: 1
     requiredMaterials:
     - materialID: steel_ingot
+      material: {fileID: 0}
       quantity: 10
     goldCost: 500
-    minWeaponCount: 1
   gripType: 0
   combatStyle: 0
+  projectilePrefab: {fileID: 0}
   weaponAnimatorController: {fileID: 0}
-  weaponComponents:
-  - MeleeDamageComponent
+  instructionInfo: "G\u1EAFn Component th\u1EB3ng v\xE0o Prefab"

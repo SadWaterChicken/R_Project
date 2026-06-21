@@ -73,7 +73,8 @@ public class ForgeManager : MonoBehaviour
         var forgingSystem = ForgingSystem.Instance;
         foreach (var req in recipe.requiredMaterials)
         {
-            forgingSystem.RemoveMaterial(req.materialID, req.quantity);
+            if (req.material != null)
+                forgingSystem.RemoveMaterial(req.material.materialID, req.quantity);
         }
 
         // Spend gold
@@ -107,10 +108,10 @@ public class ForgeManager : MonoBehaviour
     /// </summary>
     private ItemData CreateForgedWeapon(ForgingRecipe recipe, List<ItemData> baseWeapons)
     {
-        var resultWeapon = GetWeaponTemplate(recipe.resultItemID);
+        var resultWeapon = recipe.resultItem != null ? new ItemData(recipe.resultItem.itemID) : GetWeaponTemplate(recipe.resultItemID);
         if (resultWeapon == null)
         {
-            Debug.LogError($"[ForgeManager] Result weapon template not found: {recipe.resultItemID}");
+            Debug.LogError($"[ForgeManager] Result weapon template not found for recipe: {recipe.recipeID}");
             return null;
         }
 
@@ -187,9 +188,15 @@ public class ForgeManager : MonoBehaviour
     /// </summary>
     private bool ValidateForgeAttempt(List<ItemData> weaponsToForge, ForgingRecipe recipe, List<ForgingMaterial> materials)
     {
-        if (weaponsToForge == null || weaponsToForge.Count < recipe.minWeaponCount)
+        int requiredTotal = 0;
+        if (recipe.requiredWeapons != null)
         {
-            Debug.LogWarning($"[ForgeManager] Not enough weapons. Need {recipe.minWeaponCount}, have {weaponsToForge?.Count}");
+            requiredTotal = recipe.requiredWeapons.Sum(req => req.quantity);
+        }
+
+        if (weaponsToForge == null || weaponsToForge.Count < requiredTotal)
+        {
+            Debug.LogWarning($"[ForgeManager] Not enough weapons. Need {requiredTotal}, have {weaponsToForge?.Count}");
             return false;
         }
 
@@ -221,7 +228,7 @@ public class ForgeManager : MonoBehaviour
         int targetTier = weaponsToForge[0].itemTier + 1; // Forging upgrades tier by 1 conceptually
         foreach (var req in recipe.requiredMaterials)
         {
-            ForgingMaterial matInfo = forgingSystem.GetMaterial(req.materialID);
+            ForgingMaterial matInfo = req.material;
             if (matInfo != null)
             {
                 // Quy tắc: Rarity của đá rèn phải lớn hơn hoặc bằng Tier hiện tại của vũ khí
@@ -242,7 +249,7 @@ public class ForgeManager : MonoBehaviour
     public ItemData GetPreviewWeapon(ItemData baseWeapon, ForgingRecipe recipe)
     {
         if (baseWeapon == null || recipe == null) return null;
-        var resultWeapon = GetWeaponTemplate(recipe.resultItemID);
+        var resultWeapon = recipe.resultItem != null ? new ItemData(recipe.resultItem.itemID) : GetWeaponTemplate(recipe.resultItemID);
         if (resultWeapon == null) return null;
 
         resultWeapon.forgeLevel = 1;

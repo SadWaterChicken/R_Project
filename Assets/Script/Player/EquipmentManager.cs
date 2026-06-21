@@ -122,37 +122,22 @@ public class EquipmentManager : MonoBehaviour
 
         weaponController.baseAnimator = baseAnim;
 
-        // 3.5 Tự động lắp ráp Component Logic dựa trên danh sách tùy chọn (Data-Driven)
-        if (wData.weaponComponents != null && wData.weaponComponents.Count > 0)
-        {
-            foreach (string compName in wData.weaponComponents)
-            {
-                if (string.IsNullOrWhiteSpace(compName)) continue;
-                
-                System.Type compType = System.Type.GetType(compName) ?? System.Type.GetType(compName + ", Assembly-CSharp");
-                if (compType != null && compType.IsSubclassOf(typeof(WeaponComponent)))
-                {
-                    parentObj.AddComponent(compType);
-                }
-                else
-                {
-                    Debug.LogWarning($"[EquipmentManager] Không thể thêm Component '{compName}'. Hãy đảm bảo đúng tên Class và class đó kế thừa từ WeaponComponent.");
-                }
-            }
-        }
-        else
-        {
-            // Fallback (Tương thích ngược với các vũ khí chưa thiết lập List)
-            if (wData.combatStyle == CombatStyle.Melee)
-            {
-                parentObj.AddComponent<MeleeDamageComponent>();
-            }
-        }
-
-        // 4. Tạo 3D Weapon Model (Thực thể hiển thị)
+        // 4. Tạo 3D Weapon Model (Thực thể hiển thị) trước, vì các Component giờ nằm trên nó!
         // Tham số 'false' giúp giữ nguyên tọa độ Local (vị trí đã căn sẵn) của Prefab
         GameObject modelObj = Instantiate(wData.weaponPrefab, baseObj.transform, false);
         modelObj.name = "3D_Model";
+
+        // 3.5 Quét và cài đặt các Component Logic đã được gắn sẵn trên Prefab (chuẩn Video)
+        WeaponComponent[] attachedComponents = modelObj.GetComponentsInChildren<WeaponComponent>();
+        foreach (WeaponComponent comp in attachedComponents)
+        {
+            // Các Component đang nằm trên modelObj hoặc con của nó, WeaponController (nằm trên Parent) sẽ quản lý chúng
+            // Vì WeaponController tìm Component ở trên GameObject của NÓ, ta chuyển Component lên Parent nếu muốn,
+            // hoặc đơn giản là sửa WeaponController để tìm Component trên toàn bộ cây Parent.
+            // Sửa lại: Ta KHÔNG dời Component đi, ta để nguyên trên Prefab. 
+            // Vòng lặp này chỉ để log ra thông tin (việc rà soát thực sự nằm ở WeaponController.Initialize).
+            Debug.Log($"[EquipmentManager] Found component {comp.GetType().Name} on {wData.itemName} prefab.");
+        }
 
         // 5. Initialize WeaponController (Tự nạp dữ liệu vào Component)
         weaponController.Initialize(item);

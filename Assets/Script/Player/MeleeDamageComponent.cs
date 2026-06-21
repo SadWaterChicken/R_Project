@@ -8,6 +8,7 @@ public class MeleeDamageComponent : WeaponComponent
     public float weaponRange = 1.5f; // Giá trị fallback
     
     private float physicalDamage;
+    private float magicDamage;
 
     public override void Initialize(WeaponController weaponController)
     {
@@ -15,14 +16,21 @@ public class MeleeDamageComponent : WeaponComponent
 
         // Nạp sát thương từ thẻ bài (đã cộng dồn các dòng modify)
         physicalDamage = 0f;
+        magicDamage = 0f;
         if (controller.currentItemData != null)
         {
             foreach (var mod in controller.currentItemData.modifiers)
             {
-                if (mod.stat == "physicalDamage") physicalDamage += mod.value;
-                if (mod.stat == "weaponRange") this.weaponRange = mod.value;
+                string statLower = mod.stat.ToLower();
+                if (statLower == "physical damage" || statLower == "physicaldamage") 
+                    physicalDamage += mod.value;
+                else if (statLower == "magic damage" || statLower == "magicdamage") 
+                    magicDamage += mod.value;
+                else if (statLower == "weapon range" || statLower == "weaponrange" || statLower == "range") 
+                    this.weaponRange = mod.value;
             }
         }
+
         
         // Cố gắng tìm attackPoint tự động nếu chưa gán
         if (attackPoint == null)
@@ -52,8 +60,24 @@ public class MeleeDamageComponent : WeaponComponent
                 if (stat != null && !hitEnemies.Contains(stat))
                 {
                     hitEnemies.Add(stat);
-                    stat.TakePhysicalDamage(physicalDamage);
-                    Debug.Log($"[MeleeDamageComponent] Gây {physicalDamage} sát thương lên {col.name}");
+                    
+                    // Lấy Sát thương Cốt lõi của Player + Sát thương RIÊNG của thanh kiếm này
+                    float playerCorePhys = PlayerStat.Instance != null ? PlayerStat.Instance.GetPhysicalDamage() : 0f;
+                    float playerCoreMagic = PlayerStat.Instance != null ? PlayerStat.Instance.GetMagicDamage() : 0f;
+
+                    if (physicalDamage > 0 || playerCorePhys > 0)
+                    {
+                        float finalPhys = playerCorePhys + physicalDamage;
+                        stat.TakePhysicalDamage(finalPhys);
+                        Debug.Log($"[MeleeDamageComponent] Gây {finalPhys} (Kiếm: {physicalDamage} + Core: {playerCorePhys}) sát thương vật lý lên {col.name}");
+                    }
+
+                    if (magicDamage > 0 || playerCoreMagic > 0)
+                    {
+                        float finalMagic = playerCoreMagic + magicDamage;
+                        stat.TakeMagicDamage(finalMagic);
+                        Debug.Log($"[MeleeDamageComponent] Gây {finalMagic} (Kiếm: {magicDamage} + Core: {playerCoreMagic}) sát thương phép lên {col.name}");
+                    }
                 }
             }
         }

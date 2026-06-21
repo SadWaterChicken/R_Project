@@ -2648,145 +2648,103 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentManagerUI
   equipmentSlots:
   - type: 6
+    specificSlot: 0
     iconImage: {fileID: 3154537805796504249}
     slotButton: {fileID: 6083624432577361515}
     currentItem:
       itemID: 
-      itemName: 
-      description: 
-      price: 0
-      iconPath: 
       stack: 0
-      itemTier: 1
-      modifiers: []
-      equippable: 0
       equipped: 0
-      equipmentType: 0
-      weaponClassName: 
+      equipSlot: 0
+      itemTier: 1
       forgeLevel: 0
       weaponMastery: 0
       baseItemID: 
-      isForgeable: 0
+      modifiers: []
   - type: 1
+    specificSlot: 1
     iconImage: {fileID: 8297430036483266847}
     slotButton: {fileID: 4094955916771533706}
     currentItem:
       itemID: 
-      itemName: 
-      description: 
-      price: 0
-      iconPath: 
       stack: 0
-      itemTier: 1
-      modifiers: []
-      equippable: 0
       equipped: 0
-      equipmentType: 0
-      weaponClassName: 
+      equipSlot: 0
+      itemTier: 1
       forgeLevel: 0
       weaponMastery: 0
       baseItemID: 
-      isForgeable: 0
+      modifiers: []
   - type: 1
+    specificSlot: 2
     iconImage: {fileID: 5114926258419034774}
     slotButton: {fileID: 8837579175817945418}
     currentItem:
       itemID: 
-      itemName: 
-      description: 
-      price: 0
-      iconPath: 
       stack: 0
-      itemTier: 1
-      modifiers: []
-      equippable: 0
       equipped: 0
-      equipmentType: 0
-      weaponClassName: 
+      equipSlot: 0
+      itemTier: 1
       forgeLevel: 0
       weaponMastery: 0
       baseItemID: 
-      isForgeable: 0
+      modifiers: []
   - type: 2
+    specificSlot: 0
     iconImage: {fileID: 5659560736308571948}
     slotButton: {fileID: 3736470761433260539}
     currentItem:
       itemID: 
-      itemName: 
-      description: 
-      price: 0
-      iconPath: 
       stack: 0
-      itemTier: 1
-      modifiers: []
-      equippable: 0
       equipped: 0
-      equipmentType: 0
-      weaponClassName: 
+      equipSlot: 0
+      itemTier: 1
       forgeLevel: 0
       weaponMastery: 0
       baseItemID: 
-      isForgeable: 0
+      modifiers: []
   - type: 3
+    specificSlot: 0
     iconImage: {fileID: 6918712626407085406}
     slotButton: {fileID: 2258743314870220665}
     currentItem:
       itemID: 
-      itemName: 
-      description: 
-      price: 0
-      iconPath: 
       stack: 0
-      itemTier: 1
-      modifiers: []
-      equippable: 0
       equipped: 0
-      equipmentType: 0
-      weaponClassName: 
+      equipSlot: 0
+      itemTier: 1
       forgeLevel: 0
       weaponMastery: 0
       baseItemID: 
-      isForgeable: 0
+      modifiers: []
   - type: 4
+    specificSlot: 0
     iconImage: {fileID: 2517910849011621412}
     slotButton: {fileID: 5849764665870890440}
     currentItem:
       itemID: 
-      itemName: 
-      description: 
-      price: 0
-      iconPath: 
       stack: 0
-      itemTier: 1
-      modifiers: []
-      equippable: 0
       equipped: 0
-      equipmentType: 0
-      weaponClassName: 
+      equipSlot: 0
+      itemTier: 1
       forgeLevel: 0
       weaponMastery: 0
       baseItemID: 
-      isForgeable: 0
+      modifiers: []
   - type: 5
+    specificSlot: 0
     iconImage: {fileID: 526948551714828943}
     slotButton: {fileID: 8882328168111560505}
     currentItem:
       itemID: 
-      itemName: 
-      description: 
-      price: 0
-      iconPath: 
       stack: 0
-      itemTier: 1
-      modifiers: []
-      equippable: 0
       equipped: 0
-      equipmentType: 0
-      weaponClassName: 
+      equipSlot: 0
+      itemTier: 1
       forgeLevel: 0
       weaponMastery: 0
       baseItemID: 
-      isForgeable: 0
+      modifiers: []
 --- !u!1 &6900591228110127585
 GameObject:
   m_ObjectHideFlags: 0

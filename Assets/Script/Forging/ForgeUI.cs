@@ -161,7 +161,7 @@ public class ForgeUI : MonoBehaviour
         var forgeableWeapons = Inventory.Instance.ownedItems
             .Where(w => !string.IsNullOrEmpty(w.weaponClassName) && 
                         ForgingSystem.Instance != null && 
-                        ForgingSystem.Instance.recipes.Any(r => r.requiredItemIDs != null && r.requiredItemIDs.Contains(w.itemID)))
+                        ForgingSystem.Instance.recipes.Any(r => r.requiredWeapons != null && r.requiredWeapons.Any(reqW => reqW.weapon != null && reqW.weapon.itemID == w.itemID)))
             .ToList();
 
         foreach (var weapon in forgeableWeapons)
@@ -199,13 +199,12 @@ public class ForgeUI : MonoBehaviour
         UpdateMasteryDisplay(weapon);
 
         // Stats
-        UpdateStatsDisplay(weapon);
-        // Find recipe for this weapon
-        // Find recipe that ACCEPTS this weapon as an input (not produces it)
-        currentRecipe = ForgingSystem.Instance?.recipes.FirstOrDefault(r =>
-            r.requiredItemIDs != null && r.requiredItemIDs.Contains(weapon.itemID));
-
-        ItemData resultWeaponPreview = null;
+        // Also update recipe if needed
+        if (currentRecipe == null || (currentRecipe.requiredWeapons != null && !currentRecipe.requiredWeapons.Any(reqW => reqW.weapon != null && reqW.weapon.itemID == weapon.itemID)))
+        {
+            currentRecipe = ForgingSystem.Instance?.recipes.FirstOrDefault(r => 
+            r.requiredWeapons != null && r.requiredWeapons.Any(reqW => reqW.weapon != null && reqW.weapon.itemID == weapon.itemID));
+        }  ItemData resultWeaponPreview = null;
 
         if (currentRecipe != null)
         {
@@ -356,16 +355,42 @@ public class ForgeUI : MonoBehaviour
                 spawnedMaterialSlots.Add(slot);
 
                 var materialUI = slot.GetComponent<MaterialSlotUI>();
-                if (materialUI != null)
+                if (materialUI != null && req.material != null)
                 {
-                    int playerHas = forgingSystem.GetMaterialQuantity(req.materialID);
-                    var material = forgingSystem.GetMaterial(req.materialID);
+                    int playerHas = forgingSystem.GetMaterialQuantity(req.material.materialID);
+                    var material = req.material;
                     materialUI.SetMaterial(material, req.quantity, playerHas);
                 }
             }
         }
 
-        // Update gold and weapons needed
+        // Display required weapons as slots
+        if (materialSlotPrefab != null)
+        {
+            foreach (var reqW in currentRecipe.requiredWeapons)
+            {
+                if (reqW.weapon == null) continue;
+                
+                GameObject slot = Instantiate(materialSlotPrefab, materialsListParent);
+                spawnedMaterialSlots.Add(slot);
+
+                var materialUI = slot.GetComponent<MaterialSlotUI>();
+                if (materialUI != null)
+                {
+                    // Đếm số lượng vũ khí này trong kho đồ
+                    int playerHas = Inventory.Instance.ownedItems.Where(i => i.itemID == reqW.weapon.itemID).Sum(i => i.stack);
+                    
+                    // Lấy Icon từ vũ khí
+                    Sprite wIcon = null;
+                    if (!string.IsNullOrEmpty(reqW.weapon.iconPath))
+                        wIcon = Resources.Load<Sprite>(reqW.weapon.iconPath);
+
+                    materialUI.SetInfo(wIcon, reqW.weapon.itemName, reqW.quantity, playerHas);
+                }
+            }
+        }
+
+        // Update gold
         if (goldRequiredText != null)
         {
             goldRequiredText.text = $"Gold: {currentRecipe.goldCost}";
@@ -373,13 +398,7 @@ public class ForgeUI : MonoBehaviour
 
         if (weaponsNeededText != null)
         {
-            if (currentRecipe.minWeaponCount <= 1)
-                weaponsNeededText.gameObject.SetActive(false);
-            else
-            {
-                weaponsNeededText.gameObject.SetActive(true);
-                weaponsNeededText.text = $"Weapons Needed: {currentRecipe.minWeaponCount}";
-            }
+            weaponsNeededText.gameObject.SetActive(false); // Đã dùng Slot hiển thị vũ khí, ẩn dòng text cũ đi
         }
 
         // Check forge button interactability
@@ -404,15 +423,10 @@ public class ForgeUI : MonoBehaviour
 
         bool canForge = true;
 
-        // Check if selected weapon is valid for this recipe
-        if (currentRecipe.requiredItemIDs == null || !currentRecipe.requiredItemIDs.Contains(selectedWeapon.itemID))
+        // Check if selected weapon matches any of the required weapons in the recipe
+        if (currentRecipe.requiredWeapons == null || !currentRecipe.requiredWeapons.Any(reqW => reqW.weapon != null && reqW.weapon.itemID == selectedWeapon.itemID))
         {
             canForge = false;
-            if (weaponsNeededText != null)
-            {
-                weaponsNeededText.gameObject.SetActive(true);
-                weaponsNeededText.text = "Requires proper base weapon!";
-            }
         }
 
         // Check materials
@@ -423,12 +437,20 @@ public class ForgeUI : MonoBehaviour
         if (!playerStat.CanSpendGold(currentRecipe.goldCost))
             canForge = false;
 
-        // Check weapons of same class in inventory that match any requiredItemID
-        int weaponCount = Inventory.Instance?.ownedItems
-            .Count(w => currentRecipe.requiredItemIDs != null &&
-                        currentRecipe.requiredItemIDs.Contains(w.itemID)) ?? 0;
-        if (weaponCount < currentRecipe.minWeaponCount)
-            canForge = false;
+        // Check all required weapons quantities
+        if (currentRecipe.requiredWeapons != null)
+        {
+            foreach (var reqW in currentRecipe.requiredWeapons)
+            {
+                if (reqW.weapon == null) continue;
+                int weaponCount = Inventory.Instance.ownedItems.Where(w => w.itemID == reqW.weapon.itemID).Sum(w => w.stack);
+                if (weaponCount < reqW.quantity)
+                {
+                    canForge = false;
+                    break;
+                }
+            }
+        }
 
         forgeButton.interactable = canForge;
     }
@@ -441,36 +463,55 @@ public class ForgeUI : MonoBehaviour
         if (selectedWeapon == null || currentRecipe == null) return;
 
         var inventory = Inventory.Instance;
-        var forgingSystem = ForgingSystem.Instance;
-
-        // Collect weapons to forge: ensure selected weapon is used
         var weaponsToForge = new List<ItemData> { selectedWeapon };
 
-        // Find remaining required weapons (prefer unequipped and lower mastery)
-        int needed = currentRecipe.minWeaponCount - 1;
-        if (needed > 0)
+        // Find remaining required weapons
+        foreach (var reqW in currentRecipe.requiredWeapons)
         {
-            var otherWeapons = inventory.ownedItems
-                .Where(w => w != selectedWeapon && currentRecipe.requiredItemIDs != null &&
-                            currentRecipe.requiredItemIDs.Contains(w.itemID))
-                .OrderBy(w => w.equipped ? 1 : 0) // Unequipped first
-                .ThenBy(w => w.weaponMastery)     // Lower mastery first
-                .Take(needed)
-                .ToList();
-                
-            weaponsToForge.AddRange(otherWeapons);
-        }
+            if (reqW.weapon == null) continue;
+            
+            // Tìm số lượng cần trừ cho loại vũ khí này
+            int neededForThisType = reqW.quantity;
+            
+            // Nếu vũ khí đang chọn thuộc loại này, ta đã tính nó là 1
+            if (selectedWeapon.itemID == reqW.weapon.itemID)
+            {
+                neededForThisType -= 1;
+            }
 
-        if (weaponsToForge.Count < currentRecipe.minWeaponCount)
-        {
-            Debug.LogWarning("Not enough weapons to forge!");
-            return;
+            if (neededForThisType > 0)
+            {
+                var availableMatches = inventory.ownedItems
+                    .Where(w => w.itemID == reqW.weapon.itemID && w != selectedWeapon) // Không lấy lại món đang chọn
+                    .OrderBy(w => w.equipped ? 1 : 0)     // Ưu tiên món chưa trang bị
+                    .ThenBy(w => w.weaponMastery)         // Ưu tiên món Mastery thấp
+                    .ToList();
+
+                int collected = 0;
+                foreach (var match in availableMatches)
+                {
+                    if (collected >= neededForThisType) break;
+                    
+                    int toTake = Mathf.Min(match.stack, neededForThisType - collected);
+                    for (int i = 0; i < toTake; i++)
+                    {
+                        weaponsToForge.Add(match); // Ghi nhận từng bản sao (nếu có stack > 1)
+                        collected++;
+                    }
+                }
+
+                if (collected < neededForThisType)
+                {
+                    Debug.LogWarning($"[ForgeUI] Not enough copies of {reqW.weapon.itemName}!");
+                    return; // Nên được chặn từ trước bởi UpdateForgeButtonState
+                }
+            }
         }
 
         // Attempt forge
         var forgeManager = ForgeManager.Instance;
         var materials = currentRecipe.requiredMaterials
-            .Select(req => forgingSystem.GetMaterial(req.materialID))
+            .Select(req => req.material)
             .ToList();
 
         ItemData forgedWeapon = forgeManager.AttemptForge(weaponsToForge, currentRecipe, materials);
@@ -517,7 +558,7 @@ public class ForgeUI : MonoBehaviour
 
         // Group recipes by weapon class of the result item
         var recipesByClass = forgingSystem.recipes
-            .Select(r => new { Recipe = r, ResultItem = forgeManager.GetWeaponTemplate(r.resultItemID) })
+            .Select(r => new { Recipe = r, ResultItem = r.resultItem != null ? new ItemData(r.resultItem.itemID) : forgeManager.GetWeaponTemplate(r.resultItemID) })
             .Where(x => x.ResultItem != null)
             .GroupBy(x => x.ResultItem.weaponClassName)
             .OrderBy(g => g.Key); // Sort by class (e.g. Bow, Greatsword...)
@@ -572,17 +613,16 @@ public class ForgeUI : MonoBehaviour
             var slotUI = slot.GetComponent<WeaponSlotUI>();
             if (slotUI != null)
             {
-                // Check if this advanced weapon can be forged from the base weapon
-                bool canBeForged = ForgingSystem.Instance?.recipes.Any(r => 
-                    r.requiredItemIDs != null && 
-                    r.requiredItemIDs.Contains(baseWeapon.itemID) && 
-                    r.resultItemID == weapon.itemID) ?? false;
+                // Check if there is ANY recipe that takes this weapon and results in advancedWeapon
+        bool canForge = ForgingSystem.Instance?.recipes.Any(r => 
+                    r.requiredWeapons != null && 
+                    r.requiredWeapons.Any(reqW => reqW.weapon != null && reqW.weapon.itemID == baseWeapon.itemID) && 
+                    (r.resultItem != null ? r.resultItem.itemID : r.resultItemID) == weapon.itemID) ?? false;
 
                 slotUI.SetWeapon(weapon, () => {
                     PreviewAdvancedWeapon(weapon);
                 });
-
-                slotUI.SetInteractable(canBeForged);
+                slotUI.SetInteractable(canForge);
             }
         }
     }
@@ -595,7 +635,7 @@ public class ForgeUI : MonoBehaviour
         if (selectedWeapon == null) return;
 
         // Find the recipe that produces this advanced weapon
-        currentRecipe = ForgingSystem.Instance?.recipes.FirstOrDefault(r => r.resultItemID == advancedWeapon.itemID);
+        currentRecipe = ForgingSystem.Instance?.recipes.FirstOrDefault(r => (r.resultItem != null ? r.resultItem.itemID : r.resultItemID) == advancedWeapon.itemID);
 
         // Refresh materials display
         RefreshMaterialRequirements();
@@ -639,10 +679,10 @@ public class RecipeBookSlotUI : MonoBehaviour
             var sb = new System.Text.StringBuilder();
             
             // Show base weapon required
-            if (recipe.requiredItemIDs != null && recipe.requiredItemIDs.Count > 0)
+            if (recipe.requiredWeapons != null && recipe.requiredWeapons.Count > 0)
             {
-                var baseWeapon = ForgeManager.Instance?.GetWeaponTemplate(recipe.requiredItemIDs[0]);
-                if (baseWeapon != null) sb.Append($"Base: {baseWeapon.itemName}\n");
+                var reqW = recipe.requiredWeapons[0];
+                if (reqW != null && reqW.weapon != null) sb.Append($"Base: {reqW.weapon.itemName}\n");
             }
 
             // Show materials
@@ -652,7 +692,7 @@ public class RecipeBookSlotUI : MonoBehaviour
                 var forgingSystem = ForgingSystem.Instance;
                 foreach (var req in recipe.requiredMaterials)
                 {
-                    var mat = forgingSystem?.GetMaterial(req.materialID);
+                    var mat = req.material;
                     if (mat != null) sb.Append($"{req.quantity}x {mat.materialName}, ");
                 }
             }

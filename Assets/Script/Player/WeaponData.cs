@@ -29,9 +29,9 @@ public class WeaponData : BaseItemData
     public RuntimeAnimatorController weaponAnimatorController;
 
     [Header("Component-Based System")]
-    [Tooltip("Danh sách tên các Script/Component sẽ tự động được gán vào vũ khí khi trang bị (VD: MeleeDamageComponent, ProjectileSpawnerComponent)")]
-    public System.Collections.Generic.List<string> weaponComponents = new System.Collections.Generic.List<string>();
-    
+    [Tooltip("Bạn không cần gõ tên Component nữa! Hãy kéo thả các script (như MeleeDamageComponent) TRỰC TIẾP vào file Prefab của vũ khí trên Editor!")]
+    public string instructionInfo = "Gắn Component thẳng vào Prefab";
+
     private void OnEnable()
     {
         // Ép kiểu EquipmentType thành Weapon để đồng bộ logic chung

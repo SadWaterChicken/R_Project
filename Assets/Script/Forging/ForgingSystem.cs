@@ -39,10 +39,15 @@ public class ForgingSystem : MonoBehaviour
         BaseItemData[] allItems = Resources.LoadAll<BaseItemData>("");
         foreach (var item in allItems)
         {
-            if (item.isForgeable && item.forgingRecipe != null && !string.IsNullOrEmpty(item.forgingRecipe.recipeID))
+            if (item.isForgeable && item.forgingRecipe != null)
             {
+                if (string.IsNullOrEmpty(item.forgingRecipe.recipeID))
+                {
+                    item.forgingRecipe.recipeID = "Recipe_" + item.itemID;
+                }
+                
                 // Force the result item to be this item itself
-                item.forgingRecipe.resultItemID = item.itemID;
+                item.forgingRecipe.resultItem = item;
                 
                 if (!recipes.Any(r => r.recipeID == item.forgingRecipe.recipeID))
                 {
@@ -51,23 +56,9 @@ public class ForgingSystem : MonoBehaviour
             }
         }
         Debug.Log($"[ForgingSystem] Auto-loaded {recipes.Count} recipes directly from BaseItemData.");
-
-        // Khôi phục nạp Materials từ JSON (vì Material không phải là BaseItemData)
-        string path = System.IO.Path.Combine(Application.streamingAssetsPath, "ForgingRecipes.json");
-        if (System.IO.File.Exists(path))
-        {
-            try
-            {
-                string json = System.IO.File.ReadAllText(path);
-                var wrapper = JsonUtility.FromJson<ForgingRecipeWrapper>(json);
-                if (wrapper != null)
-                {
-                    materials = wrapper.materials;
-                    Debug.Log($"[ForgingSystem] Loaded {materials.Count} materials from JSON.");
-                }
-            }
-            catch { }
-        }
+        // Ghi chú: Vì hệ thống chuyển sang kéo thả BaseItemData và ForgingMaterial trực tiếp trên Inspector,
+        // Ta không nạp từ JSON nữa, vì JSON không lưu được tham chiếu tới ScriptableObject.
+        // Bạn sẽ thiết lập danh sách 'materials' thông qua Unity Inspector của ForgingSystem.
     }
 
     /// <summary>
@@ -150,7 +141,7 @@ public class ForgingSystem : MonoBehaviour
         if (Inventory.Instance == null) return false;
         foreach (var req in required)
         {
-            if (GetMaterialQuantity(req.materialID) < req.quantity)
+            if (req.material != null && GetMaterialQuantity(req.material.materialID) < req.quantity)
                 return false;
         }
         return true;

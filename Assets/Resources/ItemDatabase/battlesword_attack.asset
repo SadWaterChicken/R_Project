@@ -29,12 +29,19 @@ MonoBehaviour:
   forgingRecipe:
     recipeID: 
     resultItemID: 
+    resultItem: {fileID: 0}
     requiredItemIDs: []
-    requiredMaterials: []
+    oldRequiredWeapons: []
+    requiredWeapons:
+    - weapon: {fileID: 0}
+      quantity: 0
+    requiredMaterials:
+    - materialID: 
+      material: {fileID: 0}
+      quantity: 0
     goldCost: 0
-    minWeaponCount: 2
   gripType: 0
   combatStyle: 0
+  projectilePrefab: {fileID: 0}
   weaponAnimatorController: {fileID: 0}
-  weaponComponents:
-  - MeleeDamageComponent
+  instructionInfo: "G\u1EAFn Component th\u1EB3ng v\xE0o Prefab"

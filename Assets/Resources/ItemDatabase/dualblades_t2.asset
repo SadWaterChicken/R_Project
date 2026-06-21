@@ -29,15 +29,19 @@ MonoBehaviour:
   forgingRecipe:
     recipeID: r_dualblades_t2
     resultItemID: dualblades_t2
-    requiredItemIDs:
-    - rusty_dual_blades
+    resultItem: {fileID: 0}
+    requiredItemIDs: []
+    oldRequiredWeapons: []
+    requiredWeapons:
+    - weapon: {fileID: 11400000, guid: b8a0bbd612f114042b6ed905d1adc798, type: 2}
+      quantity: 1
     requiredMaterials:
     - materialID: iron_ingot
+      material: {fileID: 0}
       quantity: 5
     goldCost: 100
-    minWeaponCount: 1
   gripType: 0
   combatStyle: 0
+  projectilePrefab: {fileID: 0}
   weaponAnimatorController: {fileID: 0}
-  weaponComponents:
-  - MeleeDamageComponent
+  instructionInfo: "G\u1EAFn Component th\u1EB3ng v\xE0o Prefab"

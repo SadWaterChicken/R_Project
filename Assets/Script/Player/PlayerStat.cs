@@ -119,6 +119,17 @@ public class PlayerStat : CharacterStats
             float value = mod.value * multiplier;
             Debug.Log($"[PlayerStat] {(isEquipped ? "Equipping" : "Unequipping")} {item.itemName}: {mod.stat} {(isEquipped ? "+" : "-")}{Mathf.Abs(mod.value)}");
 
+            if (item.BaseData != null && item.BaseData.equipmentType == EquipmentType.Weapon)
+            {
+                string statLower = mod.stat.ToLower();
+                if (statLower == "physical damage" || statLower == "physicaldamage" || 
+                    statLower == "magic damage" || statLower == "magicdamage")
+                {
+                    // Lọc sát thương vũ khí ra, chỉ những món đồ khác (Áo, Mũ) hoặc Dòng Bonus khác mới được cộng vào Core
+                    continue; 
+                }
+            }
+
             switch (mod.stat.ToLower())
             {
                 case "physical damage":

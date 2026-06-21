@@ -1388,6 +1388,10 @@ MonoBehaviour:
   healthRegenRateBonus: 0
   physicalDamageBonus: 0
   magicDamageBonus: 0
+  mainHandPhysicalDamage: 0
+  offHandPhysicalDamage: 0
+  mainHandMagicDamage: 0
+  offHandMagicDamage: 0
   physicalArmorBonus: 0
   magicArmorBonus: 0
   movementSpeedBonus: 0
@@ -3399,10 +3403,6 @@ PrefabInstance:
     - target: {fileID: 6900591228110127585, guid: 7630bcb1ec889054d8a350d96771b9da, type: 3}
       propertyPath: m_Name
       value: InventoryPanel
-      objectReference: {fileID: 0}
-    - target: {fileID: 6900591228110127585, guid: 7630bcb1ec889054d8a350d96771b9da, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8567019328143082015, guid: 7630bcb1ec889054d8a350d96771b9da, type: 3}
       propertyPath: m_AnchorMax.x

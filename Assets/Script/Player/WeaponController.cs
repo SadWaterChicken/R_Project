@@ -23,9 +23,10 @@ public class WeaponController : MonoBehaviour
             return;
         }
 
-        // Lấy tất cả Component trên game object này
-        WeaponComponent[] comps = GetComponents<WeaponComponent>();
+        // Lấy tất cả Component trên game object này VÀ CÁC OBJECT CON (như 3D Model Prefab)
+        WeaponComponent[] comps = GetComponentsInChildren<WeaponComponent>();
         activeComponents.AddRange(comps);
+
 
         foreach (var comp in activeComponents)
         {

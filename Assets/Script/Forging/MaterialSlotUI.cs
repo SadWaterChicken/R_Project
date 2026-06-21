@@ -14,16 +14,18 @@ public class MaterialSlotUI : MonoBehaviour
     public void SetMaterial(ForgingMaterial material, int required, int playerHas)
     {
         if (material == null) return;
+        SetInfo(material.icon, material.materialName, required, playerHas);
+    }
 
+    public void SetInfo(Sprite icon, string name, int required, int playerHas)
+    {
         if (materialIcon != null)
         {
-            materialIcon.sprite = string.IsNullOrEmpty(material.iconPath)
-                ? null
-                : Resources.Load<Sprite>(material.iconPath);
-            materialIcon.color = materialIcon.sprite == null ? new Color(1,1,1,0) : Color.white;
+            materialIcon.sprite = icon;
+            materialIcon.color = icon == null ? new Color(1,1,1,0) : Color.white;
         }
 
-        if (materialNameText != null) materialNameText.text = material.materialName;
+        if (materialNameText != null) materialNameText.text = name;
 
         if (quantityText != null)
         {

@@ -29,15 +29,19 @@ MonoBehaviour:
   forgingRecipe:
     recipeID: r_spear_t2
     resultItemID: spear_t2
-    requiredItemIDs:
-    - wooden_spear
+    resultItem: {fileID: 0}
+    requiredItemIDs: []
+    oldRequiredWeapons: []
+    requiredWeapons:
+    - weapon: {fileID: 11400000, guid: 0991182bb303e8740851c92f9d0afee9, type: 2}
+      quantity: 1
     requiredMaterials:
     - materialID: iron_ingot
+      material: {fileID: 0}
       quantity: 5
     goldCost: 100
-    minWeaponCount: 1
   gripType: 0
   combatStyle: 0
+  projectilePrefab: {fileID: 0}
   weaponAnimatorController: {fileID: 0}
-  weaponComponents:
-  - MeleeDamageComponent
+  instructionInfo: "G\u1EAFn Component th\u1EB3ng v\xE0o Prefab"

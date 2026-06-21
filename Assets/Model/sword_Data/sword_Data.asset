@@ -23,19 +23,19 @@ MonoBehaviour:
   equipmentType: 1
   weaponClassName: 
   baseModifiers: []
-  weaponPrefab: {fileID: 919132149155446097, guid: 912536382e299fe4981ca302ada55faa, type: 3}
+  weaponPrefab: {fileID: 4850799410402900609, guid: 8f21c700ae17106438d00bfaf19fdde7, type: 3}
   customStanceID: 0
   isForgeable: 0
   forgingRecipe:
     recipeID: 
     resultItemID: 
-    requiredItemIDs: []
+    resultItem: {fileID: 0}
+    requiredWeapons: []
     requiredMaterials: []
     goldCost: 0
     minWeaponCount: 2
   gripType: 0
   combatStyle: 0
+  projectilePrefab: {fileID: 0}
   weaponAnimatorController: {fileID: 9100000, guid: 494cd00cad3933649a607d7c922306cc, type: 2}
-  weaponComponents:
-  - MeleeDamageComponent
-  - SmearMeshGenerator
+  instructionInfo: "G\u1EAFn Component th\u1EB3ng v\xE0o Prefab"
