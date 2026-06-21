@@ -15,6 +15,9 @@ public class SimpleDetector : MonoBehaviour
      
     public Transform currentTarget { get; private set; }
 
+    [SerializeField] private EnemyStat enemyStats;
+    private float previousHealth;
+    public bool HasTakenDamage { get; private set; }
     private void Awake()
     {
         myCollider = GetComponent<Collider>();
@@ -38,12 +41,18 @@ public class SimpleDetector : MonoBehaviour
             {
                 Debug.LogWarning("SimpleDetector: Could not automatically find an object within the detectionLayer.");
             }
+
+            if (enemyStats != null)
+            {
+                previousHealth = enemyStats.currentHealth;
+            }
         }
     }
 
     private void Update()
     {
         DetectTarget();
+        CheckHealthLoss();
     }
     bool PlayerInRange()
     {
@@ -93,6 +102,22 @@ public class SimpleDetector : MonoBehaviour
         {
             return null;
         }
+    }
+
+    private void CheckHealthLoss()
+    {
+        if (enemyStats == null) return;
+
+        if (enemyStats.currentHealth < previousHealth)
+        {
+            HasTakenDamage = true;
+        }
+        else
+        {
+            HasTakenDamage = false;
+        }
+
+        previousHealth = enemyStats.currentHealth;
     }
 
 

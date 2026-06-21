@@ -246,6 +246,7 @@ MonoBehaviour:
     m_Bits: 256
   detectionHeight: 5
   detectionRange: 20
+  enemyStats: {fileID: 452581346912153236}
 --- !u!195 &3272022405934795513
 NavMeshAgent:
   m_ObjectHideFlags: 0
