@@ -11,7 +11,6 @@ public class EquipmentManager : MonoBehaviour
 
     private Animator playerAnimator;
     private AnimationEventHandler playerAnimEventHandler;
-    private WeaponController lastAttackingWeapon;
 
     private void Awake()
     {
@@ -128,7 +127,17 @@ public class EquipmentManager : MonoBehaviour
         GameObject modelObj = Instantiate(wData.weaponPrefab, baseObj.transform, false);
         modelObj.name = "3D_Model";
 
-
+        // 3.5 Quét và cài đặt các Component Logic đã được gắn sẵn trên Prefab (chuẩn Video)
+        WeaponComponent[] attachedComponents = modelObj.GetComponentsInChildren<WeaponComponent>();
+        foreach (WeaponComponent comp in attachedComponents)
+        {
+            // Các Component đang nằm trên modelObj hoặc con của nó, WeaponController (nằm trên Parent) sẽ quản lý chúng
+            // Vì WeaponController tìm Component ở trên GameObject của NÓ, ta chuyển Component lên Parent nếu muốn,
+            // hoặc đơn giản là sửa WeaponController để tìm Component trên toàn bộ cây Parent.
+            // Sửa lại: Ta KHÔNG dời Component đi, ta để nguyên trên Prefab. 
+            // Vòng lặp này chỉ để log ra thông tin (việc rà soát thực sự nằm ở WeaponController.Initialize).
+            Debug.Log($"[EquipmentManager] Found component {comp.GetType().Name} on {wData.itemName} prefab.");
+        }
 
         // 5. Initialize WeaponController (Tự nạp dữ liệu vào Component)
         weaponController.Initialize(item);
@@ -172,7 +181,6 @@ public class EquipmentManager : MonoBehaviour
     {
         if (currentMainHandWeapon != null)
         {
-            lastAttackingWeapon = currentMainHandWeapon;
             currentMainHandWeapon.Attack();
         }
     }
@@ -181,7 +189,6 @@ public class EquipmentManager : MonoBehaviour
     {
         if (currentOffHandWeapon != null)
         {
-            lastAttackingWeapon = currentOffHandWeapon;
             currentOffHandWeapon.Attack();
         }
     }
@@ -189,29 +196,13 @@ public class EquipmentManager : MonoBehaviour
     // Forward events từ Player Animator xuống cho tất cả vũ khí đang cầm
     private void ForwardEventToWeapons(string eventName)
     {
-        // 1. Phân tách rõ ràng nếu Animation truyền event cụ thể
-        if (eventName == "MainHand_Hit" && currentMainHandWeapon != null)
+        if (currentMainHandWeapon != null)
         {
-            currentMainHandWeapon.HandleAnimationEvent("HitFrame");
-            return;
+            currentMainHandWeapon.HandleAnimationEvent(eventName);
         }
-        if (eventName == "OffHand_Hit" && currentOffHandWeapon != null)
+        if (currentOffHandWeapon != null)
         {
-            currentOffHandWeapon.HandleAnimationEvent("HitFrame");
-            return;
-        }
-
-        // 2.(Fallback) cho event "HitFrame" chung
-        if (lastAttackingWeapon != null)
-        {
-            // Chỉ gửi sát thương cho vũ khí vừa vung
-            lastAttackingWeapon.HandleAnimationEvent(eventName);
-        }
-        else
-        {
-            // Nếu không biết vũ khí nào (VD: Múa cả 2 tay cùng lúc nhưng chưa gán lastAttackingWeapon) thì cho cả 2 nổ damage
-            if (currentMainHandWeapon != null) currentMainHandWeapon.HandleAnimationEvent(eventName);
-            if (currentOffHandWeapon != null) currentOffHandWeapon.HandleAnimationEvent(eventName);
+            currentOffHandWeapon.HandleAnimationEvent(eventName);
         }
     }
 
