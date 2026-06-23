@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 4012361119424020317}
   - component: {fileID: 1278329155026758278}
   - component: {fileID: 4080100700236738746}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Chaser (1)
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -215,11 +215,7 @@ MonoBehaviour:
           m_Value0: 5168916248240715388
           m_Value1: 9465368793767914233
         Name: PatrolPoints
-        m_Value:
-        - {fileID: 0}
-        - {fileID: 0}
-        - {fileID: 0}
-        - {fileID: 0}
+        m_Value: []
     - rid: 7321210561944617369
       type: {class: 'BlackboardVariable`1[[SimpleDetector, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -296,7 +292,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae4ea46037439d44b85de08b5b423fe5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStat
-  maxHealth: 100
+  maxHealth: 100000
   currentHealth: 0
   healthRegenRate: 0
   maxMana: 100
@@ -344,7 +340,6 @@ GameObject:
   - component: {fileID: 7802447950946551585}
   - component: {fileID: 2271714210117355345}
   - component: {fileID: 5163166265228518380}
-  - component: {fileID: 6334265803504929623}
   - component: {fileID: 2864815054087855061}
   - component: {fileID: 5973591965350461581}
   - component: {fileID: 5215791452663907361}
@@ -452,18 +447,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &6334265803504929623
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5207020694090564975}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 030182b2244f6d443924def970ca58ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RougeAttack
 --- !u!114 &2864815054087855061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -498,7 +481,7 @@ MonoBehaviour:
   attackPoint: {fileID: 8748580402771485614}
   detector: {fileID: 2702944064029599358}
   agent: {fileID: 3272022405934795513}
-  flipBasedOnMovement: 1
+  flipBasedOnMovement: 0
 --- !u!114 &5215791452663907361
 MonoBehaviour:
   m_ObjectHideFlags: 0
