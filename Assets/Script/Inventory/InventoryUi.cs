@@ -16,6 +16,12 @@ public class InventoryUI : MonoBehaviour
     public TMP_Text detailPrice;
     public TMP_Text detailQty;
     public TMP_Text detailStats;
+    
+    [Header("Mastery UI")]
+    public Slider detailMasteryBar;
+    public TMP_Text detailMasteryText;
+
+    [Header("Buttons")]
     public Button useButton;
     public Button closeDetailButton;
     public float toggleDebounce = 0.15f;
@@ -152,6 +158,35 @@ public class InventoryUI : MonoBehaviour
         if (detailDesc != null) detailDesc.text = item.description;
         if (detailPrice != null) detailPrice.text = $"Price: {item.price}";
         if (detailQty != null) detailQty.text = $"Qty: {item.stack}";
+
+        // Hiển thị thanh Mastery (Tiến trình)
+        if (detailMasteryBar != null)
+        {
+            // Lấy giới hạn Max Mastery từ ForgeManager (nếu có), mặc định là 100
+            float maxMastery = ForgeManager.Instance != null ? ForgeManager.Instance.GetMaxMastery() : 100f;
+            
+            // Chỉ hiển thị thanh Mastery nếu món đồ này có thể mặc (vũ khí)
+            bool showMastery = item.equippable;
+            detailMasteryBar.gameObject.SetActive(showMastery);
+            
+            if (showMastery)
+            {
+                detailMasteryBar.maxValue = maxMastery;
+                detailMasteryBar.value = item.weaponMastery;
+            }
+        }
+
+        if (detailMasteryText != null)
+        {
+            float maxMastery = ForgeManager.Instance != null ? ForgeManager.Instance.GetMaxMastery() : 100f;
+            bool showMastery = item.equippable;
+            detailMasteryText.gameObject.SetActive(showMastery);
+            
+            if (showMastery)
+            {
+                detailMasteryText.text = $"Mastery: {item.weaponMastery:F1} / {maxMastery:F0}";
+            }
+        }
 
         // Flexible stats
         var statsText = BuildStatsText(item);

@@ -61,22 +61,44 @@ public class MeleeDamageComponent : WeaponComponent
                 {
                     hitEnemies.Add(stat);
                     
-                    // Lấy Sát thương Cốt lõi của Player + Sát thương RIÊNG của thanh kiếm này
+                    // Tính hệ số sức mạnh từ Mastery (Ví dụ: 1000 Mastery = Tăng 100% sát thương)
+                    float masteryMultiplier = 1f;
+                    if (controller.currentItemData != null)
+                    {
+                        masteryMultiplier += (controller.currentItemData.weaponMastery / 1000f);
+                    }
+
+                    // Lấy Sát thương Cốt lõi của Player + Sát thương RIÊNG của thanh kiếm này (có nhân Mastery)
                     float playerCorePhys = PlayerStat.Instance != null ? PlayerStat.Instance.GetPhysicalDamage() : 0f;
                     float playerCoreMagic = PlayerStat.Instance != null ? PlayerStat.Instance.GetMagicDamage() : 0f;
 
+                    float healthBefore = stat.currentHealth;
+
                     if (physicalDamage > 0 || playerCorePhys > 0)
                     {
-                        float finalPhys = playerCorePhys + physicalDamage;
+                        float finalPhys = (playerCorePhys + physicalDamage) * masteryMultiplier;
                         stat.TakePhysicalDamage(finalPhys);
-                        Debug.Log($"[MeleeDamageComponent] Gây {finalPhys} (Kiếm: {physicalDamage} + Core: {playerCorePhys}) sát thương vật lý lên {col.name}");
+                        Debug.Log($"[MeleeDamageComponent] Gây {finalPhys} (Kiếm: {physicalDamage} + Core: {playerCorePhys} x Mastery: {masteryMultiplier:F2}) sát thương vật lý lên {col.name}");
                     }
 
                     if (magicDamage > 0 || playerCoreMagic > 0)
                     {
-                        float finalMagic = playerCoreMagic + magicDamage;
+                        float finalMagic = (playerCoreMagic + magicDamage) * masteryMultiplier;
                         stat.TakeMagicDamage(finalMagic);
-                        Debug.Log($"[MeleeDamageComponent] Gây {finalMagic} (Kiếm: {magicDamage} + Core: {playerCoreMagic}) sát thương phép lên {col.name}");
+                        Debug.Log($"[MeleeDamageComponent] Gây {finalMagic} (Kiếm: {magicDamage} + Core: {playerCoreMagic} x Mastery: {masteryMultiplier:F2}) sát thương phép lên {col.name}");
+                    }
+
+                    // Trick: Kiểm tra nếu nhát chém này đã kết liễu quái vật
+                    if (healthBefore > 0 && stat.currentHealth <= 0 && controller.currentItemData != null)
+                    {
+                        if (ForgeManager.Instance != null)
+                        {
+                            // Tìm component Reward riêng, nếu không có thì lấy mặc định theo Level quái
+                            EnemyMasteryReward rewardComp = col.GetComponentInParent<EnemyMasteryReward>();
+                            float masteryReward = rewardComp != null ? rewardComp.masteryGranted : stat.enemyLevel * 1f;
+                            
+                            ForgeManager.Instance.AddMasteryOnKill(controller.currentItemData, masteryReward);
+                        }
                     }
                 }
             }

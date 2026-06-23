@@ -11,6 +11,7 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     [Header("UI References")]
     public Image icon;
     public TextMeshProUGUI qtyText;
+    public TextMeshProUGUI masteryText;
     public Button button;
 
     private ItemData currentItem;
@@ -50,6 +51,19 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
         if (qtyText != null)
             qtyText.text = item != null && qty > 1 ? qty.ToString() : "";
+
+        if (masteryText != null)
+        {
+            if (item != null && item.equippable)
+            {
+                // Chỉ hiển thị số Mastery nếu vũ khí này đã được cày cuốc (Mastery > 0)
+                masteryText.text = item.weaponMastery > 0 ? $"M.{item.weaponMastery:F0}" : "";
+            }
+            else
+            {
+                masteryText.text = "";
+            }
+        }
     }
 
     // Xử lý khi click item trong inventory

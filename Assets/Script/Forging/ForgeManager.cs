@@ -174,13 +174,14 @@ public class ForgeManager : MonoBehaviour
     /// <summary>
     /// Increase weapon mastery when killing enemies with it
     /// </summary>
-    public void AddMasteryOnKill(ItemData weapon)
+    public void AddMasteryOnKill(ItemData weapon, float overrideAmount = -1f)
     {
         if (weapon == null || !weapon.equipped) return;
 
-        weapon.weaponMastery = Mathf.Min(weapon.weaponMastery + masteryGainPerKill, maxMastery);
+        float amountToAdd = overrideAmount >= 0f ? overrideAmount : masteryGainPerKill;
+        weapon.weaponMastery = Mathf.Min(weapon.weaponMastery + amountToAdd, maxMastery);
 
-        Debug.Log($"[ForgeManager] {weapon.itemName} mastery: {weapon.weaponMastery:F1}%");
+        Debug.Log($"[ForgeManager] {weapon.itemName} mastery increased by {amountToAdd:F1}. Current: {weapon.weaponMastery:F1}%");
     }
 
     /// <summary>
