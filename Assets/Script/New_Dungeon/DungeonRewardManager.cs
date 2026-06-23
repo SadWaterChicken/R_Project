@@ -22,7 +22,6 @@ namespace New_Dungeon
                 }
                 return _instance;
             }
-            private set { _instance = value; }
         }
 
         private void Awake()
@@ -44,15 +43,29 @@ namespace New_Dungeon
         /// <param name="onChestOpenedCallback">Callback to trigger when the chest is opened (e.g. for wave logic)</param>
         public void SpawnRewardChest(Vector3 position, Transform parent, UnityAction onChestOpenedCallback)
         {
-            if (GameStateManager.Instance == null || GameStateManager.Instance.currentTheme == null)
+            DungeonThemeSetup theme = null;
+            DungeonDifficultyTier difficulty = DungeonDifficultyTier.Normal;
+
+            if (GameStateManager.Instance != null && GameStateManager.Instance.currentTheme != null)
             {
-                Debug.LogError("[DungeonRewardManager] Missing GameStateManager or currentTheme! Cannot spawn chest.");
+                theme = GameStateManager.Instance.currentTheme;
+                difficulty = GameStateManager.Instance.currentDifficulty;
+            }
+            else
+            {
+                RoomGenerator generator = FindAnyObjectByType<RoomGenerator>();
+                if (generator != null)
+                {
+                    theme = generator.currentTheme;
+                }
+            }
+
+            if (theme == null)
+            {
+                Debug.LogError("[DungeonRewardManager] Missing theme! Cannot spawn chest.");
                 onChestOpenedCallback?.Invoke(); // Don't softlock the room
                 return;
             }
-
-            DungeonThemeSetup theme = GameStateManager.Instance.currentTheme;
-            DungeonDifficultyTier difficulty = GameStateManager.Instance.currentDifficulty;
 
             // 1. Roll the chest tier based on difficulty
             ChestTier tier = RollChestTier(difficulty);

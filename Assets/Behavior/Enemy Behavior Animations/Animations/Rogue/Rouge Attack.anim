@@ -100,7 +100,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.36666667
+  - time: 0.36833334
     functionName: TriggerEvent
     data: EndSwing
     objectReferenceParameter: {fileID: 0}

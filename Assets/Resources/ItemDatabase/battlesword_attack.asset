@@ -23,7 +23,7 @@ MonoBehaviour:
   equipmentType: 1
   weaponClassName: Greatsword
   baseModifiers: []
-  weaponPrefab: {fileID: 5619915925322730637, guid: 79ebc5ba110ddf5429520dacc92cd2ad, type: 3}
+  weaponPrefab: {fileID: 3671704035849091831, guid: e836f239175150b4b8e4af650f751c16, type: 3}
   customStanceID: 0
   isForgeable: 0
   forgingRecipe:

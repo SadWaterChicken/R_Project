@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1278329155026758278, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
       propertyPath: maxHealth
-      value: 200
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 2317661578285317477, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
       propertyPath: managedReferences[7321210458918092800].m_Value.Array.size

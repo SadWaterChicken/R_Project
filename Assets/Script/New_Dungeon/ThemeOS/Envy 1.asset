@@ -31,9 +31,6 @@ MonoBehaviour:
   - tier: 0
     chestPrefab: {fileID: 7056306788243686916, guid: 52a3f3496c6273746954123a3ac15f7c, type: 3}
     possibleRewards: []
-  - tier: 1
-    chestPrefab: {fileID: 6359029334351881624, guid: cc6a5775deab23e4f9e6eb3a67090f4f, type: 3}
-    possibleRewards: []
   enemyStatMultiplier: 1
   lootQualityMultiplier: 1
   eliteSpawnRate: 15

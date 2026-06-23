@@ -43,15 +43,18 @@ public class DungeonManager : MonoBehaviour
     {
         if (_instance != null && _instance != this)
         {
-            // Transfer UI setups from the new scene to the persistent manager
-            _instance.bossOptionsCanvas = this.bossOptionsCanvas;
-            _instance.bossOptionsPanel = this.bossOptionsPanel;
-            _instance.goDeeperButton = this.goDeeperButton;
-            _instance.escapeButton = this.escapeButton;
-            _instance.titleText = this.titleText;
-            _instance.rewardText = this.rewardText;
-            
-            _instance.WireButtons(); // Re-wire the new buttons
+            // Only transfer UI setups if the new scene's manager actually has them assigned in the Inspector
+            if (this.bossOptionsCanvas != null)
+            {
+                _instance.bossOptionsCanvas = this.bossOptionsCanvas;
+                _instance.bossOptionsPanel = this.bossOptionsPanel;
+                _instance.goDeeperButton = this.goDeeperButton;
+                _instance.escapeButton = this.escapeButton;
+                _instance.titleText = this.titleText;
+                _instance.rewardText = this.rewardText;
+                
+                _instance.WireButtons(); // Re-wire the new buttons
+            }
             
             Destroy(gameObject);
             return;
