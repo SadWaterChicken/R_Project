@@ -6,18 +6,34 @@ namespace New_Dungeon
 {
     public class DungeonRewardManager : MonoBehaviour
     {
-        public static DungeonRewardManager Instance { get; private set; }
+        private static DungeonRewardManager _instance;
+        public static DungeonRewardManager Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = FindAnyObjectByType<DungeonRewardManager>();
+                    if (_instance == null)
+                    {
+                        GameObject go = new GameObject("DungeonRewardManager_Auto");
+                        _instance = go.AddComponent<DungeonRewardManager>();
+                    }
+                }
+                return _instance;
+            }
+            private set { _instance = value; }
+        }
 
         private void Awake()
         {
-            if (Instance != null && Instance != this)
+            if (_instance != null && _instance != this)
             {
                 Destroy(gameObject);
                 return;
             }
 
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
+            _instance = this;
         }
 
         /// <summary>

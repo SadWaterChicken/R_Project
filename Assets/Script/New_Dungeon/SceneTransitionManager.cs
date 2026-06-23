@@ -77,7 +77,13 @@ public class SceneTransitionManager : MonoBehaviour
         }
 
         // Check if there is a procedural dungeon generator in the newly loaded scene
-        RoomGenerator dungeonGenerator = Object.FindAnyObjectByType<RoomGenerator>();
+        // ONLY wait for generation if we are loading the Dungeon scene!
+        RoomGenerator dungeonGenerator = null;
+        if (sceneName == "DungeonTesting") 
+        {
+            dungeonGenerator = Object.FindAnyObjectByType<RoomGenerator>();
+        }
+
         if (dungeonGenerator != null)
         {
             bool isDungeonGenerated = false;

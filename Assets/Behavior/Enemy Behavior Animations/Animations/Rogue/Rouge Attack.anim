@@ -93,13 +93,6 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.26666668
-    functionName: OnDrawGizmosSelected
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
   - time: 0.28333333
     functionName: Attack
     data: 
@@ -107,7 +100,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.36833334
+  - time: 0.36666667
     functionName: TriggerEvent
     data: EndSwing
     objectReferenceParameter: {fileID: 0}
