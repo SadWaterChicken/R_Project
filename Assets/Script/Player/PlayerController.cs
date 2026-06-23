@@ -123,15 +123,14 @@ public class PlayerController : MonoBehaviour
 
             if (horizontal != 0)
             {
-                spriteRenderer.flipX = horizontal < 0;  // Flip when moving left (negative)
-            if (spriteRenderer.flipX)
-            {
-                playerCombat.attackPoint.localPosition = new Vector3(-originalAttackPointPos.x, originalAttackPointPos.y, originalAttackPointPos.z);
-            }
-            else
-            {
-                playerCombat.attackPoint.localPosition = originalAttackPointPos;
-            }
+                // Thay vì dùng flipX (chỉ lật hình), ta lật nguyên cái Scale của GameObject chứa Sprite.
+                // Việc này sẽ lật luôn tất cả các Object con bên trong (như mainHandSocket, offHandSocket, attackPoint)
+                float facingDir = horizontal < 0 ? -1f : 1f;
+                Vector3 currentScale = spriteRenderer.transform.localScale;
+                spriteRenderer.transform.localScale = new Vector3(Mathf.Abs(currentScale.x) * facingDir, currentScale.y, currentScale.z);
+
+                // Tắt hoàn toàn flipX mặc định để tránh bị lật 2 lần (Double Flip)
+                spriteRenderer.flipX = false;
             }
 
             animator.SetFloat("horizontal", Mathf.Abs(horizontal));
