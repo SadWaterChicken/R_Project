@@ -219,4 +219,13 @@ public class EquipmentManager : MonoBehaviour
     {
         return currentOffHandWeapon != null;
     }
+
+    public CombatStyle GetOffHandCombatStyle()
+    {
+        if (currentOffHandWeapon != null && currentOffHandWeapon.weaponData != null)
+        {
+            return currentOffHandWeapon.weaponData.combatStyle;
+        }
+        return CombatStyle.Melee; // Default fallback
+    }
 }

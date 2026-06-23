@@ -50,15 +50,37 @@ public class PlayerCombat : MonoBehaviour
             numbClicks = Mathf.Clamp(numbClicks, 0, 2);
         }
 
-        // Đỡ đòn gốc (Giữ nguyên cho team Combat xử lý)
+        // Chuột Phải: Xử lý theo loại vũ khí tay trái
         if (Input.GetMouseButtonDown(1))
         {
-            GuardUp();
+            if (equipmentManager != null && equipmentManager.HasOffHandWeapon())
+            {
+                // Kiểm tra xem tay trái đang cầm Khiên (Defend) hay Vũ khí (Melee/Ranged)
+                if (equipmentManager.GetOffHandCombatStyle() == CombatStyle.Defend)
+                {
+                    GuardUp();
+                }
+                else
+                {
+                    // Vung vũ khí tay trái (Tạm dùng hit2 cho tay trái)
+                    animator.ResetTrigger("hit1");
+                    animator.SetTrigger("hit2");
+                    equipmentManager.TriggerOffHandAttack();
+                }
+            }
+            else
+            {
+                // Tay không cũng đỡ đòn
+                GuardUp();
+            }
         }
         
         if (Input.GetMouseButtonUp(1))
         {
-            GuardDown();
+            if (equipmentManager == null || !equipmentManager.HasOffHandWeapon())
+            {
+                GuardDown();
+            }
         }
     }
   
