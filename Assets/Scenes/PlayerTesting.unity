@@ -1863,6 +1863,7 @@ GameObject:
   - component: {fileID: 943575648}
   - component: {fileID: 943575656}
   - component: {fileID: 943575655}
+  - component: {fileID: 943575657}
   m_Layer: 0
   m_Name: FreeLook Camera
   m_TagString: Untagged
@@ -2158,6 +2159,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c646ba7303acd8a419f7328ce7264b62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraController
+--- !u!114 &943575657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 943575647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc096087fd3bb3041a745c6abab15e76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CursorManager
 --- !u!1 &950881743
 GameObject:
   m_ObjectHideFlags: 0

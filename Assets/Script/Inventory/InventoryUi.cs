@@ -36,12 +36,28 @@ public class InventoryUI : MonoBehaviour
     {
         if (Inventory.Instance != null)
             Inventory.Instance.OnInventoryChanged += Refresh;
+            
+        if (CursorManager.Instance != null)
+            CursorManager.OnCloseAllUI += CloseInventory;
     }
 
     private void OnDisable()
     {
         if (Inventory.Instance != null)
             Inventory.Instance.OnInventoryChanged -= Refresh;
+            
+        if (CursorManager.Instance != null)
+            CursorManager.OnCloseAllUI -= CloseInventory;
+    }
+
+    private void CloseInventory()
+    {
+        if (visible)
+        {
+            visible = false;
+            gameObject.SetActive(false);
+            if (CursorManager.Instance != null) CursorManager.Instance.SetUIOpen(false);
+        }
     }
 
     // Toggle inventory visibility (now guarded)
@@ -59,6 +75,11 @@ public class InventoryUI : MonoBehaviour
         visible = !visible;
         gameObject.SetActive(visible);
         if (visible) Refresh();
+        
+        if (CursorManager.Instance != null)
+        {
+            CursorManager.Instance.SetUIOpen(visible);
+        }
     }
 
     // Refresh grid from Inventory.Instance

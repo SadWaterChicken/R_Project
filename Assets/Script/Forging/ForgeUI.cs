@@ -76,6 +76,8 @@ public class ForgeUI : MonoBehaviour
             Inventory.Instance.OnInventoryChanged += RefreshWeaponList;
         if (ForgingSystem.Instance != null)
             ForgingSystem.Instance.OnMaterialInventoryChanged += RefreshMaterialRequirements;
+            
+        CursorManager.OnCloseAllUI += CloseForgeUI;
     }
 
     private void OnDisable()
@@ -84,6 +86,8 @@ public class ForgeUI : MonoBehaviour
             Inventory.Instance.OnInventoryChanged -= RefreshWeaponList;
         if (ForgingSystem.Instance != null)
             ForgingSystem.Instance.OnMaterialInventoryChanged -= RefreshMaterialRequirements;
+            
+        CursorManager.OnCloseAllUI -= CloseForgeUI;
     }
 
     public void Init(string npcName)
@@ -142,6 +146,7 @@ public class ForgeUI : MonoBehaviour
         }
 
         forgePanel.SetActive(true);
+        if (CursorManager.Instance != null) CursorManager.Instance.SetUIOpen(true);
         RefreshWeaponList();
     }
 
@@ -530,10 +535,15 @@ public class ForgeUI : MonoBehaviour
 
     public void CloseForgeUI()
     {
-        forgePanel.SetActive(false);
-        detailPanel.SetActive(false);
-        if (recipeBookPanel != null) recipeBookPanel.SetActive(false);
-        if (advancedWeaponsPanel != null) advancedWeaponsPanel.SetActive(false);
+        if (forgePanel != null && forgePanel.activeSelf)
+        {
+            forgePanel.SetActive(false);
+            if (detailPanel != null) detailPanel.SetActive(false);
+            if (recipeBookPanel != null) recipeBookPanel.SetActive(false);
+            if (advancedWeaponsPanel != null) advancedWeaponsPanel.SetActive(false);
+            
+            if (CursorManager.Instance != null) CursorManager.Instance.SetUIOpen(false);
+        }
     }
 
     private List<GameObject> spawnedRecipeSlots = new List<GameObject>();

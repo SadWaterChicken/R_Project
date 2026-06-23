@@ -20,6 +20,16 @@ public class ShopManager : MonoBehaviour
         if (playerStat == null) Debug.LogWarning("[ShopManager] playerStat not assigned and PlayerStat.Instance is null.");
     }
 
+    private void OnEnable()
+    {
+        CursorManager.OnCloseAllUI += CloseShop;
+    }
+
+    private void OnDisable()
+    {
+        CursorManager.OnCloseAllUI -= CloseShop;
+    }
+
     public void OpenShopFromJsonTextAsset(TextAsset textAsset)
     {
         if (textAsset == null) { Debug.LogWarning("Shop JSON is null"); return; }
@@ -45,12 +55,23 @@ public class ShopManager : MonoBehaviour
         shopUI.Init(this, playerStat);
         shopUI.PopulateShop(shop);
         shopUI.gameObject.SetActive(true);
+        
+        if (CursorManager.Instance != null)
+        {
+            CursorManager.Instance.SetUIOpen(true);
+        }
     }
 
     public void CloseShop()
     {
-        if (shopUI != null) shopUI.gameObject.SetActive(false);
-        // Time.timeScale = 1f;  // ← XÓA DÒNG NÀY (HOẶC COMMENT)
+        if (shopUI != null && shopUI.gameObject.activeSelf)
+        {
+            shopUI.gameObject.SetActive(false);
+            if (CursorManager.Instance != null)
+            {
+                CursorManager.Instance.SetUIOpen(false);
+            }
+        }
     }
 
     public void BuyItem(ItemData item)

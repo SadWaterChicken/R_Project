@@ -121,6 +121,12 @@ public class PlayerController : MonoBehaviour
             float horizontal = moveInput.x;
             float vertical = moveInput.y;
 
+            // If player tries to move, auto-close all UI and lock the mouse
+            if ((horizontal != 0 || vertical != 0) && CursorManager.Instance != null && CursorManager.Instance.IsAnyUIOpen())
+            {
+                CursorManager.Instance.CloseAllUI();
+            }
+
             if (horizontal != 0)
             {
                 // Ta sẽ lật nguyên cái Scale của GameObject chứa Sprite sẽ lật luôn tất cả các Object con bên trong (như mainHandSocket, offHandSocket, attackPoint)
