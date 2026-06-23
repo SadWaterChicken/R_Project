@@ -123,8 +123,7 @@ public class PlayerController : MonoBehaviour
 
             if (horizontal != 0)
             {
-                // Thay vì dùng flipX (chỉ lật hình), ta lật nguyên cái Scale của GameObject chứa Sprite.
-                // Việc này sẽ lật luôn tất cả các Object con bên trong (như mainHandSocket, offHandSocket, attackPoint)
+                // Ta sẽ lật nguyên cái Scale của GameObject chứa Sprite sẽ lật luôn tất cả các Object con bên trong (như mainHandSocket, offHandSocket, attackPoint)
                 float facingDir = horizontal < 0 ? -1f : 1f;
                 Vector3 currentScale = spriteRenderer.transform.localScale;
                 spriteRenderer.transform.localScale = new Vector3(Mathf.Abs(currentScale.x) * facingDir, currentScale.y, currentScale.z);
