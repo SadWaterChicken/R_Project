@@ -41,6 +41,10 @@ public abstract class CharacterStats : MonoBehaviour
 
     protected CharacterBuffManager buffManager;
 
+    [Header("PopUp Damage")]
+    public GameObject damagePopupPrefab; // Assign your TextMeshPro prefab here
+
+
     protected virtual void Awake()
     {
         buffManager = GetComponent<CharacterBuffManager>();
@@ -160,11 +164,19 @@ public abstract class CharacterStats : MonoBehaviour
 
         if (finalDamage > 0)
         {
-            currentHealth -= finalDamage;
-            if (currentHealth <= 0)
-            {
-                Die();
-            }
+        // Spawn the damage popup right before reducing health
+        if (damagePopupPrefab != null)
+        {
+            // Spawn exactly at character position, the PopUp script handles its own offset
+            Vector3 hitPosition = transform.position; 
+            GameObject damagePopup = Instantiate(damagePopupPrefab, hitPosition, Quaternion.identity);
+            damagePopup.GetComponent<PopUpDamage>().Setup(Mathf.RoundToInt(finalDamage));
+        }
+        currentHealth -= finalDamage;
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
         }
     }
 

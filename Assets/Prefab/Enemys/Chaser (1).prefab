@@ -312,6 +312,8 @@ MonoBehaviour:
   maxShield: 0
   shieldRegenRate: 0
   shieldRechargeCooldown: 5
+  damagePopupPrefab: {fileID: 8726772514403853739, guid: bf049d9349eecff48b457a62f147c8e6, type: 3}
+  damagePopupOffset: {x: 0, y: 1.5, z: 0}
   enemyLevel: 1
   attackRange: 2
   attackCooldown: 1
