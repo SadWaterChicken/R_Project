@@ -1,6 +1,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public struct WeaponSkill
+{
+    public string skillName;
+    [TextArea(2, 3)] public string description;
+    public Sprite skillIcon;
+    public float cooldown;
+    public float damageMultiplier; // Ví dụ: 1.5 (x1.5 sát thương)
+    public string animationTrigger; // Tên Trigger trên Animator (vd: "Skill")
+    public GameObject skillPrefab; // Prefab của skill (VFX, đạn bay, chưởng lực...)
+}
+
 [CreateAssetMenu(fileName = "New Item", menuName = "Item Data/Base Item")]
 public class BaseItemData : ScriptableObject
 {
@@ -27,6 +39,10 @@ public class BaseItemData : ScriptableObject
     [Header("Visuals & Combat")]
     public GameObject weaponPrefab; // 3D/2D model with Collider and MeleeWeapon script
     public int customStanceID = 0;  // 0: default, 1: shoulder carry, etc.
+
+    [Header("Weapon Skill")]
+    public bool hasSkill = false;
+    public WeaponSkill weaponSkill;
 
 
     [Header("Forging Requirements")]
