@@ -88,6 +88,9 @@ public class ItemData
     public EquipmentType equipmentType => BaseData != null ? BaseData.equipmentType : EquipmentType.None;
     public string weaponClassName => BaseData != null ? BaseData.weaponClassName : "";
 
+    public bool hasSkill => BaseData != null ? BaseData.hasSkill : false;
+    public WeaponSkill weaponSkill => BaseData != null ? BaseData.weaponSkill : default(WeaponSkill);
+
     public ItemData() { }
 
     public ItemData(string id, int s = 1)
