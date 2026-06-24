@@ -437,17 +437,6 @@ public class ForgeUI : MonoBehaviour
         if (currentMastery < currentRecipe.requiredMastery)
         {
             canForge = false;
-            if (forgeButton.GetComponentInChildren<TMP_Text>() != null)
-            {
-                forgeButton.GetComponentInChildren<TMP_Text>().text = $"Requires {currentRecipe.requiredMastery} Mastery";
-            }
-        }
-        else
-        {
-            if (forgeButton.GetComponentInChildren<TMP_Text>() != null)
-            {
-                forgeButton.GetComponentInChildren<TMP_Text>().text = "Forge Weapon";
-            }
         }
 
         // Check materials
@@ -578,16 +567,10 @@ public class ForgeUI : MonoBehaviour
             var slotUI = slot.GetComponent<WeaponSlotUI>();
             if (slotUI != null)
             {
-                // Check if there is ANY recipe that takes this weapon and results in advancedWeapon
-        bool canForge = ForgingSystem.Instance?.recipes.Any(r => 
-                    r.requiredWeapons != null && 
-                    r.requiredWeapons.Any(reqW => reqW.weapon != null && reqW.weapon.itemID == baseWeapon.itemID) && 
-                    (r.resultItem != null ? r.resultItem.itemID : r.resultItemID) == weapon.itemID) ?? false;
-
                 slotUI.SetWeapon(weapon, () => {
                     PreviewAdvancedWeapon(weapon);
                 });
-                slotUI.SetInteractable(canForge);
+                slotUI.SetInteractable(true); // Always allow previewing the weapon
             }
         }
     }
