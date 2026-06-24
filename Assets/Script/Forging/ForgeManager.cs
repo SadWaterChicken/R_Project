@@ -64,9 +64,9 @@ public class ForgeManager : MonoBehaviour
     /// <summary>
     /// Attempt to forge weapons into a new, enhanced weapon
     /// </summary>
-    public ItemData AttemptForge(List<ItemData> weaponsToForge, ForgingRecipe recipe, List<ForgingMaterial> materials)
+    public ItemData AttemptForge(ForgingRecipe recipe, List<ForgingMaterial> materials)
     {
-        if (!ValidateForgeAttempt(weaponsToForge, recipe, materials))
+        if (!ValidateForgeAttempt(recipe, materials))
             return null;
 
         // Remove materials from inventory
@@ -84,17 +84,10 @@ public class ForgeManager : MonoBehaviour
         }
 
         // Create new weapon from recipe
-        ItemData newWeapon = CreateForgedWeapon(recipe, weaponsToForge);
-
-        // Remove old weapons from inventory
-        var inventory = Inventory.Instance;
-        foreach (var weapon in weaponsToForge)
-        {
-            inventory.RemoveItem(weapon, 1);
-        }
+        ItemData newWeapon = CreateForgedWeapon(recipe);
 
         // Add new weapon to inventory
-        inventory.AddItem(newWeapon);
+        Inventory.Instance.AddItem(newWeapon);
 
         // Trigger event
         OnWeaponForged?.Invoke(newWeapon);
@@ -106,7 +99,7 @@ public class ForgeManager : MonoBehaviour
     /// <summary>
     /// Create a new forged weapon with enhanced stats
     /// </summary>
-    private ItemData CreateForgedWeapon(ForgingRecipe recipe, List<ItemData> baseWeapons)
+    private ItemData CreateForgedWeapon(ForgingRecipe recipe)
     {
         var resultWeapon = recipe.resultItem != null ? new ItemData(recipe.resultItem.itemID) : GetWeaponTemplate(recipe.resultItemID);
         if (resultWeapon == null)
@@ -115,15 +108,9 @@ public class ForgeManager : MonoBehaviour
             return null;
         }
 
-        // Calculate average mastery from base weapons
-        float avgMastery = baseWeapons.Count > 0 
-            ? baseWeapons.Average(w => w.weaponMastery) 
-            : 0f;
-
         // Set new weapon properties
         resultWeapon.forgeLevel = 1;
-        resultWeapon.weaponMastery = Mathf.Min(avgMastery + masteryGainPerForge, maxMastery);
-        resultWeapon.baseItemID = baseWeapons[0].itemID;
+        // No base weapon ID anymore
         resultWeapon.isForgeable = true;
 
         // Calculate enhanced stats based on forge level
@@ -177,36 +164,32 @@ public class ForgeManager : MonoBehaviour
     public void AddMasteryOnKill(ItemData weapon, float overrideAmount = -1f)
     {
         if (weapon == null || !weapon.equipped) return;
+        if (string.IsNullOrEmpty(weapon.weaponClassName)) return;
 
         float amountToAdd = overrideAmount >= 0f ? overrideAmount : masteryGainPerKill;
-        weapon.weaponMastery = Mathf.Min(weapon.weaponMastery + amountToAdd, maxMastery);
-
-        Debug.Log($"[ForgeManager] {weapon.itemName} mastery increased by {amountToAdd:F1}. Current: {weapon.weaponMastery:F1}%");
+        
+        if (Inventory.Instance != null)
+        {
+            Inventory.Instance.AddClassMastery(weapon.weaponClassName, amountToAdd);
+            Debug.Log($"[ForgeManager] Class '{weapon.weaponClassName}' mastery increased by {amountToAdd:F1}. Current: {Inventory.Instance.GetClassMastery(weapon.weaponClassName):F1}%");
+        }
     }
 
     /// <summary>
     /// Validate forging conditions
     /// </summary>
-    private bool ValidateForgeAttempt(List<ItemData> weaponsToForge, ForgingRecipe recipe, List<ForgingMaterial> materials)
+    private bool ValidateForgeAttempt(ForgingRecipe recipe, List<ForgingMaterial> materials)
     {
-        int requiredTotal = 0;
-        if (recipe.requiredWeapons != null)
-        {
-            requiredTotal = recipe.requiredWeapons.Sum(req => req.quantity);
-        }
+        if (recipe == null) return false;
 
-        if (weaponsToForge == null || weaponsToForge.Count < requiredTotal)
+        if (recipe.resultItem != null && Inventory.Instance != null)
         {
-            Debug.LogWarning($"[ForgeManager] Not enough weapons. Need {requiredTotal}, have {weaponsToForge?.Count}");
-            return false;
-        }
-
-        // Check same weapon class
-        var weaponClassName = weaponsToForge[0].weaponClassName;
-        if (weaponsToForge.Any(w => w.weaponClassName != weaponClassName))
-        {
-            Debug.LogWarning("[ForgeManager] All weapons must be same class!");
-            return false;
+            float currentMastery = Inventory.Instance.GetClassMastery(recipe.resultItem.weaponClassName);
+            if (currentMastery < recipe.requiredMastery)
+            {
+                Debug.LogWarning($"[ForgeManager] Not enough mastery. Need {recipe.requiredMastery}, have {currentMastery}");
+                return false;
+            }
         }
 
         // Check gold
@@ -226,16 +209,16 @@ public class ForgeManager : MonoBehaviour
 
         // --- NEW: Rarity vs Tier restriction ---
         // Ensure that the materials used are high enough quality for this weapon's tier
-        int targetTier = weaponsToForge[0].itemTier + 1; // Forging upgrades tier by 1 conceptually
+        int targetTier = recipe.resultItem != null ? recipe.resultItem.itemTier : 1;
         foreach (var req in recipe.requiredMaterials)
         {
             ForgingMaterial matInfo = req.material;
             if (matInfo != null)
             {
-                // Quy tắc: Rarity của đá rèn phải lớn hơn hoặc bằng Tier hiện tại của vũ khí
-                if (matInfo.rarity < weaponsToForge[0].itemTier)
+                // Quy tắc: Rarity của đá rèn phải lớn hơn hoặc bằng Tier đích - 1
+                if (matInfo.rarity < targetTier - 1)
                 {
-                    Debug.LogWarning($"[ForgeManager] Material '{matInfo.materialName}' (Rarity {matInfo.rarity}) is too low quality to forge a Tier {weaponsToForge[0].itemTier} weapon!");
+                    Debug.LogWarning($"[ForgeManager] Material '{matInfo.materialName}' (Rarity {matInfo.rarity}) is too low quality to forge a Tier {targetTier} weapon!");
                     return false;
                 }
             }
@@ -247,19 +230,10 @@ public class ForgeManager : MonoBehaviour
     /// <summary>
     /// Returns a preview of what the forged weapon will look like (stats, level) without consuming anything.
     /// </summary>
-    public ItemData GetPreviewWeapon(ItemData baseWeapon, ForgingRecipe recipe)
+    public ItemData GetPreviewWeapon(ForgingRecipe recipe)
     {
-        if (baseWeapon == null || recipe == null) return null;
-        var resultWeapon = recipe.resultItem != null ? new ItemData(recipe.resultItem.itemID) : GetWeaponTemplate(recipe.resultItemID);
-        if (resultWeapon == null) return null;
-
-        resultWeapon.forgeLevel = 1;
-        resultWeapon.weaponMastery = Mathf.Min(baseWeapon.weaponMastery + masteryGainPerForge, maxMastery);
-        resultWeapon.baseItemID = baseWeapon.itemID;
-        resultWeapon.isForgeable = true;
-
-        ApplyForgeStatBonus(resultWeapon, resultWeapon.forgeLevel);
-        return resultWeapon;
+        if (recipe == null) return null;
+        return CreateForgedWeapon(recipe);
     }
 
     /// <summary>

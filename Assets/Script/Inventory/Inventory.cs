@@ -11,6 +11,9 @@ public class Inventory : MonoBehaviour
     public InventoryUI inventoryUIReference;
 
     public List<ItemData> ownedItems = new List<ItemData>();
+    
+    // Lưu trữ Master toàn cục cho từng loại vũ khí
+    public Dictionary<string, float> classMasteries = new Dictionary<string, float>();
 
     public event Action OnInventoryChanged;
     // NEW: notify when an item is equipped/unequipped
@@ -246,6 +249,25 @@ public class Inventory : MonoBehaviour
     }
 
     // --- SAVE / LOAD SYSTEM ---
+    public void AddClassMastery(string className, float amount)
+    {
+        if (string.IsNullOrEmpty(className)) return;
+        if (!classMasteries.ContainsKey(className)) classMasteries[className] = 0f;
+        classMasteries[className] = Mathf.Min(classMasteries[className] + amount, 1000f);
+        
+        if (PlayerStat.Instance != null)
+        {
+            PlayerStat.Instance.UpdateMasteryDisplay(className, classMasteries[className]);
+        }
+    }
+
+    public float GetClassMastery(string className)
+    {
+        if (string.IsNullOrEmpty(className)) return 0f;
+        if (classMasteries.TryGetValue(className, out float val)) return val;
+        return 0f;
+    }
+
     private string GetSavePath()
     {
         return System.IO.Path.Combine(Application.persistentDataPath, "inventory_save.json");
@@ -254,6 +276,12 @@ public class Inventory : MonoBehaviour
     public void SaveInventory()
     {
         InventorySaveData data = new InventorySaveData { items = this.ownedItems };
+        data.classMasteries = new List<ClassMasteryData>();
+        foreach(var kvp in classMasteries)
+        {
+            data.classMasteries.Add(new ClassMasteryData { weaponClassName = kvp.Key, masteryExp = kvp.Value });
+        }
+        
         string json = JsonUtility.ToJson(data, true);
         File.WriteAllText(GetSavePath(), json);
         Debug.Log("[Inventory] Saved to: " + GetSavePath());
@@ -266,16 +294,32 @@ public class Inventory : MonoBehaviour
         {
             string json = File.ReadAllText(path);
             InventorySaveData data = JsonUtility.FromJson<InventorySaveData>(json);
-            if (data != null && data.items != null)
+            if (data != null)
             {
-                ownedItems = data.items;
-                
-                // Ensure all loaded items fetch their BaseData
-                foreach (var item in ownedItems)
+                if (data.items != null)
                 {
-                    if (item.BaseData == null) {
-                        // Kích hoạt property getter để load BaseData từ Resources
-                        var _ = item.BaseData;
+                    ownedItems = data.items;
+                    
+                    // Ensure all loaded items fetch their BaseData
+                    foreach (var item in ownedItems)
+                    {
+                        if (item.BaseData == null) {
+                            // Kích hoạt property getter để load BaseData từ Resources
+                            var _ = item.BaseData;
+                        }
+                    }
+                }
+                
+                classMasteries.Clear();
+                if (data.classMasteries != null)
+                {
+                    foreach(var cm in data.classMasteries)
+                    {
+                        classMasteries[cm.weaponClassName] = cm.masteryExp;
+                        if (PlayerStat.Instance != null)
+                        {
+                            PlayerStat.Instance.UpdateMasteryDisplay(cm.weaponClassName, cm.masteryExp);
+                        }
                     }
                 }
                 
@@ -293,4 +337,12 @@ public class Inventory : MonoBehaviour
 public class InventorySaveData
 {
     public List<ItemData> items;
+    public List<ClassMasteryData> classMasteries;
+}
+
+[Serializable]
+public class ClassMasteryData
+{
+    public string weaponClassName;
+    public float masteryExp;
 }

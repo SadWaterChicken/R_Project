@@ -35,10 +35,15 @@ public class ForgingMaterial : ScriptableObject
 public class ForgingRecipe
 {
     [HideInInspector] public string recipeID;
-    [HideInInspector] public string resultItemID;        // Thường vẫn dùng string hoặc BaseItemData, để tiện lưu file ta nên giữ ID hoặc chuyển sang BaseItemData
-    [HideInInspector] public BaseItemData resultItem;    // Tùy chọn kéo thả Prefab kết quả
-    [HideInInspector] public List<string> requiredItemIDs = new List<string>(); // Dùng để phục hồi data cũ
-    [HideInInspector] [UnityEngine.Serialization.FormerlySerializedAs("requiredWeapons")] public List<BaseItemData> oldRequiredWeapons = new List<BaseItemData>(); // Giữ tạm để Migration
+    [HideInInspector] public string resultItemID;
+    [HideInInspector] public BaseItemData resultItem;
+    
+    [Header("Mastery Requirements")]
+    [Tooltip("Sức mạnh thông thạo hệ vũ khí tối thiểu để rèn được món này.")]
+    public float requiredMastery = 0f;
+
+    [HideInInspector] public List<string> requiredItemIDs = new List<string>();
+    [HideInInspector] [UnityEngine.Serialization.FormerlySerializedAs("requiredWeapons")] public List<BaseItemData> oldRequiredWeapons = new List<BaseItemData>();
     
     [System.Serializable]
     public class WeaponRequirement

@@ -84,15 +84,17 @@ public class WeaponMasteryDisplay : MonoBehaviour
 
         // Mastery bar
         float maxMastery = ForgeManager.Instance != null ? ForgeManager.Instance.GetMaxMastery() : 100f;
+        float currentMastery = Inventory.Instance != null ? Inventory.Instance.GetClassMastery(currentWeapon.weaponClassName) : 0f;
+        
         if (masteryFillImage != null)
         {
-            masteryFillImage.fillAmount = currentWeapon.weaponMastery / maxMastery;
+            masteryFillImage.fillAmount = currentMastery / maxMastery;
         }
 
         // Mastery text
         if (masteryPercentText != null)
         {
-            masteryPercentText.text = $"{currentWeapon.weaponMastery:F1}/{maxMastery:F0}";
+            masteryPercentText.text = $"{currentMastery:F1}/{maxMastery:F0}";
         }
 
         // Forge level

@@ -54,15 +54,7 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
         if (masteryText != null)
         {
-            if (item != null && item.equippable)
-            {
-                // Chỉ hiển thị số Mastery nếu vũ khí này đã được cày cuốc (Mastery > 0)
-                masteryText.text = item.weaponMastery > 0 ? $"M.{item.weaponMastery:F0}" : "";
-            }
-            else
-            {
-                masteryText.text = "";
-            }
+            masteryText.text = "";
         }
     }
 

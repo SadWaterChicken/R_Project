@@ -23,6 +23,34 @@ public class PlayerStat : CharacterStats
     public int gold = 0;
     public int currentEnergyCubes = 0;
 
+    [Header("Weapon Class Masteries (View Only)")]
+    public float greatswordMastery;
+    public float katanaMastery;
+    public float warhammerMastery;
+    public float greatsaxeMastery;
+    public float spearMastery;
+    public float bowMastery;
+    public float staffMastery;
+    public float orbMastery;
+
+    public void UpdateMasteryDisplay(string className, float masteryExp)
+    {
+        switch (className.ToLower())
+        {
+            case "greatsword": greatswordMastery = masteryExp; break;
+            case "katana": katanaMastery = masteryExp; break;
+            case "warhammer": warhammerMastery = masteryExp; break;
+            case "greatsaxe": greatsaxeMastery = masteryExp; break;
+            case "spear": spearMastery = masteryExp; break;
+            case "bow": bowMastery = masteryExp; break;
+            case "staff": staffMastery = masteryExp; break;
+            case "orb": orbMastery = masteryExp; break;
+            default:
+                Debug.LogWarning($"[PlayerStat] Unknown weapon class: {className}");
+                break;
+        }
+    }
+
     protected override void Awake()
     {
         if (Instance == null)

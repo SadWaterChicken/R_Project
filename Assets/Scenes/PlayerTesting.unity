@@ -1408,6 +1408,14 @@ MonoBehaviour:
   isInvincible: 0
   gold: 50000
   currentEnergyCubes: 0
+  greatswordMastery: 0
+  katanaMastery: 0
+  warhammerMastery: 0
+  greatsaxeMastery: 0
+  spearMastery: 0
+  bowMastery: 0
+  staffMastery: 0
+  orbMastery: 0
 --- !u!114 &313751850
 MonoBehaviour:
   m_ObjectHideFlags: 0

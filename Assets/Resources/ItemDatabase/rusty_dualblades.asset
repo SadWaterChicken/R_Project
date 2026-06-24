@@ -27,6 +27,7 @@ MonoBehaviour:
   customStanceID: 0
   isForgeable: 0
   forgingRecipe:
+    requiredMastery: 0
     recipeID: 
     resultItemID: 
     requiredItemIDs: []

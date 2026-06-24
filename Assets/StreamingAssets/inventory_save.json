@@ -11,35 +11,35 @@
             "modifiers": [
                 {
                     "stat": "physicalDamage",
-                    "value": 10.0,
+                    "value": 10,
                     "percent": false,
-                    "percentValue": 0.0,
+                    "percentValue": 0,
                     "isMainStat": true
                 },
                 {
                     "stat": "magicDamage",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.019999999552965165,
+                    "percentValue": 0.019999999552965164,
                     "isMainStat": false
                 },
                 {
                     "stat": "magicDamage",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.019999999552965165,
+                    "percentValue": 0.019999999552965164,
                     "isMainStat": false
                 },
                 {
                     "stat": "maxHealth",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.019999999552965165,
+                    "percentValue": 0.019999999552965164,
                     "isMainStat": false
                 },
                 {
                     "stat": "physicalArmour",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
                     "percentValue": 0.009999999776482582,
                     "isMainStat": false
@@ -50,7 +50,6 @@
             "equipmentType": 0,
             "weaponClassName": "",
             "forgeLevel": 0,
-            "weaponMastery": 0.0,
             "baseItemID": "",
             "isForgeable": false
         },
@@ -65,35 +64,35 @@
             "modifiers": [
                 {
                     "stat": "physicalDamage",
-                    "value": 10.0,
+                    "value": 10,
                     "percent": false,
-                    "percentValue": 0.0,
+                    "percentValue": 0,
                     "isMainStat": true
                 },
                 {
                     "stat": "maxHealth",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.019999999552965165,
+                    "percentValue": 0.019999999552965164,
                     "isMainStat": false
                 },
                 {
                     "stat": "maxHealth",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.019999999552965165,
+                    "percentValue": 0.019999999552965164,
                     "isMainStat": false
                 },
                 {
                     "stat": "maxHealth",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.019999999552965165,
+                    "percentValue": 0.019999999552965164,
                     "isMainStat": false
                 },
                 {
                     "stat": "maxHealth",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
                     "percentValue": 0.009999999776482582,
                     "isMainStat": false
@@ -104,7 +103,6 @@
             "equipmentType": 0,
             "weaponClassName": "",
             "forgeLevel": 0,
-            "weaponMastery": 0.0,
             "baseItemID": "",
             "isForgeable": false
         },
@@ -119,37 +117,37 @@
             "modifiers": [
                 {
                     "stat": "physicalDamage",
-                    "value": 10.0,
+                    "value": 10,
                     "percent": false,
-                    "percentValue": 0.0,
+                    "percentValue": 0,
                     "isMainStat": true
                 },
                 {
                     "stat": "maxHealth",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.019999999552965165,
+                    "percentValue": 0.019999999552965164,
                     "isMainStat": false
                 },
                 {
                     "stat": "magicDamage",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.029999999329447748,
+                    "percentValue": 0.029999999329447746,
                     "isMainStat": false
                 },
                 {
                     "stat": "physicalArmour",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
                     "percentValue": 0.009999999776482582,
                     "isMainStat": false
                 },
                 {
                     "stat": "physicalDamage",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.019999999552965165,
+                    "percentValue": 0.019999999552965164,
                     "isMainStat": false
                 }
             ],
@@ -158,7 +156,6 @@
             "equipmentType": 0,
             "weaponClassName": "",
             "forgeLevel": 0,
-            "weaponMastery": 0.0,
             "baseItemID": "",
             "isForgeable": false
         },
@@ -173,37 +170,37 @@
             "modifiers": [
                 {
                     "stat": "physicalDamage",
-                    "value": 10.0,
+                    "value": 10,
                     "percent": false,
-                    "percentValue": 0.0,
+                    "percentValue": 0,
                     "isMainStat": true
                 },
                 {
                     "stat": "maxHealth",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.019999999552965165,
+                    "percentValue": 0.019999999552965164,
                     "isMainStat": false
                 },
                 {
                     "stat": "criticalChance",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.019999999552965165,
+                    "percentValue": 0.019999999552965164,
                     "isMainStat": false
                 },
                 {
                     "stat": "criticalChance",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.029999999329447748,
+                    "percentValue": 0.029999999329447746,
                     "isMainStat": false
                 },
                 {
                     "stat": "maxHealth",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.029999999329447748,
+                    "percentValue": 0.029999999329447746,
                     "isMainStat": false
                 }
             ],
@@ -212,7 +209,6 @@
             "equipmentType": 0,
             "weaponClassName": "",
             "forgeLevel": 0,
-            "weaponMastery": 0.0,
             "baseItemID": "",
             "isForgeable": false
         },
@@ -227,37 +223,37 @@
             "modifiers": [
                 {
                     "stat": "physicalDamage",
-                    "value": 10.0,
+                    "value": 10,
                     "percent": false,
-                    "percentValue": 0.0,
+                    "percentValue": 0,
                     "isMainStat": true
                 },
                 {
                     "stat": "physicalDamage",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.029999999329447748,
+                    "percentValue": 0.029999999329447746,
                     "isMainStat": false
                 },
                 {
                     "stat": "magicDamage",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.019999999552965165,
+                    "percentValue": 0.019999999552965164,
                     "isMainStat": false
                 },
                 {
                     "stat": "magicDamage",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.019999999552965165,
+                    "percentValue": 0.019999999552965164,
                     "isMainStat": false
                 },
                 {
                     "stat": "maxHealth",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.029999999329447748,
+                    "percentValue": 0.029999999329447746,
                     "isMainStat": false
                 }
             ],
@@ -266,7 +262,6 @@
             "equipmentType": 0,
             "weaponClassName": "",
             "forgeLevel": 0,
-            "weaponMastery": 0.0,
             "baseItemID": "",
             "isForgeable": false
         },
@@ -281,35 +276,35 @@
             "modifiers": [
                 {
                     "stat": "physicalDamage",
-                    "value": 10.0,
+                    "value": 10,
                     "percent": false,
-                    "percentValue": 0.0,
+                    "percentValue": 0,
                     "isMainStat": true
                 },
                 {
                     "stat": "criticalChance",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
                     "percentValue": 0.009999999776482582,
                     "isMainStat": false
                 },
                 {
                     "stat": "criticalChance",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.019999999552965165,
+                    "percentValue": 0.019999999552965164,
                     "isMainStat": false
                 },
                 {
                     "stat": "criticalChance",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
                     "percentValue": 0.009999999776482582,
                     "isMainStat": false
                 },
                 {
                     "stat": "physicalDamage",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
                     "percentValue": 0.009999999776482582,
                     "isMainStat": false
@@ -320,7 +315,6 @@
             "equipmentType": 1,
             "weaponClassName": "DualBlades",
             "forgeLevel": 0,
-            "weaponMastery": 0.0,
             "baseItemID": "",
             "isForgeable": true
         },
@@ -335,35 +329,35 @@
             "modifiers": [
                 {
                     "stat": "magic damage",
-                    "value": 15.0,
+                    "value": 15,
                     "percent": false,
-                    "percentValue": 0.0,
+                    "percentValue": 0,
                     "isMainStat": true
                 },
                 {
                     "stat": "physicalDamage",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.029999999329447748,
+                    "percentValue": 0.029999999329447746,
                     "isMainStat": false
                 },
                 {
                     "stat": "physicalDamage",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.019999999552965165,
+                    "percentValue": 0.019999999552965164,
                     "isMainStat": false
                 },
                 {
                     "stat": "magicDamage",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.029999999329447748,
+                    "percentValue": 0.029999999329447746,
                     "isMainStat": false
                 },
                 {
                     "stat": "physicalDamage",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
                     "percentValue": 0.009999999776482582,
                     "isMainStat": false
@@ -374,7 +368,6 @@
             "equipmentType": 1,
             "weaponClassName": "Staff",
             "forgeLevel": 0,
-            "weaponMastery": 0.0,
             "baseItemID": "",
             "isForgeable": true
         },
@@ -389,37 +382,37 @@
             "modifiers": [
                 {
                     "stat": "physical damage",
-                    "value": 12.0,
+                    "value": 12,
                     "percent": false,
-                    "percentValue": 0.0,
+                    "percentValue": 0,
                     "isMainStat": true
                 },
                 {
                     "stat": "maxHealth",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
                     "percentValue": 0.009999999776482582,
                     "isMainStat": false
                 },
                 {
                     "stat": "criticalChance",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
                     "percentValue": 0.009999999776482582,
                     "isMainStat": false
                 },
                 {
                     "stat": "physicalDamage",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.029999999329447748,
+                    "percentValue": 0.029999999329447746,
                     "isMainStat": false
                 },
                 {
                     "stat": "physicalDamage",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.029999999329447748,
+                    "percentValue": 0.029999999329447746,
                     "isMainStat": false
                 }
             ],
@@ -428,7 +421,6 @@
             "equipmentType": 1,
             "weaponClassName": "Bow",
             "forgeLevel": 0,
-            "weaponMastery": 0.0,
             "baseItemID": "",
             "isForgeable": true
         },
@@ -443,35 +435,35 @@
             "modifiers": [
                 {
                     "stat": "magic damage",
-                    "value": 12.0,
+                    "value": 12,
                     "percent": false,
-                    "percentValue": 0.0,
+                    "percentValue": 0,
                     "isMainStat": true
                 },
                 {
                     "stat": "physicalArmour",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.019999999552965165,
+                    "percentValue": 0.019999999552965164,
                     "isMainStat": false
                 },
                 {
                     "stat": "criticalChance",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.029999999329447748,
+                    "percentValue": 0.029999999329447746,
                     "isMainStat": false
                 },
                 {
                     "stat": "magicDamage",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
                     "percentValue": 0.009999999776482582,
                     "isMainStat": false
                 },
                 {
                     "stat": "physicalDamage",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
                     "percentValue": 0.009999999776482582,
                     "isMainStat": false
@@ -482,7 +474,6 @@
             "equipmentType": 1,
             "weaponClassName": "Orb",
             "forgeLevel": 0,
-            "weaponMastery": 0.0,
             "baseItemID": "",
             "isForgeable": true
         },
@@ -497,35 +488,35 @@
             "modifiers": [
                 {
                     "stat": "physical damage",
-                    "value": 20.0,
+                    "value": 20,
                     "percent": false,
-                    "percentValue": 0.0,
+                    "percentValue": 0,
                     "isMainStat": true
                 },
                 {
                     "stat": "magicDamage",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.019999999552965165,
+                    "percentValue": 0.019999999552965164,
                     "isMainStat": false
                 },
                 {
                     "stat": "physicalArmour",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.019999999552965165,
+                    "percentValue": 0.019999999552965164,
                     "isMainStat": false
                 },
                 {
                     "stat": "criticalChance",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.019999999552965165,
+                    "percentValue": 0.019999999552965164,
                     "isMainStat": false
                 },
                 {
                     "stat": "magicDamage",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
                     "percentValue": 0.009999999776482582,
                     "isMainStat": false
@@ -536,7 +527,6 @@
             "equipmentType": 1,
             "weaponClassName": "Greatsaxe",
             "forgeLevel": 0,
-            "weaponMastery": 0.0,
             "baseItemID": "",
             "isForgeable": true
         },
@@ -551,35 +541,35 @@
             "modifiers": [
                 {
                     "stat": "physical damage",
-                    "value": 8.0,
+                    "value": 8,
                     "percent": false,
-                    "percentValue": 0.0,
+                    "percentValue": 0,
                     "isMainStat": true
                 },
                 {
                     "stat": "magicDamage",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.029999999329447748,
+                    "percentValue": 0.029999999329447746,
                     "isMainStat": false
                 },
                 {
                     "stat": "physicalDamage",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.019999999552965165,
+                    "percentValue": 0.019999999552965164,
                     "isMainStat": false
                 },
                 {
                     "stat": "magicDamage",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.029999999329447748,
+                    "percentValue": 0.029999999329447746,
                     "isMainStat": false
                 },
                 {
                     "stat": "magicDamage",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
                     "percentValue": 0.009999999776482582,
                     "isMainStat": false
@@ -590,7 +580,6 @@
             "equipmentType": 1,
             "weaponClassName": "DualBlades",
             "forgeLevel": 0,
-            "weaponMastery": 0.0,
             "baseItemID": "",
             "isForgeable": true
         },
@@ -605,37 +594,37 @@
             "modifiers": [
                 {
                     "stat": "physical damage",
-                    "value": 15.0,
+                    "value": 15,
                     "percent": false,
-                    "percentValue": 0.0,
+                    "percentValue": 0,
                     "isMainStat": true
                 },
                 {
                     "stat": "physicalDamage",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
                     "percentValue": 0.009999999776482582,
                     "isMainStat": false
                 },
                 {
                     "stat": "magicDamage",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
                     "percentValue": 0.009999999776482582,
                     "isMainStat": false
                 },
                 {
                     "stat": "physicalArmour",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.019999999552965165,
+                    "percentValue": 0.019999999552965164,
                     "isMainStat": false
                 },
                 {
                     "stat": "maxHealth",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.029999999329447748,
+                    "percentValue": 0.029999999329447746,
                     "isMainStat": false
                 }
             ],
@@ -644,7 +633,6 @@
             "equipmentType": 1,
             "weaponClassName": "Greatsword",
             "forgeLevel": 0,
-            "weaponMastery": 0.0,
             "baseItemID": "",
             "isForgeable": true
         },
@@ -659,37 +647,37 @@
             "modifiers": [
                 {
                     "stat": "physical damage",
-                    "value": 70.0,
+                    "value": 70,
                     "percent": false,
-                    "percentValue": 0.0,
+                    "percentValue": 0,
                     "isMainStat": true
                 },
                 {
                     "stat": "physicalArmour",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
                     "percentValue": 0.009999999776482582,
                     "isMainStat": false
                 },
                 {
                     "stat": "physicalArmour",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
                     "percentValue": 0.009999999776482582,
                     "isMainStat": false
                 },
                 {
                     "stat": "maxHealth",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.029999999329447748,
+                    "percentValue": 0.029999999329447746,
                     "isMainStat": false
                 },
                 {
                     "stat": "criticalChance",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.019999999552965165,
+                    "percentValue": 0.019999999552965164,
                     "isMainStat": false
                 }
             ],
@@ -698,7 +686,6 @@
             "equipmentType": 1,
             "weaponClassName": "Katana",
             "forgeLevel": 1,
-            "weaponMastery": 20.0,
             "baseItemID": "katana_t2",
             "isForgeable": true
         },
@@ -713,35 +700,35 @@
             "modifiers": [
                 {
                     "stat": "physical damage",
-                    "value": 50.0,
+                    "value": 50,
                     "percent": false,
-                    "percentValue": 0.0,
+                    "percentValue": 0,
                     "isMainStat": true
                 },
                 {
                     "stat": "physicalDamage",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
                     "percentValue": 0.009999999776482582,
                     "isMainStat": false
                 },
                 {
                     "stat": "criticalChance",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
                     "percentValue": 0.009999999776482582,
                     "isMainStat": false
                 },
                 {
                     "stat": "criticalChance",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.019999999552965165,
+                    "percentValue": 0.019999999552965164,
                     "isMainStat": false
                 },
                 {
                     "stat": "maxHealth",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
                     "percentValue": 0.009999999776482582,
                     "isMainStat": false
@@ -752,7 +739,6 @@
             "equipmentType": 1,
             "weaponClassName": "Warhammer",
             "forgeLevel": 1,
-            "weaponMastery": 10.0,
             "baseItemID": "stone_warhammer",
             "isForgeable": true
         },
@@ -767,16 +753,16 @@
             "modifiers": [
                 {
                     "stat": "physical damage",
-                    "value": 80.0,
+                    "value": 80,
                     "percent": false,
-                    "percentValue": 0.0,
+                    "percentValue": 0,
                     "isMainStat": true
                 },
                 {
                     "stat": "attack speed",
                     "value": 6.199999809265137,
                     "percent": false,
-                    "percentValue": 0.0,
+                    "percentValue": 0,
                     "isMainStat": true
                 }
             ],
@@ -785,7 +771,6 @@
             "equipmentType": 1,
             "weaponClassName": "Spear",
             "forgeLevel": 1,
-            "weaponMastery": 20.0,
             "baseItemID": "spear_t2",
             "isForgeable": true
         },
@@ -800,37 +785,37 @@
             "modifiers": [
                 {
                     "stat": "physical damage",
-                    "value": 12.0,
+                    "value": 12,
                     "percent": false,
-                    "percentValue": 0.0,
+                    "percentValue": 0,
                     "isMainStat": true
                 },
                 {
                     "stat": "maxHealth",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.0,
+                    "percentValue": 0,
                     "isMainStat": true
                 },
                 {
                     "stat": "magicDamage",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.0,
+                    "percentValue": 0,
                     "isMainStat": true
                 },
                 {
                     "stat": "physicalDamage",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.0,
+                    "percentValue": 0,
                     "isMainStat": true
                 },
                 {
                     "stat": "physicalArmour",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.0,
+                    "percentValue": 0,
                     "isMainStat": true
                 }
             ],
@@ -839,7 +824,6 @@
             "equipmentType": 1,
             "weaponClassName": "Katana",
             "forgeLevel": 0,
-            "weaponMastery": 0.0,
             "baseItemID": "",
             "isForgeable": true
         },
@@ -854,37 +838,37 @@
             "modifiers": [
                 {
                     "stat": "physical damage",
-                    "value": 12.0,
+                    "value": 12,
                     "percent": false,
-                    "percentValue": 0.0,
+                    "percentValue": 0,
                     "isMainStat": true
                 },
                 {
                     "stat": "maxHealth",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.0,
+                    "percentValue": 0,
                     "isMainStat": true
                 },
                 {
                     "stat": "magicDamage",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.0,
+                    "percentValue": 0,
                     "isMainStat": true
                 },
                 {
                     "stat": "physicalDamage",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.0,
+                    "percentValue": 0,
                     "isMainStat": true
                 },
                 {
                     "stat": "physicalArmour",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.0,
+                    "percentValue": 0,
                     "isMainStat": true
                 }
             ],
@@ -893,7 +877,6 @@
             "equipmentType": 1,
             "weaponClassName": "Katana",
             "forgeLevel": 0,
-            "weaponMastery": 0.0,
             "baseItemID": "",
             "isForgeable": true
         },
@@ -908,37 +891,37 @@
             "modifiers": [
                 {
                     "stat": "physical damage",
-                    "value": 12.0,
+                    "value": 12,
                     "percent": false,
-                    "percentValue": 0.0,
+                    "percentValue": 0,
                     "isMainStat": true
                 },
                 {
                     "stat": "maxHealth",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.0,
+                    "percentValue": 0,
                     "isMainStat": true
                 },
                 {
                     "stat": "magicDamage",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.0,
+                    "percentValue": 0,
                     "isMainStat": true
                 },
                 {
                     "stat": "physicalDamage",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.0,
+                    "percentValue": 0,
                     "isMainStat": true
                 },
                 {
                     "stat": "physicalArmour",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.0,
+                    "percentValue": 0,
                     "isMainStat": true
                 }
             ],
@@ -947,7 +930,6 @@
             "equipmentType": 1,
             "weaponClassName": "Katana",
             "forgeLevel": 0,
-            "weaponMastery": 0.0,
             "baseItemID": "",
             "isForgeable": true
         },
@@ -962,37 +944,37 @@
             "modifiers": [
                 {
                     "stat": "physical damage",
-                    "value": 12.0,
+                    "value": 12,
                     "percent": false,
-                    "percentValue": 0.0,
+                    "percentValue": 0,
                     "isMainStat": true
                 },
                 {
                     "stat": "maxHealth",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.0,
+                    "percentValue": 0,
                     "isMainStat": true
                 },
                 {
                     "stat": "magicDamage",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.0,
+                    "percentValue": 0,
                     "isMainStat": true
                 },
                 {
                     "stat": "physicalDamage",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.0,
+                    "percentValue": 0,
                     "isMainStat": true
                 },
                 {
                     "stat": "physicalArmour",
-                    "value": 5.0,
+                    "value": 5,
                     "percent": true,
-                    "percentValue": 0.0,
+                    "percentValue": 0,
                     "isMainStat": true
                 }
             ],
@@ -1001,9 +983,46 @@
             "equipmentType": 1,
             "weaponClassName": "Katana",
             "forgeLevel": 0,
-            "weaponMastery": 0.0,
             "baseItemID": "",
             "isForgeable": true
+        }
+    ],
+    "classMasteries": [
+        {
+            "weaponClassName": "DualBlades",
+            "masteryExp": 0
+        },
+        {
+            "weaponClassName": "Staff",
+            "masteryExp": 0
+        },
+        {
+            "weaponClassName": "Bow",
+            "masteryExp": 0
+        },
+        {
+            "weaponClassName": "Orb",
+            "masteryExp": 0
+        },
+        {
+            "weaponClassName": "Greatsaxe",
+            "masteryExp": 0
+        },
+        {
+            "weaponClassName": "Greatsword",
+            "masteryExp": 0
+        },
+        {
+            "weaponClassName": "Katana",
+            "masteryExp": 20
+        },
+        {
+            "weaponClassName": "Warhammer",
+            "masteryExp": 10
+        },
+        {
+            "weaponClassName": "Spear",
+            "masteryExp": 20
         }
     ]
 }

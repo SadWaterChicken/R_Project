@@ -27,6 +27,7 @@ MonoBehaviour:
   customStanceID: 0
   isForgeable: 1
   forgingRecipe:
+    requiredMastery: 100
     recipeID: r_bow_t2
     resultItemID: bow_t2
     resultItem: {fileID: 0}

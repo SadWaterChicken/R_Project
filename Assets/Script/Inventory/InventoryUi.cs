@@ -159,33 +159,15 @@ public class InventoryUI : MonoBehaviour
         if (detailPrice != null) detailPrice.text = $"Price: {item.price}";
         if (detailQty != null) detailQty.text = $"Qty: {item.stack}";
 
-        // Hiển thị thanh Mastery (Tiến trình)
+        // Hide Mastery UI as requested
         if (detailMasteryBar != null)
         {
-            // Lấy giới hạn Max Mastery từ ForgeManager (nếu có), mặc định là 100
-            float maxMastery = ForgeManager.Instance != null ? ForgeManager.Instance.GetMaxMastery() : 100f;
-            
-            // Chỉ hiển thị thanh Mastery nếu món đồ này có thể mặc (vũ khí)
-            bool showMastery = item.equippable;
-            detailMasteryBar.gameObject.SetActive(showMastery);
-            
-            if (showMastery)
-            {
-                detailMasteryBar.maxValue = maxMastery;
-                detailMasteryBar.value = item.weaponMastery;
-            }
+            detailMasteryBar.gameObject.SetActive(false);
         }
 
         if (detailMasteryText != null)
         {
-            float maxMastery = ForgeManager.Instance != null ? ForgeManager.Instance.GetMaxMastery() : 100f;
-            bool showMastery = item.equippable;
-            detailMasteryText.gameObject.SetActive(showMastery);
-            
-            if (showMastery)
-            {
-                detailMasteryText.text = $"Mastery: {item.weaponMastery:F1} / {maxMastery:F0}";
-            }
+            detailMasteryText.gameObject.SetActive(false);
         }
 
         // Flexible stats

@@ -27,6 +27,7 @@ MonoBehaviour:
   customStanceID: 0
   isForgeable: 1
   forgingRecipe:
+    requiredMastery: 100
     recipeID: r_greatsword_t2
     resultItemID: greatsword_t2
     resultItem: {fileID: 0}

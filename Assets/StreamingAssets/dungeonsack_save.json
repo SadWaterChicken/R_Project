@@ -14,7 +14,6 @@
             "equipmentType": 0,
             "weaponClassName": "",
             "forgeLevel": 0,
-            "weaponMastery": 0,
             "baseItemID": "",
             "isForgeable": false
         },
@@ -32,7 +31,6 @@
             "equipmentType": 0,
             "weaponClassName": "",
             "forgeLevel": 0,
-            "weaponMastery": 0,
             "baseItemID": "",
             "isForgeable": false
         },
@@ -50,7 +48,6 @@
             "equipmentType": 0,
             "weaponClassName": "",
             "forgeLevel": 0,
-            "weaponMastery": 0,
             "baseItemID": "",
             "isForgeable": false
         }

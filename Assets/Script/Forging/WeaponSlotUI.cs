@@ -39,7 +39,13 @@ public class WeaponSlotUI : MonoBehaviour
         }
         
         if (weaponNameText != null) weaponNameText.text = w.itemName;
-        if (masteryText != null) masteryText.text = $"Mastery: {w.weaponMastery:F1}%";
+        
+        float currentMastery = 0f;
+        if (Inventory.Instance != null && !string.IsNullOrEmpty(w.weaponClassName))
+        {
+            currentMastery = Inventory.Instance.GetClassMastery(w.weaponClassName);
+        }
+        if (masteryText != null) masteryText.text = $"Mastery: {currentMastery:F1}%";
 
         if (equippedBadge != null)
         {

@@ -27,6 +27,7 @@ MonoBehaviour:
   customStanceID: 0
   isForgeable: 1
   forgingRecipe:
+    requiredMastery: 500
     recipeID: r_greatsaxe_t3
     resultItemID: greatsaxe_t3
     resultItem: {fileID: 0}

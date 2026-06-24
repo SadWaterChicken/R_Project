@@ -41,7 +41,7 @@ public static class InventoryExtensions
     {
         return inventory.ownedItems
             .Where(item => !string.IsNullOrEmpty(item.weaponClassName))
-            .OrderByDescending(item => item.weaponMastery)
+            .OrderByDescending(item => inventory.GetClassMastery(item.weaponClassName))
             .FirstOrDefault();
     }
 }

@@ -61,12 +61,8 @@ public class MeleeDamageComponent : WeaponComponent
                 {
                     hitEnemies.Add(stat);
                     
-                    // Tính hệ số sức mạnh từ Mastery (Ví dụ: 1000 Mastery = Tăng 100% sát thương)
+                    // Mastery không còn tăng sát thương, chỉ để mở khóa Rèn
                     float masteryMultiplier = 1f;
-                    if (controller.currentItemData != null)
-                    {
-                        masteryMultiplier += (controller.currentItemData.weaponMastery / 1000f);
-                    }
 
                     // Lấy Sát thương Cốt lõi của Player + Sát thương RIÊNG của thanh kiếm này (có nhân Mastery)
                     float playerCorePhys = PlayerStat.Instance != null ? PlayerStat.Instance.GetPhysicalDamage() : 0f;

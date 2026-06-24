@@ -190,12 +190,10 @@ public class ForgeUI : MonoBehaviour
         selectedWeapon = weapon;
         detailPanel.SetActive(true);
 
-        // Basic info
-        weaponIcon.sprite = string.IsNullOrEmpty(weapon.iconPath)
-            ? null
-            : Resources.Load<Sprite>(weapon.iconPath);
-        weaponIcon.color = weaponIcon.sprite == null ? new Color(1,1,1,0) : Color.white;
-        if (weaponNameText != null) weaponNameText.text = weapon.itemName;
+        // Hide old weapon icon and name
+        if (weaponIcon != null) weaponIcon.gameObject.SetActive(false);
+        if (weaponNameText != null) weaponNameText.gameObject.SetActive(false);
+        
         if (weaponDescText != null) weaponDescText.text = weapon.description;
         if (weaponClassText != null) weaponClassText.text = $"Class: {weapon.weaponClassName}";
         if (forgeeLevelText != null) forgeeLevelText.text = $"Forge Level: {weapon.forgeLevel}/{ForgeManager.Instance.GetMaxForgeLevel()}";
@@ -216,7 +214,7 @@ public class ForgeUI : MonoBehaviour
             RefreshMaterialRequirements();
             
             // Generate a preview of the result weapon
-            resultWeaponPreview = ForgeManager.Instance?.GetPreviewWeapon(weapon, currentRecipe);
+            resultWeaponPreview = ForgeManager.Instance?.GetPreviewWeapon(currentRecipe);
             if (resultWeaponPreview != null)
             {
                 if (resultPreviewGroup != null) resultPreviewGroup.SetActive(true);
@@ -249,17 +247,23 @@ public class ForgeUI : MonoBehaviour
     /// </summary>
     private void UpdateMasteryDisplay(ItemData weapon)
     {
-        float masteryPercent = weapon.weaponMastery / ForgeManager.Instance.GetMaxMastery() * 100f;
+        float currentMastery = 0f;
+        if (Inventory.Instance != null && !string.IsNullOrEmpty(weapon.weaponClassName))
+        {
+            currentMastery = Inventory.Instance.GetClassMastery(weapon.weaponClassName);
+        }
+
+        float masteryPercent = currentMastery / ForgeManager.Instance.GetMaxMastery() * 100f;
 
         if (masteryProgressBar != null)
         {
             masteryProgressBar.maxValue = ForgeManager.Instance.GetMaxMastery();
-            masteryProgressBar.value = weapon.weaponMastery;
+            masteryProgressBar.value = currentMastery;
         }
 
         if (masteryPercentText != null)
         {
-            masteryPercentText.text = $"Mastery: {weapon.weaponMastery:F1}/{ForgeManager.Instance.GetMaxMastery():F0}";
+            masteryPercentText.text = $"Mastery: {currentMastery:F1}/{ForgeManager.Instance.GetMaxMastery():F0}";
         }
     }
 
@@ -420,7 +424,7 @@ public class ForgeUI : MonoBehaviour
         var forgingSystem = ForgingSystem.Instance;
         var playerStat = PlayerStat.Instance;
 
-        if (forgingSystem == null || playerStat == null)
+        if (forgingSystem == null || playerStat == null || Inventory.Instance == null)
         {
             forgeButton.interactable = false;
             return;
@@ -428,10 +432,22 @@ public class ForgeUI : MonoBehaviour
 
         bool canForge = true;
 
-        // Check if selected weapon matches any of the required weapons in the recipe
-        if (currentRecipe.requiredWeapons == null || !currentRecipe.requiredWeapons.Any(reqW => reqW.weapon != null && reqW.weapon.itemID == selectedWeapon.itemID))
+        // Check Mastery
+        float currentMastery = Inventory.Instance.GetClassMastery(currentRecipe.resultItem.weaponClassName);
+        if (currentMastery < currentRecipe.requiredMastery)
         {
             canForge = false;
+            if (forgeButton.GetComponentInChildren<TMP_Text>() != null)
+            {
+                forgeButton.GetComponentInChildren<TMP_Text>().text = $"Requires {currentRecipe.requiredMastery} Mastery";
+            }
+        }
+        else
+        {
+            if (forgeButton.GetComponentInChildren<TMP_Text>() != null)
+            {
+                forgeButton.GetComponentInChildren<TMP_Text>().text = "Forge Weapon";
+            }
         }
 
         // Check materials
@@ -441,21 +457,6 @@ public class ForgeUI : MonoBehaviour
         // Check gold
         if (!playerStat.CanSpendGold(currentRecipe.goldCost))
             canForge = false;
-
-        // Check all required weapons quantities
-        if (currentRecipe.requiredWeapons != null)
-        {
-            foreach (var reqW in currentRecipe.requiredWeapons)
-            {
-                if (reqW.weapon == null) continue;
-                int weaponCount = Inventory.Instance.ownedItems.Where(w => w.itemID == reqW.weapon.itemID).Sum(w => w.stack);
-                if (weaponCount < reqW.quantity)
-                {
-                    canForge = false;
-                    break;
-                }
-            }
-        }
 
         forgeButton.interactable = canForge;
     }
@@ -467,59 +468,13 @@ public class ForgeUI : MonoBehaviour
     {
         if (selectedWeapon == null || currentRecipe == null) return;
 
-        var inventory = Inventory.Instance;
-        var weaponsToForge = new List<ItemData> { selectedWeapon };
-
-        // Find remaining required weapons
-        foreach (var reqW in currentRecipe.requiredWeapons)
-        {
-            if (reqW.weapon == null) continue;
-            
-            // Tìm số lượng cần trừ cho loại vũ khí này
-            int neededForThisType = reqW.quantity;
-            
-            // Nếu vũ khí đang chọn thuộc loại này, ta đã tính nó là 1
-            if (selectedWeapon.itemID == reqW.weapon.itemID)
-            {
-                neededForThisType -= 1;
-            }
-
-            if (neededForThisType > 0)
-            {
-                var availableMatches = inventory.ownedItems
-                    .Where(w => w.itemID == reqW.weapon.itemID && w != selectedWeapon) // Không lấy lại món đang chọn
-                    .OrderBy(w => w.equipped ? 1 : 0)     // Ưu tiên món chưa trang bị
-                    .ThenBy(w => w.weaponMastery)         // Ưu tiên món Mastery thấp
-                    .ToList();
-
-                int collected = 0;
-                foreach (var match in availableMatches)
-                {
-                    if (collected >= neededForThisType) break;
-                    
-                    int toTake = Mathf.Min(match.stack, neededForThisType - collected);
-                    for (int i = 0; i < toTake; i++)
-                    {
-                        weaponsToForge.Add(match); // Ghi nhận từng bản sao (nếu có stack > 1)
-                        collected++;
-                    }
-                }
-
-                if (collected < neededForThisType)
-                {
-                    Debug.LogWarning($"[ForgeUI] Not enough copies of {reqW.weapon.itemName}!");
-                    return; // Nên được chặn từ trước bởi UpdateForgeButtonState
-                }
-            }
-        }
-
         // Attempt forge
         var forgeManager = ForgeManager.Instance;
         var materials = currentRecipe.requiredMaterials
             .Select(req => req.material)
             .ToList();
 
-        ItemData forgedWeapon = forgeManager.AttemptForge(weaponsToForge, currentRecipe, materials);
+        ItemData forgedWeapon = forgeManager.AttemptForge(currentRecipe, materials);
         if (forgedWeapon != null)
         {
             // Success!
