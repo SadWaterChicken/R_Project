@@ -338,9 +338,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7802447950946551585}
-  - component: {fileID: 2271714210117355345}
   - component: {fileID: 5163166265228518380}
+  - component: {fileID: 6592639677390878957}
   - component: {fileID: 5479278230998767731}
+  - component: {fileID: 5423956150364626176}
+  - component: {fileID: 1628395111150123671}
   m_Layer: 9
   m_Name: Sprite
   m_TagString: Untagged
@@ -364,7 +366,29 @@ Transform:
   - {fileID: 3889426377866731718}
   m_Father: {fileID: 8719746386153494580}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &2271714210117355345
+--- !u!95 &5163166265228518380
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5207020694090564975}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b3dd16931f634784481651eada456d44, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!212 &6592639677390878957
 SpriteRenderer:
   serializedVersion: 2
   m_ObjectHideFlags: 0
@@ -390,7 +414,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 84ed4e6bfe0854b49a7fb95fc2acb1bb, type: 2}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -413,7 +437,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -8426932590203072280, guid: e482f3fc4efec40bd8940070f8025553, type: 3}
+  m_Sprite: {fileID: -5948806968594788206, guid: 8b6a23df7f30944529516d97c0a97158, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -423,28 +447,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!95 &5163166265228518380
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5207020694090564975}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b3dd16931f634784481651eada456d44, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &5479278230998767731
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -460,6 +462,41 @@ MonoBehaviour:
   OnEventTriggered:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5423956150364626176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5207020694090564975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90685da00bea96f4cad3e0205a89af52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyCombat
+  animator: {fileID: 5163166265228518380}
+  enemyStat: {fileID: 1278329155026758278}
+  attackPoint: {fileID: 8748580402771485614}
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 256
+--- !u!114 &1628395111150123671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5207020694090564975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a60371ec5cca3bc42ac8da19b93261f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyFlip
+  spriteRenderer: {fileID: 6592639677390878957}
+  attackPoint: {fileID: 8748580402771485614}
+  detector: {fileID: 2702944064029599358}
+  agent: {fileID: 3272022405934795513}
+  flipBasedOnMovement: 0
 --- !u!1 &8934263693633274188
 GameObject:
   m_ObjectHideFlags: 0

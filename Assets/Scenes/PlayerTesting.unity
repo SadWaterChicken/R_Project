@@ -444,11 +444,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3871748760799075672, guid: f800d3501114d09408b44c8fdbc9126f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1854.31
+      value: -1855.3818
       objectReference: {fileID: 0}
     - target: {fileID: 3871748760799075672, guid: f800d3501114d09408b44c8fdbc9126f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -967
+      value: -925.2727
       objectReference: {fileID: 0}
     - target: {fileID: 3871748760799075672, guid: f800d3501114d09408b44c8fdbc9126f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1580,17 +1580,6 @@ Transform:
   - {fileID: 2143370156}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &407362149 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8467450033846400386, guid: 775c03fbb3a28c240ae6950705b2cbcd, type: 3}
-  m_PrefabInstance: {fileID: 1248541558}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!224 &409740891 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4260647906194552419, guid: f800d3501114d09408b44c8fdbc9126f, type: 3}
@@ -2852,7 +2841,7 @@ PrefabInstance:
     - target: {fileID: 1153076690021956595, guid: 775c03fbb3a28c240ae6950705b2cbcd, type: 3}
       propertyPath: weaponIcon
       value: 
-      objectReference: {fileID: 1824150860}
+      objectReference: {fileID: 0}
     - target: {fileID: 1153076690021956595, guid: 775c03fbb3a28c240ae6950705b2cbcd, type: 3}
       propertyPath: masteryText
       value: 
@@ -2868,7 +2857,7 @@ PrefabInstance:
     - target: {fileID: 1153076690021956595, guid: 775c03fbb3a28c240ae6950705b2cbcd, type: 3}
       propertyPath: weaponNameText
       value: 
-      objectReference: {fileID: 407362149}
+      objectReference: {fileID: 0}
     - target: {fileID: 1639475683970726801, guid: 775c03fbb3a28c240ae6950705b2cbcd, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -3140,7 +3129,7 @@ PrefabInstance:
     - target: {fileID: 6102367573131215207, guid: 775c03fbb3a28c240ae6950705b2cbcd, type: 3}
       propertyPath: weaponIcon
       value: 
-      objectReference: {fileID: 1824150860}
+      objectReference: {fileID: 0}
     - target: {fileID: 6102367573131215207, guid: 775c03fbb3a28c240ae6950705b2cbcd, type: 3}
       propertyPath: closeButton
       value: 
@@ -3160,7 +3149,7 @@ PrefabInstance:
     - target: {fileID: 6102367573131215207, guid: 775c03fbb3a28c240ae6950705b2cbcd, type: 3}
       propertyPath: weaponNameText
       value: 
-      objectReference: {fileID: 407362149}
+      objectReference: {fileID: 0}
     - target: {fileID: 6102367573131215207, guid: 775c03fbb3a28c240ae6950705b2cbcd, type: 3}
       propertyPath: forgeeLevelText
       value: 
@@ -3184,7 +3173,7 @@ PrefabInstance:
     - target: {fileID: 6102367573131215207, guid: 775c03fbb3a28c240ae6950705b2cbcd, type: 3}
       propertyPath: weaponsNeededText
       value: 
-      objectReference: {fileID: 1252413668}
+      objectReference: {fileID: 0}
     - target: {fileID: 6102367573131215207, guid: 775c03fbb3a28c240ae6950705b2cbcd, type: 3}
       propertyPath: masteryPercentText
       value: 
@@ -3341,17 +3330,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 2067398686}
   m_SourcePrefab: {fileID: 100100000, guid: 775c03fbb3a28c240ae6950705b2cbcd, type: 3}
---- !u!114 &1252413668 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 725771315812744627, guid: 775c03fbb3a28c240ae6950705b2cbcd, type: 3}
-  m_PrefabInstance: {fileID: 1248541558}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1 &1359384061
 GameObject:
   m_ObjectHideFlags: 0
@@ -3554,7 +3532,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 6334265803504929623, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
+    - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -4390,17 +4368,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1824150860 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3195869920611098736, guid: 775c03fbb3a28c240ae6950705b2cbcd, type: 3}
-  m_PrefabInstance: {fileID: 1248541558}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &1826974164
 GameObject:
   m_ObjectHideFlags: 0
