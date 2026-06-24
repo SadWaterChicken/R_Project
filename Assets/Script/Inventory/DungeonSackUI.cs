@@ -38,12 +38,28 @@ public class DungeonSackUI : MonoBehaviour
     {
         if (DungeonSack.Instance != null)
             DungeonSack.Instance.OnSackChanged += Refresh;
+            
+        if (CursorManager.Instance != null)
+            CursorManager.OnCloseAllUI += CloseSack;
     }
 
     private void OnDisable()
     {
         if (DungeonSack.Instance != null)
             DungeonSack.Instance.OnSackChanged -= Refresh;
+            
+        if (CursorManager.Instance != null)
+            CursorManager.OnCloseAllUI -= CloseSack;
+    }
+
+    private void CloseSack()
+    {
+        if (visible)
+        {
+            visible = false;
+            gameObject.SetActive(false);
+            if (CursorManager.Instance != null) CursorManager.Instance.SetUIOpen(false);
+        }
     }
 
     public void Toggle()
@@ -57,6 +73,11 @@ public class DungeonSackUI : MonoBehaviour
         visible = !visible;
         gameObject.SetActive(visible);
         if (visible) Refresh();
+        
+        if (CursorManager.Instance != null)
+        {
+            CursorManager.Instance.SetUIOpen(visible);
+        }
     }
 
     public void Refresh()
@@ -86,8 +107,9 @@ public class DungeonSackUI : MonoBehaviour
                 var btn = invSlot.button != null ? invSlot.button : slotGO.GetComponent<Button>();
                 if (btn != null)
                 {
+                    ItemData capturedItem = item;
                     btn.onClick.RemoveAllListeners();
-                    btn.onClick.AddListener(() => ShowDetail(item));
+                    btn.onClick.AddListener(() => ShowDetail(capturedItem));
                 }
                 continue;
             }
@@ -116,8 +138,14 @@ public class DungeonSackUI : MonoBehaviour
         if (detailPanel != null) detailPanel.SetActive(true);
         if (detailIcon != null) 
         {
-            detailIcon.sprite = string.IsNullOrEmpty(item.iconPath) ? null : Resources.Load<Sprite>(item.iconPath);
-            detailIcon.color = Color.white; // Luôn hiển thị cái ô trống (màu trắng) kể cả khi không có ảnh
+            var sprite = string.IsNullOrEmpty(item.iconPath) ? null : Resources.Load<Sprite>(item.iconPath);
+            if (sprite == null && !string.IsNullOrEmpty(item.iconPath))
+            {
+                var tex = Resources.Load<Texture2D>(item.iconPath);
+                if (tex != null) sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
+            }
+            detailIcon.sprite = sprite;
+            detailIcon.color = sprite != null ? Color.white : new Color(1, 1, 1, 0);
         }
         if (detailName != null) detailName.text = item.itemName;
         if (detailDesc != null) detailDesc.text = item.description;

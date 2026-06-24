@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 
 /// <summary>
@@ -10,7 +10,8 @@ public class EnemyLootTable : MonoBehaviour
     [System.Serializable]
     public class LootEntry
     {
-        public string itemID;                    // Item or Material ID
+        [Tooltip("Kéo thả file vũ khí/nguyên liệu từ thư mục ItemDatabase vào đây")]
+        public BaseItemData itemData;            // Reference instead of string
         public LootType lootType = LootType.Item;
         public int minQuantity = 1;
         public int maxQuantity = 1;
@@ -46,15 +47,35 @@ public class EnemyLootTable : MonoBehaviour
             switch (entry.lootType)
             {
                 case LootType.Item:
-                    // TODO: Add item to inventory
-                    Debug.Log($"[EnemyLootTable] Dropped item: {entry.itemID} x{quantity}");
+                    if (entry.itemData == null)
+                    {
+                        Debug.LogWarning("[EnemyLootTable] LootEntry has no ItemData assigned!");
+                        continue;
+                    }
+                    
+                    string cleanID = entry.itemData.itemID.Trim();
+                    ItemData newItem = new ItemData(cleanID, quantity);
+                    newItem.BaseData = entry.itemData; // Gán trực tiếp dữ liệu luôn, khỏi phải Load lại!
+                    
+                    if (DungeonSack.Instance != null)
+                    {
+                        DungeonSack.Instance.AddItem(newItem);
+                        Debug.Log($"[EnemyLootTable] Added {cleanID} x{quantity} to DungeonSack!");
+                    }
+                    else if (inventory != null)
+                    {
+                        inventory.AddItem(newItem);
+                        Debug.Log($"[EnemyLootTable] Added {cleanID} x{quantity} to Inventory!");
+                    }
                     break;
 
                 case LootType.Material:
+                    if (entry.itemData == null) continue;
+                    
                     if (forgingSystem != null)
                     {
-                        forgingSystem.AddMaterial(entry.itemID, quantity);
-                        Debug.Log($"[EnemyLootTable] Dropped material: {entry.itemID} x{quantity}");
+                        forgingSystem.AddMaterial(entry.itemData.itemID, quantity);
+                        Debug.Log($"[EnemyLootTable] Dropped material: {entry.itemData.itemID} x{quantity}");
                     }
                     break;
 
@@ -70,3 +91,4 @@ public class EnemyLootTable : MonoBehaviour
         }
     }
 }
+

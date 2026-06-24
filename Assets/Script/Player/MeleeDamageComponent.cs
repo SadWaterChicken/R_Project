@@ -89,9 +89,17 @@ public class MeleeDamageComponent : WeaponComponent
                     }
 
                     // Trick: Kiểm tra nếu nhát chém này đã kết liễu quái vật
-                    if (healthBefore > 0 && stat.currentHealth <= 0 && controller.currentItemData != null)
+                    if (healthBefore > 0 && stat.currentHealth <= 0)
                     {
-                        if (ForgeManager.Instance != null)
+                        // 1. Rơi đồ (Loot)
+                        EnemyLootTable lootTable = col.GetComponentInParent<EnemyLootTable>();
+                        if (lootTable != null)
+                        {
+                            lootTable.DropLoot(stat.transform.position);
+                        }
+
+                        // 2. Cộng điểm Mastery
+                        if (controller.currentItemData != null && ForgeManager.Instance != null)
                         {
                             // Tìm component Reward riêng, nếu không có thì lấy mặc định theo Level quái
                             EnemyMasteryReward rewardComp = col.GetComponentInParent<EnemyMasteryReward>();

@@ -26,7 +26,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2228896314632396204}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -146}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 86, y: 269}
+  m_AnchoredPosition: {x: 56, y: 292}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1414579333564173709
@@ -591,8 +591,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 689, y: -152}
-  m_SizeDelta: {x: 640, y: 860.2653}
+  m_AnchoredPosition: {x: 685.2357, y: -157.01935}
+  m_SizeDelta: {x: 642.5097, y: 870.304}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6853431756243363155
 CanvasRenderer:
@@ -2203,7 +2203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10cdbc952c72e9749afc22ae1bb8fc00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DungeonSackUI
-  itemSlotPrefab: {fileID: 3527656668886656307}
+  itemSlotPrefab: {fileID: 7614729685395680226, guid: 4b9ff8778b0b3824fa4f74e5c8276624, type: 3}
   contentParent: {fileID: 34132820928098646}
   detailPanel: {fileID: 3348238690452665674}
   detailIcon: {fileID: 503366060501260355}
