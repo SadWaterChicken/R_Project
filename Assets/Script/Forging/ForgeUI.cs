@@ -153,6 +153,10 @@ public class ForgeUI : MonoBehaviour
     /// <summary>
     /// Refresh the list of weapons player owns that can be forged
     /// </summary>
+    private readonly string[] weaponClasses = new string[] {
+        "DualBlades", "Staff", "Bow", "Orb", "Greatsaxe", "Greatsword", "Katana", "Warhammer", "Spear"
+    };
+
     private void RefreshWeaponList()
     {
         // Clear existing slots
@@ -160,16 +164,9 @@ public class ForgeUI : MonoBehaviour
             Destroy(slot);
         spawnedWeaponSlots.Clear();
 
-        if (Inventory.Instance == null) return;
+        BaseItemData[] allItems = Resources.LoadAll<BaseItemData>("");
 
-        // Filter forgeable weapons (Weapons that have at least one recipe asking for them as a base weapon)
-        var forgeableWeapons = Inventory.Instance.ownedItems
-            .Where(w => !string.IsNullOrEmpty(w.weaponClassName) && 
-                        ForgingSystem.Instance != null && 
-                        ForgingSystem.Instance.recipes.Any(r => r.requiredWeapons != null && r.requiredWeapons.Any(reqW => reqW.weapon != null && reqW.weapon.itemID == w.itemID)))
-            .ToList();
-
-        foreach (var weapon in forgeableWeapons)
+        foreach (string className in weaponClasses)
         {
             GameObject slot = Instantiate(weaponSlotPrefab, weaponListParent);
             spawnedWeaponSlots.Add(slot);
@@ -177,7 +174,16 @@ public class ForgeUI : MonoBehaviour
             var slotUI = slot.GetComponent<WeaponSlotUI>();
             if (slotUI != null)
             {
-                slotUI.SetWeapon(weapon, () => ShowWeaponDetail(weapon));
+                var baseItem = allItems.FirstOrDefault(i => i.weaponClassName == className && i.itemTier == 1);
+                if (baseItem == null)
+                    baseItem = allItems.FirstOrDefault(i => i.weaponClassName == className);
+                
+                if (baseItem != null)
+                {
+                    ItemData dummyClassItem = new ItemData(baseItem.itemID);
+                    dummyClassItem.itemName = className; // Override name to class name
+                    slotUI.SetWeapon(dummyClassItem, () => ShowWeaponDetail(dummyClassItem));
+                }
             }
         }
     }
@@ -202,44 +208,26 @@ public class ForgeUI : MonoBehaviour
         UpdateMasteryDisplay(weapon);
 
         // Stats
-        // Also update recipe if needed
-        if (currentRecipe == null || (currentRecipe.requiredWeapons != null && !currentRecipe.requiredWeapons.Any(reqW => reqW.weapon != null && reqW.weapon.itemID == weapon.itemID)))
-        {
-            currentRecipe = ForgingSystem.Instance?.recipes.FirstOrDefault(r => 
-            r.requiredWeapons != null && r.requiredWeapons.Any(reqW => reqW.weapon != null && reqW.weapon.itemID == weapon.itemID));
-        }  ItemData resultWeaponPreview = null;
-
-        if (currentRecipe != null)
-        {
-            RefreshMaterialRequirements();
-            
-            // Generate a preview of the result weapon
-            resultWeaponPreview = ForgeManager.Instance?.GetPreviewWeapon(currentRecipe);
-            if (resultWeaponPreview != null)
-            {
-                if (resultPreviewGroup != null) resultPreviewGroup.SetActive(true);
-                if (resultWeaponIcon != null) resultWeaponIcon.sprite = string.IsNullOrEmpty(resultWeaponPreview.iconPath) ? null : Resources.Load<Sprite>(resultWeaponPreview.iconPath);
-                if (resultWeaponNameText != null) resultWeaponNameText.text = resultWeaponPreview.itemName;
-            }
-            else
-            {
-                if (resultPreviewGroup != null) resultPreviewGroup.SetActive(false);
-            }
-        }
-        else
-        {
-            // Clear requirements panel — no recipe for this weapon
-            foreach (var slot in spawnedMaterialSlots) Destroy(slot);
-            spawnedMaterialSlots.Clear();
-            if (goldRequiredText != null) goldRequiredText.text = "No recipe available";
-            if (weaponsNeededText != null) weaponsNeededText.gameObject.SetActive(false);
-            if (forgeButton != null) forgeButton.interactable = false;
-            
-            if (resultPreviewGroup != null) resultPreviewGroup.SetActive(false);
-        }
-
         // Stats
-        UpdateStatsDisplay(weapon, resultWeaponPreview);
+        UpdateStatsDisplay(weapon, null);
+
+        // Reset result preview box to show class name
+        currentRecipe = null;
+        if (resultPreviewGroup != null) resultPreviewGroup.SetActive(true);
+        if (resultWeaponIcon != null) 
+        {
+            resultWeaponIcon.sprite = null;
+            // Optionally set color if needed, but let's leave it as is so the white placeholder shows.
+        }
+        if (resultWeaponNameText != null) resultWeaponNameText.text = weapon.weaponClassName;
+        if (weaponDescText != null) weaponDescText.text = "Click to browse advanced weapons.";
+
+        // Clear requirements panel since no recipe is selected yet
+        foreach (var slot in spawnedMaterialSlots) Destroy(slot);
+        spawnedMaterialSlots.Clear();
+        if (goldRequiredText != null) goldRequiredText.text = "";
+        if (weaponsNeededText != null) weaponsNeededText.gameObject.SetActive(false);
+        if (forgeButton != null) forgeButton.interactable = false;
     }
 
     /// <summary>
