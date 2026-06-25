@@ -61,7 +61,7 @@ public class PlayerStat : CharacterStats
     [Header("Movement Options")]
     public float dashCooldown = 0.5f;
     public bool isInvincible = false;
-    private bool isDead = false;
+    // private bool isDead = false; (Moved to base CharacterStats)
 
     [Header("Economy")]
     public int gold = 0;
@@ -289,12 +289,6 @@ public class PlayerStat : CharacterStats
     }
 
     // ─── Stat Getters (Overrides) ──────────────────────────────────────────────
-    public override float GetCritChance()
-    {
-        float luckBonus = luck * 0.1f; // 1 luck = 0.1% crit
-        return Mathf.Clamp01(base.GetCritChance() + luckBonus);
-    }
-
     public float GetGoldMultiplier()
     {
         float buffBonus = buffManager != null ? buffManager.GetBuffValue(DungeonBuff.BuffType.GoldMultiplier) : 0f;
@@ -309,38 +303,25 @@ public class PlayerStat : CharacterStats
     }
 
     // ─── Damage Application ────────────────────────────────────────────────────
-    public override void TakePhysicalDamage(float damage, float armorPenetration = 0f)
+    public override void TakeMixedDamage(float physicalDamage, float magicDamage, float armorPenetration = 0f, float magicPenetration = 0f, bool isCrit = false)
     {
         if (isInvincible) return;
         
         PlayerCombat combat = GetComponent<PlayerCombat>();
         if (combat != null && combat.IsGuarding())
         {
-            damage *= combat.guardDamageReduction;
-            Debug.Log($"[PlayerStat] Guarding! Reduced incoming physical damage to {damage}");
+            physicalDamage *= combat.guardDamageReduction;
+            magicDamage *= combat.guardDamageReduction;
+            Debug.Log($"[PlayerStat] Guarding! Reduced incoming damage.");
         }
 
-        base.TakePhysicalDamage(damage, armorPenetration);
-    }
-
-    public override void TakeMagicDamage(float damage, float resistancePenetration = 0f)
-    {
-        if (isInvincible) return;
-
-        PlayerCombat combat = GetComponent<PlayerCombat>();
-        if (combat != null && combat.IsGuarding())
-        {
-            damage *= combat.guardDamageReduction;
-            Debug.Log($"[PlayerStat] Guarding! Reduced incoming magic damage to {damage}");
-        }
-
-        base.TakeMagicDamage(damage, resistancePenetration);
+        base.TakeMixedDamage(physicalDamage, magicDamage, armorPenetration, magicPenetration, isCrit);
     }
 
     protected override void Die()
     {
         if (isDead) return;
-        isDead = true;
+        base.Die();
 
         Debug.Log("[PlayerStat] Player has died.");
         
