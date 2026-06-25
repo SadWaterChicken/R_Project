@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &700100001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 700100002}
+  - component: {fileID: 700100003}
+  m_Layer: 0
+  m_Name: WindSlashSkill
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &700100002
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 700100001}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &700100003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 700100001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f7a4c0c5bb642f4aa2e1d9370a11102, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 13
+  lifetime: 1.2
+  maxTravelDistance: 9
+  pierceEnemies: 1
+  alignToPlayerFacing: 1
+  spawnForwardOffset: 0.8
+  spawnHeightOffset: 1
+  cooldown: 0
+  flyingVFXScale: 3
+  flyingVFXLayers: 3
+  layeredVFXOffset: 0.12
+  addTravelLight: 1
+  travelLightColor: {r: 0.2, g: 0.8, b: 1, a: 1}
+  travelLightIntensity: 3.5
+  travelLightRange: 6
+  hitboxSize: {x: 8, y: 4, z: 4}
+  hitboxOffset: {x: 0, y: 0, z: 0}
+  enemyLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  fallbackDamageMultiplier: 2
+  fallbackWeaponPhysicalDamage: 10
+  flyingVFX: {fileID: 3020920808754819069, guid: d860dbff6d19af4448c7d0e478fa5cef, type: 3}
+  hitVFX: {fileID: 1035977224672214417, guid: 057aa477789506a44bd206e9c5acad19, type: 3}
+  spawnHitVFX: 0

@@ -125,3 +125,25 @@ Update Mode: mergeDefaultDependencies
 
 The following packages were added:
   com.unity.feature.development@1.0.2
+
+=== Thu Jun 25 10:43:17 2026
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were updated:
+  com.unity.render-pipelines.core from version 17.0.3 to 17.4.0
+  com.unity.render-pipelines.universal from version 17.0.3 to 17.4.0
+  com.unity.render-pipelines.universal-config from version 17.0.3 to 17.4.0
+  com.unity.shadergraph from version 17.0.3 to 17.4.0
+
+=== Thu Jun 25 10:43:17 2026
+
+Packages were changed.
+Update Mode: mergeDefaultDependencies
+
+The following packages were added:
+  com.unity.render-pipelines.core@17.4.0
+  com.unity.render-pipelines.universal-config@17.4.0
+  com.unity.shadergraph@17.4.0
+  com.unity.modules.subsystems@1.0.0

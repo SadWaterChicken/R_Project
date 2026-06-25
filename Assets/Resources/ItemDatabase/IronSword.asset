@@ -25,6 +25,15 @@ MonoBehaviour:
   baseModifiers: []
   weaponPrefab: {fileID: 5358911740250829244, guid: 8c011a49d26ab304b966db6284b007d7, type: 3}
   customStanceID: 0
+  hasSkill: 1
+  weaponSkill:
+    skillName: "Kiem Khi"
+    description: "Phong vet chem gio bay thang ve phia truoc, gay sat thuong vat ly."
+    skillIcon: {fileID: 0}
+    cooldown: 4
+    damageMultiplier: 2
+    animationTrigger: UseSkill
+    skillPrefab: {fileID: 700100001, guid: 8f7a4c0c5bb642f4aa2e1d9370a11103, type: 3}
   isForgeable: 0
   forgingRecipe:
     requiredMastery: 0
@@ -36,6 +45,6 @@ MonoBehaviour:
     minWeaponCount: 2
   gripType: 0
   combatStyle: 0
-  weaponAnimatorController: {fileID: 0}
+  weaponAnimatorController: {fileID: 9100000, guid: 8f7a4c0c5bb642f4aa2e1d9370a11105, type: 2}
   weaponComponents:
   - MeleeDamageComponent

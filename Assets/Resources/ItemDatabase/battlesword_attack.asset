@@ -25,11 +25,21 @@ MonoBehaviour:
   baseModifiers: []
   weaponPrefab: {fileID: 3671704035849091831, guid: e836f239175150b4b8e4af650f751c16, type: 3}
   customStanceID: 0
+  hasSkill: 1
+  weaponSkill:
+    skillName: Kiem Khi
+    description: 
+    skillIcon: {fileID: 0}
+    cooldown: 4
+    damageMultiplier: 2
+    animationTrigger: UseSkill
+    skillPrefab: {fileID: 700100001, guid: 8f7a4c0c5bb642f4aa2e1d9370a11103, type: 3}
   isForgeable: 0
   forgingRecipe:
     recipeID: 
     resultItemID: 
     resultItem: {fileID: 0}
+    requiredMastery: 0
     requiredItemIDs: []
     oldRequiredWeapons: []
     requiredWeapons:
@@ -43,5 +53,5 @@ MonoBehaviour:
   gripType: 0
   combatStyle: 0
   projectilePrefab: {fileID: 0}
-  weaponAnimatorController: {fileID: 0}
+  weaponAnimatorController: {fileID: 9100000, guid: 8f7a4c0c5bb642f4aa2e1d9370a11105, type: 2}
   instructionInfo: "G\u1EAFn Component th\u1EB3ng v\xE0o Prefab"
