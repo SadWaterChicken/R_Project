@@ -186,6 +186,24 @@ public class EquipmentManager : MonoBehaviour
         }
     }
 
+    public void TriggerMainHandSkill()
+    {
+        if (currentMainHandWeapon != null)
+        {
+            lastAttackingWeapon = currentMainHandWeapon;
+            currentMainHandWeapon.UseSkill();
+        }
+    }
+
+    public void TriggerOffHandSkill()
+    {
+        if (currentOffHandWeapon != null)
+        {
+            lastAttackingWeapon = currentOffHandWeapon;
+            currentOffHandWeapon.UseSkill();
+        }
+    }
+
     // Forward events từ Player Animator xuống cho tất cả vũ khí đang cầm
     private void ForwardEventToWeapons(string eventName)
     {

@@ -82,6 +82,23 @@ public class PlayerCombat : MonoBehaviour
                 GuardDown();
             }
         }
+
+        // --- SKILL INPUTS ---
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (equipmentManager != null)
+            {
+                equipmentManager.TriggerMainHandSkill();
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            if (equipmentManager != null && equipmentManager.HasOffHandWeapon())
+            {
+                equipmentManager.TriggerOffHandSkill();
+            }
+        }
     }
   
 

@@ -42,9 +42,36 @@ public class WeaponController : MonoBehaviour
         }
     }
 
+    public void UseSkill()
+    {
+        if (weaponData != null && weaponData.hasSkill)
+        {
+            if (baseAnimator != null && baseAnimator.runtimeAnimatorController != null)
+            {
+                baseAnimator.SetTrigger(weaponData.weaponSkill.animationTrigger);
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"[WeaponController] Vũ khí {weaponData?.itemName} chưa được cấu hình Skill!");
+        }
+    }
+
     // Được gọi bởi AnimationEventHandler
     public void HandleAnimationEvent(string eventName)
     {
+        if (eventName == "FireSkill")
+        {
+            if (weaponData != null && weaponData.hasSkill && weaponData.weaponSkill.skillPrefab != null)
+            {
+                // Đẻ Prefab kỹ năng ra tại vị trí của vũ khí
+                GameObject skillObj = Instantiate(weaponData.weaponSkill.skillPrefab, transform.position, transform.rotation);
+                
+                // Trả về cho code của bạn của bạn tự xử lý tiếp
+                Debug.Log($"[WeaponController] Đã xả Skill: {weaponData.weaponSkill.skillName}");
+            }
+        }
+
         foreach (var comp in activeComponents)
         {
             comp.OnAnimationEvent(eventName);
