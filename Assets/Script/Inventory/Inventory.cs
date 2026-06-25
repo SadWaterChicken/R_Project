@@ -259,6 +259,7 @@ public class Inventory : MonoBehaviour
         {
             PlayerStat.Instance.UpdateMasteryDisplay(className, classMasteries[className]);
         }
+        SaveInventory(); // Save immediately when mastery is earned
     }
 
     public float GetClassMastery(string className)
@@ -330,6 +331,16 @@ public class Inventory : MonoBehaviour
         {
             Debug.Log("[Inventory] No save file found at: " + path);
         }
+    }
+
+    private void OnDestroy()
+    {
+        SaveInventory();
+    }
+
+    private void OnApplicationQuit()
+    {
+        SaveInventory();
     }
 }
 

@@ -39,8 +39,7 @@ public class DungeonSackUI : MonoBehaviour
         if (DungeonSack.Instance != null)
             DungeonSack.Instance.OnSackChanged += Refresh;
             
-        if (CursorManager.Instance != null)
-            CursorManager.OnCloseAllUI += CloseSack;
+        CursorManager.OnCloseAllUI += CloseSack;
     }
 
     private void OnDisable()
@@ -48,8 +47,7 @@ public class DungeonSackUI : MonoBehaviour
         if (DungeonSack.Instance != null)
             DungeonSack.Instance.OnSackChanged -= Refresh;
             
-        if (CursorManager.Instance != null)
-            CursorManager.OnCloseAllUI -= CloseSack;
+        CursorManager.OnCloseAllUI -= CloseSack;
     }
 
     private void CloseSack()

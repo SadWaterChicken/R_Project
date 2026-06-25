@@ -10,6 +10,7 @@ public class InventoryUI : MonoBehaviour
     public GameObject itemSlotPrefab;
     public Transform contentParent;
     public GameObject detailPanel;
+    public GameObject playerStatusPanel; // Thêm Panel Status
     public Image detailIcon;
     public TMP_Text detailName;
     public TMP_Text detailDesc;
@@ -43,8 +44,7 @@ public class InventoryUI : MonoBehaviour
         if (Inventory.Instance != null)
             Inventory.Instance.OnInventoryChanged += Refresh;
             
-        if (CursorManager.Instance != null)
-            CursorManager.OnCloseAllUI += CloseInventory;
+        CursorManager.OnCloseAllUI += CloseInventory;
     }
 
     private void OnDisable()
@@ -52,8 +52,7 @@ public class InventoryUI : MonoBehaviour
         if (Inventory.Instance != null)
             Inventory.Instance.OnInventoryChanged -= Refresh;
             
-        if (CursorManager.Instance != null)
-            CursorManager.OnCloseAllUI -= CloseInventory;
+        CursorManager.OnCloseAllUI -= CloseInventory;
     }
 
     private void CloseInventory()
@@ -127,19 +126,20 @@ public class InventoryUI : MonoBehaviour
             Debug.LogWarning("[InventoryUI] itemSlotPrefab has neither ShopItemSlotUI nor ItemSlotUI.", slotGO);
         }
 
-        // Auto-select first item or remember last selected
-        if (items.Count > 0)
+        // Handle detail panel & status panel visibility
+        bool keepDetailOpen = false;
+        if (detailPanel != null && detailPanel.activeSelf && _lastSelectedItem != null && items.Contains(_lastSelectedItem))
         {
-            ItemData itemToSelect = items[0];
-            if (detailPanel != null && detailPanel.activeSelf && _lastSelectedItem != null && items.Contains(_lastSelectedItem))
-            {
-                itemToSelect = _lastSelectedItem;
-            }
-            ShowDetail(itemToSelect);
+            // Keep showing detail for the currently viewed item if it still exists (e.g. after using/equipping it)
+            ShowDetail(_lastSelectedItem);
+            keepDetailOpen = true;
         }
-        else
+
+        if (!keepDetailOpen)
         {
+            // Mặc định luôn hiện PlayerStatus, chỉ hiện Detail khi người chơi tự bấm vào item
             if (detailPanel != null) detailPanel.SetActive(false);
+            if (playerStatusPanel != null) playerStatusPanel.SetActive(true);
         }
     }
 
@@ -149,6 +149,8 @@ public class InventoryUI : MonoBehaviour
         _lastSelectedItem = item;
 
         if (detailPanel != null) detailPanel.SetActive(true);
+        if (playerStatusPanel != null) playerStatusPanel.SetActive(false);
+
         if (detailIcon != null) 
         {
             detailIcon.sprite = string.IsNullOrEmpty(item.iconPath) ? null : Resources.Load<Sprite>(item.iconPath);
@@ -191,7 +193,10 @@ public class InventoryUI : MonoBehaviour
         if (closeDetailButton != null)
         {
             closeDetailButton.onClick.RemoveAllListeners();
-            closeDetailButton.onClick.AddListener(() => detailPanel.SetActive(false));
+            closeDetailButton.onClick.AddListener(() => {
+                if (detailPanel != null) detailPanel.SetActive(false);
+                if (playerStatusPanel != null) playerStatusPanel.SetActive(true);
+            });
         }
     }
 

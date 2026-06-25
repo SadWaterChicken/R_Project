@@ -1,6 +1,50 @@
 using UnityEngine;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+
+[Serializable]
+public class PlayerSaveData
+{
+    public int maxHealth;
+    public float currentHealth;
+    public float healthRegenRate;
+
+    public int maxMana;
+    public float currentMana;
+    public float manaRegenRate;
+
+    public float basePhysicalDamage;
+    public float physicalDamageBonus;
+    public float baseMagicDamage;
+    public float magicDamageBonus;
+
+    public float physicalArmor;
+    public float magicArmor;
+
+    public float baseSpeed;
+    public float movementSpeed;
+    public float attackSpeed;
+
+    public float critChance;
+
+    public float shield;
+    public float maxShield;
+    public float shieldRegenRate;
+    public float shieldRechargeCooldown;
+
+    public int maxSanity;
+    public float currentSanity;
+    public float sanityRegenRate;
+
+    public float luck;
+    public float dashCooldown;
+    public bool isInvincible;
+
+    public int gold;
+    public int currentEnergyCubes;
+}
 
 public class PlayerStat : CharacterStats
 {
@@ -85,7 +129,25 @@ public class PlayerStat : CharacterStats
     protected override void Start()
     {
         base.Start();
-        currentSanity = maxSanity;
+        
+        // Load stats here so base.Start() doesn't overwrite values like currentHealth and shield
+        LoadPlayerStats();
+
+        // --- Sync masteries from Inventory ---
+        if (Inventory.Instance != null)
+        {
+            greatswordMastery = Inventory.Instance.GetClassMastery("Greatsword");
+            katanaMastery = Inventory.Instance.GetClassMastery("Katana");
+            warhammerMastery = Inventory.Instance.GetClassMastery("Warhammer");
+            greatsaxeMastery = Inventory.Instance.GetClassMastery("Greatsaxe");
+            spearMastery = Inventory.Instance.GetClassMastery("Spear");
+            bowMastery = Inventory.Instance.GetClassMastery("Bow");
+            staffMastery = Inventory.Instance.GetClassMastery("Staff");
+            orbMastery = Inventory.Instance.GetClassMastery("Orb");
+        }
+        
+        // Optional: currentSanity can also be synced from load, but if not loaded properly, use max
+        // actually LoadPlayerStats() handles currentSanity
     }
 
     protected override void Update()
@@ -122,10 +184,16 @@ public class PlayerStat : CharacterStats
 
     private void OnDestroy()
     {
+        SavePlayerStats();
         if (Inventory.Instance != null)
         {
             Inventory.Instance.OnItemEquipChanged -= OnItemEquipChanged;
         }
+    }
+
+    private void OnApplicationQuit()
+    {
+        SavePlayerStats();
     }
 
     // Called when item is equipped/unequipped
@@ -280,6 +348,7 @@ public class PlayerStat : CharacterStats
             int finalAmount = (int)(amount * multiplier);
             gold += finalAmount;
             Debug.Log($"[PlayerStat] Added {finalAmount} gold (base: {amount}, multiplier: {multiplier}x). Total: {gold}");
+            SavePlayerStats();
         }
     }
 
@@ -289,6 +358,7 @@ public class PlayerStat : CharacterStats
         if (gold < amount) return false;
         gold -= amount;
         Debug.Log($"[PlayerStat] Spent {amount} gold. Remaining: {gold}");
+        SavePlayerStats();
         return true;
     }
 
@@ -304,6 +374,7 @@ public class PlayerStat : CharacterStats
         {
             currentEnergyCubes += amount;
             Debug.Log($"[PlayerStat] Added {amount} Energy Cubes. Total: {currentEnergyCubes}");
+            SavePlayerStats();
         }
     }
 
@@ -313,6 +384,7 @@ public class PlayerStat : CharacterStats
         if (currentEnergyCubes < amount) return false;
         currentEnergyCubes -= amount;
         Debug.Log($"[PlayerStat] Spent {amount} Energy Cubes. Remaining: {currentEnergyCubes}");
+        SavePlayerStats();
         return true;
     }
 
@@ -341,5 +413,98 @@ public class PlayerStat : CharacterStats
     {
         currentSanity += amount;
         currentSanity = Mathf.Min(currentSanity, maxSanity);
+    }
+
+    // ─── Save / Load ────────────────────────────────────────────────────────────
+    private string GetSavePath()
+    {
+        return System.IO.Path.Combine(Application.persistentDataPath, "player_stats_save.json");
+    }
+
+    public void SavePlayerStats()
+    {
+        PlayerSaveData data = new PlayerSaveData
+        {
+            maxHealth = this.maxHealth,
+            currentHealth = this.currentHealth,
+            healthRegenRate = this.healthRegenRate,
+            maxMana = this.maxMana,
+            currentMana = this.currentMana,
+            manaRegenRate = this.manaRegenRate,
+            basePhysicalDamage = this.basePhysicalDamage,
+            physicalDamageBonus = this.physicalDamageBonus,
+            baseMagicDamage = this.baseMagicDamage,
+            magicDamageBonus = this.magicDamageBonus,
+            physicalArmor = this.physicalArmor,
+            magicArmor = this.magicArmor,
+            baseSpeed = this.baseSpeed,
+            movementSpeed = this.movementSpeed,
+            attackSpeed = this.attackSpeed,
+            critChance = this.critChance,
+            shield = this.shield,
+            maxShield = this.maxShield,
+            shieldRegenRate = this.shieldRegenRate,
+            shieldRechargeCooldown = this.shieldRechargeCooldown,
+            maxSanity = this.maxSanity,
+            currentSanity = this.currentSanity,
+            sanityRegenRate = this.sanityRegenRate,
+            luck = this.luck,
+            dashCooldown = this.dashCooldown,
+            isInvincible = this.isInvincible,
+            gold = this.gold,
+            currentEnergyCubes = this.currentEnergyCubes
+        };
+
+        string json = JsonUtility.ToJson(data, true);
+        System.IO.File.WriteAllText(GetSavePath(), json);
+        Debug.Log("[PlayerStat] Saved stats to: " + GetSavePath());
+    }
+
+    public void LoadPlayerStats()
+    {
+        string path = GetSavePath();
+        if (System.IO.File.Exists(path))
+        {
+            string json = System.IO.File.ReadAllText(path);
+            PlayerSaveData data = JsonUtility.FromJson<PlayerSaveData>(json);
+            if (data != null)
+            {
+                this.maxHealth = data.maxHealth;
+                this.currentHealth = data.currentHealth;
+                this.healthRegenRate = data.healthRegenRate;
+                this.maxMana = data.maxMana;
+                this.currentMana = data.currentMana;
+                this.manaRegenRate = data.manaRegenRate;
+                this.basePhysicalDamage = data.basePhysicalDamage;
+                this.physicalDamageBonus = data.physicalDamageBonus;
+                this.baseMagicDamage = data.baseMagicDamage;
+                this.magicDamageBonus = data.magicDamageBonus;
+                this.physicalArmor = data.physicalArmor;
+                this.magicArmor = data.magicArmor;
+                this.baseSpeed = data.baseSpeed;
+                this.movementSpeed = data.movementSpeed;
+                this.attackSpeed = data.attackSpeed;
+                this.critChance = data.critChance;
+                this.shield = data.shield;
+                this.maxShield = data.maxShield;
+                this.shieldRegenRate = data.shieldRegenRate;
+                this.shieldRechargeCooldown = data.shieldRechargeCooldown;
+                this.maxSanity = data.maxSanity;
+                this.currentSanity = data.currentSanity;
+                this.sanityRegenRate = data.sanityRegenRate;
+                this.luck = data.luck;
+                this.dashCooldown = data.dashCooldown;
+                this.isInvincible = data.isInvincible;
+                this.gold = data.gold;
+                this.currentEnergyCubes = data.currentEnergyCubes;
+
+                Debug.Log("[PlayerStat] Loaded stats from: " + path);
+            }
+        }
+        else
+        {
+            Debug.Log("[PlayerStat] No save file found, using defaults. Saving new file.");
+            SavePlayerStats();
+        }
     }
 }
