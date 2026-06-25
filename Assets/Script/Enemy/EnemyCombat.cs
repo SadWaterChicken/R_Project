@@ -59,15 +59,19 @@ public class EnemyCombat : MonoBehaviour
         if (attackPoint == null || enemyStat == null) return;
 
         Collider[] hitTargets = Physics.OverlapSphere(attackPoint.position, enemyStat.attackRange, targetLayer);
+        System.Collections.Generic.HashSet<CharacterStats> hitStats = new System.Collections.Generic.HashSet<CharacterStats>();
 
         foreach (Collider hitTarget in hitTargets)
         {
             // You can use a specific tag check if necessary, e.g. hitTarget.CompareTag("Player")
             CharacterStats targetStats = hitTarget.GetComponentInParent<CharacterStats>();
             
-            if (targetStats != null)
+            if (targetStats != null && !hitStats.Contains(targetStats))
             {
+                hitStats.Add(targetStats);
                 float damage = enemyStat.GetPhysicalDamage();
+                
+                // Enemy chỉ dùng sát thương vật lý cơ bản cho đòn đánh thường, giống Player
                 targetStats.TakePhysicalDamage(damage);
             }
         }

@@ -29,6 +29,7 @@ public abstract class CharacterStats : MonoBehaviour
 
     [Header("Luck & Crit")]
     public float critChance ;
+    public float critDamageMultiplier = 2.0f;
 
     [Header("Shield Stats")]
     public float shield;
@@ -40,6 +41,10 @@ public abstract class CharacterStats : MonoBehaviour
     protected float lastDamageTime;
 
     protected CharacterBuffManager buffManager;
+
+    [Header("Animation")]
+    public Animator animator;
+    protected bool isDead = false;
 
     [Header("PopUp Damage")]
     public GameObject damagePopupPrefab; // Assign your TextMeshPro prefab here
@@ -99,7 +104,13 @@ public abstract class CharacterStats : MonoBehaviour
     public virtual float GetCritChance()
     {
         float buffBonus = buffManager != null ? buffManager.GetBuffValue(DungeonBuff.BuffType.CritChance) : 0f;
-        return Mathf.Clamp01(critChance + buffBonus);
+        // Giới hạn tỉ lệ chí mạng tối đa là 100% (và tối thiểu là 0%)
+        return Mathf.Clamp(critChance + buffBonus, 0f, 100f);
+    }
+
+    public virtual float GetCritDamage()
+    {
+        return critDamageMultiplier;
     }
 
     public virtual float GetDefense()
@@ -113,22 +124,40 @@ public abstract class CharacterStats : MonoBehaviour
     }
 
     // ─── Damage Application ────────────────────────────────────────────────────
-    public virtual void TakePhysicalDamage(float damage, float armorPenetration = 0f)
+    public virtual void TakeMixedDamage(float physicalDamage, float magicDamage, float armorPenetration = 0f, float magicPenetration = 0f, bool isCrit = false)
     {
-        float effectiveArmor = physicalArmor * (1f - armorPenetration);
-        float finalDamage = CalculateMitigatedDamage(damage, effectiveArmor);
+        float finalPhys = 0f;
+        float finalMagic = 0f;
 
-        ProcessDamage(finalDamage);
-        Debug.Log($"[{gameObject.name}] Took {finalDamage} physical damage. Health: {currentHealth}/{maxHealth}");
+        if (physicalDamage > 0)
+        {
+            float effectiveArmor = physicalArmor * (1f - armorPenetration);
+            finalPhys = CalculateMitigatedDamage(physicalDamage, effectiveArmor);
+        }
+
+        if (magicDamage > 0)
+        {
+            float effectiveMagicArmor = magicArmor * (1f - magicPenetration);
+            finalMagic = CalculateMitigatedDamage(magicDamage, effectiveMagicArmor);
+        }
+
+        float totalFinalDamage = finalPhys + finalMagic;
+
+        if (totalFinalDamage > 0)
+        {
+            ProcessDamage(totalFinalDamage, isCrit);
+            Debug.Log($"[{gameObject.name}] Took Mixed Damage: {totalFinalDamage:F1} (Phys: {finalPhys:F1}, Magic: {finalMagic:F1}). Health: {currentHealth}/{maxHealth}");
+        }
     }
 
-    public virtual void TakeMagicDamage(float damage, float resistancePenetration = 0f)
+    public virtual void TakePhysicalDamage(float damage, float armorPenetration = 0f, bool isCrit = false)
     {
-        float effectiveArmor = magicArmor * (1f - resistancePenetration);
-        float finalDamage = CalculateMitigatedDamage(damage, effectiveArmor);
+        TakeMixedDamage(damage, 0f, armorPenetration, 0f, isCrit);
+    }
 
-        ProcessDamage(finalDamage);
-        Debug.Log($"[{gameObject.name}] Took {finalDamage} magic damage. Health: {currentHealth}/{maxHealth}");
+    public virtual void TakeMagicDamage(float damage, float resistancePenetration = 0f, bool isCrit = false)
+    {
+        TakeMixedDamage(0f, damage, 0f, resistancePenetration, isCrit);
     }
 
     protected float CalculateMitigatedDamage(float rawDamage, float armorValue)
@@ -149,7 +178,7 @@ public abstract class CharacterStats : MonoBehaviour
         TakePhysicalDamage(damage, armorPenetration);
     }
 
-    protected virtual void ProcessDamage(float finalDamage)
+    protected virtual void ProcessDamage(float finalDamage, bool isCrit = false)
     {
         lastDamageTime = Time.time;
 
@@ -164,19 +193,18 @@ public abstract class CharacterStats : MonoBehaviour
 
         if (finalDamage > 0)
         {
-        // Spawn the damage popup right before reducing health
-        if (damagePopupPrefab != null)
-        {
             // Spawn exactly at character position, the PopUp script handles its own offset
             Vector3 hitPosition = transform.position; 
-            GameObject damagePopup = Instantiate(damagePopupPrefab, hitPosition, Quaternion.identity);
-            damagePopup.GetComponent<PopUpDamage>().Setup(Mathf.RoundToInt(finalDamage));
-        }
-        currentHealth -= finalDamage;
-        if (currentHealth <= 0)
-        {
-            Die();
-        }
+            if (damagePopupPrefab != null)
+            {
+                GameObject damagePopup = Instantiate(damagePopupPrefab, hitPosition, Quaternion.identity);
+                damagePopup.GetComponent<PopUpDamage>().Setup(Mathf.RoundToInt(finalDamage), isCrit);
+            }
+            currentHealth -= finalDamage;
+            if (currentHealth <= 0)
+            {
+                Die();
+            }
         }
     }
 
@@ -194,5 +222,19 @@ public abstract class CharacterStats : MonoBehaviour
         shieldRechargeTimer = shieldRechargeCooldown;
     }
 
-    protected abstract void Die();
+    protected virtual void Die()
+    {
+        if (isDead) return;
+        isDead = true;
+
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>() ?? GetComponentInChildren<Animator>();
+        }
+
+        if (animator != null)
+        {
+            animator.SetTrigger("death");
+        }
+    }
 }

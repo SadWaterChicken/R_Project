@@ -64,24 +64,45 @@ public class MeleeDamageComponent : WeaponComponent
                     // Mastery không còn tăng sát thương, chỉ để mở khóa Rèn
                     float masteryMultiplier = 1f;
 
-                    // Lấy Sát thương Cốt lõi của Player + Sát thương RIÊNG của thanh kiếm này (có nhân Mastery)
+                    // Lấy Sát thương Cốt lõi của Player (AD) + Sát thương RIÊNG của thanh kiếm này (có nhân Mastery)
                     float playerCorePhys = PlayerStat.Instance != null ? PlayerStat.Instance.GetPhysicalDamage() : 0f;
-                    float playerCoreMagic = PlayerStat.Instance != null ? PlayerStat.Instance.GetMagicDamage() : 0f;
+                    // Bỏ Core Magic theo quy tắc đánh thường: 100% AD, không dùng AP cho đánh thường cơ bản
 
                     float healthBefore = stat.currentHealth;
 
-                    if (physicalDamage > 0 || playerCorePhys > 0)
+                    float finalPhys = 0f;
+                    float finalMagic = 0f;
+                    bool isCrit = false;
+
+                    // Tính Crit cho sát thương vật lý
+                    if (PlayerStat.Instance != null)
                     {
-                        float finalPhys = (playerCorePhys + physicalDamage) * masteryMultiplier;
-                        stat.TakePhysicalDamage(finalPhys);
-                        Debug.Log($"[MeleeDamageComponent] Gây {finalPhys} (Kiếm: {physicalDamage} + Core: {playerCorePhys} x Mastery: {masteryMultiplier:F2}) sát thương vật lý lên {col.name}");
+                        float critChance = PlayerStat.Instance.GetCritChance();
+                        if (Random.Range(0f, 100f) <= critChance)
+                        {
+                            isCrit = true;
+                        }
                     }
 
-                    if (magicDamage > 0 || playerCoreMagic > 0)
+                    if (physicalDamage > 0 || playerCorePhys > 0)
                     {
-                        float finalMagic = (playerCoreMagic + magicDamage) * masteryMultiplier;
-                        stat.TakeMagicDamage(finalMagic);
-                        Debug.Log($"[MeleeDamageComponent] Gây {finalMagic} (Kiếm: {magicDamage} + Core: {playerCoreMagic} x Mastery: {masteryMultiplier:F2}) sát thương phép lên {col.name}");
+                        finalPhys = (playerCorePhys + physicalDamage) * masteryMultiplier;
+                        if (isCrit && PlayerStat.Instance != null)
+                        {
+                            finalPhys *= PlayerStat.Instance.GetCritDamage();
+                        }
+                    }
+
+                    // Sát thương phép từ vũ khí (On-hit Magic Damage)
+                    if (magicDamage > 0)
+                    {
+                        finalMagic = magicDamage * masteryMultiplier; // Không chí mạng
+                    }
+
+                    if (finalPhys > 0 || finalMagic > 0)
+                    {
+                        stat.TakeMixedDamage(finalPhys, finalMagic, 0f, 0f, isCrit);
+                        Debug.Log($"[MeleeDamageComponent] Gây sát thương hỗn hợp lên {col.name}. (Phys: {finalPhys:F1}, Magic: {finalMagic:F1}, Crit: {isCrit})");
                     }
 
                     // Trick: Kiểm tra nếu nhát chém này đã kết liễu quái vật

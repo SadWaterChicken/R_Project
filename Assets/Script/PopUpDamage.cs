@@ -21,7 +21,7 @@ public class PopUpDamage : MonoBehaviour
         mainCamera = Camera.main;
     }
 
-    public void Setup(int damageAmount)
+    public void Setup(int damageAmount, bool isCrit = false)
     {
         // Randomize the offset slightly so text doesn't overlap perfectly
         Vector3 randomJitter = new Vector3(
@@ -36,6 +36,11 @@ public class PopUpDamage : MonoBehaviour
         if (textMesh != null)
         {
             textMesh.text = damageAmount.ToString();
+            if (isCrit)
+            {
+                textMesh.fontSize *= 1.5f;
+                textMesh.color = Color.red;
+            }
             textColor = textMesh.color;
         }
         disappearTimer = disappearTimerMax;
