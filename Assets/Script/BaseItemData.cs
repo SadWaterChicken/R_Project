@@ -50,4 +50,18 @@ public class BaseItemData : ScriptableObject
     public bool isForgeable = false;
     [Tooltip("Define what is needed to forge THIS item")]
     public ForgingRecipe forgingRecipe;
+
+    private void OnValidate()
+    {
+        if (baseModifiers != null)
+        {
+            foreach (var mod in baseModifiers)
+            {
+                if (mod.statTypeSelection != StatType.Custom)
+                {
+                    mod.stat = mod.statTypeSelection.ToString();
+                }
+            }
+        }
+    }
 }

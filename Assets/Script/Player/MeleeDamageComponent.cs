@@ -9,6 +9,10 @@ public class MeleeDamageComponent : WeaponComponent
     
     private float physicalDamage;
     private float magicDamage;
+    private float physicalDamageBonus;
+    private float magicDamageBonus;
+    private float critChance;
+    private float attackSpeed;
 
     public override void Initialize(WeaponController weaponController)
     {
@@ -17,21 +21,39 @@ public class MeleeDamageComponent : WeaponComponent
         // Nạp sát thương từ thẻ bài (đã cộng dồn các dòng modify)
         physicalDamage = 0f;
         magicDamage = 0f;
+        physicalDamageBonus = 0f;
+        magicDamageBonus = 0f;
+        critChance = 0f;
+        attackSpeed = 0f;
+
         if (controller.currentItemData != null)
         {
             foreach (var mod in controller.currentItemData.modifiers)
             {
                 string statLower = mod.stat.ToLower();
+                
+                // Parse percentVal to 0.0-1.0 format since the input is 0-100 format
+                float flatVal = mod.value;
+                float percentVal = mod.percentValue / 100f;
+                float logicVal = mod.percent ? (mod.percentValue != 0 ? percentVal : flatVal / 100f) : flatVal;
+
                 if (statLower == "physical damage" || statLower == "physicaldamage") 
-                    physicalDamage += mod.value;
+                    physicalDamage += logicVal;
                 else if (statLower == "magic damage" || statLower == "magicdamage") 
-                    magicDamage += mod.value;
+                    magicDamage += logicVal;
+                else if (statLower == "physical damage bonus" || statLower == "physicaldamagebonus") 
+                    physicalDamageBonus += logicVal;
+                else if (statLower == "magic damage bonus" || statLower == "magicdamagebonus") 
+                    magicDamageBonus += logicVal;
+                else if (statLower == "crit chance" || statLower == "critchance") 
+                    critChance += logicVal;
+                else if (statLower == "attack speed" || statLower == "attackspeed") 
+                    attackSpeed += logicVal;
                 else if (statLower == "weapon range" || statLower == "weaponrange" || statLower == "range") 
-                    this.weaponRange = mod.value;
+                    this.weaponRange = logicVal;
             }
         }
 
-        
         // Cố gắng tìm attackPoint tự động nếu chưa gán
         if (attackPoint == null)
         {
@@ -64,21 +86,21 @@ public class MeleeDamageComponent : WeaponComponent
                     // Mastery không còn tăng sát thương, chỉ để mở khóa Rèn
                     float masteryMultiplier = 1f;
 
-                    // Lấy Sát thương Cốt lõi của Player (AD) + Sát thương RIÊNG của thanh kiếm này (có nhân Mastery)
-                    float playerCorePhys = PlayerStat.Instance != null ? PlayerStat.Instance.GetPhysicalDamage() : 0f;
-                    // Bỏ Core Magic theo quy tắc đánh thường: 100% AD, không dùng AP cho đánh thường cơ bản
-
+                    // Lấy Sát thương Cốt lõi của Player (AD)
+                    float playerCorePhys = PlayerStat.Instance != null ? PlayerStat.Instance.basePhysicalDamage : 0f;
+                    float playerGlobalPhysBonus = PlayerStat.Instance != null ? PlayerStat.Instance.physicalDamageMultiplier : 0f;
+                    
                     float healthBefore = stat.currentHealth;
 
                     float finalPhys = 0f;
                     float finalMagic = 0f;
                     bool isCrit = false;
 
-                    // Tính Crit cho sát thương vật lý
                     if (PlayerStat.Instance != null)
                     {
-                        float critChance = PlayerStat.Instance.GetCritChance();
-                        if (Random.Range(0f, 100f) <= critChance)
+                        // Roll Crit using: Weapon Local Crit Chance + Player Global Crit Chance
+                        float totalCritChance = Mathf.Clamp(PlayerStat.Instance.GetCritChance() + this.critChance, 0f, 1f);
+                        if (Random.value <= totalCritChance)
                         {
                             isCrit = true;
                         }
@@ -86,7 +108,10 @@ public class MeleeDamageComponent : WeaponComponent
 
                     if (physicalDamage > 0 || playerCorePhys > 0)
                     {
-                        finalPhys = (playerCorePhys + physicalDamage) * masteryMultiplier;
+                        // (Player Core AD + Weapon Local AD) * (1 + Weapon Local AD Bonus + Player Global AD Bonus)
+                        float totalPhys = (playerCorePhys + physicalDamage) * (1f + this.physicalDamageBonus + playerGlobalPhysBonus);
+                        finalPhys = totalPhys * masteryMultiplier;
+
                         if (isCrit && PlayerStat.Instance != null)
                         {
                             finalPhys *= PlayerStat.Instance.GetCritDamage();
@@ -96,7 +121,11 @@ public class MeleeDamageComponent : WeaponComponent
                     // Sát thương phép từ vũ khí (On-hit Magic Damage)
                     if (magicDamage > 0)
                     {
-                        finalMagic = magicDamage * masteryMultiplier; // Không chí mạng
+                        float playerCoreMagic = PlayerStat.Instance != null ? PlayerStat.Instance.baseMagicDamage : 0f;
+                        float playerGlobalMagicBonus = PlayerStat.Instance != null ? PlayerStat.Instance.magicDamageMultiplier : 0f;
+                        
+                        float totalMagic = (playerCoreMagic + magicDamage) * (1f + this.magicDamageBonus + playerGlobalMagicBonus);
+                        finalMagic = totalMagic * masteryMultiplier; // Không chí mạng
                     }
 
                     if (finalPhys > 0 || finalMagic > 0)

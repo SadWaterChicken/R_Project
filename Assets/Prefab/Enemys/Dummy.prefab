@@ -144,7 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae4ea46037439d44b85de08b5b423fe5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EmenyStat
-  maxHealth: 100
+  maxHealth: 2147483647
   currentHealth: 0
   healthRegenRate: 0
   maxMana: 100
@@ -152,18 +152,23 @@ MonoBehaviour:
   manaRegenRate: 0
   basePhysicalDamage: 10
   physicalDamageBonus: 0
+  physicalDamageMultiplier: 0
   baseMagicDamage: 5
   magicDamageBonus: 0
+  magicDamageMultiplier: 0
   physicalArmor: 50
   magicArmor: 50
   baseSpeed: 6
   movementSpeed: 6
   attackSpeed: 1
   critChance: 0
+  critDamageMultiplier: 2
   shield: 0
   maxShield: 0
   shieldRegenRate: 0
   shieldRechargeCooldown: 5
+  animator: {fileID: 0}
+  damagePopupPrefab: {fileID: 8726772514403853739, guid: bf049d9349eecff48b457a62f147c8e6, type: 3}
   enemyLevel: 1
   attackRange: 1
   attackCooldown: 1
@@ -192,7 +197,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -209,11 +214,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMasteryReward
   lootTable:
-  - itemID: 
+  - itemData: {fileID: 11400000, guid: dde74946b8bfe694f93b3753f2d7af9c, type: 2}
     lootType: 0
-    minQuantity: 0
-    maxQuantity: 0
-    dropChance: 0
+    minQuantity: 1
+    maxQuantity: 3
+    dropChance: 100
+  - itemData: {fileID: 11400000, guid: eacc639cec33b224883e66b4d7b97c40, type: 2}
+    lootType: 0
+    minQuantity: 1
+    maxQuantity: 1
+    dropChance: 100
   minGoldDrop: 10
   maxGoldDrop: 50
 --- !u!114 &1562749839446331029

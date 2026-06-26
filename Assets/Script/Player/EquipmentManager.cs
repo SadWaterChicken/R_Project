@@ -82,7 +82,6 @@ public class EquipmentManager : MonoBehaviour
         WeaponData wData = item.BaseData as WeaponData;
         if (wData == null)
         {
-            // Tạm thời nếu vẫn dùng BaseItemData cũ thì giữ logic cũ, nhưng in cảnh báo
             Debug.LogWarning($"[EquipmentManager] Đang nâng cấp cấu trúc. Cần tạo lại {item.itemName} dưới dạng WeaponData.");
             return;
         }
@@ -97,7 +96,7 @@ public class EquipmentManager : MonoBehaviour
         // 1. Xóa vũ khí cũ nếu có
         UnequipWeapon(item.equipSlot);
 
-        // 2. Tạo Parent Weapon Object (Root)
+        // 2. Tạo Parent Weapon Object (Wrapper) để tránh làm bẩn Prefab gốc
         GameObject parentObj = new GameObject($"[Weapon] {item.itemName}");
         parentObj.transform.SetParent(targetSocket);
         parentObj.transform.localPosition = Vector3.zero;
@@ -105,45 +104,48 @@ public class EquipmentManager : MonoBehaviour
         
         WeaponController weaponController = parentObj.AddComponent<WeaponController>();
 
-        // 3. Tạo Base Game Object (Core Animator)
-        GameObject baseObj = new GameObject("BaseAnimator");
-        baseObj.transform.SetParent(parentObj.transform);
-        baseObj.transform.localPosition = Vector3.zero;
-        baseObj.transform.localRotation = Quaternion.identity;
-
-        Animator baseAnim = baseObj.AddComponent<Animator>();
-        if (wData.weaponAnimatorController != null)
-        {
-            baseAnim.runtimeAnimatorController = wData.weaponAnimatorController;
-        }
-        
-        AnimationEventHandler eventHandler = baseObj.AddComponent<AnimationEventHandler>();
-        eventHandler.OnEventTriggered = new UnityEngine.Events.UnityEvent<string>();
-        eventHandler.OnEventTriggered.AddListener(weaponController.HandleAnimationEvent);
-
-        weaponController.baseAnimator = baseAnim;
-
-        // 4. Tạo 3D Weapon Model (Thực thể hiển thị) trước, vì các Component giờ nằm trên nó!
-        // Tham số 'false' giúp giữ nguyên tọa độ Local (vị trí đã căn sẵn) của Prefab
-        GameObject modelObj = Instantiate(wData.weaponPrefab, baseObj.transform, false);
+        // 3. Spawn thẳng Weapon Prefab (Giờ đây nó TỰ CHỨA Component Animator nếu cần)
+        GameObject modelObj = Instantiate(wData.weaponPrefab, parentObj.transform, false);
         modelObj.name = "3D_Model";
 
+        // 4. Tìm Animator trên Prefab gốc để gán cho vũ khí
+        Animator weaponAnim = modelObj.GetComponent<Animator>();
+        if (weaponAnim == null)
+        {
+            weaponAnim = modelObj.GetComponentInChildren<Animator>();
+        }
+        weaponController.baseAnimator = weaponAnim;
 
+        // Xử lý Event Tấn Công (Nếu vũ khí có Animator, gắn Event Handler vào để nhận HitFrame)
+        if (weaponAnim != null)
+        {
+            AnimationEventHandler eventHandler = weaponAnim.gameObject.GetComponent<AnimationEventHandler>();
+            if (eventHandler == null)
+            {
+                eventHandler = weaponAnim.gameObject.AddComponent<AnimationEventHandler>();
+            }
+            if (eventHandler.OnEventTriggered == null)
+            {
+                eventHandler.OnEventTriggered = new UnityEngine.Events.UnityEvent<string>();
+            }
+            eventHandler.OnEventTriggered.AddListener(weaponController.HandleAnimationEvent);
+        }
 
         // 5. Initialize WeaponController (Tự nạp dữ liệu vào Component)
         weaponController.Initialize(item);
 
-        // 6. Lưu trữ Reference
+        // 6. Lưu trữ Reference (Không ghi đè Animator của người chơi)
         if (item.equipSlot == EquipSlot.MainHand)
         {
             currentMainHandWeapon = weaponController;
+            Debug.Log($"[EquipmentManager] Đã trang bị {item.itemName}. Weapon Animator và Player Animator sẽ chạy độc lập song song.");
         }
         else
         {
             currentOffHandWeapon = weaponController;
         }
 
-        // Cập nhật dáng đứng (WeaponStance) cho Player Animator gốc (Ví dụ: cách cầm vũ khí)
+        // Cập nhật dáng đứng (WeaponStance) cho Player Animator gốc (Hệ thống cũ/dự phòng)
         if (playerAnimator != null && item.equipSlot == EquipSlot.MainHand)
         {
             if (System.Array.Exists(playerAnimator.parameters, p => p.name == "WeaponStance"))
@@ -159,7 +161,10 @@ public class EquipmentManager : MonoBehaviour
         {
             Destroy(currentMainHandWeapon.gameObject);
             currentMainHandWeapon = null;
-            if (playerAnimator != null) playerAnimator.SetInteger("WeaponStance", 0); // Về dáng tay không
+            if (playerAnimator != null) 
+            {
+                playerAnimator.SetInteger("WeaponStance", 0); // Về dáng tay không
+            }
         }
         else if (slot == EquipSlot.OffHand && currentOffHandWeapon != null)
         {
@@ -168,21 +173,21 @@ public class EquipmentManager : MonoBehaviour
         }
     }
 
-    public void TriggerMainHandAttack()
+    public void TriggerMainHandAttack(string triggerName = "Attack")
     {
         if (currentMainHandWeapon != null)
         {
             lastAttackingWeapon = currentMainHandWeapon;
-            currentMainHandWeapon.Attack();
+            currentMainHandWeapon.Attack(triggerName);
         }
     }
 
-    public void TriggerOffHandAttack()
+    public void TriggerOffHandAttack(string triggerName = "Attack")
     {
         if (currentOffHandWeapon != null)
         {
             lastAttackingWeapon = currentOffHandWeapon;
-            currentOffHandWeapon.Attack();
+            currentOffHandWeapon.Attack(triggerName);
         }
     }
 

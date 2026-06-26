@@ -621,9 +621,9 @@ RectTransform:
   m_Father: {fileID: 1269860116920852967}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 665.338, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &6026489586293216686
 CanvasRenderer:
@@ -1350,7 +1350,7 @@ RectTransform:
   m_Father: {fileID: 126968988035451880}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1426,7 +1426,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.00018310547, y: 0.00005142149}
+  m_AnchoredPosition: {x: 0.00018310547, y: 0.00080592517}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1495046844755556219
@@ -2178,7 +2178,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2904037619136180965
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2262,6 +2262,7 @@ MonoBehaviour:
   buyButton: {fileID: 7077840259726198533}
   sellButton: {fileID: 0}
   closeButton: {fileID: 9017218544651766081}
+  closeDetailButton: {fileID: 0}
   detailStats: {fileID: 7339932232990591009}
 --- !u!1 &4975637915480150330
 GameObject:
@@ -2943,7 +2944,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1634, y: -48}
+  m_AnchoredPosition: {x: 1631.2, y: -43.3}
   m_SizeDelta: {x: 97.99, y: 82.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1384876043796328552
@@ -3474,7 +3475,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 3, y: 4}
+  m_AnchoredPosition: {x: 0.29999924, y: 0.70000076}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1996216401756163424

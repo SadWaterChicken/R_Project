@@ -30,7 +30,12 @@ MonoBehaviour:
   themeChests:
   - tier: 0
     chestPrefab: {fileID: 7056306788243686916, guid: 52a3f3496c6273746954123a3ac15f7c, type: 3}
-    possibleRewards: []
+    possibleRewards:
+    - itemData: {fileID: 11400000, guid: e43bb481d0de19247b7704140d9c36db, type: 2}
+      minQuantity: 1
+      maxQuantity: 1
+      dropChance: 1
+      isEquipment: 1
   enemyStatMultiplier: 1
   lootQualityMultiplier: 1
   eliteSpawnRate: 15
