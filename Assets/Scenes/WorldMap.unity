@@ -23515,10 +23515,12 @@ MonoBehaviour:
   movementSpeed: 6
   attackSpeed: 1
   critChance: 0
+  critDamageMultiplier: 2
   shield: 0
   maxShield: 50
   shieldRegenRate: 0
   shieldRechargeCooldown: 5
+  animator: {fileID: 0}
   damagePopupPrefab: {fileID: 0}
   maxSanity: 100
   currentSanity: 0
