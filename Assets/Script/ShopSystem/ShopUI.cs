@@ -102,18 +102,19 @@ public class ShopUI : MonoBehaviour
             detailIcon.color = detailIcon.sprite == null ? new Color(1, 1, 1, 0) : Color.white;
         }
         if (detailName != null) detailName.text = item.itemName;
-        if (detailDesc != null) detailDesc.text = item.description;
+        string descriptionText = ItemDescriptionFormatter.BuildDescription(item);
+        if (detailDesc != null) detailDesc.text = descriptionText;
         if (detailPrice != null) detailPrice.text = $"Price: {item.price}";
 
         // NEW: show flexible equipment stats if present
-        var statsText = BuildStatsText(item);
+        var statsText = ItemDescriptionFormatter.BuildStatsText(item);
         if (detailStats != null)
         {
             detailStats.text = statsText;
         }
         else if (!string.IsNullOrEmpty(statsText) && detailDesc != null)
         {
-            detailDesc.text = item.description + "\n" + statsText;
+            detailDesc.text = descriptionText + "\n" + statsText;
         }
 
         if (buyButton != null)

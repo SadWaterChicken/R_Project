@@ -55,8 +55,8 @@ MonoBehaviour:
   customStanceID: 0
   hasSkill: 1
   weaponSkill:
-    skillName: Kiem Khi
-    description: 
+    skillName: Slash Wave
+    description: Launches a damaging wind slash.
     skillIcon: {fileID: 0}
     cooldown: 4
     damageMultiplier: 2

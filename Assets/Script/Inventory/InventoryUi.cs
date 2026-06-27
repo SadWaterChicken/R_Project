@@ -157,7 +157,8 @@ public class InventoryUI : MonoBehaviour
             detailIcon.color = detailIcon.sprite == null ? new Color(1, 1, 1, 0) : Color.white;
         }
         if (detailName != null) detailName.text = item.itemName;
-        if (detailDesc != null) detailDesc.text = item.description;
+        string descriptionText = ItemDescriptionFormatter.BuildDescription(item);
+        if (detailDesc != null) detailDesc.text = descriptionText;
         if (detailPrice != null) detailPrice.text = $"Price: {item.price}";
         if (detailQty != null) detailQty.text = $"Qty: {item.stack}";
 
@@ -173,10 +174,10 @@ public class InventoryUI : MonoBehaviour
         }
 
         // Flexible stats
-        var statsText = BuildStatsText(item);
+        var statsText = ItemDescriptionFormatter.BuildStatsText(item);
         if (detailStats != null) detailStats.text = statsText;
         else if (detailDesc != null && !string.IsNullOrEmpty(statsText))
-            detailDesc.text = item.description + "\n" + statsText;
+            detailDesc.text = descriptionText + "\n" + statsText;
 
         // ← SỬA: Thay đổi cách xử lý Use/Unequip button
         if (useButton != null)

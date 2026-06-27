@@ -27,8 +27,8 @@ MonoBehaviour:
   customStanceID: 0
   hasSkill: 1
   weaponSkill:
-    skillName: "Kiem Khi"
-    description: "Phong vet chem gio bay thang ve phia truoc, gay sat thuong vat ly."
+    skillName: Slash Wave
+    description: Launches a damaging wind slash.
     skillIcon: {fileID: 0}
     cooldown: 4
     damageMultiplier: 2
@@ -36,15 +36,17 @@ MonoBehaviour:
     skillPrefab: {fileID: 700100001, guid: 8f7a4c0c5bb642f4aa2e1d9370a11103, type: 3}
   isForgeable: 0
   forgingRecipe:
-    requiredMastery: 0
     recipeID: 
     resultItemID: 
+    resultItem: {fileID: 0}
+    requiredMastery: 0
     requiredItemIDs: []
+    oldRequiredWeapons: []
+    requiredWeapons: []
     requiredMaterials: []
     goldCost: 0
-    minWeaponCount: 2
   gripType: 0
   combatStyle: 0
+  projectilePrefab: {fileID: 0}
   weaponAnimatorController: {fileID: 9100000, guid: 8f7a4c0c5bb642f4aa2e1d9370a11105, type: 2}
-  weaponComponents:
-  - MeleeDamageComponent
+  instructionInfo: "G\u1EAFn Component th\u1EB3ng v\xE0o Prefab"

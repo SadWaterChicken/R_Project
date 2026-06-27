@@ -146,14 +146,15 @@ public class DungeonSackUI : MonoBehaviour
             detailIcon.color = sprite != null ? Color.white : new Color(1, 1, 1, 0);
         }
         if (detailName != null) detailName.text = item.itemName;
-        if (detailDesc != null) detailDesc.text = item.description;
+        string descriptionText = ItemDescriptionFormatter.BuildDescription(item);
+        if (detailDesc != null) detailDesc.text = descriptionText;
         if (detailPrice != null) detailPrice.text = $"Price: {item.price}";
         if (detailQty != null) detailQty.text = $"Qty: {item.stack}";
 
-        var statsText = BuildStatsText(item);
+        var statsText = ItemDescriptionFormatter.BuildStatsText(item);
         if (detailStats != null) detailStats.text = statsText;
         else if (detailDesc != null && !string.IsNullOrEmpty(statsText))
-            detailDesc.text = item.description + "\n" + statsText;
+            detailDesc.text = descriptionText + "\n" + statsText;
 
         // Vô hiệu hóa nút Use trong DungeonSack
         if (useButton != null)
