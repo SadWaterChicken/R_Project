@@ -178,6 +178,16 @@ public class SceneTransitionManager : MonoBehaviour
         // 2. If boss was killed, find and destroy the dungeon entrance
         if (GameStateManager.Instance.isBossKilled)
         {
+            // Remove from saved dungeons list and update PlayerPrefs
+            if (GameStateManager.Instance.activeDungeons != null)
+            {
+                int removedCount = GameStateManager.Instance.activeDungeons.RemoveAll(d => d.dungeonInstanceID == GameStateManager.Instance.activeDungeonInstanceID);
+                if (removedCount > 0)
+                {
+                    GameStateManager.Instance.SaveDungeons();
+                }
+            }
+
             OverworldDungeonEntrance[] entrances = Object.FindObjectsByType<OverworldDungeonEntrance>(FindObjectsInactive.Exclude);
             foreach(OverworldDungeonEntrance entrance in entrances)
             {

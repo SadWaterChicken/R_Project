@@ -584,7 +584,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6174235315986450551}
-  - component: {fileID: 7122474071787143424}
+  - component: {fileID: 5196318686292744451}
   m_Layer: 0
   m_Name: blocker
   m_TagString: Untagged
@@ -607,8 +607,8 @@ Transform:
   m_Children: []
   m_Father: {fileID: 308124422810614815}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &7122474071787143424
-BoxCollider:
+--- !u!135 &5196318686292744451
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -626,7 +626,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2, y: 1, z: 2}
+  m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &4207130753702174693
 PrefabInstance:
@@ -735,7 +735,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::New_Dungeon.EventStructure
   roomController: {fileID: 3351835796942154669}
-  mainPanel: {fileID: 0}
+  mainPanel: {fileID: 6217676492103146518}
   messageText: {fileID: 550711756191746877}
   startButton: {fileID: 1061144879698891970}
   submergeDepth: -10

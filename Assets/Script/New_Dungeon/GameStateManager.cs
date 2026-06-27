@@ -1,4 +1,19 @@
 using UnityEngine;
+using System.Collections.Generic;
+
+[System.Serializable]
+public class SavedDungeonData
+{
+    public string dungeonInstanceID;
+    public Vector3 position;
+    public DungeonDifficultyTier difficulty;
+}
+
+[System.Serializable]
+public class SavedDungeonDataList
+{
+    public List<SavedDungeonData> list = new List<SavedDungeonData>();
+}
 
 public class GameStateManager : MonoBehaviour
 {
@@ -10,6 +25,10 @@ public class GameStateManager : MonoBehaviour
     public DungeonDifficultyTier currentDifficulty;
     public string activeDungeonInstanceID;
     public bool isBossKilled;
+    
+    [Header("Overworld Portals Persistence")]
+    public List<SavedDungeonData> activeDungeons = new List<SavedDungeonData>();
+    private const string DUNGEON_SAVE_KEY = "SavedDungeonPortals";
 
     [Header("Scene Settings")]
     [Tooltip("The name of the dungeon scene to load when entering a dungeon.")]
@@ -25,6 +44,31 @@ public class GameStateManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        
+        LoadDungeons();
+    }
+
+    public void SaveDungeons()
+    {
+        SavedDungeonDataList data = new SavedDungeonDataList { list = activeDungeons };
+        string json = JsonUtility.ToJson(data);
+        PlayerPrefs.SetString(DUNGEON_SAVE_KEY, json);
+        PlayerPrefs.Save();
+        Debug.Log("[GameStateManager] Saved dungeon portals: " + activeDungeons.Count);
+    }
+
+    public void LoadDungeons()
+    {
+        if (PlayerPrefs.HasKey(DUNGEON_SAVE_KEY))
+        {
+            string json = PlayerPrefs.GetString(DUNGEON_SAVE_KEY);
+            SavedDungeonDataList data = JsonUtility.FromJson<SavedDungeonDataList>(json);
+            if (data != null && data.list != null)
+            {
+                activeDungeons = data.list;
+                Debug.Log("[GameStateManager] Loaded dungeon portals: " + activeDungeons.Count);
+            }
+        }
     }
 
     public void EnterDungeon(OverworldDungeonEntrance entrance)

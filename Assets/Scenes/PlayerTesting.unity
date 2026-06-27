@@ -547,11 +547,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3871748760799075672, guid: f800d3501114d09408b44c8fdbc9126f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1856.7129
+      value: -1856.6028
       objectReference: {fileID: 0}
     - target: {fileID: 3871748760799075672, guid: f800d3501114d09408b44c8fdbc9126f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -870.36536
+      value: -880.61206
       objectReference: {fileID: 0}
     - target: {fileID: 3871748760799075672, guid: f800d3501114d09408b44c8fdbc9126f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1596,6 +1596,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b376fe4c9550f6f4cb7f2810ba7b6f0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneTransitionManager
+  overworldSceneName: 
   loadingScreen: {fileID: 1359384062}
   loadingBar: {fileID: 1037236756}
   fadeDuration: 1
@@ -1632,6 +1633,8 @@ MonoBehaviour:
   currentDifficulty: 0
   activeDungeonInstanceID: 
   isBossKilled: 0
+  activeDungeons: []
+  dungeonSceneName: DungeonTesting
 --- !u!1 &453034395
 GameObject:
   m_ObjectHideFlags: 0
@@ -4055,10 +4058,6 @@ PrefabInstance:
     - target: {fileID: 4073294042357489424, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
       propertyPath: m_Layer
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5130359778624185310, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
-      propertyPath: m_ExcludeLayers.m_Bits
-      value: 256
       objectReference: {fileID: 0}
     - target: {fileID: 5423956150364626176, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
       propertyPath: mainCollider

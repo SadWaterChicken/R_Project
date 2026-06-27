@@ -45,6 +45,26 @@ public class DungeonSpawnerManager : MonoBehaviour
         {
             Debug.LogError($"[{gameObject.name}] Chưa thiết lập Zone Theme (Đại tội) cho khu vực này!");
         }
+
+        // Khôi phục các cổng đã lưu từ GameStateManager
+        if (GameStateManager.Instance != null && GameStateManager.Instance.activeDungeons != null)
+        {
+            foreach (var savedData in GameStateManager.Instance.activeDungeons)
+            {
+                if (spawnAreaCollider != null && spawnAreaCollider.bounds.Contains(savedData.position))
+                {
+                    GameObject newEntrance = Instantiate(entrancePrefab, savedData.position, Quaternion.identity);
+                    OverworldDungeonEntrance entranceScript = newEntrance.GetComponent<OverworldDungeonEntrance>();
+                    if (entranceScript != null)
+                    {
+                        entranceScript.dungeonInstanceID = savedData.dungeonInstanceID;
+                        entranceScript.assignedTheme = zoneTheme;
+                        entranceScript.difficulty = savedData.difficulty;
+                    }
+                    activeEntrances.Add(newEntrance);
+                }
+            }
+        }
         
         StartCoroutine(SpawnRoutine());
     }
@@ -122,6 +142,19 @@ public class DungeonSpawnerManager : MonoBehaviour
                 entranceScript.dungeonInstanceID = System.Guid.NewGuid().ToString();
                 entranceScript.assignedTheme = zoneTheme;
                 entranceScript.difficulty = (DungeonDifficultyTier)Random.Range(0, 4);
+
+                // Add to persistent save state
+                if (GameStateManager.Instance != null)
+                {
+                    SavedDungeonData savedData = new SavedDungeonData
+                    {
+                        dungeonInstanceID = entranceScript.dungeonInstanceID,
+                        position = spawnPosition,
+                        difficulty = entranceScript.difficulty
+                    };
+                    GameStateManager.Instance.activeDungeons.Add(savedData);
+                    GameStateManager.Instance.SaveDungeons();
+                }
             }
 
             activeEntrances.Add(newEntrance);
