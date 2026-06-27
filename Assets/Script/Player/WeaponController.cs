@@ -34,11 +34,11 @@ public class WeaponController : MonoBehaviour
         }
     }
 
-    public void Attack()
+    public void Attack(string triggerName = "Attack")
     {
         if (baseAnimator != null && baseAnimator.runtimeAnimatorController != null)
         {
-            baseAnimator.SetTrigger("Attack");
+            baseAnimator.SetTrigger(triggerName);
         }
     }
 

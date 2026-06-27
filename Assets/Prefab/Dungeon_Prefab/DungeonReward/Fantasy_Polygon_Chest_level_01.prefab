@@ -770,6 +770,7 @@ GameObject:
   - component: {fileID: 3049585352295219088}
   - component: {fileID: 7319676724112747557}
   - component: {fileID: 7138799694621061203}
+  - component: {fileID: 984995947763488599}
   m_Layer: 0
   m_Name: Fantasy_Polygon_Chest_level_01
   m_TagString: Untagged
@@ -854,6 +855,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Interactor
   interactRange: 3
   hintUI: {fileID: 2939447951120028825}
+--- !u!114 &984995947763488599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7056306788243686916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c94f700f86a7b2341a0e2f6126fe4e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::New_Dungeon.DungeonChest
+  possibleRewards:
+  - itemData: {fileID: 11400000, guid: e43bb481d0de19247b7704140d9c36db, type: 2}
+    minQuantity: 1
+    maxQuantity: 1
+    dropChance: 1
+    isEquipment: 1
+  minGold: 10
+  maxGold: 50
+  onChestOpened:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7069799755590488019
 GameObject:
   m_ObjectHideFlags: 0

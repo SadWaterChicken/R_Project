@@ -1,0 +1,367 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2620cc1b747a48b47bd696aa89bc273a, type: 3}
+  m_Name: StatRollConfig
+  m_EditorClassIdentifier: Assembly-CSharp::StatRollConfig
+  stats:
+  - statTypeSelection: 1
+    statName: PhysicalDamage
+    isPercent: 0
+    tiers:
+    - tier: 1
+      minValue: 10
+      maxValue: 20
+    - tier: 2
+      minValue: 20
+      maxValue: 30
+    - tier: 3
+      minValue: 30
+      maxValue: 40
+    - tier: 4
+      minValue: 40
+      maxValue: 50
+    - tier: 5
+      minValue: 50
+      maxValue: 60
+    - tier: 6
+      minValue: 60
+      maxValue: 70
+  - statTypeSelection: 2
+    statName: PhysicalDamageBonus
+    isPercent: 1
+    tiers:
+    - tier: 1
+      minValue: 20
+      maxValue: 30
+    - tier: 2
+      minValue: 31
+      maxValue: 40
+    - tier: 3
+      minValue: 41
+      maxValue: 50
+    - tier: 4
+      minValue: 51
+      maxValue: 60
+    - tier: 5
+      minValue: 61
+      maxValue: 70
+    - tier: 6
+      minValue: 71
+      maxValue: 80
+  - statTypeSelection: 3
+    statName: MagicDamage
+    isPercent: 0
+    tiers:
+    - tier: 1
+      minValue: 10
+      maxValue: 20
+    - tier: 2
+      minValue: 21
+      maxValue: 30
+    - tier: 3
+      minValue: 31
+      maxValue: 40
+    - tier: 4
+      minValue: 41
+      maxValue: 50
+    - tier: 5
+      minValue: 51
+      maxValue: 60
+    - tier: 6
+      minValue: 61
+      maxValue: 70
+  - statTypeSelection: 4
+    statName: MagicDamageBonus
+    isPercent: 1
+    tiers:
+    - tier: 1
+      minValue: 20
+      maxValue: 30
+    - tier: 2
+      minValue: 31
+      maxValue: 40
+    - tier: 3
+      minValue: 41
+      maxValue: 50
+    - tier: 4
+      minValue: 51
+      maxValue: 60
+    - tier: 5
+      minValue: 61
+      maxValue: 70
+    - tier: 6
+      minValue: 71
+      maxValue: 80
+  - statTypeSelection: 5
+    statName: PhysicalArmor
+    isPercent: 0
+    tiers:
+    - tier: 1
+      minValue: 10
+      maxValue: 20
+    - tier: 2
+      minValue: 21
+      maxValue: 30
+    - tier: 3
+      minValue: 31
+      maxValue: 40
+    - tier: 4
+      minValue: 41
+      maxValue: 50
+    - tier: 5
+      minValue: 51
+      maxValue: 60
+    - tier: 6
+      minValue: 61
+      maxValue: 70
+  - statTypeSelection: 6
+    statName: MagicArmor
+    isPercent: 0
+    tiers:
+    - tier: 1
+      minValue: 0
+      maxValue: 0
+    - tier: 2
+      minValue: 0
+      maxValue: 0
+    - tier: 3
+      minValue: 0
+      maxValue: 0
+    - tier: 4
+      minValue: 0
+      maxValue: 0
+    - tier: 5
+      minValue: 0
+      maxValue: 0
+    - tier: 6
+      minValue: 0
+      maxValue: 0
+  - statTypeSelection: 7
+    statName: MaxHealth
+    isPercent: 0
+    tiers:
+    - tier: 1
+      minValue: 10
+      maxValue: 30
+    - tier: 2
+      minValue: 31
+      maxValue: 50
+    - tier: 3
+      minValue: 51
+      maxValue: 70
+    - tier: 4
+      minValue: 71
+      maxValue: 90
+    - tier: 5
+      minValue: 91
+      maxValue: 110
+    - tier: 6
+      minValue: 111
+      maxValue: 130
+  - statTypeSelection: 8
+    statName: MaxMana
+    isPercent: 0
+    tiers:
+    - tier: 1
+      minValue: 10
+      maxValue: 30
+    - tier: 2
+      minValue: 31
+      maxValue: 50
+    - tier: 3
+      minValue: 51
+      maxValue: 70
+    - tier: 4
+      minValue: 71
+      maxValue: 90
+    - tier: 5
+      minValue: 91
+      maxValue: 110
+    - tier: 6
+      minValue: 111
+      maxValue: 130
+  - statTypeSelection: 9
+    statName: MaxShield
+    isPercent: 0
+    tiers:
+    - tier: 1
+      minValue: 10
+      maxValue: 30
+    - tier: 2
+      minValue: 31
+      maxValue: 50
+    - tier: 3
+      minValue: 51
+      maxValue: 70
+    - tier: 4
+      minValue: 71
+      maxValue: 90
+    - tier: 5
+      minValue: 91
+      maxValue: 110
+    - tier: 6
+      minValue: 111
+      maxValue: 130
+  - statTypeSelection: 10
+    statName: HealthRegenRate
+    isPercent: 0
+    tiers:
+    - tier: 1
+      minValue: 10
+      maxValue: 30
+    - tier: 2
+      minValue: 31
+      maxValue: 50
+    - tier: 3
+      minValue: 51
+      maxValue: 70
+    - tier: 4
+      minValue: 71
+      maxValue: 90
+    - tier: 5
+      minValue: 91
+      maxValue: 110
+    - tier: 6
+      minValue: 111
+      maxValue: 130
+  - statTypeSelection: 11
+    statName: ManaRegenRate
+    isPercent: 0
+    tiers:
+    - tier: 1
+      minValue: 10
+      maxValue: 30
+    - tier: 2
+      minValue: 31
+      maxValue: 50
+    - tier: 3
+      minValue: 51
+      maxValue: 70
+    - tier: 4
+      minValue: 71
+      maxValue: 90
+    - tier: 5
+      minValue: 91
+      maxValue: 110
+    - tier: 6
+      minValue: 111
+      maxValue: 130
+  - statTypeSelection: 12
+    statName: SanityRegenRate
+    isPercent: 0
+    tiers:
+    - tier: 1
+      minValue: 10
+      maxValue: 20
+    - tier: 2
+      minValue: 20
+      maxValue: 30
+    - tier: 3
+      minValue: 30
+      maxValue: 40
+    - tier: 4
+      minValue: 40
+      maxValue: 50
+    - tier: 5
+      minValue: 50
+      maxValue: 60
+    - tier: 6
+      minValue: 60
+      maxValue: 70
+  - statTypeSelection: 13
+    statName: MovementSpeed
+    isPercent: 1
+    tiers:
+    - tier: 1
+      minValue: 10
+      maxValue: 20
+    - tier: 2
+      minValue: 20
+      maxValue: 30
+    - tier: 3
+      minValue: 30
+      maxValue: 40
+    - tier: 4
+      minValue: 40
+      maxValue: 50
+    - tier: 5
+      minValue: 50
+      maxValue: 60
+    - tier: 6
+      minValue: 60
+      maxValue: 70
+  - statTypeSelection: 14
+    statName: AttackSpeed
+    isPercent: 0
+    tiers:
+    - tier: 1
+      minValue: 10
+      maxValue: 20
+    - tier: 2
+      minValue: 20
+      maxValue: 30
+    - tier: 3
+      minValue: 30
+      maxValue: 40
+    - tier: 4
+      minValue: 40
+      maxValue: 50
+    - tier: 5
+      minValue: 50
+      maxValue: 60
+    - tier: 6
+      minValue: 60
+      maxValue: 70
+  - statTypeSelection: 15
+    statName: CritChance
+    isPercent: 1
+    tiers:
+    - tier: 1
+      minValue: 10
+      maxValue: 20
+    - tier: 2
+      minValue: 20
+      maxValue: 30
+    - tier: 3
+      minValue: 30
+      maxValue: 40
+    - tier: 4
+      minValue: 40
+      maxValue: 50
+    - tier: 5
+      minValue: 50
+      maxValue: 60
+    - tier: 6
+      minValue: 60
+      maxValue: 70
+  - statTypeSelection: 16
+    statName: Luck
+    isPercent: 1
+    tiers:
+    - tier: 1
+      minValue: 10
+      maxValue: 20
+    - tier: 2
+      minValue: 20
+      maxValue: 30
+    - tier: 3
+      minValue: 30
+      maxValue: 40
+    - tier: 4
+      minValue: 40
+      maxValue: 50
+    - tier: 5
+      minValue: 50
+      maxValue: 60
+    - tier: 6
+      minValue: 60
+      maxValue: 70

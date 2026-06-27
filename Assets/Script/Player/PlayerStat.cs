@@ -212,16 +212,24 @@ public class PlayerStat : CharacterStats
 
         foreach (var mod in item.modifiers)
         {
-            float value = mod.value * multiplier;
-            Debug.Log($"[PlayerStat] {(isEquipped ? "Equipping" : "Unequipping")} {item.itemName}: {mod.stat} {(isEquipped ? "+" : "-")}{Mathf.Abs(mod.value)}");
+            float flatVal = mod.value * multiplier;
+            float percentVal = (mod.percentValue / 100f) * multiplier; // Divide by 100 because UI/Input uses 100 for 100%
+            
+            float logicVal = mod.percent ? (mod.percentValue != 0 ? percentVal : flatVal / 100f) : flatVal;
+
+            Debug.Log($"[PlayerStat] {(isEquipped ? "Equipping" : "Unequipping")} {item.itemName}: {mod.stat} {(logicVal >= 0 ? "+" : "")}{Mathf.Abs(logicVal)} (IsPercent: {mod.percent})");
 
             if (item.BaseData != null && item.BaseData.equipmentType == EquipmentType.Weapon)
             {
                 string statLower = mod.stat.ToLower();
                 if (statLower == "physical damage" || statLower == "physicaldamage" || 
-                    statLower == "magic damage" || statLower == "magicdamage")
+                    statLower == "magic damage" || statLower == "magicdamage" ||
+                    statLower == "physical damage bonus" || statLower == "physicaldamagebonus" ||
+                    statLower == "magic damage bonus" || statLower == "magicdamagebonus" ||
+                    statLower == "crit chance" || statLower == "critchance" ||
+                    statLower == "attack speed" || statLower == "attackspeed")
                 {
-                    // Lọc sát thương vũ khí ra, chỉ những món đồ khác (Áo, Mũ) hoặc Dòng Bonus khác mới được cộng vào Core
+                    // Vũ khí thì giữ lại các chỉ số này cho riêng nó (Local Stats), KHÔNG cộng vào Player (Global Stats)
                     continue; 
                 }
             }
@@ -230,54 +238,60 @@ public class PlayerStat : CharacterStats
             {
                 case "physical damage":
                 case "physicaldamage":
+                    basePhysicalDamage += logicVal;
+                    break;
                 case "physical damage bonus":
                 case "physicaldamagebonus":
-                    physicalDamageBonus += value;
+                    if (mod.percent) physicalDamageMultiplier += logicVal;
+                    else physicalDamageBonus += logicVal;
                     break;
                 case "magic damage":
                 case "magicdamage":
+                    baseMagicDamage += logicVal;
+                    break;
                 case "magic damage bonus":
                 case "magicdamagebonus":
-                    magicDamageBonus += value;
+                    if (mod.percent) magicDamageMultiplier += logicVal;
+                    else magicDamageBonus += logicVal;
                     break;
                 case "physical armour":
                 case "physicalarmour":
                 case "physical armor":
                 case "physicalarmor":
-                    physicalArmor += value;
+                    physicalArmor += logicVal;
                     break;
                 case "magic armour":
                 case "magicarmour":
                 case "magic armor":
                 case "magicarmor":
-                    magicArmor += value;
+                    magicArmor += logicVal;
                     break;
                 case "max health":
                 case "maxhealth":
-                    maxHealth += (int)value;
+                    maxHealth += (int)logicVal;
                     break;
                 case "max mana":
                 case "maxmana":
-                    maxMana += (int)value;
+                    maxMana += (int)logicVal;
                     break;
                 case "max shield":
                 case "maxshield":
-                    maxShield += value;
+                    maxShield += logicVal;
                     break;
                 case "movement speed":
                 case "movementspeed":
-                    movementSpeed += value;
+                    movementSpeed += logicVal;
                     break;
                 case "attack speed":
                 case "attackspeed":
-                    attackSpeed += value;
+                    attackSpeed += logicVal;
                     break;
                 case "crit chance":
                 case "critchance":
-                    critChance += value;
+                    critChance += logicVal;
                     break;
                 case "luck":
-                    luck += value;
+                    luck += logicVal;
                     break;
                 default:
                     Debug.LogWarning($"[PlayerStat] Unknown stat type: {mod.stat}");

@@ -246,7 +246,7 @@ public class InventoryUI : MonoBehaviour
             if (!m.isMainStat)
             {
                 var sign = m.value >= 0 ? "+" : "";
-                var val = m.percent ? $"{sign}{(m.percentValue * 100).ToString("0.##")}%" : $"{sign}{m.value}";
+                var val = m.percent ? $"{sign}{m.percentValue.ToString("0.##")}%" : $"{sign}{m.value}";
                 sb.AppendLine($"  <color=#DDDDDD>• {m.stat}: {val}</color>");
             }
         }
