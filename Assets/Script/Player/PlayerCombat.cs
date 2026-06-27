@@ -38,13 +38,13 @@ public class PlayerCombat : MonoBehaviour
             {
                 animator.ResetTrigger("hit2"); // Clear any ghost triggers
                 animator.SetTrigger("hit1");
-                if (equipmentManager != null) equipmentManager.TriggerMainHandAttack("hit1");
+                if (equipmentManager != null) equipmentManager.TriggerMainHandAttack();
             }
             else if (numbClicks >= 2)
             {
                 // Queue hit2 instantly so you don't miss the animation event window
                 animator.SetTrigger("hit2");
-                if (equipmentManager != null) equipmentManager.TriggerMainHandAttack("hit2");
+                if (equipmentManager != null) equipmentManager.TriggerMainHandAttack();
             }
             
             numbClicks = Mathf.Clamp(numbClicks, 0, 2);
@@ -65,7 +65,7 @@ public class PlayerCombat : MonoBehaviour
                     // Vung vũ khí tay trái (Tạm dùng hit2 cho tay trái)
                     animator.ResetTrigger("hit1");
                     animator.SetTrigger("hit2");
-                    equipmentManager.TriggerOffHandAttack("hit2");
+                    equipmentManager.TriggerOffHandAttack();
                 }
             }
             else

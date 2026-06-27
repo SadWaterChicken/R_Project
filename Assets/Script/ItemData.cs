@@ -32,7 +32,6 @@ public class ItemData
     public int forgeLevel = 0;                           // Forging enhancement level (0-10)
     public float weaponMastery = 0f;                     // Weapon mastery progress (0-100)
     public string baseItemID = "";                       // Original item ID before forging
-    public int rarity = 1;                               // 1: Common, 2: Uncommon, 3: Rare, 4: Epic, 5: Legendary
     
     [NonSerialized] private bool? _isForgeableOverride;
     public bool isForgeable 
@@ -43,14 +42,11 @@ public class ItemData
     [Serializable]
     public class StatMod
     {
-        [Tooltip("Select the stat from the predefined list. The name will be saved as a string.")]
-        public StatType statTypeSelection = StatType.PhysicalDamage;
         public string stat;
         public float value;         // Giá trị Flat thực tế sẽ được cộng vào PlayerStat
         public bool percent;        // Đánh dấu đây là dòng %
         public float percentValue;  // Lưu % gốc (VD: 0.05) để UI in ra chữ "5%"
         public bool isMainStat = true; // Phân biệt Dòng chính (True) và Dòng phụ (False)
-        public int statTier = 0;    // 0: Main Stat, 1-6: Sub-stat Tier (T1-T6)
     }
     public List<StatMod> modifiers = new List<StatMod>();
 
@@ -106,7 +102,7 @@ public class ItemData
         {
             foreach (var m in BaseData.baseModifiers)
             {
-                modifiers.Add(new StatMod { stat = m.stat, value = m.value, percent = m.percent, percentValue = m.percentValue, isMainStat = m.isMainStat, statTier = m.statTier });
+                modifiers.Add(new StatMod { stat = m.stat, value = m.value, percent = m.percent, isMainStat = m.isMainStat });
             }
         }
     }
@@ -124,13 +120,12 @@ public class ItemData
             weaponMastery = weaponMastery,
             baseItemID = baseItemID,
             _isForgeableOverride = _isForgeableOverride,
-            _baseData = _baseData,
-            rarity = rarity
+            _baseData = _baseData
         };
         if (modifiers != null)
         {
             foreach (var m in modifiers)
-                copy.modifiers.Add(new StatMod { stat = m.stat, value = m.value, percent = m.percent, percentValue = m.percentValue, isMainStat = m.isMainStat, statTier = m.statTier });
+                copy.modifiers.Add(new StatMod { stat = m.stat, value = m.value, percent = m.percent });
         }
         return copy;
     }

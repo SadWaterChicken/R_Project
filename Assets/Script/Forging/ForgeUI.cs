@@ -302,7 +302,7 @@ public class ForgeUI : MonoBehaviour
                 if (mod.isMainStat) continue;
 
                 var sign = mod.value >= 0 ? "+" : "";
-                var val = mod.percent ? $"{sign}{mod.percentValue.ToString("0.##")}%" : $"{sign}{mod.value}";
+                var val = mod.percent ? $"{sign}{(mod.percentValue * 100).ToString("0.##")}%" : $"{sign}{mod.value}";
                 
                 if (resultWeapon != null && resultWeapon.modifiers != null)
                 {
@@ -310,11 +310,11 @@ public class ForgeUI : MonoBehaviour
                     if (resultMod != null)
                     {
                         // Sub stats value are generally compared via percentValue if they are percent
-                        float diff = resultMod.percentValue > 0 ? (resultMod.percentValue - mod.percentValue) : (resultMod.value - mod.value);
+                        float diff = resultMod.percentValue > 0 ? (resultMod.percentValue - mod.percentValue) * 100 : (resultMod.value - mod.value);
                         if (diff > 0)
                         {
                             var diffVal = mod.percent ? $"+{diff.ToString("0.##")}%" : $"+{diff}";
-                            var newVal = mod.percent ? $"{resultMod.percentValue.ToString("0.##")}%" : $"{resultMod.value}";
+                            var newVal = mod.percent ? $"{(resultMod.percentValue * 100).ToString("0.##")}%" : $"{resultMod.value}";
                             
                             sb.AppendLine($"  <color=#DDDDDD>• {mod.stat}: {val} ➔ <color=#4CAF50>{newVal} ({diffVal})</color></color>");
                             continue;

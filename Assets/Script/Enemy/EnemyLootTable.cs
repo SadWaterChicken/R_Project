@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 
 /// <summary>
@@ -54,8 +54,8 @@ public class EnemyLootTable : MonoBehaviour
                     }
                     
                     string cleanID = entry.itemData.itemID.Trim();
-                    ItemData newItem = ItemGenerator.GenerateLoot(entry.itemData);
-                    newItem.stack = quantity; // Update stack quantity
+                    ItemData newItem = new ItemData(cleanID, quantity);
+                    newItem.BaseData = entry.itemData; // Gán trực tiếp dữ liệu luôn, khỏi phải Load lại!
                     
                     if (DungeonSack.Instance != null)
                     {

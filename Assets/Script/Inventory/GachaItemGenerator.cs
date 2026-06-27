@@ -71,19 +71,17 @@ public class GachaItemGenerator : MonoBehaviour
     {
         if (PlayerStat.Instance == null) return 0f;
 
-        float logicPercent = percent / 100f; // Chuyển từ định dạng 0-100 về 0.0-1.0
-
         switch (statName)
         {
-            case "maxHealth": return PlayerStat.Instance.maxHealth * logicPercent;
-            case "maxMana": return PlayerStat.Instance.maxMana * logicPercent;
-            case "physicalDamage": return PlayerStat.Instance.basePhysicalDamage * logicPercent;
-            case "magicDamage": return PlayerStat.Instance.baseMagicDamage * logicPercent;
-            case "physicalArmour": return PlayerStat.Instance.physicalArmor * logicPercent;
-            case "magicArmour": return PlayerStat.Instance.magicArmor * logicPercent;
-            case "movementSpeed": return PlayerStat.Instance.baseSpeed * logicPercent;
-            case "attackSpeed": return PlayerStat.Instance.attackSpeed * logicPercent;
-            case "critChance": return PlayerStat.Instance.critChance * logicPercent;
+            case "maxHealth": return PlayerStat.Instance.maxHealth * percent;
+            case "maxMana": return PlayerStat.Instance.maxMana * percent;
+            case "physicalDamage": return PlayerStat.Instance.basePhysicalDamage * percent;
+            case "magicDamage": return PlayerStat.Instance.baseMagicDamage * percent;
+            case "physicalArmour": return PlayerStat.Instance.physicalArmor * percent;
+            case "magicArmour": return PlayerStat.Instance.magicArmor * percent;
+            case "movementSpeed": return PlayerStat.Instance.baseSpeed * percent;
+            case "attackSpeed": return PlayerStat.Instance.attackSpeed * percent;
+            case "critChance": return PlayerStat.Instance.critChance * percent;
             default: return 0f;
         }
     }
@@ -132,9 +130,9 @@ public class GachaItemGenerator : MonoBehaviour
     private static float GetSubStatPercentValue(int tier)
     {
         // Trả về % dựa trên tier (Ví dụ: Tier 1 được 1-3%, Tier 5 được 5-10%)
-        // Lưu trữ dưới dạng số nguyên/float thô: 5 = 5%
-        float minPercent = tier * 1f;
-        float maxPercent = tier * 2f;
+        // Lưu trữ dưới dạng số thập phân: 0.05 = 5%
+        float minPercent = tier * 0.01f;
+        float maxPercent = tier * 0.02f;
         
         return Random.Range(minPercent, maxPercent);
     }

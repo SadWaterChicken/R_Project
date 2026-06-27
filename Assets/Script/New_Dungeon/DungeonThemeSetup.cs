@@ -25,7 +25,7 @@ public struct ThemeChestData
 {
     public ChestTier tier;
     public GameObject chestPrefab;
-    public List<New_Dungeon.DungeonChest.DungeonChestReward> possibleRewards;
+    public List<ItemData> possibleRewards;
 }
 
 /// <summary>

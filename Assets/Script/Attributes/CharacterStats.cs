@@ -13,26 +13,22 @@ public abstract class CharacterStats : MonoBehaviour
     public float manaRegenRate;
 
     [Header("Damage Stats")]
-    public float basePhysicalDamage;
-    public float physicalDamageBonus;
-    [HideInInspector] public float physicalDamageMultiplier;
-
-    public float baseMagicDamage;
-    public float magicDamageBonus;
-    [HideInInspector] public float magicDamageMultiplier;
+    public float basePhysicalDamage ;
+    public float physicalDamageBonus ;
+    public float baseMagicDamage ;
+    public float magicDamageBonus ;
 
     [Header("Defence Stats")]
-    public float physicalArmor;
-    public float magicArmor;
+    public float physicalArmor ;
+    public float magicArmor ;
 
     [Header("Movement & Combat")]
-    public float baseSpeed;
-    public float movementSpeed;
-    public float attackSpeed;
+    public float baseSpeed ;
+    public float movementSpeed ;
+    public float attackSpeed ;
 
     [Header("Luck & Crit")]
-    [Tooltip("1.0 means 100%")]
-    public float critChance;
+    public float critChance ;
     public float critDamageMultiplier = 2.0f;
 
     [Header("Shield Stats")]
@@ -90,13 +86,13 @@ public abstract class CharacterStats : MonoBehaviour
     public virtual float GetPhysicalDamage()
     {
         float buffBonus = buffManager != null ? buffManager.GetBuffValue(DungeonBuff.BuffType.DamageBoost) : 0f;
-        return (basePhysicalDamage + physicalDamageBonus) * (1f + physicalDamageMultiplier + buffBonus);
+        return basePhysicalDamage + physicalDamageBonus + (basePhysicalDamage * buffBonus);
     }
 
     public virtual float GetMagicDamage()
     {
         float buffBonus = buffManager != null ? buffManager.GetBuffValue(DungeonBuff.BuffType.DamageBoost) : 0f;
-        return (baseMagicDamage + magicDamageBonus) * (1f + magicDamageMultiplier + buffBonus);
+        return baseMagicDamage + magicDamageBonus + (baseMagicDamage * buffBonus);
     }
 
     public virtual float GetMovementSpeed()
@@ -108,8 +104,8 @@ public abstract class CharacterStats : MonoBehaviour
     public virtual float GetCritChance()
     {
         float buffBonus = buffManager != null ? buffManager.GetBuffValue(DungeonBuff.BuffType.CritChance) : 0f;
-        // Giới hạn tỉ lệ chí mạng tối đa là 100% (tương đương 1.0)
-        return Mathf.Clamp(critChance + buffBonus, 0f, 1f);
+        // Giới hạn tỉ lệ chí mạng tối đa là 100% (và tối thiểu là 0%)
+        return Mathf.Clamp(critChance + buffBonus, 0f, 100f);
     }
 
     public virtual float GetCritDamage()

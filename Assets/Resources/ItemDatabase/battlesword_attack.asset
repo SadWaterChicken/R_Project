@@ -22,31 +22,9 @@ MonoBehaviour:
   equippable: 1
   equipmentType: 1
   weaponClassName: Greatsword
-  baseModifiers:
-  - statTypeSelection: 1
-    stat: PhysicalDamage
-    value: 40
-    percent: 0
-    percentValue: 0
-    isMainStat: 1
-    statTier: 0
-  - statTypeSelection: 15
-    stat: CritChance
-    value: 0
-    percent: 1
-    percentValue: 0
-    isMainStat: 0
-    statTier: 0
-  - statTypeSelection: 2
-    stat: PhysicalDamageBonus
-    value: 0
-    percent: 1
-    percentValue: 0
-    isMainStat: 0
-    statTier: 0
+  baseModifiers: []
   weaponPrefab: {fileID: 3671704035849091831, guid: e836f239175150b4b8e4af650f751c16, type: 3}
   customStanceID: 0
-<<<<<<< Updated upstream
   hasSkill: 1
   weaponSkill:
     skillName: Kiem Khi
@@ -56,17 +34,6 @@ MonoBehaviour:
     damageMultiplier: 2
     animationTrigger: UseSkill
     skillPrefab: {fileID: 700100001, guid: 8f7a4c0c5bb642f4aa2e1d9370a11103, type: 3}
-=======
-  hasSkill: 0
-  weaponSkill:
-    skillName: 
-    description: 
-    skillIcon: {fileID: 0}
-    cooldown: 0
-    damageMultiplier: 0
-    animationTrigger: 
-    skillPrefab: {fileID: 0}
->>>>>>> Stashed changes
   isForgeable: 0
   forgingRecipe:
     recipeID: 
@@ -86,9 +53,5 @@ MonoBehaviour:
   gripType: 0
   combatStyle: 0
   projectilePrefab: {fileID: 0}
-<<<<<<< Updated upstream
   weaponAnimatorController: {fileID: 9100000, guid: 8f7a4c0c5bb642f4aa2e1d9370a11105, type: 2}
-=======
-  weaponAnimatorController: {fileID: 9100000, guid: 9a6ac648e3424274485fde790778db8e, type: 2}
->>>>>>> Stashed changes
   instructionInfo: "G\u1EAFn Component th\u1EB3ng v\xE0o Prefab"
