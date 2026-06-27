@@ -147,6 +147,23 @@ public class WindSlashSkill : BaseSkill
             vfx.transform.localPosition = new Vector3(layerOffset, 0f, 0f);
             vfx.transform.localRotation = Quaternion.Euler(0f, i * 8f, i % 2 == 0 ? 0f : 180f);
             vfx.transform.localScale = Vector3.one * flyingVFXScale * (1f + i * 0.08f);
+            
+            // Fix VFX not playing because it has playOnAwake = false
+            ParticleSystem[] particles = vfx.GetComponentsInChildren<ParticleSystem>();
+            foreach (var p in particles)
+            {
+                p.Play(true);
+            }
+
+            // Remove interfering scripts from third-party VFX assets
+            MonoBehaviour[] scripts = vfx.GetComponentsInChildren<MonoBehaviour>();
+            foreach (var script in scripts)
+            {
+                if (script.GetType().Name.Contains("Projectile"))
+                {
+                    Destroy(script);
+                }
+            }
         }
     }
 

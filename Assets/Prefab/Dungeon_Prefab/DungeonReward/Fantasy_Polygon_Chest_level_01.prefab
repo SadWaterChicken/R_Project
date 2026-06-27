@@ -867,12 +867,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c94f700f86a7b2341a0e2f6126fe4e6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::New_Dungeon.DungeonChest
-  possibleRewards:
-  - itemData: {fileID: 11400000, guid: e43bb481d0de19247b7704140d9c36db, type: 2}
-    minQuantity: 1
-    maxQuantity: 1
-    dropChance: 1
-    isEquipment: 1
+  possibleRewards: []
   minGold: 10
   maxGold: 50
   onChestOpened:

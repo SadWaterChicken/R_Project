@@ -52,13 +52,13 @@ MonoBehaviour:
   spawnForwardOffset: 0.8
   spawnHeightOffset: 1
   cooldown: 0
-  flyingVFXScale: 3
-  flyingVFXLayers: 3
+  flyingVFXScale: 2
+  flyingVFXLayers: 2
   layeredVFXOffset: 0.12
-  addTravelLight: 1
+  addTravelLight: 0
   travelLightColor: {r: 0.2, g: 0.8, b: 1, a: 1}
   travelLightIntensity: 3.5
-  travelLightRange: 6
+  travelLightRange: 10
   hitboxSize: {x: 8, y: 2, z: 2}
   hitboxOffset: {x: 0, y: 0, z: 0}
   enemyLayers:
@@ -68,4 +68,4 @@ MonoBehaviour:
   fallbackWeaponPhysicalDamage: 10
   flyingVFX: {fileID: 3020920808754819069, guid: d860dbff6d19af4448c7d0e478fa5cef, type: 3}
   hitVFX: {fileID: 1035977224672214417, guid: 057aa477789506a44bd206e9c5acad19, type: 3}
-  spawnHitVFX: 0
+  spawnHitVFX: 1
