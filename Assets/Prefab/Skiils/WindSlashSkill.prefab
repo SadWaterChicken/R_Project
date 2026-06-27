@@ -59,7 +59,7 @@ MonoBehaviour:
   travelLightColor: {r: 0.2, g: 0.8, b: 1, a: 1}
   travelLightIntensity: 3.5
   travelLightRange: 6
-  hitboxSize: {x: 8, y: 4, z: 4}
+  hitboxSize: {x: 8, y: 2, z: 2}
   hitboxOffset: {x: 0, y: 0, z: 0}
   enemyLayers:
     serializedVersion: 2

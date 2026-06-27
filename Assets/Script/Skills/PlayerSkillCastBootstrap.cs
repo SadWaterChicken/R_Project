@@ -5,6 +5,13 @@ public class PlayerSkillCastBootstrap : MonoBehaviour
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void AttachSkillCastController()
     {
+        GameObject bootstrapObject = new GameObject("[Skill] Player Skill Cast Bootstrap");
+        DontDestroyOnLoad(bootstrapObject);
+        bootstrapObject.AddComponent<PlayerSkillCastBootstrap>();
+    }
+
+    private void Update()
+    {
         PlayerCombat playerCombat = FindObjectOfType<PlayerCombat>();
         if (playerCombat == null) return;
 
@@ -12,5 +19,7 @@ public class PlayerSkillCastBootstrap : MonoBehaviour
         {
             playerCombat.gameObject.AddComponent<PlayerSkillCastController>();
         }
+
+        Destroy(gameObject);
     }
 }

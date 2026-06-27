@@ -44,19 +44,23 @@ public class PlayerSkillCastController : MonoBehaviour
 
     private void RefreshReferences()
     {
+        if (playerCombat == null)
+        {
+            playerCombat = GetComponent<PlayerCombat>();
+        }
+
         if (playerAnimator == null)
         {
-            playerAnimator = GetComponentInChildren<Animator>();
+            playerAnimator = playerCombat != null && playerCombat.animator != null
+                ? playerCombat.animator
+                : GetComponentInChildren<Animator>();
         }
 
         if (equipmentManager == null)
         {
-            equipmentManager = GetComponent<EquipmentManager>();
-        }
-
-        if (playerCombat == null)
-        {
-            playerCombat = GetComponent<PlayerCombat>();
+            equipmentManager = playerCombat != null && playerCombat.equipmentManager != null
+                ? playerCombat.equipmentManager
+                : GetComponent<EquipmentManager>();
         }
 
         playerAnimationEventHandler = playerAnimator != null
@@ -68,6 +72,8 @@ public class PlayerSkillCastController : MonoBehaviour
 
     private void Update()
     {
+        RefreshReferences();
+
         if (Input.GetKeyDown(KeyCode.E) && OwnsMainHandSkillInput())
         {
             DetachPlayerCombatEquipmentManagerForThisFrame();
@@ -95,7 +101,7 @@ public class PlayerSkillCastController : MonoBehaviour
         }
 
         nextMainHandCastTime = Time.time + GetSkillCooldown(weapon, mainHandCooldown);
-        StartCoroutine(CastSkillRoutine(mainHandAnimationTrigger, mainHandReleaseDelay, equipmentManager.TriggerMainHandSkill));
+        StartCoroutine(CastSkillRoutine(mainHandAnimationTrigger, mainHandReleaseDelay, weapon));
         return true;
     }
 
@@ -108,17 +114,17 @@ public class PlayerSkillCastController : MonoBehaviour
         }
 
         nextOffHandCastTime = Time.time + GetSkillCooldown(weapon, offHandCooldown);
-        StartCoroutine(CastSkillRoutine(offHandAnimationTrigger, offHandReleaseDelay, equipmentManager.TriggerOffHandSkill));
+        StartCoroutine(CastSkillRoutine(offHandAnimationTrigger, offHandReleaseDelay, weapon));
         return true;
     }
 
-    private IEnumerator CastSkillRoutine(string animationTrigger, float releaseDelay, UnityAction releaseSkill)
+    private IEnumerator CastSkillRoutine(string animationTrigger, float releaseDelay, WeaponController weapon)
     {
         SuppressPlayerMeleeAnimationEvents();
         PlaySkillAnimation(animationTrigger);
 
         yield return new WaitForSeconds(releaseDelay);
-        releaseSkill?.Invoke();
+        SpawnSkillDirectly(weapon);
     }
 
     private void PlaySkillAnimation(string animationTrigger)
@@ -203,6 +209,88 @@ public class PlayerSkillCastController : MonoBehaviour
             BindingFlags.Instance | BindingFlags.NonPublic);
 
         return field != null ? field.GetValue(equipmentManager) as WeaponController : null;
+    }
+
+    private void SpawnSkillDirectly(WeaponController weapon)
+    {
+        if (weapon == null || weapon.currentItemData == null || !weapon.currentItemData.hasSkill)
+        {
+            return;
+        }
+
+        WeaponSkill skillData = weapon.currentItemData.weaponSkill;
+        if (skillData.skillPrefab == null)
+        {
+            Debug.LogWarning($"[PlayerSkillCastController] Skill {skillData.skillName} thieu prefab.");
+            return;
+        }
+
+        Vector3 spawnPosition = GetSkillSpawnPosition();
+        Quaternion spawnRotation = Quaternion.LookRotation(GetPlayerFacingDirection());
+        GameObject skillObject = Instantiate(skillData.skillPrefab, spawnPosition, spawnRotation);
+
+        BaseSkill skill = skillObject.GetComponent<BaseSkill>();
+        if (skill != null)
+        {
+            skill.Initialize(PlayerStat.Instance, skillData.damageMultiplier, GetWeaponPhysicalDamage(weapon));
+            skill.ExecuteSkill();
+        }
+    }
+
+    private Vector3 GetSkillSpawnPosition()
+    {
+        PlayerStat player = PlayerStat.Instance;
+        if (player == null) return transform.position;
+
+        Vector3 direction = GetPlayerFacingDirection();
+        return player.transform.position + Vector3.up + direction * 0.8f;
+    }
+
+    private Vector3 GetPlayerFacingDirection()
+    {
+        Transform activeCamera = Camera.main != null ? Camera.main.transform : null;
+        if (activeCamera != null)
+        {
+            Vector3 direction = activeCamera.forward;
+            direction.y = 0f;
+            if (direction.sqrMagnitude > 0.001f)
+            {
+                return direction.normalized;
+            }
+        }
+
+        PlayerStat player = PlayerStat.Instance;
+        if (player != null)
+        {
+            Vector3 fallback = player.transform.forward;
+            fallback.y = 0f;
+            if (fallback.sqrMagnitude > 0.001f)
+            {
+                return fallback.normalized;
+            }
+        }
+
+        return Vector3.forward;
+    }
+
+    private float GetWeaponPhysicalDamage(WeaponController weapon)
+    {
+        float weaponDamage = 0f;
+        if (weapon == null || weapon.currentItemData == null || weapon.currentItemData.modifiers == null)
+        {
+            return weaponDamage;
+        }
+
+        foreach (ItemData.StatMod modifier in weapon.currentItemData.modifiers)
+        {
+            string stat = modifier.stat.ToLower();
+            if (stat == "physical damage" || stat == "physicaldamage" || stat == "physicaldamagebonus")
+            {
+                weaponDamage += modifier.value;
+            }
+        }
+
+        return weaponDamage;
     }
 
     private bool OwnsMainHandSkillInput()
