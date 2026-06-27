@@ -1,4 +1,5 @@
 using UnityEngine;
+using Unity.Behavior;
 
 public class EnemyCombat : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class EnemyCombat : MonoBehaviour
 
     [Header("Combat Settings")]
     public LayerMask targetLayer;
-    
+
     private float nextAttackTime = 0f;
 
     private void Awake()
@@ -18,7 +19,7 @@ public class EnemyCombat : MonoBehaviour
         {
             enemyStat = GetComponent<EnemyStat>();
         }
-        
+
         if (animator == null)
         {
             animator = GetComponentInChildren<Animator>();
@@ -65,23 +66,84 @@ public class EnemyCombat : MonoBehaviour
         {
             // You can use a specific tag check if necessary, e.g. hitTarget.CompareTag("Player")
             CharacterStats targetStats = hitTarget.GetComponentInParent<CharacterStats>();
-            
+
             if (targetStats != null && !hitStats.Contains(targetStats))
             {
                 hitStats.Add(targetStats);
                 float damage = enemyStat.GetPhysicalDamage();
-                
+
                 // Enemy chỉ dùng sát thương vật lý cơ bản cho đòn đánh thường, giống Player
                 targetStats.TakePhysicalDamage(damage);
             }
         }
     }
 
-    private void OnDrawGizmosSelected()
+    [Header("Lunge Settings")]
+    public Collider mainCollider;
+    public BehaviorGraphAgent enemyBehaviorAgent;
+    
+    // To keep track of if we already dealt damage during the current lunge
+    private bool hasDealtLungeDamage = false;
+    private bool wasLunging = false;
+
+    private void Update()
     {
-        if (attackPoint == null || enemyStat == null) return;
+        if (enemyBehaviorAgent != null && enemyBehaviorAgent.BlackboardReference.GetVariableValue("IsLunging", out bool isLunging))
+        {
+            if (isLunging && !wasLunging)
+            {
+                // We just started lunging
+                wasLunging = true;
+                hasDealtLungeDamage = false; // Reset damage flag
+                
+                // Ignore collision with the Player layer so the enemy can pass through
+                int playerLayer = LayerMask.NameToLayer("Player");
+                if (playerLayer != -1)
+                {
+                    Physics.IgnoreLayerCollision(gameObject.layer, playerLayer, true);
+                }
+            }
+            else if (!isLunging && wasLunging)
+            {
+                // We just stopped lunging
+                wasLunging = false;
+                
+                // Restore collision with the Player layer
+                int playerLayer = LayerMask.NameToLayer("Player");
+                if (playerLayer != -1)
+                {
+                    Physics.IgnoreLayerCollision(gameObject.layer, playerLayer, false);
+                }
+            }
+            
+            // Note: Since it's a trigger, checking overlap frame by frame or using OnTriggerEnter is needed.
+            // Using OverlapSphere here to check for the player while lunging in Update:
+            if (isLunging && !hasDealtLungeDamage)
+            {
+                CheckLungeDamage();
+            }
+        }
+    }
+
+    private void CheckLungeDamage()
+    {
+        if (mainCollider == null || enemyStat == null) return;
+
+        // Use the collider's bounds to check for the player
+        Collider[] hitTargets = Physics.OverlapBox(mainCollider.bounds.center, mainCollider.bounds.extents, mainCollider.transform.rotation, targetLayer);
         
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(attackPoint.position, enemyStat.attackRange);
+        foreach (Collider hitTarget in hitTargets)
+        {
+            CharacterStats targetStats = hitTarget.GetComponentInParent<CharacterStats>();
+
+            if (targetStats != null)
+            {
+                float damage = enemyStat.GetPhysicalDamage();
+                targetStats.TakePhysicalDamage(damage);
+                
+                hasDealtLungeDamage = true; // Only deal damage once per lunge
+                break; // Stop after hitting the first target (usually the player)
+            }
+        }
     }
 }
