@@ -22,7 +22,35 @@ MonoBehaviour:
   equippable: 1
   equipmentType: 1
   weaponClassName: Greatsword
-  baseModifiers: []
+  baseModifiers:
+  - statTypeSelection: 1
+    stat: PhysicalDamage
+    value: 20
+    percent: 0
+    percentValue: 0
+    isMainStat: 1
+    statTier: 0
+  - statTypeSelection: 15
+    stat: CritChance
+    value: 0
+    percent: 1
+    percentValue: 0
+    isMainStat: 0
+    statTier: 0
+  - statTypeSelection: 2
+    stat: PhysicalDamageBonus
+    value: 0
+    percent: 1
+    percentValue: 0
+    isMainStat: 0
+    statTier: 0
+  - statTypeSelection: 14
+    stat: AttackSpeed
+    value: 0
+    percent: 0
+    percentValue: 0
+    isMainStat: 0
+    statTier: 0
   weaponPrefab: {fileID: 3671704035849091831, guid: e836f239175150b4b8e4af650f751c16, type: 3}
   customStanceID: 0
   hasSkill: 1
