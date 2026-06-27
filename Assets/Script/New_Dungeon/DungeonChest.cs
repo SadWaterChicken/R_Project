@@ -7,24 +7,9 @@ namespace New_Dungeon
 {
     public class DungeonChest : MonoBehaviour, IInteractable
     {
-        [System.Serializable]
-        public class DungeonChestReward
-        {
-            public BaseItemData itemData;
-            public int minQuantity = 1;
-            public int maxQuantity = 1;
-            public float dropChance = 1f; // 0.0 to 1.0
-            [Tooltip("If checked, the item will roll random sub-stats based on Rarity (T1-T6) using ItemGenerator.")]
-            public bool isEquipment = false;
-        }
-
         [Header("Chest Loot Settings")]
-        [Tooltip("The list of items this chest can potentially drop.")]
-        public List<DungeonChestReward> possibleRewards = new List<DungeonChestReward>();
-
-        [Header("Gold Reward")]
-        public int minGold = 10;
-        public int maxGold = 50;
+        [Tooltip("The list of items this chest can potentially drop into the Dungeon Sack.")]
+        public List<ItemData> possibleRewards;
 
         [Header("Events")]
         [Tooltip("Triggered when the chest is opened. Used by Event Rooms to continue the wave logic.")]
@@ -43,61 +28,40 @@ namespace New_Dungeon
 
         private void GiveReward()
         {
-            var inventory = Inventory.Instance;
-            var playerStat = PlayerStat.Instance;
-
-            // 1. Give Gold
-            int goldAmount = Random.Range(minGold, maxGold + 1);
-            if (goldAmount > 0 && playerStat != null)
-            {
-                playerStat.AddGold(goldAmount);
-                Debug.Log($"[DungeonChest] Found {goldAmount} gold!");
-            }
-
             if (possibleRewards == null || possibleRewards.Count == 0)
             {
                 Debug.LogWarning("[DungeonChest] Chest has no possible rewards!");
                 return;
             }
 
+            // Chọn ngẫu nhiên 1 món đồ từ list
+            int randomIndex = Random.Range(0, possibleRewards.Count);
+            ItemData rewardItem = possibleRewards[randomIndex];
+
+            if (rewardItem == null) return;
+
+            // Kiểm tra xem có đang ở trong Dungeon không
             string currentScene = SceneManager.GetActiveScene().name.ToLower();
             bool isDungeon = currentScene.Contains("dungeon");
 
-            // 2. Give Items
-            foreach (var reward in possibleRewards)
+            if (isDungeon)
             {
-                if (Random.value > reward.dropChance) continue;
-                if (reward.itemData == null) continue;
-
-                int quantity = Random.Range(reward.minQuantity, reward.maxQuantity + 1);
-                ItemData newItem = null;
-
-                if (reward.isEquipment)
+                if (DungeonSack.Instance != null)
                 {
-                    newItem = ItemGenerator.GenerateLoot(reward.itemData);
-                    newItem.stack = quantity;
+                    DungeonSack.Instance.AddItem(rewardItem);
+                    Debug.Log($"[DungeonChest] Added {rewardItem.itemName} to DungeonSack!");
                 }
                 else
                 {
-                    newItem = new ItemData(reward.itemData.itemID, quantity);
-                    newItem.BaseData = reward.itemData;
+                    Debug.LogWarning("[DungeonChest] DungeonSack.Instance is null! Lost item.");
                 }
-
-                if (isDungeon)
+            }
+            else
+            {
+                if (Inventory.Instance != null)
                 {
-                    if (DungeonSack.Instance != null)
-                    {
-                        DungeonSack.Instance.AddItem(newItem);
-                        Debug.Log($"[DungeonChest] Added {newItem.itemName} to DungeonSack!");
-                    }
-                }
-                else
-                {
-                    if (inventory != null)
-                    {
-                        inventory.AddItem(newItem);
-                        Debug.Log($"[DungeonChest] Added {newItem.itemName} to main Inventory!");
-                    }
+                    Inventory.Instance.AddItem(rewardItem);
+                    Debug.Log($"[DungeonChest] Added {rewardItem.itemName} to main Inventory!");
                 }
             }
         }
