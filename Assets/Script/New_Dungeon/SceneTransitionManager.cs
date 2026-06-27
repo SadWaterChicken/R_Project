@@ -1,11 +1,16 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class SceneTransitionManager : MonoBehaviour
 {
     public static SceneTransitionManager Instance { get; private set; }
+    
+    [Header("Overworld Settings")]
+    [Tooltip("Type the name of the scene you are working on to return to it when leaving the dungeon.")]
+    public string overworldSceneName;
 
     private void Awake()
     {
@@ -26,6 +31,12 @@ public class SceneTransitionManager : MonoBehaviour
 
     public void LoadScene(string sceneName)
     {
+        if (string.IsNullOrEmpty(sceneName))
+        {
+            Debug.LogError("[SceneTransitionManager] Attempted to load a scene, but the scene name provided was empty!");
+            return;
+        }
+
         StartCoroutine(LoadSceneAsync(sceneName));
     }
 
@@ -125,7 +136,7 @@ public class SceneTransitionManager : MonoBehaviour
         Debug.Log($"[SceneTransitionManager] Finished loading scene: {sceneName}");
         
         // If returning to Overworld, we handle the cleanup of the DungeonEntrance
-        if (sceneName == "PlayerTesting" && GameStateManager.Instance != null)
+        if (sceneName == overworldSceneName && GameStateManager.Instance != null)
         {
             HandleOverworldReturn();
         }

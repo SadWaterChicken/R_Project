@@ -11,6 +11,10 @@ public class GameStateManager : MonoBehaviour
     public string activeDungeonInstanceID;
     public bool isBossKilled;
 
+    [Header("Scene Settings")]
+    [Tooltip("The name of the dungeon scene to load when entering a dungeon.")]
+    public string dungeonSceneName = "DungeonTesting";
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -18,7 +22,6 @@ public class GameStateManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
@@ -47,10 +50,14 @@ public class GameStateManager : MonoBehaviour
         Debug.Log($"[GameStateManager] Entering Dungeon: {activeDungeonInstanceID}. Theme: {currentTheme.themeName}, Difficulty: {currentDifficulty}");
 
         // Load Dungeon Scene
-        // Make sure "DungeonScene" is added to Build Settings!
         if (SceneTransitionManager.Instance != null)
         {
-            SceneTransitionManager.Instance.LoadScene("DungeonTesting"); // Name must match exactly
+            if (string.IsNullOrEmpty(dungeonSceneName))
+            {
+                Debug.LogError("[GameStateManager] Dungeon Scene Name is empty! Please set it in the Inspector.");
+                return;
+            }
+            SceneTransitionManager.Instance.LoadScene(dungeonSceneName);
         }
         else
         {
@@ -70,7 +77,13 @@ public class GameStateManager : MonoBehaviour
         
         if (SceneTransitionManager.Instance != null)
         {
-            SceneTransitionManager.Instance.LoadScene("PlayerTesting"); // Name must match exactly
+            string targetScene = SceneTransitionManager.Instance.overworldSceneName;
+            if (string.IsNullOrEmpty(targetScene))
+            {
+                Debug.LogError("[GameStateManager] Overworld Scene Name in SceneTransitionManager is empty! Please set it in the Inspector.");
+                return;
+            }
+            SceneTransitionManager.Instance.LoadScene(targetScene);
         }
         else
         {

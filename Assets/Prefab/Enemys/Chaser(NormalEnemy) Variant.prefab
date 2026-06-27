@@ -40,10 +40,6 @@ PrefabInstance:
       propertyPath: detectionLayer.m_Bits
       value: 256
       objectReference: {fileID: 0}
-    - target: {fileID: 2864815054087855061, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
-      propertyPath: enemyStat
-      value: 
-      objectReference: {fileID: 1777925620736310029}
     - target: {fileID: 4073294042357489424, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
       propertyPath: m_Name
       value: Chaser(NormalEnemy) Variant
@@ -119,9 +115,6 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4073294042357489424, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1777925620736310029}
-    - targetCorrespondingSourceObject: {fileID: 4073294042357489424, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 4477402058646163613}
   m_SourcePrefab: {fileID: 100100000, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
 --- !u!1 &905590682323825698 stripped
@@ -129,43 +122,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4073294042357489424, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
   m_PrefabInstance: {fileID: 3753313460633365298}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1777925620736310029
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 905590682323825698}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae4ea46037439d44b85de08b5b423fe5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyStat
-  maxHealth: 100
-  currentHealth: 0
-  healthRegenRate: 0
-  maxMana: 100
-  currentMana: 0
-  manaRegenRate: 0
-  basePhysicalDamage: 10
-  physicalDamageBonus: 0
-  baseMagicDamage: 5
-  magicDamageBonus: 0
-  physicalArmor: 0
-  magicArmor: 0
-  baseSpeed: 6
-  movementSpeed: 6
-  attackSpeed: 1
-  critChance: 0
-  shield: 0
-  maxShield: 0
-  shieldRegenRate: 0
-  shieldRechargeCooldown: 5
-  enemyLevel: 1
-  attackRange: 1
-  attackCooldown: 1
-  detectionRange: 10
-  outOfCombatDelay: 3
 --- !u!114 &4477402058646163613
 MonoBehaviour:
   m_ObjectHideFlags: 0

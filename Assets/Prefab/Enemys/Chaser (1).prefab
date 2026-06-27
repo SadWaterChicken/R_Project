@@ -113,7 +113,7 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -300,8 +300,10 @@ MonoBehaviour:
   manaRegenRate: 0
   basePhysicalDamage: 10
   physicalDamageBonus: 0
+  physicalDamageMultiplier: 0
   baseMagicDamage: 5
   magicDamageBonus: 0
+  magicDamageMultiplier: 0
   physicalArmor: 0
   magicArmor: 0
   baseSpeed: 6
@@ -483,6 +485,8 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 256
+  mainCollider: {fileID: 5130359778624185310}
+  enemyBehaviorAgent: {fileID: 2317661578285317477}
 --- !u!114 &1628395111150123671
 MonoBehaviour:
   m_ObjectHideFlags: 0
