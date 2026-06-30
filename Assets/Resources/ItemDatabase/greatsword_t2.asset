@@ -16,7 +16,7 @@ MonoBehaviour:
   itemName: Greatsword Tier 2
   description: 
   basePrice: 0
-  iconPath: 
+  iconPath: Amor_Pic/greatsword_t2
   itemTier: 2
   rarity: 2
   equippable: 1
@@ -25,12 +25,21 @@ MonoBehaviour:
   baseModifiers: []
   weaponPrefab: {fileID: 0}
   customStanceID: 0
+  hasSkill: 0
+  weaponSkill:
+    skillName: 
+    description: 
+    skillIcon: {fileID: 0}
+    cooldown: 0
+    damageMultiplier: 0
+    animationTrigger: 
+    skillPrefab: {fileID: 0}
   isForgeable: 1
   forgingRecipe:
-    requiredMastery: 100
     recipeID: r_greatsword_t2
     resultItemID: greatsword_t2
-    resultItem: {fileID: 0}
+    resultItem: {fileID: 11400000}
+    requiredMastery: 100
     requiredItemIDs: []
     oldRequiredWeapons: []
     requiredWeapons:

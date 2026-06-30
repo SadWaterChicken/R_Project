@@ -11574,6 +11574,7 @@ MonoBehaviour:
   bowMasteryText: {fileID: 5187647801650671931}
   staffMasteryText: {fileID: 255280409483802661}
   orbMasteryText: {fileID: 1770220523407495209}
+  dualBladesMasteryText: {fileID: 0}
   greatswordSlider: {fileID: 2602722030822107295}
   katanaSlider: {fileID: 9140265860847134818}
   warhammerSlider: {fileID: 8212644530891266442}
@@ -11582,6 +11583,7 @@ MonoBehaviour:
   bowSlider: {fileID: 3283695628716671765}
   staffSlider: {fileID: 8712106552376934974}
   orbSlider: {fileID: 8926267905727596464}
+  dualBladesSlider: {fileID: 0}
 --- !u!1 &7161922841720085284
 GameObject:
   m_ObjectHideFlags: 0
