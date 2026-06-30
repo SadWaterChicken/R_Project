@@ -252,12 +252,16 @@ public class Inventory : MonoBehaviour
     public void AddClassMastery(string className, float amount)
     {
         if (string.IsNullOrEmpty(className)) return;
-        if (!classMasteries.ContainsKey(className)) classMasteries[className] = 0f;
-        classMasteries[className] = Mathf.Min(classMasteries[className] + amount, 1000f);
+        
+        // Use GetClassMastery to fetch the most up-to-date value (which prioritizes PlayerStat Inspector)
+        float currentVal = GetClassMastery(className);
+        float newVal = Mathf.Min(currentVal + amount, 1000f);
+        
+        classMasteries[className] = newVal;
         
         if (PlayerStat.Instance != null)
         {
-            PlayerStat.Instance.UpdateMasteryDisplay(className, classMasteries[className]);
+            PlayerStat.Instance.UpdateMasteryDisplay(className, newVal);
         }
         SaveInventory(); // Save immediately when mastery is earned
     }
@@ -265,6 +269,25 @@ public class Inventory : MonoBehaviour
     public float GetClassMastery(string className)
     {
         if (string.IsNullOrEmpty(className)) return 0f;
+        
+        // Priority 1: Read from PlayerStat so that Inspector modifications take instant effect
+        if (PlayerStat.Instance != null)
+        {
+            switch (className.ToLower())
+            {
+                case "greatsword": return PlayerStat.Instance.greatswordMastery;
+                case "katana": return PlayerStat.Instance.katanaMastery;
+                case "warhammer": return PlayerStat.Instance.warhammerMastery;
+                case "greatsaxe": return PlayerStat.Instance.greatsaxeMastery;
+                case "spear": return PlayerStat.Instance.spearMastery;
+                case "bow": return PlayerStat.Instance.bowMastery;
+                case "staff": return PlayerStat.Instance.staffMastery;
+                case "orb": return PlayerStat.Instance.orbMastery;
+                case "dualblades": return PlayerStat.Instance.dualBladesMastery;
+            }
+        }
+
+        // Priority 2: Fallback to the dictionary
         if (classMasteries.TryGetValue(className, out float val)) return val;
         return 0f;
     }
@@ -276,6 +299,20 @@ public class Inventory : MonoBehaviour
 
     public void SaveInventory()
     {
+        // Sync display fields from PlayerStat back to classMasteries so Inspector modifications are saved
+        if (PlayerStat.Instance != null)
+        {
+            classMasteries["Greatsword"] = PlayerStat.Instance.greatswordMastery;
+            classMasteries["Katana"] = PlayerStat.Instance.katanaMastery;
+            classMasteries["Warhammer"] = PlayerStat.Instance.warhammerMastery;
+            classMasteries["Greatsaxe"] = PlayerStat.Instance.greatsaxeMastery;
+            classMasteries["Spear"] = PlayerStat.Instance.spearMastery;
+            classMasteries["Bow"] = PlayerStat.Instance.bowMastery;
+            classMasteries["Staff"] = PlayerStat.Instance.staffMastery;
+            classMasteries["Orb"] = PlayerStat.Instance.orbMastery;
+            classMasteries["DualBlades"] = PlayerStat.Instance.dualBladesMastery;
+        }
+
         InventorySaveData data = new InventorySaveData { items = this.ownedItems };
         data.classMasteries = new List<ClassMasteryData>();
         foreach(var kvp in classMasteries)

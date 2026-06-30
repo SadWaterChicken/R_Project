@@ -10399,6 +10399,7 @@ MonoBehaviour:
       forgeLevel: 0
       weaponMastery: 0
       baseItemID: 
+      rarity: 1
       modifiers: []
   - type: 1
     specificSlot: 1
@@ -10413,6 +10414,7 @@ MonoBehaviour:
       forgeLevel: 0
       weaponMastery: 0
       baseItemID: 
+      rarity: 1
       modifiers: []
   - type: 1
     specificSlot: 2
@@ -10427,6 +10429,7 @@ MonoBehaviour:
       forgeLevel: 0
       weaponMastery: 0
       baseItemID: 
+      rarity: 1
       modifiers: []
   - type: 2
     specificSlot: 0
@@ -10441,6 +10444,7 @@ MonoBehaviour:
       forgeLevel: 0
       weaponMastery: 0
       baseItemID: 
+      rarity: 1
       modifiers: []
   - type: 3
     specificSlot: 0
@@ -10455,6 +10459,7 @@ MonoBehaviour:
       forgeLevel: 0
       weaponMastery: 0
       baseItemID: 
+      rarity: 1
       modifiers: []
   - type: 4
     specificSlot: 0
@@ -10469,6 +10474,7 @@ MonoBehaviour:
       forgeLevel: 0
       weaponMastery: 0
       baseItemID: 
+      rarity: 1
       modifiers: []
   - type: 5
     specificSlot: 0
@@ -10483,6 +10489,7 @@ MonoBehaviour:
       forgeLevel: 0
       weaponMastery: 0
       baseItemID: 
+      rarity: 1
       modifiers: []
 --- !u!1 &6464953340031321427
 GameObject:

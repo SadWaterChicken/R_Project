@@ -76,6 +76,7 @@ public class PlayerStat : CharacterStats
     public float bowMastery;
     public float staffMastery;
     public float orbMastery;
+    public float dualBladesMastery;
 
     public void UpdateMasteryDisplay(string className, float masteryExp)
     {
@@ -89,6 +90,7 @@ public class PlayerStat : CharacterStats
             case "bow": bowMastery = masteryExp; break;
             case "staff": staffMastery = masteryExp; break;
             case "orb": orbMastery = masteryExp; break;
+            case "dualblades": dualBladesMastery = masteryExp; break;
             default:
                 Debug.LogWarning($"[PlayerStat] Unknown weapon class: {className}");
                 break;
@@ -144,6 +146,7 @@ public class PlayerStat : CharacterStats
             bowMastery = Inventory.Instance.GetClassMastery("Bow");
             staffMastery = Inventory.Instance.GetClassMastery("Staff");
             orbMastery = Inventory.Instance.GetClassMastery("Orb");
+            dualBladesMastery = Inventory.Instance.GetClassMastery("DualBlades");
         }
         
         // Optional: currentSanity can also be synced from load, but if not loaded properly, use max

@@ -58,6 +58,7 @@ public class PlayerStatusUI : MonoBehaviour
     public TMP_Text bowMasteryText;
     public TMP_Text staffMasteryText;
     public TMP_Text orbMasteryText;
+    public TMP_Text dualBladesMasteryText;
 
     [Header("Weapon Class Masteries (Sliders)")]
     public Slider greatswordSlider;
@@ -68,6 +69,7 @@ public class PlayerStatusUI : MonoBehaviour
     public Slider bowSlider;
     public Slider staffSlider;
     public Slider orbSlider;
+    public Slider dualBladesSlider;
 
     private float updateTimer;
 
@@ -136,6 +138,7 @@ public class PlayerStatusUI : MonoBehaviour
         if (bowMasteryText != null) bowMasteryText.text = $"{ps.bowMastery:F1}";
         if (staffMasteryText != null) staffMasteryText.text = $"{ps.staffMastery:F1}";
         if (orbMasteryText != null) orbMasteryText.text = $"{ps.orbMastery:F1}";
+        if (dualBladesMasteryText != null) dualBladesMasteryText.text = $"{ps.dualBladesMastery:F1}";
 
         // --- SLIDERS ---
         if (healthSlider != null) { healthSlider.maxValue = ps.maxHealth; healthSlider.value = ps.currentHealth; }
@@ -152,5 +155,6 @@ public class PlayerStatusUI : MonoBehaviour
         if (bowSlider != null) { bowSlider.maxValue = maxMastery; bowSlider.value = ps.bowMastery; }
         if (staffSlider != null) { staffSlider.maxValue = maxMastery; staffSlider.value = ps.staffMastery; }
         if (orbSlider != null) { orbSlider.maxValue = maxMastery; orbSlider.value = ps.orbMastery; }
+        if (dualBladesSlider != null) { dualBladesSlider.maxValue = maxMastery; dualBladesSlider.value = ps.dualBladesMastery; }
     }
 }
