@@ -770,7 +770,7 @@ GameObject:
   - component: {fileID: 3049585352295219088}
   - component: {fileID: 7319676724112747557}
   - component: {fileID: 7138799694621061203}
-  - component: {fileID: 631699011252512601}
+  - component: {fileID: 984995947763488599}
   m_Layer: 0
   m_Name: Fantasy_Polygon_Chest_level_01
   m_TagString: Untagged
@@ -855,7 +855,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Interactor
   interactRange: 3
   hintUI: {fileID: 2939447951120028825}
---- !u!114 &631699011252512601
+--- !u!114 &984995947763488599
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -868,7 +868,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::New_Dungeon.DungeonChest
   possibleRewards: []
-  isFinalRewardChest: 1
   minGold: 10
   maxGold: 50
   onChestOpened:

@@ -70,16 +70,12 @@ public class DungeonSack : MonoBehaviour
         return true;
     }
 
-    public void Clear(bool isPlayerDeath = true)
+    public void Clear()
     {
         sackedItems.Clear();
         OnSackChanged?.Invoke();
         SaveSack(); // Lưu vào Json để xóa file
-        
-        if (isPlayerDeath)
-            Debug.Log("[DungeonSack] Sacked items have been cleared (Player died).");
-        else
-            Debug.Log("[DungeonSack] Sacked items have been cleared (Successful transfer).");
+        Debug.Log("[DungeonSack] Sacked items have been cleared (Player died).");
     }
 
     public void TransferToInventory()
@@ -100,8 +96,8 @@ public class DungeonSack : MonoBehaviour
 
         Debug.Log($"[DungeonSack] Successfully transferred {count} items to main Inventory (Player survived).");
         
-        // Sau khi nhồi hết đồ thì xóa sạch cái túi tạm này đi (truyền false để không báo chết)
-        Clear(false);
+        // Sau khi nhồi hết đồ thì xóa sạch cái túi tạm này đi (hàm Clear đã bao gồm SaveSack)
+        Clear();
     }
 
     // --- SAVE / LOAD SYSTEM ---
