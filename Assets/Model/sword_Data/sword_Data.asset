@@ -23,17 +23,28 @@ MonoBehaviour:
   equipmentType: 1
   weaponClassName: 
   baseModifiers: []
-  weaponPrefab: {fileID: 4850799410402900609, guid: 8f21c700ae17106438d00bfaf19fdde7, type: 3}
+  weaponPrefab: {fileID: 3671704035849091831, guid: e836f239175150b4b8e4af650f751c16, type: 3}
   customStanceID: 0
+  hasSkill: 0
+  weaponSkill:
+    skillName: 
+    description: 
+    skillIcon: {fileID: 0}
+    cooldown: 0
+    damageMultiplier: 0
+    animationTrigger: 
+    skillPrefab: {fileID: 0}
   isForgeable: 0
   forgingRecipe:
     recipeID: 
     resultItemID: 
     resultItem: {fileID: 0}
+    requiredMastery: 0
+    requiredItemIDs: []
+    oldRequiredWeapons: []
     requiredWeapons: []
     requiredMaterials: []
     goldCost: 0
-    minWeaponCount: 2
   gripType: 0
   combatStyle: 0
   projectilePrefab: {fileID: 0}

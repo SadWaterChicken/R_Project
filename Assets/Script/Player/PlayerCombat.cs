@@ -100,14 +100,6 @@ public class PlayerCombat : MonoBehaviour
             }
         }
     }
-  
-
-    public void Attack()
-    {
-        // [DEPRECATED] Logic gây sát thương cũ đã được gỡ bỏ.
-        // Hàm này được giữ lại với nội dung rỗng để Animator cũ gọi vào không bị văng lỗi Missing Method.
-        // Sát thương thực tế đã được chuyển sang Component mới.
-    }
 
     public void Combohit1Transition()
     {
