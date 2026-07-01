@@ -22,6 +22,10 @@ namespace New_Dungeon
         [Tooltip("The list of items this chest can potentially drop.")]
         public List<DungeonChestReward> possibleRewards = new List<DungeonChestReward>();
 
+        [Header("Dungeon Transfer Options")]
+        [Tooltip("Nếu tick, khi mở rương này sẽ rút toàn bộ đồ từ DungeonSack ném vào Inventory thật của người chơi.")]
+        public bool isFinalRewardChest = false;
+
         [Header("Gold Reward")]
         public int minGold = 10;
         public int maxGold = 50;
@@ -33,6 +37,13 @@ namespace New_Dungeon
         public void Interact()
         {
             GiveReward();
+            
+            // Nếu đây là rương thưởng cuối, hút sạch đồ từ túi ảo về túi thật
+            if (isFinalRewardChest && DungeonSack.Instance != null)
+            {
+                Debug.Log("[DungeonChest] Đang chuyển toàn bộ đồ từ Dungeon Sack về Inventory chính...");
+                DungeonSack.Instance.TransferToInventory();
+            }
             
             // Invoke the unity event so anyone listening (like EventRoomController) knows it opened
             onChestOpened?.Invoke();
