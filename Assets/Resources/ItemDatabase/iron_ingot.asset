@@ -9,17 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e355dc9725927d146b329a9ab64ce010, type: 3}
+  m_Script: {fileID: 11500000, guid: 3cd93c80fd227ab4bac81bae7af80ff2, type: 3}
   m_Name: iron_ingot
-  m_EditorClassIdentifier: Assembly-CSharp::BaseItemData
-  itemID: iron_ingot
-  itemName: Iron Ingot
+  m_EditorClassIdentifier: Assembly-CSharp::ForgingMaterial
+  materialID: iron_ingot
+  materialName: Iron Ingot
   description: 
-  basePrice: 0
   iconPath: Amor_Pic/iron_ingot
-  equippable: 0
-  equipmentType: 0
-  weaponClassName: 
-  baseModifiers: []
-  weaponPrefab: {fileID: 0}
-  customStanceID: 0
+  icon: {fileID: 0}
+  materialType: 1
+  rarity: 1
+  weight: 1

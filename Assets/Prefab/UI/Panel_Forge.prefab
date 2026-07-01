@@ -6140,7 +6140,7 @@ MonoBehaviour:
   closeAdvancedWeaponsButton: {fileID: 6817113923882183446}
   statsText: {fileID: 2995868771668676286}
   materialsListParent: {fileID: 9119635655914386670}
-  materialSlotPrefab: {fileID: 7614729685395680226, guid: 4b9ff8778b0b3824fa4f74e5c8276624, type: 3}
+  materialSlotPrefab: {fileID: 4560472348979477477, guid: 75d71af61c860c6468736ac6d71c2b9a, type: 3}
   goldRequiredText: {fileID: 619874475996841105}
   weaponsNeededText: {fileID: 0}
   forgeButton: {fileID: 4817238791501106995}

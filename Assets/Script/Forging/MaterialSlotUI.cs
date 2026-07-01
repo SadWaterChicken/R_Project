@@ -14,7 +14,14 @@ public class MaterialSlotUI : MonoBehaviour
     public void SetMaterial(ForgingMaterial material, int required, int playerHas)
     {
         if (material == null) return;
-        SetInfo(material.icon, material.materialName, required, playerHas);
+        
+        Sprite iconToUse = material.icon;
+        if (iconToUse == null && !string.IsNullOrEmpty(material.iconPath))
+        {
+            iconToUse = Resources.Load<Sprite>(material.iconPath);
+        }
+        
+        SetInfo(iconToUse, material.materialName, required, playerHas);
     }
 
     public void SetInfo(Sprite icon, string name, int required, int playerHas)
@@ -33,7 +40,7 @@ public class MaterialSlotUI : MonoBehaviour
             bool hasEnough = playerHas >= required;
             var color = hasEnough ? Color.green : Color.red;
 
-            quantityText.text = $"{playerHas}/{required}";
+            quantityText.text = $"{required}";
             quantityText.color = color;
         }
     }

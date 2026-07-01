@@ -336,9 +336,11 @@ public class ForgeUI : MonoBehaviour
     {
         if (currentRecipe == null) return;
 
-        // Clear existing material slots
-        foreach (var slot in spawnedMaterialSlots)
-            Destroy(slot);
+        // Clear existing material slots (including any placeholders left in the Editor)
+        foreach (Transform child in materialsListParent)
+        {
+            Destroy(child.gameObject);
+        }
         spawnedMaterialSlots.Clear();
 
         var forgingSystem = ForgingSystem.Instance;
@@ -361,31 +363,7 @@ public class ForgeUI : MonoBehaviour
             }
         }
 
-        // Display required weapons as slots
-        if (materialSlotPrefab != null)
-        {
-            foreach (var reqW in currentRecipe.requiredWeapons)
-            {
-                if (reqW.weapon == null) continue;
-                
-                GameObject slot = Instantiate(materialSlotPrefab, materialsListParent);
-                spawnedMaterialSlots.Add(slot);
-
-                var materialUI = slot.GetComponent<MaterialSlotUI>();
-                if (materialUI != null)
-                {
-                    // Đếm số lượng vũ khí này trong kho đồ
-                    int playerHas = Inventory.Instance.ownedItems.Where(i => i.itemID == reqW.weapon.itemID).Sum(i => i.stack);
-                    
-                    // Lấy Icon từ vũ khí
-                    Sprite wIcon = null;
-                    if (!string.IsNullOrEmpty(reqW.weapon.iconPath))
-                        wIcon = Resources.Load<Sprite>(reqW.weapon.iconPath);
-
-                    materialUI.SetInfo(wIcon, reqW.weapon.itemName, reqW.quantity, playerHas);
-                }
-            }
-        }
+        // (Weapon requirements are intentionally no longer displayed, forging is pure material-based now)
 
         // Update gold
         if (goldRequiredText != null)

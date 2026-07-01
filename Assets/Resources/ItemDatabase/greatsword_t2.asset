@@ -47,7 +47,7 @@ MonoBehaviour:
       quantity: 1
     requiredMaterials:
     - materialID: iron_ingot
-      material: {fileID: 0}
+      material: {fileID: 11400000, guid: dde74946b8bfe694f93b3753f2d7af9c, type: 2}
       quantity: 5
     goldCost: 100
   gripType: 0
