@@ -8,17 +8,28 @@ public class TypeWriterEffect : MonoBehaviour
 {
     [SerializeField] private float typeSpeed = 50f;
 
+    public bool isRunning { get; private set; }
+
     private readonly Dictionary<HashSet<char>, float> punctuations = new Dictionary<HashSet<char>, float>()
     {
         { new HashSet<char>(){ '.', '!', '?' }, 0.6f}, //key, time
         { new HashSet<char>(){ ',', ';', ':' }, 0.3f},
     };
-    public Coroutine Run(string textToType, TMP_Text textLabel)
+
+    private Coroutine typingCoroutine;
+    public void Run(string textToType, TMP_Text textLabel)
     {
-        return StartCoroutine(TypeText(textToType, textLabel)); // returning the Courotine instead of nothing so can't be void
+        typingCoroutine = StartCoroutine(TypeText(textToType, textLabel)); // returning the Courotine instead of nothing so can't be void
+    }
+
+    public void Stop()
+    {
+        StopCoroutine(typingCoroutine);
+        isRunning = false;
     }
     private IEnumerator TypeText(string textToType, TMP_Text textLabel)
     {
+        isRunning = true;
         textLabel.text = string.Empty;//clear leftover text by the TMP
 
         float t = 0;
@@ -49,7 +60,7 @@ public class TypeWriterEffect : MonoBehaviour
             yield return null;//wait 1 frame
         }
 
-        textLabel.text = textToType;
+        isRunning = false;
     }
 
     private bool IsPunctuation(char character, out float waitTime)

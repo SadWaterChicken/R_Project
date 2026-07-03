@@ -34,13 +34,18 @@ public class DialogueUI : MonoBehaviour
         for(int i = 0; i <dialogueObject.Dialogue.Length; i++)
         {
             string dialogue = dialogueObject.Dialogue[i];
-            yield return tWE.Run(dialogue, textLable);// start a coroutine cause wait between each entry of the array
+
+            yield return RunTypingEffect(dialogue);
+
+            textLable.text = dialogue;
 
             //check if at the very end of the dialogue
-            if(i == dialogueObject.Dialogue.Length - 1 && dialogueObject.HasResponses)
+            if (i == dialogueObject.Dialogue.Length - 1 && dialogueObject.HasResponses)
             {
                 break;
             }
+
+            yield return null;//wait 1 frame to avoid accidentally pressing space bar and skipping the next dialogue
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));//wait until the player presses space to continue
         }
         if (dialogueObject.HasResponses)
@@ -51,8 +56,21 @@ public class DialogueUI : MonoBehaviour
         {
             CloseDialogueBox();
         }
+    }
 
+    private IEnumerator RunTypingEffect(string dialogue)
+    {
+        tWE.Run(dialogue, textLable);
 
+        while(tWE.isRunning)
+        {
+            yield return null;
+        
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                tWE.Stop();
+            }
+        }
     }
 
     private void CloseDialogueBox()
