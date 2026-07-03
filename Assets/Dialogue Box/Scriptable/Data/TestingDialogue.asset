@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: TestingDialogue
   m_EditorClassIdentifier: Assembly-CSharp::DialogueObject
   dialogue:
-  - Femboy Thigh is Great
-  - But Choked by A muscle Tomboy is Greater
+  - 'Femboy Thigh is Good!
+
+    Great even!!!'
+  - But Choked by A muscle Tomboy is Greater!!!
   responses:
   - responseText: ye
     dialogueObject: {fileID: 11400000, guid: 93616019d6362aa47b596986c09369fc, type: 2}

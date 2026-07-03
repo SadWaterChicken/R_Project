@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: TestAnswer 2
   m_EditorClassIdentifier: Assembly-CSharp::DialogueObject
   dialogue:
-  - 'no
+  - 'Oh well...
 
-'
+    Each to have their own i guess.'
+  responses: []

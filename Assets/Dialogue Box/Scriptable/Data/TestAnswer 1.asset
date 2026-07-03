@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: TestAnswer 1
   m_EditorClassIdentifier: Assembly-CSharp::DialogueObject
   dialogue:
-  - 'yes
-
-'
+  - Dab me up Brotha, i know you one of us!!!
+  responses: []
