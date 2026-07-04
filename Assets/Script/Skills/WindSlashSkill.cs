@@ -124,7 +124,13 @@ public class WindSlashSkill : BaseSkill
         if (enemy == null || hitEnemies.Contains(enemy)) return;
 
         hitEnemies.Add(enemy);
+        float hpBefore = enemy.currentHealth;
         enemy.TakePhysicalDamage(CalculatePhysicalDamage());
+        
+        if (hpBefore > 0 && enemy.currentHealth <= 0)
+        {
+            RewardMasteryOnSkillKill(other.gameObject, enemy);
+        }
 
         if (spawnHitVFX && hitVFX != null)
         {

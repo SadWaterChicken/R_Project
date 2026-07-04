@@ -11,21 +11,13 @@ public class PlayerSkillCastController : MonoBehaviour
     [SerializeField] private EquipmentManager equipmentManager;
     [SerializeField] private PlayerCombat playerCombat;
 
-    [Header("Main Hand Skill")]
-    [SerializeField] private string mainHandAnimationTrigger = "hit1";
-    [SerializeField] private float mainHandCooldown = 4f;
-    [SerializeField] private float mainHandReleaseDelay = 0.3f;
-
-    [Header("Off Hand Skill")]
-    [SerializeField] private string offHandAnimationTrigger = "hit2";
-    [SerializeField] private float offHandCooldown = 4f;
-    [SerializeField] private float offHandReleaseDelay = 0.3f;
-
     [Header("Animation Safety")]
     [SerializeField] private float suppressMeleeEventDuration = 0.85f;
+    [SerializeField] private float defaultReleaseDelay = 0.3f; // Độ trễ trước khi sinh skill prefab
 
-    private float nextMainHandCastTime;
-    private float nextOffHandCastTime;
+    private float mainHandNextCastTime = 0f;
+    private float offHandNextCastTime = 0f;
+    
     private UnityAction<string> equipmentAnimationListener;
     private AnimationEventHandler playerAnimationEventHandler;
     private Coroutine restoreAnimationEventsRoutine;
@@ -45,9 +37,7 @@ public class PlayerSkillCastController : MonoBehaviour
     private void RefreshReferences()
     {
         if (playerCombat == null)
-        {
             playerCombat = GetComponent<PlayerCombat>();
-        }
 
         if (playerAnimator == null)
         {
@@ -74,16 +64,36 @@ public class PlayerSkillCastController : MonoBehaviour
     {
         RefreshReferences();
 
-        if (Input.GetKeyDown(KeyCode.E) && OwnsMainHandSkillInput())
+        if (PlayerSkillManager.Instance == null) return;
+
+        // Phím Q để dùng kỹ năng của vũ khí tay chính (Main Hand)
+        if (Input.GetKeyDown(KeyCode.Q))
         {
-            DetachPlayerCombatEquipmentManagerForThisFrame();
-            TryCastMainHandSkill();
+            WeaponController mainHand = GetEquippedWeapon("currentMainHandWeapon");
+            if (mainHand != null && mainHand.currentItemData != null)
+            {
+                ActiveSkillData skillData = mainHand.currentItemData.EquippedSkill;
+                if (skillData != null)
+                {
+                    DetachPlayerCombatEquipmentManagerForThisFrame();
+                    TryCastWeaponSkill(skillData, false);
+                }
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.Q) && OwnsOffHandSkillInput())
+        // Phím E để dùng kỹ năng của vũ khí tay phụ (Off Hand)
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            DetachPlayerCombatEquipmentManagerForThisFrame();
-            TryCastOffHandSkill();
+            WeaponController offHand = GetEquippedWeapon("currentOffHandWeapon");
+            if (offHand != null && offHand.currentItemData != null)
+            {
+                ActiveSkillData skillData = offHand.currentItemData.EquippedSkill;
+                if (skillData != null)
+                {
+                    DetachPlayerCombatEquipmentManagerForThisFrame();
+                    TryCastWeaponSkill(skillData, true);
+                }
+            }
         }
     }
 
@@ -92,49 +102,153 @@ public class PlayerSkillCastController : MonoBehaviour
         RestorePlayerCombatEquipmentManager();
     }
 
-    public bool TryCastMainHandSkill()
+    public bool TryCastWeaponSkill(ActiveSkillData skillData, bool isOffHand)
     {
-        WeaponController weapon = GetEquippedWeapon("currentMainHandWeapon");
-        if (!CanCastSkill(weapon, nextMainHandCastTime))
+        if (skillData == null) return false;
+
+        float nextCastTime = isOffHand ? offHandNextCastTime : mainHandNextCastTime;
+        if (Time.time < nextCastTime)
         {
+            // Đang trong thời gian hồi chiêu
             return false;
         }
 
-        nextMainHandCastTime = Time.time + GetSkillCooldown(weapon, mainHandCooldown);
-        StartCoroutine(CastSkillRoutine(mainHandAnimationTrigger, mainHandReleaseDelay, weapon));
-        return true;
-    }
-
-    public bool TryCastOffHandSkill()
-    {
-        WeaponController weapon = GetEquippedWeapon("currentOffHandWeapon");
-        if (!CanCastSkill(weapon, nextOffHandCastTime))
+        // Kiểm tra vũ khí cầm trên tay có hợp lệ với yêu cầu của skill không
+        if (!IsWeaponValidForSkill(skillData, isOffHand))
         {
+            Debug.Log($"[PlayerSkillCastController] Vũ khí tay {(isOffHand ? "Phụ" : "Chính")} không tương thích với skill {skillData.skillName}!");
             return false;
         }
 
-        nextOffHandCastTime = Time.time + GetSkillCooldown(weapon, offHandCooldown);
-        StartCoroutine(CastSkillRoutine(offHandAnimationTrigger, offHandReleaseDelay, weapon));
+        // Kiểm tra Mana (có tính ManaSave modifier cho cả 2 skill)
+        float manaCost = skillData.manaCost;
+        if (SwordSkillTreeManager.Instance != null)
+        {
+            var mods = SwordSkillTreeManager.Instance.GetCurrentModifiers();
+
+            bool isWind = skillData.skillID.IndexOf("wind", System.StringComparison.OrdinalIgnoreCase) >= 0 ||
+                          skillData.name.IndexOf("wind", System.StringComparison.OrdinalIgnoreCase) >= 0;
+            bool isFire = skillData.skillID.IndexOf("fire", System.StringComparison.OrdinalIgnoreCase) >= 0 ||
+                          skillData.name.IndexOf("fire", System.StringComparison.OrdinalIgnoreCase) >= 0;
+
+            if (mods.windManaSave && isWind) manaCost *= 0.7f;
+            if (mods.fireManaSave && isFire) manaCost *= 0.7f;
+        }
+        if (PlayerStat.Instance != null && !PlayerStat.Instance.ConsumeMana(manaCost))
+        {
+            Debug.Log($"[PlayerSkillCastController] Không đủ Mana để thi triển {skillData.skillName}!");
+            return false;
+        }
+
+        // Tính cooldown thực tế (có tính CooldownDown modifier cho WindSlash)
+        float realCooldown = skillData.cooldown;
+        if (SwordSkillTreeManager.Instance != null)
+        {
+            var mods = SwordSkillTreeManager.Instance.GetCurrentModifiers();
+            bool isWind = skillData.skillID.IndexOf("wind", System.StringComparison.OrdinalIgnoreCase) >= 0 ||
+                          skillData.name.IndexOf("wind", System.StringComparison.OrdinalIgnoreCase) >= 0;
+            if (mods.windCooldownDown && isWind) realCooldown = Mathf.Min(realCooldown, 3f);
+        }
+
+        // Bắt đầu hồi chiẻu cho Tay tương ứng
+        if (isOffHand)
+            offHandNextCastTime = Time.time + realCooldown;
+        else
+            mainHandNextCastTime = Time.time + realCooldown;
+
+        StartCoroutine(CastSkillRoutine(skillData, isOffHand));
         return true;
     }
 
-    private IEnumerator CastSkillRoutine(string animationTrigger, float releaseDelay, WeaponController weapon)
+    private IEnumerator CastSkillRoutine(ActiveSkillData skillData, bool isOffHand)
     {
         SuppressPlayerMeleeAnimationEvents();
-        PlaySkillAnimation(animationTrigger);
+        PlaySkillAnimation(skillData.animationTrigger);
 
-        yield return new WaitForSeconds(releaseDelay);
-        SpawnSkillDirectly(weapon);
+        yield return new WaitForSeconds(defaultReleaseDelay);
+        SpawnSkillDirectly(skillData, isOffHand);
     }
 
     private void PlaySkillAnimation(string animationTrigger)
     {
         if (playerAnimator == null || string.IsNullOrEmpty(animationTrigger)) return;
 
+        // Reset các trigger cũ (nếu có, ví dụ hit1, hit2) để tránh kẹt
         playerAnimator.ResetTrigger("hit1");
         playerAnimator.ResetTrigger("hit2");
+        
         playerAnimator.SetTrigger(animationTrigger);
     }
+
+    private void SpawnSkillDirectly(ActiveSkillData skillData, bool isOffHand)
+    {
+        if (skillData.skillPrefab == null)
+        {
+            Debug.LogWarning($"[PlayerSkillCastController] Skill {skillData.skillName} thiếu prefab.");
+            return;
+        }
+
+        Vector3 spawnPosition = GetSkillSpawnPosition();
+        Quaternion spawnRotation = Quaternion.LookRotation(GetPlayerFacingDirection());
+        GameObject skillObject = Instantiate(skillData.skillPrefab, spawnPosition, spawnRotation);
+
+        BaseSkill skill = skillObject.GetComponent<BaseSkill>();
+        if (skill == null) return;
+
+        float weaponPhysDmg = GetWeaponPhysicalDamage(isOffHand);
+        skill.Initialize(PlayerStat.Instance, skillData.baseDamageMultiplier, weaponPhysDmg);
+
+        if (SwordSkillTreeManager.Instance != null)
+        {
+            SwordSkillModifiers mods = SwordSkillTreeManager.Instance.GetCurrentModifiers();
+
+            // Áp modifier WindSlash
+            if (skill is WindSlashSkill windSlash)
+                SwordSkillTreeManager.Instance.ApplyWindSlashMods(windSlash, mods);
+
+            // Áp modifier FireBladeSlash
+            if (skill is FireBladeSlashSkill fireSkill)
+                SwordSkillTreeManager.Instance.ApplyFireBladeMods(fireSkill, mods);
+        }
+
+        skill.ExecuteSkill();
+    }
+
+    private bool IsWeaponValidForSkill(ActiveSkillData skillData, bool isOffHand)
+    {
+        if (string.IsNullOrEmpty(skillData.weaponClassRequirement)) return true;
+
+        string fieldName = isOffHand ? "currentOffHandWeapon" : "currentMainHandWeapon";
+        WeaponController weapon = GetEquippedWeapon(fieldName);
+        if (weapon != null && weapon.currentItemData != null)
+        {
+            if (weapon.currentItemData.weaponClassName.ToLower() == skillData.weaponClassRequirement.ToLower())
+                return true;
+        }
+
+        return false;
+    }
+
+    private float GetWeaponPhysicalDamage(bool isOffHand)
+    {
+        string fieldName = isOffHand ? "currentOffHandWeapon" : "currentMainHandWeapon";
+        WeaponController weapon = GetEquippedWeapon(fieldName);
+        if (weapon == null || weapon.currentItemData == null || weapon.currentItemData.modifiers == null)
+            return 0f;
+
+        float dmg = 0f;
+        foreach (ItemData.StatMod mod in weapon.currentItemData.modifiers)
+        {
+            string stat = mod.stat.ToLower();
+            if (stat == "physical damage" || stat == "physicaldamage" || stat == "physicaldamagebonus")
+            {
+                dmg += mod.value;
+            }
+        }
+        return dmg;
+    }
+
+    // ─── UTILS (Kế thừa từ bản cũ) ───────────────────────────────────────────
 
     private void SuppressPlayerMeleeAnimationEvents()
     {
@@ -180,26 +294,6 @@ public class PlayerSkillCastController : MonoBehaviour
             method);
     }
 
-    private bool CanCastSkill(WeaponController weapon, float nextCastTime)
-    {
-        if (equipmentManager == null || weapon == null || Time.time < nextCastTime)
-        {
-            return false;
-        }
-
-        return weapon.currentItemData != null && weapon.currentItemData.hasSkill;
-    }
-
-    private float GetSkillCooldown(WeaponController weapon, float fallbackCooldown)
-    {
-        if (weapon != null && weapon.currentItemData != null && weapon.currentItemData.hasSkill)
-        {
-            return Mathf.Max(0f, weapon.currentItemData.weaponSkill.cooldown);
-        }
-
-        return fallbackCooldown;
-    }
-
     private WeaponController GetEquippedWeapon(string fieldName)
     {
         if (equipmentManager == null) return null;
@@ -209,32 +303,6 @@ public class PlayerSkillCastController : MonoBehaviour
             BindingFlags.Instance | BindingFlags.NonPublic);
 
         return field != null ? field.GetValue(equipmentManager) as WeaponController : null;
-    }
-
-    private void SpawnSkillDirectly(WeaponController weapon)
-    {
-        if (weapon == null || weapon.currentItemData == null || !weapon.currentItemData.hasSkill)
-        {
-            return;
-        }
-
-        WeaponSkill skillData = weapon.currentItemData.weaponSkill;
-        if (skillData.skillPrefab == null)
-        {
-            Debug.LogWarning($"[PlayerSkillCastController] Skill {skillData.skillName} thieu prefab.");
-            return;
-        }
-
-        Vector3 spawnPosition = GetSkillSpawnPosition();
-        Quaternion spawnRotation = Quaternion.LookRotation(GetPlayerFacingDirection());
-        GameObject skillObject = Instantiate(skillData.skillPrefab, spawnPosition, spawnRotation);
-
-        BaseSkill skill = skillObject.GetComponent<BaseSkill>();
-        if (skill != null)
-        {
-            skill.Initialize(PlayerStat.Instance, skillData.damageMultiplier, GetWeaponPhysicalDamage(weapon));
-            skill.ExecuteSkill();
-        }
     }
 
     private Vector3 GetSkillSpawnPosition()
@@ -271,38 +339,6 @@ public class PlayerSkillCastController : MonoBehaviour
         }
 
         return Vector3.forward;
-    }
-
-    private float GetWeaponPhysicalDamage(WeaponController weapon)
-    {
-        float weaponDamage = 0f;
-        if (weapon == null || weapon.currentItemData == null || weapon.currentItemData.modifiers == null)
-        {
-            return weaponDamage;
-        }
-
-        foreach (ItemData.StatMod modifier in weapon.currentItemData.modifiers)
-        {
-            string stat = modifier.stat.ToLower();
-            if (stat == "physical damage" || stat == "physicaldamage" || stat == "physicaldamagebonus")
-            {
-                weaponDamage += modifier.value;
-            }
-        }
-
-        return weaponDamage;
-    }
-
-    private bool OwnsMainHandSkillInput()
-    {
-        WeaponController weapon = GetEquippedWeapon("currentMainHandWeapon");
-        return weapon != null && weapon.currentItemData != null && weapon.currentItemData.hasSkill;
-    }
-
-    private bool OwnsOffHandSkillInput()
-    {
-        WeaponController weapon = GetEquippedWeapon("currentOffHandWeapon");
-        return weapon != null && weapon.currentItemData != null && weapon.currentItemData.hasSkill;
     }
 
     private void DetachPlayerCombatEquipmentManagerForThisFrame()

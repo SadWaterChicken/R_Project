@@ -29,7 +29,10 @@ public class InventoryUI : MonoBehaviour
 
     private List<GameObject> spawned = new List<GameObject>();
     private bool visible = false;
+    public bool IsVisible => visible;
+
     private ItemData _lastSelectedItem;
+    public ItemData SelectedItem => _lastSelectedItem;
     private float _nextToggleAllowedTime;
     private static int s_lastToggleFrame = -1;
 

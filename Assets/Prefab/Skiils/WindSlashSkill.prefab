@@ -66,6 +66,6 @@ MonoBehaviour:
     m_Bits: 512
   fallbackDamageMultiplier: 2
   fallbackWeaponPhysicalDamage: 10
-  flyingVFX: {fileID: 3020920808754819069, guid: d860dbff6d19af4448c7d0e478fa5cef, type: 3}
+  flyingVFX: {fileID: 6111486948785554852, guid: f7967f33aeac15f48a3732e3fd3ac36c, type: 3}
   hitVFX: {fileID: 1035977224672214417, guid: 057aa477789506a44bd206e9c5acad19, type: 3}
   spawnHitVFX: 1

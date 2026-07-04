@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3010292214892369570
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3061112685328859652}
+  - component: {fileID: 5657722515670677074}
+  m_Layer: 0
+  m_Name: FireBladeSlash
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3061112685328859652
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3010292214892369570}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 116.6611, y: 5.63762, z: 159.65446}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5657722515670677074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3010292214892369570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6c406cd32eb82145b540c628564d555, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FireBladeSlashSkill
+  modifiers:
+    narrowBlade: 0
+    wideBlade: 0
+    doubleBurn: 0
+    extendedTrail: 0
+    piercingFlame: 0
+    upgradeLevel: 0
+  baseSpeed: 14
+  baseMaxRange: 18
+  spawnHeightOffset: 1.1
+  spawnForwardOffset: 0.9
+  alignToPlayerFacing: 0
+  baseHitboxSize: {x: 10, y: 2, z: 2}
+  hitboxOffset: {x: 0, y: 0, z: 0}
+  enemyLayers:
+    serializedVersion: 2
+    m_Bits: 512
+  coreDamageRadius: 1.5
+  midDamageRadius: 3
+  midDamageRatio: 0.65
+  edgeDamageRatio: 0.35
+  fireTrailZonePrefab: {fileID: 4183652451580378271, guid: 9a8cc0f94ae3102428a2a807539d358e, type: 3}
+  baseFireTrailDuration: 3
+  trailSpawnInterval: 0.18
+  baseDotDPS: 8
+  baseDotDuration: 3
+  fireSlashVFX: {fileID: 6882116249847192011, guid: c4b2ddd78a478394da66879a43e7af99, type: 3}
+  impactVFX: {fileID: 1035977224672214417, guid: 057aa477789506a44bd206e9c5acad19, type: 3}
+  vfxScale: 3
+  vfxRotationOffset: {x: 0, y: 0, z: 90}
+  addTravelLight: 1
+  travelLightColor: {r: 1, g: 0.4, b: 0.1, a: 1}
+  travelLightIntensity: 3
+  travelLightRange: 5

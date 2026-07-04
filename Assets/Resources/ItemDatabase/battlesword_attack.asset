@@ -55,13 +55,13 @@ MonoBehaviour:
   customStanceID: 0
   hasSkill: 1
   weaponSkill:
-    skillName: Slash Wave
+    skillName: WindBladeSlash
     description: Launches a damaging wind slash.
     skillIcon: {fileID: 0}
     cooldown: 4
     damageMultiplier: 2
     animationTrigger: UseSkill
-    skillPrefab: {fileID: 700100001, guid: 8f7a4c0c5bb642f4aa2e1d9370a11103, type: 3}
+    skillPrefab: {fileID: 3010292214892369570, guid: f676896c55b9f304bbb1a74f80e74f4e, type: 3}
   isForgeable: 0
   forgingRecipe:
     recipeID: 

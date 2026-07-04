@@ -1605,6 +1605,7 @@ MonoBehaviour:
   bowMastery: 0
   staffMastery: 0
   orbMastery: 0
+  battleswordMastery: 0
 --- !u!114 &313751850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1748,16 +1749,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f7a4c0c5bb642f4aa2e1d9370a11106, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSkillCastController
-  playerAnimator: {fileID: 0}
-  equipmentManager: {fileID: 0}
-  playerCombat: {fileID: 0}
-  mainHandAnimationTrigger: hit1
-  mainHandCooldown: 4
-  mainHandReleaseDelay: 0.3
-  offHandAnimationTrigger: hit2
-  offHandCooldown: 4
-  offHandReleaseDelay: 0.3
+  playerAnimator: {fileID: 1008829511}
+  equipmentManager: {fileID: 1008829513}
+  playerCombat: {fileID: 1008829508}
   suppressMeleeEventDuration: 0.85
+  defaultReleaseDelay: 0.3
 --- !u!1 &359228833
 GameObject:
   m_ObjectHideFlags: 0
