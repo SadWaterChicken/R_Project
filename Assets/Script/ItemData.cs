@@ -40,6 +40,34 @@ public class ItemData
         get => _isForgeableOverride.HasValue ? _isForgeableOverride.Value : (BaseData != null ? BaseData.isForgeable : false);
         set => _isForgeableOverride = value;
     }
+    
+    // --- Weapon Skill Slot (Mới: Mỗi vũ khí 1 slot skill) ---
+    public string equippedSkillID = ""; 
+
+    [NonSerialized] private ActiveSkillData _equippedSkill;
+    public ActiveSkillData EquippedSkill
+    {
+        get
+        {
+            if (_equippedSkill == null || _equippedSkill.skillID != equippedSkillID)
+            {
+                if (PlayerSkillManager.Instance != null && !string.IsNullOrEmpty(equippedSkillID))
+                {
+                    _equippedSkill = PlayerSkillManager.Instance.GetSkillByID(equippedSkillID);
+                }
+                else
+                {
+                    _equippedSkill = null;
+                }
+            }
+            return _equippedSkill;
+        }
+        set
+        {
+            _equippedSkill = value;
+            equippedSkillID = value != null ? value.skillID : "";
+        }
+    }
     [Serializable]
     public class StatMod
     {
