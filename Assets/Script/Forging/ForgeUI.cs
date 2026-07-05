@@ -15,10 +15,7 @@ public class ForgeUI : MonoBehaviour
     public TMP_Text npcNameText;
     public Button closeButton;
 
-    [Header("Weapon List")]
-    public Transform weaponListParent;
-    public GameObject weaponSlotPrefab;
-    private List<GameObject> spawnedWeaponSlots = new List<GameObject>();
+    // Old Weapon List variables removed
 
     [Header("Weapon Detail Panel")]
     public GameObject detailPanel;
@@ -42,11 +39,7 @@ public class ForgeUI : MonoBehaviour
     public Transform recipeBookContentParent;
     public GameObject recipeBookSlotPrefab;
 
-    [Header("Advanced Weapons Preview")]
-    public GameObject advancedWeaponsPanel;
-    public Transform advancedWeaponsContentParent;
-    public Button closeAdvancedWeaponsButton;
-    private List<GameObject> spawnedAdvancedWeaponSlots = new List<GameObject>();
+    // Advanced Weapons variables removed
 
     [Header("Stats Display")]
     public TMP_Text statsText;
@@ -62,18 +55,22 @@ public class ForgeUI : MonoBehaviour
 
     private ItemData selectedWeapon;
     private ForgingRecipe currentRecipe;
+    
+    [Header("Radial Tree Options")]
+    public Transform radialTreeObj;
+    public Transform classNodesContainer;
+    public Transform weaponTreesContainer;
+    public Button radialBackButton;
+    public Button detailsBackButton;
 
     private void Awake()
     {
         forgePanel.SetActive(false);
         if (detailPanel != null) detailPanel.SetActive(false);
-        if (advancedWeaponsPanel != null) advancedWeaponsPanel.SetActive(false);
     }
 
     private void OnEnable()
     {
-        if (Inventory.Instance != null)
-            Inventory.Instance.OnInventoryChanged += RefreshWeaponList;
         if (ForgingSystem.Instance != null)
             ForgingSystem.Instance.OnMaterialInventoryChanged += RefreshMaterialRequirements;
             
@@ -82,8 +79,6 @@ public class ForgeUI : MonoBehaviour
 
     private void OnDisable()
     {
-        if (Inventory.Instance != null)
-            Inventory.Instance.OnInventoryChanged -= RefreshWeaponList;
         if (ForgingSystem.Instance != null)
             ForgingSystem.Instance.OnMaterialInventoryChanged -= RefreshMaterialRequirements;
             
@@ -103,7 +98,6 @@ public class ForgeUI : MonoBehaviour
         if (resultPreviewGroup != null) resultPreviewGroup.SetActive(false);
         if (detailPanel != null) detailPanel.SetActive(false);
         if (recipeBookPanel != null) recipeBookPanel.SetActive(false);
-        if (advancedWeaponsPanel != null) advancedWeaponsPanel.SetActive(false);
 
         if (closeButton != null)
         {
@@ -129,25 +123,235 @@ public class ForgeUI : MonoBehaviour
             closeRecipeBookButton.onClick.AddListener(() => { if (recipeBookPanel != null) recipeBookPanel.SetActive(false); });
         }
 
-        if (closeAdvancedWeaponsButton != null)
-        {
-            closeAdvancedWeaponsButton.onClick.RemoveAllListeners();
-            closeAdvancedWeaponsButton.onClick.AddListener(() => { if (advancedWeaponsPanel != null) advancedWeaponsPanel.SetActive(false); });
-        }
 
-        if (resultWeaponIcon != null)
-        {
-            Button btn = resultWeaponIcon.GetComponent<Button>();
-            if (btn == null) btn = resultWeaponIcon.gameObject.AddComponent<Button>();
-            btn.onClick.RemoveAllListeners();
-            btn.onClick.AddListener(() => {
-                if (selectedWeapon != null) ShowAdvancedWeapons(selectedWeapon);
-            });
-        }
 
         forgePanel.SetActive(true);
         if (CursorManager.Instance != null) CursorManager.Instance.SetUIOpen(true);
-        RefreshWeaponList();
+        
+        // Auto-hook Radial Tree if generated
+        InitRadialTree();
+    }
+
+    private void InitRadialTree()
+    {
+        if (forgePanel == null) return;
+        radialTreeObj = forgePanel.transform.Find("RadialForgeTree");
+        if (radialTreeObj == null) return;
+
+        classNodesContainer = radialTreeObj.Find("ClassNodes");
+        weaponTreesContainer = radialTreeObj.Find("WeaponTrees");
+        var backBtnObj = radialTreeObj.Find("BackButton");
+        if (backBtnObj != null)
+        {
+            radialBackButton = backBtnObj.GetComponent<Button>();
+        }
+
+        if (radialBackButton != null)
+        {
+            radialBackButton.onClick.RemoveAllListeners();
+            radialBackButton.onClick.AddListener(OnRadialBackClicked);
+        }
+
+        if (detailsBackButton != null)
+        {
+            detailsBackButton.onClick.RemoveAllListeners();
+            detailsBackButton.onClick.AddListener(OnDetailsBackClicked);
+        }
+
+        // Aggressively hide "Forgeables" text
+
+        foreach (var txt in forgePanel.GetComponentsInChildren<TMPro.TextMeshProUGUI>(true))
+        {
+            if (txt.text.Contains("Forgeable") || txt.text == "Forgeables")
+            {
+                txt.gameObject.SetActive(false);
+            }
+        }
+
+        // AGGRESSIVE: Hide the ENTIRE Panel_Content (which holds mastery, icons, and requirements) until a weapon is clicked!
+        Transform panelContent = forgePanel.transform.Find("Panel_Content");
+        if (panelContent != null) panelContent.gameObject.SetActive(false);
+
+        // Hook up class nodes
+        if (classNodesContainer != null)
+        {
+            var classNodes = classNodesContainer.GetComponentsInChildren<ForgeClassNode>(true);
+            foreach (var node in classNodes)
+            {
+                if (node.nodeButton != null && !string.IsNullOrEmpty(node.className))
+                {
+                    node.nodeButton.onClick.RemoveAllListeners();
+                    var assetName = node.className;
+                    node.nodeButton.onClick.AddListener(() => OnRadialClassClicked(assetName));
+                }
+            }
+        }
+
+        // Hook up weapon nodes
+        if (weaponTreesContainer != null)
+        {
+            var weaponNodes = weaponTreesContainer.GetComponentsInChildren<ForgeWeaponNode>(true);
+            foreach (var node in weaponNodes)
+            {
+                if (node.nodeButton != null && node.weaponData != null && !string.IsNullOrEmpty(node.weaponData.itemID))
+                {
+                    node.nodeButton.onClick.RemoveAllListeners();
+                    var wID = node.weaponData.itemID;
+                    node.nodeButton.onClick.AddListener(() => OnRadialWeaponClicked(wID));
+                }
+            }
+        }
+
+        // Reset state
+        OnRadialBackClicked();
+    }
+
+    private void CenterRadialTree(bool centered)
+    {
+        if (radialTreeObj != null)
+        {
+            RectTransform rt = radialTreeObj.GetComponent<RectTransform>();
+            if (rt != null)
+            {
+                // If centered, X position is 0. If not (shifted left), X is -200 or anchor is moved.
+                // Since anchor is 0.5, 0.5, we just change anchoredPosition.x
+                rt.anchoredPosition = new Vector2(centered ? 0 : -350f, 0);
+            }
+        }
+    }
+
+    private void OnRadialBackClicked()
+    {
+        if (radialTreeObj == null) return;
+        
+        if (classNodesContainer != null) classNodesContainer.gameObject.SetActive(true);
+        if (weaponTreesContainer != null) weaponTreesContainer.gameObject.SetActive(false);
+        if (radialBackButton != null) radialBackButton.gameObject.SetActive(false);
+        
+        if (detailPanel != null) detailPanel.SetActive(false);
+        
+        // Hide Panel_Content completely
+        Transform panelContent = radialTreeObj.parent.Find("Panel_Content");
+        if (panelContent != null) panelContent.gameObject.SetActive(false);
+        
+        CenterRadialTree(true);
+    }
+
+    private void OnDetailsBackClicked()
+    {
+        if (detailPanel != null) detailPanel.SetActive(false);
+        
+        // Hide Panel_Content completely
+        Transform panelContent = radialTreeObj?.parent.Find("Panel_Content");
+        if (panelContent != null) panelContent.gameObject.SetActive(false);
+        
+        // Restore Radial Tree
+        if (radialTreeObj != null) radialTreeObj.gameObject.SetActive(true);
+    }
+
+    private void OnRadialClassClicked(string className)
+    {
+        if (classNodesContainer != null) classNodesContainer.gameObject.SetActive(false);
+        if (weaponTreesContainer != null) weaponTreesContainer.gameObject.SetActive(true);
+        if (radialBackButton != null) radialBackButton.gameObject.SetActive(true);
+
+        // Show only the tree for this class
+        foreach (Transform child in weaponTreesContainer)
+        {
+            child.gameObject.SetActive(child.name == "Tree_" + className);
+        }
+
+        // Hide detail panel (Requirements) until a weapon is clicked!
+        if (detailPanel != null) detailPanel.SetActive(false);
+        
+        // Hide Panel_Content completely
+        Transform panelContent = radialTreeObj.parent.Find("Panel_Content");
+        if (panelContent != null) panelContent.gameObject.SetActive(false);
+        
+        CenterRadialTree(true); // Keep centered
+    }
+
+    private void OnRadialWeaponClicked(string itemID)
+    {
+        var forgeManager = ForgeManager.Instance;
+        if (forgeManager == null) return;
+        
+        ItemData weaponData = forgeManager.GetWeaponTemplate(itemID);
+        if (weaponData == null) return;
+
+        ItemData resultWeapon = weaponData;
+        
+        // Find recipe
+        var forgingSystem = ForgingSystem.Instance;
+        var recipe = forgingSystem.recipes.FirstOrDefault(r => r.resultItem != null && r.resultItem.itemID == itemID);
+        if (recipe == null) recipe = forgingSystem.recipes.FirstOrDefault(r => r.resultItemID == itemID);
+        
+        currentRecipe = recipe;
+        
+        // Identify Base Weapon
+        ItemData baseWeapon = resultWeapon; // Default to self if no recipe
+        if (recipe != null && recipe.requiredWeapons != null && recipe.requiredWeapons.Count > 0)
+        {
+            var reqW = recipe.requiredWeapons[0];
+            if (reqW != null && reqW.weapon != null)
+            {
+                var baseTemplate = forgeManager.GetWeaponTemplate(reqW.weapon.itemID);
+                if (baseTemplate != null) baseWeapon = baseTemplate;
+            }
+        }
+        
+        // selectedWeapon MUST be the base weapon being consumed
+        selectedWeapon = baseWeapon;
+        
+        if (detailPanel != null) detailPanel.SetActive(true);
+        
+        // Show Panel_Content so all details (Mastery, Icon, Requirements) are visible
+        Transform panelContent = radialTreeObj.parent.Find("Panel_Content");
+        if (panelContent != null) panelContent.gameObject.SetActive(true);
+        
+        // HIDE the Radial Tree while in details view
+        if (radialTreeObj != null) radialTreeObj.gameObject.SetActive(false);
+        
+        if (resultPreviewGroup != null) resultPreviewGroup.SetActive(true);
+        if (resultWeaponIcon != null) 
+        {
+            if (!string.IsNullOrEmpty(resultWeapon.iconPath))
+            {
+                var sp = Resources.Load<Sprite>(resultWeapon.iconPath);
+                if (sp == null)
+                {
+                    var tex = Resources.Load<Texture2D>(resultWeapon.iconPath);
+                    if (tex != null) sp = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
+                }
+                resultWeaponIcon.sprite = sp;
+            }
+            else
+            {
+                resultWeaponIcon.sprite = null;
+            }
+        }
+        
+        if (resultWeaponNameText != null) resultWeaponNameText.text = resultWeapon.itemName;
+        if (weaponDescText != null) weaponDescText.text = resultWeapon.description;
+
+        UpdateMasteryDisplay(resultWeapon, null);
+        
+        // Compare stats between base weapon and result weapon
+        UpdateStatsDisplay(baseWeapon, resultWeapon);
+
+        if (currentRecipe != null)
+        {
+            if (forgeeLevelText != null) forgeeLevelText.text = $"Forge Level: {weaponData.forgeLevel}/{ForgeManager.Instance.GetMaxForgeLevel()}";
+            RefreshMaterialRequirements();
+        }
+        else
+        {
+            // Base weapon, no recipe
+            foreach (var slot in spawnedMaterialSlots) Destroy(slot);
+            spawnedMaterialSlots.Clear();
+            if (goldRequiredText != null) goldRequiredText.text = "Base Weapon";
+            if (forgeButton != null) forgeButton.interactable = false;
+        }
     }
 
     /// <summary>
@@ -156,37 +360,6 @@ public class ForgeUI : MonoBehaviour
     private readonly string[] weaponClasses = new string[] {
         "DualBlades", "Staff", "Bow", "Orb", "Greatsaxe", "Greatsword", "Katana", "Warhammer", "Spear"
     };
-
-    private void RefreshWeaponList()
-    {
-        // Clear existing slots
-        foreach (var slot in spawnedWeaponSlots)
-            Destroy(slot);
-        spawnedWeaponSlots.Clear();
-
-        BaseItemData[] allItems = Resources.LoadAll<BaseItemData>("");
-
-        foreach (string className in weaponClasses)
-        {
-            GameObject slot = Instantiate(weaponSlotPrefab, weaponListParent);
-            spawnedWeaponSlots.Add(slot);
-
-            var slotUI = slot.GetComponent<WeaponSlotUI>();
-            if (slotUI != null)
-            {
-                var baseItem = allItems.FirstOrDefault(i => i.weaponClassName == className && i.itemTier == 1);
-                if (baseItem == null)
-                    baseItem = allItems.FirstOrDefault(i => i.weaponClassName == className);
-                
-                if (baseItem != null)
-                {
-                    ItemData dummyClassItem = new ItemData(baseItem.itemID);
-                    dummyClassItem.itemName = className; // Override name to class name
-                    slotUI.SetWeapon(dummyClassItem, () => ShowWeaponDetail(dummyClassItem));
-                }
-            }
-        }
-    }
 
     /// <summary>
     /// Show detailed information about selected weapon
@@ -233,12 +406,14 @@ public class ForgeUI : MonoBehaviour
     /// <summary>
     /// Update mastery progress bar and text
     /// </summary>
-    private void UpdateMasteryDisplay(ItemData weapon)
+    private void UpdateMasteryDisplay(ItemData weapon, string overrideClassName = null)
     {
         float currentMastery = 0f;
-        if (Inventory.Instance != null && !string.IsNullOrEmpty(weapon.weaponClassName))
+        string className = !string.IsNullOrEmpty(overrideClassName) ? overrideClassName : (weapon != null ? weapon.weaponClassName : "");
+        
+        if (Inventory.Instance != null && !string.IsNullOrEmpty(className))
         {
-            currentMastery = Inventory.Instance.GetClassMastery(weapon.weaponClassName);
+            currentMastery = Inventory.Instance.GetClassMastery(className);
         }
 
         float masteryPercent = currentMastery / ForgeManager.Instance.GetMaxMastery() * 100f;
@@ -335,6 +510,12 @@ public class ForgeUI : MonoBehaviour
     private void RefreshMaterialRequirements()
     {
         if (currentRecipe == null) return;
+
+        if (materialsListParent == null) 
+        {
+            Debug.LogError("[ForgeUI] materialsListParent is missing! Please re-assign it in the Inspector or reload your scene without saving.");
+            return;
+        }
 
         // Clear existing material slots (including any placeholders left in the Editor)
         foreach (Transform child in materialsListParent)
@@ -434,7 +615,6 @@ public class ForgeUI : MonoBehaviour
         {
             // Success!
             Debug.Log($"Successfully forged: {forgedWeapon.itemName}");
-            RefreshWeaponList();
             ShowWeaponDetail(forgedWeapon);
         }
         else
@@ -450,7 +630,6 @@ public class ForgeUI : MonoBehaviour
             forgePanel.SetActive(false);
             if (detailPanel != null) detailPanel.SetActive(false);
             if (recipeBookPanel != null) recipeBookPanel.SetActive(false);
-            if (advancedWeaponsPanel != null) advancedWeaponsPanel.SetActive(false);
             
             if (CursorManager.Instance != null) CursorManager.Instance.SetUIOpen(false);
         }
@@ -504,67 +683,7 @@ public class ForgeUI : MonoBehaviour
     /// <summary>
     /// Open the Advanced Weapons popup and show weapons of the same class
     /// </summary>
-    public void ShowAdvancedWeapons(ItemData baseWeapon)
-    {
-        if (advancedWeaponsPanel == null || advancedWeaponsContentParent == null || weaponSlotPrefab == null)
-        {
-            Debug.LogWarning("[ForgeUI] Advanced Weapons Panel or Prefab is not assigned.");
-            return;
-        }
 
-        advancedWeaponsPanel.SetActive(true);
-        advancedWeaponsPanel.transform.SetAsLastSibling();
-
-        // Clear old slots
-        foreach (var slot in spawnedAdvancedWeaponSlots) Destroy(slot);
-        spawnedAdvancedWeaponSlots.Clear();
-
-        var forgeManager = ForgeManager.Instance;
-        if (forgeManager == null) return;
-
-        // Filter advanced weapons by class
-        var classWeapons = forgeManager.LoadAdvancedWeaponsForClass(baseWeapon.weaponClassName).ToList();
-
-        foreach (var weapon in classWeapons)
-        {
-            GameObject slot = Instantiate(weaponSlotPrefab, advancedWeaponsContentParent);
-            spawnedAdvancedWeaponSlots.Add(slot);
-
-            var slotUI = slot.GetComponent<WeaponSlotUI>();
-            if (slotUI != null)
-            {
-                slotUI.SetWeapon(weapon, () => {
-                    PreviewAdvancedWeapon(weapon);
-                });
-                slotUI.SetInteractable(true); // Always allow previewing the weapon
-            }
-        }
-    }
-
-    /// <summary>
-    /// Preview an advanced weapon in the result slot and compare stats
-    /// </summary>
-    private void PreviewAdvancedWeapon(ItemData advancedWeapon)
-    {
-        if (selectedWeapon == null) return;
-
-        // Find the recipe that produces this advanced weapon
-        currentRecipe = ForgingSystem.Instance?.recipes.FirstOrDefault(r => (r.resultItem != null ? r.resultItem.itemID : r.resultItemID) == advancedWeapon.itemID);
-
-        // Refresh materials display
-        RefreshMaterialRequirements();
-
-        // Update the result preview group to show this advanced weapon
-        if (resultPreviewGroup != null) resultPreviewGroup.SetActive(true);
-        if (resultWeaponIcon != null) resultWeaponIcon.sprite = string.IsNullOrEmpty(advancedWeapon.iconPath) ? null : Resources.Load<Sprite>(advancedWeapon.iconPath);
-        if (resultWeaponNameText != null) resultWeaponNameText.text = advancedWeapon.itemName;
-
-        // Compare stats between base weapon and selected advanced weapon
-        UpdateStatsDisplay(selectedWeapon, advancedWeapon);
-        
-        // Close the popup after selecting
-        if (advancedWeaponsPanel != null) advancedWeaponsPanel.SetActive(false);
-    }
 }
 
 /// <summary>
