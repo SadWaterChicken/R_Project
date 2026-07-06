@@ -10,8 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6e6bce001f76fd0478882246e21b5122, type: 3}
-  m_Name: Respect
+  m_Name: Harold_1
   m_EditorClassIdentifier: Assembly-CSharp::DialogueObject
   dialogue:
-  - W
-  responses: []
+  - 'Hello Miss. Welcome! to our humble village.
+
+    We might don''t have much to
+    offer, but might you take this blade as our token of graditude.
+
+'
+  responses:
+  - responseText: Sure
+    dialogueObject: {fileID: 11400000, guid: f9592a917af424448a22058099562f60, type: 2}
