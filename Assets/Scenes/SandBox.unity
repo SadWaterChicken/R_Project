@@ -1262,6 +1262,7 @@ GameObject:
   - component: {fileID: 493304739}
   - component: {fileID: 493304738}
   - component: {fileID: 493304743}
+  - component: {fileID: 493304745}
   m_Layer: 8
   m_Name: NPC
   m_TagString: Untagged
@@ -1427,6 +1428,40 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &493304745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 493304737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f95fa1a258a847e48b1d2a82d3028f31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueResponseEvent
+  dialogueObject: {fileID: 11400000, guid: c781a058d299e0a47a2e745132680b82, type: 2}
+  events:
+  - name: ye
+    onPickedResponse:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 493304743}
+          m_TargetAssemblyTypeName: DialogueActivator, Assembly-CSharp
+          m_MethodName: UpdateDialogueObject
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 11400000, guid: cffae77e9d32f2e4db24bcad1c101e54, type: 2}
+            m_ObjectArgumentAssemblyTypeName: DialogueObject, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - name: nah
+    onPickedResponse:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!1 &592005052
 GameObject:
   m_ObjectHideFlags: 0
