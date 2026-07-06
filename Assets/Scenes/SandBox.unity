@@ -4076,6 +4076,7 @@ GameObject:
   - component: {fileID: 2113209485}
   - component: {fileID: 2113209484}
   - component: {fileID: 2113209489}
+  - component: {fileID: 2113209490}
   m_Layer: 8
   m_Name: Capsule
   m_TagString: Player
@@ -4219,6 +4220,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TestingPlayerController
   speed: 5
   sprintSpeed: 8
+--- !u!114 &2113209490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2113209483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 332891c6be35f814f857f123500e91fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueManager
   dialogueUI: {fileID: 941186063}
 --- !u!1001 &4556869377570035058
 PrefabInstance:

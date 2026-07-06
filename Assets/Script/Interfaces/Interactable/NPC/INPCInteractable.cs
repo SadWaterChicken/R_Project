@@ -2,5 +2,5 @@ using UnityEngine;
 
 public interface INPCInteractable
 {
-    void InteractPlayer(TestingPlayerController test);
+    void InteractPlayer(DialogueManager manager);
 }

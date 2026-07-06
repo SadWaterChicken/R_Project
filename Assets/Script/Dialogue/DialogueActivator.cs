@@ -10,30 +10,35 @@ public class DialogueActivator : MonoBehaviour, INPCInteractable
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player") && other.TryGetComponent(out TestingPlayerController test))
+        if(other.CompareTag("Player") && other.TryGetComponent(out DialogueManager manager))
         {
-            test.iNPC = this;
+            manager.interactable = this;
         }
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player") && other.TryGetComponent(out TestingPlayerController test))
+        if (other.CompareTag("Player") && other.TryGetComponent(out DialogueManager manager))
         {
-            if(test.iNPC is DialogueActivator dialogueActivator && dialogueActivator == this)
+            if(manager.interactable is DialogueActivator dialogueActivator && dialogueActivator == this)
             {
-                test.iNPC = null;
+                manager.interactable = null;
             }
         }
 
 
     }
-    public void InteractPlayer(TestingPlayerController test)
+    public void InteractPlayer(DialogueManager manager)
     {
-        if(TryGetComponent(out DialogueResponseEvent responseEvents) && responseEvents.DialogueObject == dialogueObject)
+        foreach(DialogueResponseEvent responseEvent in GetComponents<DialogueResponseEvent>())
         {
-            test.DialogueUI.AddResponseEvent(responseEvents.Events);
+            if (responseEvent.DialogueObject == dialogueObject)
+            {
+                manager.DialogueUI.AddResponseEvent(responseEvent.Events);
+                break;
+            }
         }
 
-        test.DialogueUI.ShowDialogue(dialogueObject);
+        manager.DialogueUI.ShowDialogue(dialogueObject);
     }
+
 }
