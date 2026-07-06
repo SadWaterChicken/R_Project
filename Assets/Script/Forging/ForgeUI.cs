@@ -62,6 +62,14 @@ public class ForgeUI : MonoBehaviour
     public Transform weaponTreesContainer;
     public Button radialBackButton;
     public Button detailsBackButton;
+    [Tooltip("Thanh tiến trình Mastery trên màn hình Radial Tree")]
+    public Slider radialMasteryBar;
+    [Tooltip("Dòng chữ Mastery trên màn hình Radial Tree")]
+    public TMP_Text radialMasteryText;
+
+    [Header("Mastery Overview Options")]
+    public Transform masteryOverviewContainer; // Panel tổng quan ở giữa
+    public GameObject masteryOverviewRowPrefab; // Dòng UI chứa Text và Slider cho từng Class
 
     private void Awake()
     {
@@ -228,6 +236,10 @@ public class ForgeUI : MonoBehaviour
         if (weaponTreesContainer != null) weaponTreesContainer.gameObject.SetActive(false);
         if (radialBackButton != null) radialBackButton.gameObject.SetActive(false);
         
+        // Hide mastery bar when going back to class selection
+        if (radialMasteryBar != null) radialMasteryBar.gameObject.SetActive(false);
+        if (radialMasteryText != null) radialMasteryText.gameObject.SetActive(false);
+
         if (detailPanel != null) detailPanel.SetActive(false);
         
         // Hide Panel_Content completely
@@ -235,6 +247,58 @@ public class ForgeUI : MonoBehaviour
         if (panelContent != null) panelContent.gameObject.SetActive(false);
         
         CenterRadialTree(true);
+
+        // Show and populate Mastery Overview
+        if (masteryOverviewContainer != null) 
+        {
+            masteryOverviewContainer.gameObject.SetActive(true);
+            PopulateMasteryOverview();
+        }
+    }
+
+    private void PopulateMasteryOverview()
+    {
+        if (masteryOverviewContainer == null || masteryOverviewRowPrefab == null || Inventory.Instance == null || ForgeManager.Instance == null) return;
+
+        // Clear old rows
+        foreach (Transform child in masteryOverviewContainer)
+        {
+            if (child.gameObject != masteryOverviewRowPrefab && child.name != "TitleText")
+                Destroy(child.gameObject);
+        }
+
+        // Gather all unique classes from the weapon database in Resources
+        HashSet<string> classes = new HashSet<string>();
+        var baseItems = Resources.LoadAll<BaseItemData>("ItemDatabase");
+        foreach (var weapon in baseItems)
+        {
+            if (weapon != null && !string.IsNullOrEmpty(weapon.weaponClassName))
+                classes.Add(weapon.weaponClassName);
+        }
+
+        float maxMastery = ForgeManager.Instance.GetMaxMastery();
+
+        foreach (string className in classes)
+        {
+            GameObject row = Instantiate(masteryOverviewRowPrefab, masteryOverviewContainer);
+            row.SetActive(true);
+            row.name = "MasteryRow_" + className;
+
+            float currentMastery = Inventory.Instance.GetClassMastery(className);
+
+            // Find Text and Slider in the row
+            TMP_Text nameText = row.transform.Find("ClassNameText")?.GetComponent<TMP_Text>();
+            Slider slider = row.GetComponentInChildren<Slider>();
+            TMP_Text valueText = row.transform.Find("ValueText")?.GetComponent<TMP_Text>();
+
+            if (nameText != null) nameText.text = className;
+            if (slider != null)
+            {
+                slider.maxValue = maxMastery;
+                slider.value = currentMastery;
+            }
+            if (valueText != null) valueText.text = $"{currentMastery:F1}";
+        }
     }
 
     private void OnDetailsBackClicked()
@@ -255,10 +319,66 @@ public class ForgeUI : MonoBehaviour
         if (weaponTreesContainer != null) weaponTreesContainer.gameObject.SetActive(true);
         if (radialBackButton != null) radialBackButton.gameObject.SetActive(true);
 
-        // Show only the tree for this class
+        // 1. Update the Radial Mastery Bar
+        float playerMastery = Inventory.Instance != null ? Inventory.Instance.GetClassMastery(className) : 0f;
+        if (radialMasteryBar != null || radialMasteryText != null)
+        {
+            float maxMastery = ForgeManager.Instance != null ? ForgeManager.Instance.GetMaxMastery() : 100f;
+            
+            if (radialMasteryBar != null)
+            {
+                radialMasteryBar.maxValue = maxMastery;
+                radialMasteryBar.value = playerMastery;
+                radialMasteryBar.gameObject.SetActive(true);
+            }
+            if (radialMasteryText != null)
+            {
+                radialMasteryText.text = $"Mastery: {playerMastery:F1}/{maxMastery:F0}";
+                radialMasteryText.gameObject.SetActive(true);
+            }
+        }
+
+        // 2. Show only the tree for this class and evaluate node visibility based on Mastery
         foreach (Transform child in weaponTreesContainer)
         {
-            child.gameObject.SetActive(child.name == "Tree_" + className);
+            bool isCurrentClass = (child.name == "Tree_" + className);
+            child.gameObject.SetActive(isCurrentClass);
+
+            if (isCurrentClass)
+            {
+                var nodes = child.GetComponentsInChildren<ForgeWeaponNode>(true);
+                foreach (var node in nodes)
+                {
+                    if (node.weaponData == null) continue;
+
+                    // Always ensure node is active
+                    node.gameObject.SetActive(true);
+                    Transform txtChild = node.transform.Find("Text");
+
+                    // Always show Tier 1 (base weapons) normally
+                    if (node.weaponData.itemTier <= 1)
+                    {
+                        if (node.iconImage != null) node.iconImage.color = Color.white;
+                        if (node.nodeButton != null) node.nodeButton.interactable = true;
+                        if (txtChild != null) txtChild.gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        // Check if player has enough mastery
+                        float reqMastery = 0f;
+                        if (node.weaponData.isForgeable && node.weaponData.forgingRecipe != null)
+                        {
+                            reqMastery = node.weaponData.forgingRecipe.requiredMastery;
+                        }
+
+                        // Gray out, disable interaction, and hide text if mastery is not enough!
+                        bool hasMastery = playerMastery >= reqMastery;
+                        if (node.iconImage != null) node.iconImage.color = hasMastery ? Color.white : new Color(0.2f, 0.2f, 0.2f, 1f); // Dark gray
+                        if (node.nodeButton != null) node.nodeButton.interactable = hasMastery;
+                        if (txtChild != null) txtChild.gameObject.SetActive(hasMastery);
+                    }
+                }
+            }
         }
 
         // Hide detail panel (Requirements) until a weapon is clicked!
@@ -268,6 +388,9 @@ public class ForgeUI : MonoBehaviour
         Transform panelContent = radialTreeObj.parent.Find("Panel_Content");
         if (panelContent != null) panelContent.gameObject.SetActive(false);
         
+        // Hide Mastery Overview
+        if (masteryOverviewContainer != null) masteryOverviewContainer.gameObject.SetActive(false);
+
         CenterRadialTree(true); // Keep centered
     }
 

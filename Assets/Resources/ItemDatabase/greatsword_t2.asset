@@ -22,7 +22,21 @@ MonoBehaviour:
   equippable: 1
   equipmentType: 1
   weaponClassName: Greatsword
-  baseModifiers: []
+  baseModifiers:
+  - statTypeSelection: 1
+    stat: PhysicalDamage
+    value: 50
+    percent: 0
+    percentValue: 0
+    isMainStat: 1
+    statTier: 2
+  - statTypeSelection: 7
+    stat: MaxHealth
+    value: 10
+    percent: 0
+    percentValue: 0
+    isMainStat: 0
+    statTier: 2
   weaponPrefab: {fileID: 0}
   customStanceID: 0
   hasSkill: 0
@@ -48,7 +62,7 @@ MonoBehaviour:
     requiredMaterials:
     - materialID: iron_ingot
       material: {fileID: 11400000, guid: dde74946b8bfe694f93b3753f2d7af9c, type: 2}
-      quantity: 5
+      quantity: 0
     goldCost: 100
   gripType: 0
   combatStyle: 0
