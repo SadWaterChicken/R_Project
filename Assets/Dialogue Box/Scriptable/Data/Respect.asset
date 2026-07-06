@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e6bce001f76fd0478882246e21b5122, type: 3}
   m_Name: Respect
   m_EditorClassIdentifier: Assembly-CSharp::DialogueObject
-  dialogue: []
+  dialogue:
+  - W
   responses: []

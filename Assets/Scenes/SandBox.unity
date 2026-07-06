@@ -1263,6 +1263,7 @@ GameObject:
   - component: {fileID: 493304738}
   - component: {fileID: 493304743}
   - component: {fileID: 493304745}
+  - component: {fileID: 493304746}
   m_Layer: 8
   m_Name: NPC
   m_TagString: Untagged
@@ -1462,6 +1463,36 @@ MonoBehaviour:
     onPickedResponse:
       m_PersistentCalls:
         m_Calls: []
+--- !u!114 &493304746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 493304737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f95fa1a258a847e48b1d2a82d3028f31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueResponseEvent
+  dialogueObject: {fileID: 11400000, guid: cffae77e9d32f2e4db24bcad1c101e54, type: 2}
+  events:
+  - name: '*Dab*'
+    onPickedResponse:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 493304737}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &592005052
 GameObject:
   m_ObjectHideFlags: 0
