@@ -18,6 +18,11 @@ public class DialogueUI : MonoBehaviour
         CloseDialogueBox();
     }
 
+    public void AddResponseEvent(ResponseEvent[] responseEvents)
+    {
+        rH.AddReponseEvents(responseEvents);
+    }
+
     public void ShowDialogue(DialogueObject dialogueObject)
     {
         IsOpen = true;
@@ -73,7 +78,7 @@ public class DialogueUI : MonoBehaviour
         }
     }
 
-    private void CloseDialogueBox()
+    public void CloseDialogueBox()
     {
         IsOpen = false;
         dialogueBox.SetActive(false);
