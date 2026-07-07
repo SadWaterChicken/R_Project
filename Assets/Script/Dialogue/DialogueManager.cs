@@ -7,10 +7,12 @@ public class DialogueManager : MonoBehaviour
 
     public DialogueUI DialogueUI => dialogueUI;
     private CharacterController characterController;
+    private Rigidbody rb;
 
     void Start()
     {
         characterController = GetComponent<CharacterController>();
+        rb = GetComponent<Rigidbody>();
     }
 
     void Update()
@@ -19,7 +21,7 @@ public class DialogueManager : MonoBehaviour
         {
             return;
         }
-        if (characterController == null) return;
+        if (characterController == null && rb == null) return;
 
 
         if (Input.GetKeyDown(KeyCode.F))
