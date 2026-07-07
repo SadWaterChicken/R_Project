@@ -28,6 +28,9 @@ public class DialogueUI : MonoBehaviour
         IsOpen = true;
         dialogueBox.SetActive(true);
         StartCoroutine(StepThRoughDialogue(dialogueObject)); 
+        //Thông báo cho cursorManager là UI open để không lock chuột
+        CursorManager.Instance.SetUIOpen(true);
+        
     }
 
     private IEnumerator StepThRoughDialogue(DialogueObject dialogueObject)
@@ -83,5 +86,7 @@ public class DialogueUI : MonoBehaviour
         IsOpen = false;
         dialogueBox.SetActive(false);
         textLable.text = string.Empty;
+        //Thông báo cho cursorManager là UI đóng để lock chuột
+        CursorManager.Instance.SetUIOpen(false);
     }
 }

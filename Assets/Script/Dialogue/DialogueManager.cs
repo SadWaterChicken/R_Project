@@ -6,11 +6,11 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private DialogueUI dialogueUI;
 
     public DialogueUI DialogueUI => dialogueUI;
-    private Rigidbody rb;
+    private CharacterController characterController;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        characterController = GetComponent<CharacterController>();
     }
 
     void Update()
@@ -19,7 +19,7 @@ public class DialogueManager : MonoBehaviour
         {
             return;
         }
-        if (rb == null) return;
+        if (characterController == null) return;
 
 
         if (Input.GetKeyDown(KeyCode.F))
