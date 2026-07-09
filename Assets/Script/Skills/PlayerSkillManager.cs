@@ -12,6 +12,10 @@ public class PlayerSkillManager : MonoBehaviour
     [Header("Available Skills")]
     public List<ActiveSkillData> unlockedSkills = new List<ActiveSkillData>();
 
+    [Header("Equipped Skills")]
+    public string equippedSkillSlot1 = "";
+    public string equippedSkillSlot2 = "";
+
     private bool allSkillsLoaded = false;
 
     private void Start()

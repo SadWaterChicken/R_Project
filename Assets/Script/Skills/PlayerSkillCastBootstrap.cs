@@ -16,9 +16,6 @@ public class PlayerSkillCastBootstrap : MonoBehaviour
         // Tích hợp hệ thống quản lý danh sách Skill (Mới)
         bootstrapObject.AddComponent<PlayerSkillManager>();
 
-        // Tích hợp giao diện UI cơ bản bằng script (Mới)
-        bootstrapObject.AddComponent<AutoSkillEquipUI>();
-        bootstrapObject.AddComponent<AutoSkillTreeUI>();
     }
 
     private void Update()

@@ -47,9 +47,13 @@ public class SwordMasteryTracker : MonoBehaviour
 
     private void Update()
     {
-        if (Inventory.Instance == null) return;
-        
-        float inventoryExp = Inventory.Instance.GetClassMastery("Greatsword");
+        float inventoryExp = currentExp; // Mặc định giữ nguyên nếu ko có Inventory
+
+        if (Inventory.Instance != null)
+        {
+            inventoryExp = Inventory.Instance.GetClassMastery("Greatsword");
+        }
+
         if (inventoryExp > currentExp)
         {
             float oldExp = currentExp;
@@ -69,6 +73,29 @@ public class SwordMasteryTracker : MonoBehaviour
         if (Inventory.Instance != null)
         {
             Inventory.Instance.AddClassMastery("Greatsword", amount);
+        }
+        else
+        {
+            // Hỗ trợ test UI trong scene độc lập không có Inventory
+            float oldExp = currentExp;
+            currentExp = Mathf.Min(currentExp + amount, MAX_MASTERY_EXP);
+            PlayerPrefs.SetFloat("SwordMastery_Exp", currentExp);
+            PlayerPrefs.Save();
+            RecalculateAndGrantSP(oldExp, currentExp);
+        }
+    }
+
+    public void ResetExp()
+    {
+        currentExp = 0f;
+        spGranted = 0;
+        PlayerPrefs.SetFloat("SwordMastery_Exp", 0f);
+        PlayerPrefs.Save();
+        if (Inventory.Instance != null)
+        {
+            // Nếu có hàm SetClassMastery thì dùng, không thì tạm thời gọi Add âm
+            // Ghi chú: Cần Inventory hỗ trợ set đè.
+            // Tạm thời ko can thiệp sâu vào Inventory gốc.
         }
     }
 

@@ -1,7 +1,8 @@
 using UnityEngine;
 
 /// <summary>
-/// Singleton quản lý Sword Skill Tree — 2 nhánh: WindSlash và FireBladeSlash.
+/// Singleton quản lý Sword Skill Tree — cây mới 2 nhánh:
+///   Root → WindSlash → [CritDmg → FireBlade → ..] và [ManaSave → .. → TempestBlade]
 /// Được tạo tự động bởi PlayerSkillCastBootstrap.
 /// </summary>
 public class SwordSkillTreeManager : MonoBehaviour
@@ -40,6 +41,64 @@ public class SwordSkillTreeManager : MonoBehaviour
     public SwordSkillTreeData GetData()      => data;
     public bool IsWindSlashUnlocked()        => data.windSlashUnlocked;
     public bool IsFireBladeSlashUnlocked()   => data.fireBladeSlashUnlocked;
+    public bool IsTempestBladeUnlocked()     => data.tempestBladeUnlocked;
+    public bool IsTwinInfernoUnlocked()      => data.twinInfernoUnlocked;
+
+    /// <summary>Kiểm tra 1 node có thể unlock không (đủ SP + đủ prereq + chưa mở)</summary>
+    public bool CanUnlockNode(string nodeID)
+    {
+        int cost = SwordSkillTreeData.GetNodeCost(nodeID);
+        if (data.availableSkillPoints < cost) return false;
+        return CheckPrereq(nodeID) && !IsNodeUnlocked(nodeID);
+    }
+
+    /// <summary>Kiểm tra node đã mở chưa</summary>
+    public bool IsNodeUnlocked(string nodeID)
+    {
+        if (string.IsNullOrEmpty(nodeID)) return false;
+        switch (nodeID.Trim())
+        {
+            case "baseDamageUp":      return data.baseDamageUp;
+            case "windSlash":         return data.windSlashUnlocked;
+            case "windCritDamageUp":  return data.windCritDamageUp;
+            case "windManaSave":      return data.windManaSave;
+            case "windDamageUp":      return data.windDamageUp;
+            case "windRangeUp":       return data.windRangeUp;
+            case "windCooldownDown":  return data.windCooldownDown;
+            case "tempestBlade":      return data.tempestBladeUnlocked;
+            case "fireBladeSlash":    return data.fireBladeSlashUnlocked;
+            case "fireManaSave":      return data.fireManaSave;
+            case "fireCritUp":        return data.fireCritUp;
+            case "fireDamageUp":      return data.fireDamageUp;
+            case "fireBurnDuration":  return data.fireBurnDuration;
+            case "twinInferno":       return data.twinInfernoUnlocked;
+            default:                  return false;
+        }
+    }
+
+    /// <summary>Kiểm tra prereq có thỏa mãn không (không cần SP)</summary>
+    public bool CheckPrereq(string nodeID)
+    {
+        if (string.IsNullOrEmpty(nodeID)) return false;
+        switch (nodeID.Trim())
+        {
+            case "baseDamageUp":      return true;
+            case "windSlash":         return data.baseDamageUp;
+            case "windCritDamageUp":  return data.windSlashUnlocked;
+            case "windManaSave":      return data.windSlashUnlocked;
+            case "windDamageUp":      return data.windManaSave;
+            case "windRangeUp":       return data.windDamageUp;
+            case "windCooldownDown":  return data.windRangeUp;
+            case "tempestBlade":      return data.windCooldownDown;
+            case "fireBladeSlash":    return data.windCritDamageUp;
+            case "fireManaSave":      return data.fireBladeSlashUnlocked;
+            case "fireCritUp":        return data.fireManaSave;
+            case "fireDamageUp":      return data.fireCritUp;
+            case "fireBurnDuration":  return data.fireDamageUp;
+            case "twinInferno":       return data.fireBurnDuration;
+            default:                  return false;
+        }
+    }
 
     /// <summary>Mở 1 node. Trả về true nếu thành công.</summary>
     public bool UnlockNode(string nodeID)
@@ -62,7 +121,10 @@ public class SwordSkillTreeManager : MonoBehaviour
     /// <summary>Lấy modifier hiện tại để truyền vào skill khi cast.</summary>
     public SwordSkillModifiers GetCurrentModifiers() => new SwordSkillModifiers
     {
+        // Root
+        baseDamageUp     = data.baseDamageUp,
         // WindSlash
+        windCritDamageUp = data.windCritDamageUp,
         windManaSave     = data.windManaSave,
         windRangeUp      = data.windRangeUp,
         windDamageUp     = data.windDamageUp,
@@ -77,13 +139,13 @@ public class SwordSkillTreeManager : MonoBehaviour
     };
 
     // ─── APPLY WINDSLASH MODS AT RUNTIME ─────────────────────────────────────
-    /// <summary>
-    /// Áp modifier WindSlash lên instance vừa spawn.
-    /// Gọi từ PlayerSkillCastController ngay trước ExecuteSkill().
-    /// </summary>
     public void ApplyWindSlashMods(WindSlashSkill slash, SwordSkillModifiers mods)
     {
         if (slash == null) return;
+
+        // BaseDamageUp: +20% cho tất cả Greatsword skills
+        if (mods.baseDamageUp)
+            slash.fallbackDamageMultiplier *= 1.2f;
 
         // RangeUp: 10m → 15m
         if (mods.windRangeUp)
@@ -99,21 +161,34 @@ public class SwordSkillTreeManager : MonoBehaviour
             slash.pierceEnemies       = true;
             slash.maxTravelDistance   = (mods.windRangeUp ? 15f : 10f) + 6f;
             slash.fallbackDamageMultiplier *= 1.6f;
-            slash.hitboxSize = new Vector3(6f, 2f, 2f); // AoE rộng hơn
+            slash.hitboxSize = new Vector3(6f, 2f, 2f);
         }
     }
 
     // ─── APPLY FIRE MODS AT RUNTIME ──────────────────────────────────────────
-    /// <summary>Áp modifier FireBladeSlash lên instance vừa spawn.
-    /// Gọi từ PlayerSkillCastController trước khi ExecuteSkill().
-    /// </summary>
     public void ApplyFireBladeMods(FireBladeSlashSkill fire, SwordSkillModifiers mods)
     {
         if (fire == null) return;
-        // DamageUp được xử lý bên trong ExecuteSkill() của FireBladeSlashSkill (qua modifiers.fireDamageUp)
+
+        // BaseDamageUp: +20%
+        if (mods.baseDamageUp)
+        {
+            // damageMultiplier is protected in BaseSkill — apply via reflection-safe approach
+            // FireBladeSlashSkill reads CalculatePhysicalDamage() which uses damageMultiplier
+            // We set it directly since we have access at cast time through ApplyFireBladeMods
+            var field = typeof(BaseSkill).GetField("damageMultiplier",
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            if (field != null)
+            {
+                float current = (float)field.GetValue(fire);
+                field.SetValue(fire, current * 1.2f);
+            }
+        }
+
         // BurnDuration: 3s → 5s
         if (mods.fireBurnDuration)
             fire.baseDotDuration = 5f;
+
         // TwinInferno: mở rộng hitbox
         if (mods.twinInferno)
             fire.baseHitboxSize = new Vector3(fire.baseHitboxSize.x * 1.5f,
@@ -121,64 +196,92 @@ public class SwordSkillTreeManager : MonoBehaviour
                                               fire.baseHitboxSize.z);
     }
 
+    /// <summary>
+    /// Reset toàn bộ cây về trạng thái chưa mở khoá.
+    /// Hoàn lại đúng bằng số SP đã tiêu vào các node, giữ nguyên totalSpGranted.
+    /// </summary>
+    public void ResetAllNodes()
+    {
+        // Tính SP đã tiêu để hoàn lại
+        int refund = 0;
+        string[] allNodes = {
+            "baseDamageUp", "windSlash", "windCritDamageUp", "windManaSave",
+            "windDamageUp", "windRangeUp", "windCooldownDown", "tempestBlade",
+            "fireBladeSlash", "fireManaSave", "fireCritUp",
+            "fireDamageUp", "fireBurnDuration", "twinInferno"
+        };
+        foreach (var nodeID in allNodes)
+        {
+            if (IsNodeUnlocked(nodeID))
+                refund += SwordSkillTreeData.GetNodeCost(nodeID);
+        }
+
+        // Reset toàn bộ node về false
+        data.baseDamageUp          = false;
+        data.windSlashUnlocked      = false;
+        data.windCritDamageUp       = false;
+        data.windManaSave            = false;
+        data.windDamageUp            = false;
+        data.windRangeUp             = false;
+        data.windCooldownDown        = false;
+        data.tempestBladeUnlocked    = false;
+        data.fireBladeSlashUnlocked  = false;
+        data.fireManaSave            = false;
+        data.fireCritUp              = false;
+        data.fireDamageUp            = false;
+        data.fireBurnDuration        = false;
+        data.twinInfernoUnlocked     = false;
+
+        // Hoàn lại SP đã tiêu
+        data.availableSkillPoints += refund;
+
+        data.Save();
+        Debug.Log($"[SwordSkillTreeManager] Reset xong — hoàn lại {refund} SP | Có sẵn: {data.availableSkillPoints} SP");
+    }
+
+    /// <summary>Xoá sạch toàn bộ EXP, SP, trả cây về trạng thái khởi thủy (0 EXP, 0 SP)</summary>
+    public void HardReset()
+    {
+        data = new SwordSkillTreeData();
+        data.Save();
+
+        if (SwordMasteryTracker.Instance != null)
+        {
+            SwordMasteryTracker.Instance.ResetExp();
+        }
+
+        Debug.Log("[SwordSkillTreeManager] HARD RESET thành công! Toàn bộ điểm đã về 0.");
+    }
+
     // ─── UNLOCK LOGIC ────────────────────────────────────────────────────────
     private bool ApplyUnlock(string nodeID)
     {
+        if (string.IsNullOrEmpty(nodeID)) return false;
+        nodeID = nodeID.Trim();
+        
+        if (IsNodeUnlocked(nodeID)) return false;
+        if (!CheckPrereq(nodeID))  return false;
+
         switch (nodeID)
         {
-            // ── Nhánh WindSlash (theo chuỗi) ──
-            case "windSlash":
-                if (data.windSlashUnlocked) return false;
-                data.windSlashUnlocked = true; return true;
-
-            case "windManaSave":
-                if (data.windManaSave || !data.windSlashUnlocked) return false;
-                data.windManaSave = true; return true;
-
-            case "windRangeUp":
-                if (data.windRangeUp || !data.windManaSave) return false;
-                data.windRangeUp = true; return true;
-
-            case "windDamageUp":
-                if (data.windDamageUp || !data.windRangeUp) return false;
-                data.windDamageUp = true; return true;
-
-            case "windCooldownDown":
-                if (data.windCooldownDown || !data.windDamageUp) return false;
-                data.windCooldownDown = true; return true;
-
-            case "tempestBlade":
-                if (data.tempestBladeUnlocked || !data.windCooldownDown) return false;
-                data.tempestBladeUnlocked = true; return true;
-
-            // ── Nhánh FireBladeSlash (theo chuỗi) ──
-            case "fireBladeSlash":
-                if (data.fireBladeSlashUnlocked) return false;
-                data.fireBladeSlashUnlocked = true; return true;
-
-            case "fireManaSave":
-                if (data.fireManaSave || !data.fireBladeSlashUnlocked) return false;
-                data.fireManaSave = true; return true;
-
-            case "fireCritUp":
-                if (data.fireCritUp || !data.fireManaSave) return false;
-                data.fireCritUp = true; return true;
-
-            case "fireDamageUp":
-                if (data.fireDamageUp || !data.fireCritUp) return false;
-                data.fireDamageUp = true; return true;
-
-            case "fireBurnDuration":
-                if (data.fireBurnDuration || !data.fireDamageUp) return false;
-                data.fireBurnDuration = true; return true;
-
-            case "twinInferno":
-                if (data.twinInfernoUnlocked || !data.fireBurnDuration) return false;
-                data.twinInfernoUnlocked = true; return true;
-
+            case "baseDamageUp":      data.baseDamageUp          = true; break;
+            case "windSlash":         data.windSlashUnlocked      = true; break;
+            case "windCritDamageUp":  data.windCritDamageUp       = true; break;
+            case "windManaSave":      data.windManaSave            = true; break;
+            case "windDamageUp":      data.windDamageUp            = true; break;
+            case "windRangeUp":       data.windRangeUp             = true; break;
+            case "windCooldownDown":  data.windCooldownDown        = true; break;
+            case "tempestBlade":      data.tempestBladeUnlocked    = true; break;
+            case "fireBladeSlash":    data.fireBladeSlashUnlocked  = true; break;
+            case "fireManaSave":      data.fireManaSave            = true; break;
+            case "fireCritUp":        data.fireCritUp              = true; break;
+            case "fireDamageUp":      data.fireDamageUp            = true; break;
+            case "fireBurnDuration":  data.fireBurnDuration        = true; break;
+            case "twinInferno":       data.twinInfernoUnlocked     = true; break;
             default:
                 Debug.LogWarning($"[SwordSkillTreeManager] Unknown node: {nodeID}");
                 return false;
         }
+        return true;
     }
 }
