@@ -6,6 +6,8 @@ using UnityEngine.Events;
 [DefaultExecutionOrder(-10000)]
 public class PlayerSkillCastController : MonoBehaviour
 {
+    public static PlayerSkillCastController Instance { get; private set; }
+
     [Header("References")]
     [SerializeField] private Animator playerAnimator;
     [SerializeField] private EquipmentManager equipmentManager;
@@ -15,8 +17,34 @@ public class PlayerSkillCastController : MonoBehaviour
     [SerializeField] private float suppressMeleeEventDuration = 0.85f;
     [SerializeField] private float defaultReleaseDelay = 0.3f; // Độ trễ trước khi sinh skill prefab
 
+    public ActiveSkillData equippedMainHandSkill;
+    public ActiveSkillData equippedOffHandSkill;
+
     private float mainHandNextCastTime = 0f;
     private float offHandNextCastTime = 0f;
+
+    private float mainHandTotalCooldown = 0f;
+    private float offHandTotalCooldown = 0f;
+
+    // --- PUBLIC GETTERS CHO UI HUD ---
+    public ActiveSkillData GetMainHandSkill()
+    {
+        if (PlayerSkillManager.Instance == null) return null;
+        string id = PlayerSkillManager.Instance.equippedSkillSlot1;
+        return string.IsNullOrEmpty(id) ? null : PlayerSkillManager.Instance.GetSkillByID(id);
+    }
+
+    public ActiveSkillData GetOffHandSkill()
+    {
+        if (PlayerSkillManager.Instance == null) return null;
+        string id = PlayerSkillManager.Instance.equippedSkillSlot2;
+        return string.IsNullOrEmpty(id) ? null : PlayerSkillManager.Instance.GetSkillByID(id);
+    }
+    
+    public float GetMainHandCooldownRemaining() => Mathf.Max(0, mainHandNextCastTime - Time.time);
+    public float GetOffHandCooldownRemaining()  => Mathf.Max(0, offHandNextCastTime - Time.time);
+    public float GetMainHandCooldownTotal() => mainHandTotalCooldown;
+    public float GetOffHandCooldownTotal()  => offHandTotalCooldown;
     
     private UnityAction<string> equipmentAnimationListener;
     private AnimationEventHandler playerAnimationEventHandler;
@@ -26,6 +54,7 @@ public class PlayerSkillCastController : MonoBehaviour
 
     private void Awake()
     {
+        Instance = this;
         RefreshReferences();
     }
 
@@ -152,9 +181,15 @@ public class PlayerSkillCastController : MonoBehaviour
 
         // Bắt đầu hồi chiẻu cho Tay tương ứng
         if (isOffHand)
+        {
+            offHandTotalCooldown = realCooldown;
             offHandNextCastTime = Time.time + realCooldown;
+        }
         else
+        {
+            mainHandTotalCooldown = realCooldown;
             mainHandNextCastTime = Time.time + realCooldown;
+        }
 
         StartCoroutine(CastSkillRoutine(skillData, isOffHand));
         return true;
