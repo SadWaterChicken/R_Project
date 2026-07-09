@@ -10,10 +10,10 @@ public class TypeWriterEffect : MonoBehaviour
 
     public bool isRunning { get; private set; }
 
-    private readonly Dictionary<HashSet<char>, float> punctuations = new Dictionary<HashSet<char>, float>()
+    private readonly List<Punctuation> punctuations = new List<Punctuation>()
     {
-        { new HashSet<char>(){ '.', '!', '?' }, 0.6f}, //key, time
-        { new HashSet<char>(){ ',', ';', ':' }, 0.3f},
+        new Punctuation( new HashSet<char>(){ '.', '!', '?' }, 0.6f), //key, time
+        new Punctuation (new HashSet<char>(){ ',', ';', ':' }, 0.3f)
     };
 
     private Coroutine typingCoroutine;
@@ -65,15 +65,27 @@ public class TypeWriterEffect : MonoBehaviour
 
     private bool IsPunctuation(char character, out float waitTime)
     {
-        foreach (KeyValuePair<HashSet<char>, float> punctuationCategory in punctuations)
+        foreach (Punctuation punctuationCategory in punctuations)
         {
-            if (punctuationCategory.Key.Contains(character))//check if the key have the character set above
+            if (punctuationCategory.Punctuations.Contains(character))//check if the key have the character set above
             {
-                waitTime = punctuationCategory.Value;
+                waitTime = punctuationCategory.WaitTime;
                 return true;
             }
         }
         waitTime = default; // set to default to not skip the normal dialog speed instead of 0f
         return false;
+    }
+
+    //clean Struct
+    private readonly struct Punctuation
+    {
+        public readonly HashSet<char> Punctuations;
+        public readonly float WaitTime;
+        public Punctuation(HashSet<char> punctuations, float waitTime)
+        {
+            Punctuations = punctuations;
+            WaitTime = waitTime;
+        }
     }
 }
