@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerCombat : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class PlayerCombat : MonoBehaviour
     public float damage;
     private bool isGuarding = false;
     public float guardDamageReduction = 0.5f; // Reduce damage by 50% when guarding
+    [SerializeField] private DialogueUI dialogueUI;
+    public DialogueUI DialogueUI => dialogueUI;
 
     void Update()
     {
@@ -29,49 +32,55 @@ public class PlayerCombat : MonoBehaviour
             }
         }
 
-        if(Input.GetMouseButtonDown(0))
+        // Kiểm tra xem chuột có đang tương tác với UI không
+        bool isPointerOverUI = EventSystem.current != null && EventSystem.current.IsPointerOverGameObject();
+        bool isTalking = dialogueUI != null && dialogueUI.IsOpen;
+        if (!isPointerOverUI && !isTalking)
         {
-            lastClickedTime = Time.time;
-            numbClicks++;
-            
-            if(numbClicks == 1)
+            if(Input.GetMouseButtonDown(0))
             {
-                animator.ResetTrigger("hit2"); // Clear any ghost triggers
-                animator.SetTrigger("hit1");
-                if (equipmentManager != null) equipmentManager.TriggerMainHandAttack("hit1");
-            }
-            else if (numbClicks >= 2)
-            {
-                // Queue hit2 instantly so you don't miss the animation event window
-                animator.SetTrigger("hit2");
-                if (equipmentManager != null) equipmentManager.TriggerMainHandAttack("hit2");
-            }
-            
-            numbClicks = Mathf.Clamp(numbClicks, 0, 2);
-        }
-
-        // Chuột Phải: Xử lý theo loại vũ khí tay trái
-        if (Input.GetMouseButtonDown(1))
-        {
-            if (equipmentManager != null && equipmentManager.HasOffHandWeapon())
-            {
-                // Kiểm tra xem tay trái đang cầm Khiên (Defend) hay Vũ khí (Melee/Ranged)
-                if (equipmentManager.GetOffHandCombatStyle() == CombatStyle.Defend)
+                lastClickedTime = Time.time;
+                numbClicks++;
+                
+                if(numbClicks == 1)
                 {
-                    GuardUp();
+                    animator.ResetTrigger("hit2"); // Clear any ghost triggers
+                    animator.SetTrigger("hit1");
+                    if (equipmentManager != null) equipmentManager.TriggerMainHandAttack("hit1");
+                }
+                else if (numbClicks >= 2)
+                {
+                    // Queue hit2 instantly so you don't miss the animation event window
+                    animator.SetTrigger("hit2");
+                    if (equipmentManager != null) equipmentManager.TriggerMainHandAttack("hit2");
+                }
+                
+                numbClicks = Mathf.Clamp(numbClicks, 0, 2);
+            }
+
+            // Chuột Phải: Xử lý theo loại vũ khí tay trái
+            if (Input.GetMouseButtonDown(1))
+            {
+                if (equipmentManager != null && equipmentManager.HasOffHandWeapon())
+                {
+                    // Kiểm tra xem tay trái đang cầm Khiên (Defend) hay Vũ khí (Melee/Ranged)
+                    if (equipmentManager.GetOffHandCombatStyle() == CombatStyle.Defend)
+                    {
+                        GuardUp();
+                    }
+                    else
+                    {
+                        // Vung vũ khí tay trái (Tạm dùng hit2 cho tay trái)
+                        animator.ResetTrigger("hit1");
+                        animator.SetTrigger("hit2");
+                        equipmentManager.TriggerOffHandAttack("hit2");
+                    }
                 }
                 else
                 {
-                    // Vung vũ khí tay trái (Tạm dùng hit2 cho tay trái)
-                    animator.ResetTrigger("hit1");
-                    animator.SetTrigger("hit2");
-                    equipmentManager.TriggerOffHandAttack("hit2");
+                    // Tay không cũng đỡ đòn
+                    GuardUp();
                 }
-            }
-            else
-            {
-                // Tay không cũng đỡ đòn
-                GuardUp();
             }
         }
         

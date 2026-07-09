@@ -1,5 +1,5 @@
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
@@ -108,7 +108,6 @@ public class PlayerController : MonoBehaviour
             if (Camera.main != null)
             {
                 cam = Camera.main.transform;
-                Debug.Log("[PlayerController] Found new Main Camera after scene transition.");
             }
             else
             {
@@ -199,8 +198,6 @@ public class PlayerController : MonoBehaviour
                 nearbyInteractable.Interact();
             }
 
-            // Camera rotation is now handled completely by Cinemachine FreeLook
-            // Removed manual Q/E rotation to prevent conflicts and jitter
         }
         
 

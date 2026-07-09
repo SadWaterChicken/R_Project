@@ -18,11 +18,19 @@ public class DialogueUI : MonoBehaviour
         CloseDialogueBox();
     }
 
+    public void AddResponseEvent(ResponseEvent[] responseEvents)
+    {
+        rH.AddReponseEvents(responseEvents);
+    }
+
     public void ShowDialogue(DialogueObject dialogueObject)
     {
         IsOpen = true;
         dialogueBox.SetActive(true);
         StartCoroutine(StepThRoughDialogue(dialogueObject)); 
+        //Thông báo cho cursorManager là UI open để không lock chuột
+        CursorManager.Instance.SetUIOpen(true);
+        
     }
 
     private IEnumerator StepThRoughDialogue(DialogueObject dialogueObject)
@@ -73,10 +81,12 @@ public class DialogueUI : MonoBehaviour
         }
     }
 
-    private void CloseDialogueBox()
+    public void CloseDialogueBox()
     {
         IsOpen = false;
         dialogueBox.SetActive(false);
         textLable.text = string.Empty;
+        //Thông báo cho cursorManager là UI đóng để lock chuột
+        CursorManager.Instance.SetUIOpen(false);
     }
 }
