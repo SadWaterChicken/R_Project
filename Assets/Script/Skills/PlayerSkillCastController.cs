@@ -66,13 +66,13 @@ public class PlayerSkillCastController : MonoBehaviour
 
         if (PlayerSkillManager.Instance == null) return;
 
-        // Phím Q để dùng kỹ năng của vũ khí tay chính (Main Hand)
+        // Phím Q để dùng kỹ năng ở Slot 1
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            WeaponController mainHand = GetEquippedWeapon("currentMainHandWeapon");
-            if (mainHand != null && mainHand.currentItemData != null)
+            string skillID = PlayerSkillManager.Instance.equippedSkillSlot1;
+            if (!string.IsNullOrEmpty(skillID))
             {
-                ActiveSkillData skillData = mainHand.currentItemData.EquippedSkill;
+                ActiveSkillData skillData = PlayerSkillManager.Instance.GetSkillByID(skillID);
                 if (skillData != null)
                 {
                     DetachPlayerCombatEquipmentManagerForThisFrame();
@@ -81,13 +81,13 @@ public class PlayerSkillCastController : MonoBehaviour
             }
         }
 
-        // Phím E để dùng kỹ năng của vũ khí tay phụ (Off Hand)
+        // Phím E để dùng kỹ năng ở Slot 2
         if (Input.GetKeyDown(KeyCode.E))
         {
-            WeaponController offHand = GetEquippedWeapon("currentOffHandWeapon");
-            if (offHand != null && offHand.currentItemData != null)
+            string skillID = PlayerSkillManager.Instance.equippedSkillSlot2;
+            if (!string.IsNullOrEmpty(skillID))
             {
-                ActiveSkillData skillData = offHand.currentItemData.EquippedSkill;
+                ActiveSkillData skillData = PlayerSkillManager.Instance.GetSkillByID(skillID);
                 if (skillData != null)
                 {
                     DetachPlayerCombatEquipmentManagerForThisFrame();

@@ -6,7 +6,14 @@ using UnityEngine;
 [System.Serializable]
 public struct SwordSkillModifiers
 {
+    // ══ Root passive ═════════════════════════════════════════════════════════
+    /// <summary>BaseDamageUp: +20% sát thương cơ bản cho tất cả Greatsword skills</summary>
+    public bool baseDamageUp;
+
     // ══ WindSlash modifiers ═══════════════════════════════════════════════════
+    /// <summary>CritDamageUp: +30% crit damage cho Wind Slash</summary>
+    public bool windCritDamageUp;
+
     /// <summary>ManaSave: giảm 30% mana cost</summary>
     public bool windManaSave;
 
@@ -41,6 +48,8 @@ public struct SwordSkillModifiers
     // ─── Default ─────────────────────────────────────────────────────────────
     public static SwordSkillModifiers Default() => new SwordSkillModifiers
     {
+        baseDamageUp     = false,
+        windCritDamageUp = false,
         windManaSave     = false,
         windRangeUp      = false,
         windDamageUp     = false,
