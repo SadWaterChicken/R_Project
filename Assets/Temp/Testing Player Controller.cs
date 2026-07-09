@@ -4,7 +4,11 @@ public class TestingPlayerController : MonoBehaviour
 {
     public float speed = 5f;          // Base movement speed
     public float sprintSpeed = 8f;    // Sprint speed
+    [SerializeField] private DialogueUI dialogueUI;
 
+    public DialogueUI DialogueUI => dialogueUI;
+
+    public INPCInteractable iNPC {  get;  set; }
     private Rigidbody rb;
 
     void Start()
@@ -14,7 +18,11 @@ public class TestingPlayerController : MonoBehaviour
 
     void Update()
     {
-
+        if (DialogueUI.IsOpen)
+        {
+            return;
+        }
+        if (rb == null) return;
 
         // Get input axes
         float moveX = Input.GetAxis("Horizontal");
@@ -30,6 +38,9 @@ public class TestingPlayerController : MonoBehaviour
         // Move using Rigidbody
         rb.MovePosition(newPosition);
 
-
+        if(Input.GetKeyDown(KeyCode.F))
+        {
+            iNPC?.InteractPlayer(this);
+        }
     }
 }

@@ -505,6 +505,58 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1190051943}
     m_Modifications:
+    - target: {fileID: 1099966767013228352, guid: f800d3501114d09408b44c8fdbc9126f, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1099992491623986488, guid: f800d3501114d09408b44c8fdbc9126f, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1100136055960324832, guid: f800d3501114d09408b44c8fdbc9126f, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1100322446974630412, guid: f800d3501114d09408b44c8fdbc9126f, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1598974881864701535, guid: f800d3501114d09408b44c8fdbc9126f, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1598987313820788655, guid: f800d3501114d09408b44c8fdbc9126f, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1599522428644181403, guid: f800d3501114d09408b44c8fdbc9126f, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1600209592819095693, guid: f800d3501114d09408b44c8fdbc9126f, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1933323919897625168, guid: f800d3501114d09408b44c8fdbc9126f, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2208196563891989903, guid: f800d3501114d09408b44c8fdbc9126f, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3871748760799075672, guid: f800d3501114d09408b44c8fdbc9126f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1856.6506
+      objectReference: {fileID: 0}
+    - target: {fileID: 3871748760799075672, guid: f800d3501114d09408b44c8fdbc9126f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -866.36475
+      objectReference: {fileID: 0}
+    - target: {fileID: 3871748760799075672, guid: f800d3501114d09408b44c8fdbc9126f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4260647906194552419, guid: f800d3501114d09408b44c8fdbc9126f, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -589,9 +641,57 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 313751853}
+    - target: {fileID: 4573711222091232490, guid: f800d3501114d09408b44c8fdbc9126f, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4573892669338998472, guid: f800d3501114d09408b44c8fdbc9126f, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4574347288853026238, guid: f800d3501114d09408b44c8fdbc9126f, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4574471280421784146, guid: f800d3501114d09408b44c8fdbc9126f, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5552577609424001678, guid: f800d3501114d09408b44c8fdbc9126f, type: 3}
       propertyPath: m_Name
       value: PlayerHUDCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 5552577609424001678, guid: f800d3501114d09408b44c8fdbc9126f, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5643290071415533987, guid: f800d3501114d09408b44c8fdbc9126f, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5643477548989202767, guid: f800d3501114d09408b44c8fdbc9126f, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5645073515119219715, guid: f800d3501114d09408b44c8fdbc9126f, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5645117918475931259, guid: f800d3501114d09408b44c8fdbc9126f, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6435851866878151357, guid: f800d3501114d09408b44c8fdbc9126f, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7140320504734576082, guid: f800d3501114d09408b44c8fdbc9126f, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7328170942986210590, guid: f800d3501114d09408b44c8fdbc9126f, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -771,7 +871,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &211889178
 Transform:
   m_ObjectHideFlags: 0
@@ -843,7 +943,6 @@ MonoBehaviour:
   bowMastery: 0
   staffMastery: 0
   orbMastery: 0
-  dualBladesMastery: 0
 --- !u!114 &211889180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1452,7 +1551,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &313751847
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1506,7 +1605,7 @@ MonoBehaviour:
   bowMastery: 0
   staffMastery: 0
   orbMastery: 0
-  dualBladesMastery: 0
+  battleswordMastery: 0
 --- !u!114 &313751850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1650,16 +1749,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f7a4c0c5bb642f4aa2e1d9370a11106, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSkillCastController
-  playerAnimator: {fileID: 0}
-  equipmentManager: {fileID: 0}
-  playerCombat: {fileID: 0}
-  mainHandAnimationTrigger: hit1
-  mainHandCooldown: 4
-  mainHandReleaseDelay: 0.3
-  offHandAnimationTrigger: hit2
-  offHandCooldown: 4
-  offHandReleaseDelay: 0.3
+  playerAnimator: {fileID: 1008829511}
+  equipmentManager: {fileID: 1008829513}
+  playerCombat: {fileID: 1008829508}
   suppressMeleeEventDuration: 0.85
+  defaultReleaseDelay: 0.3
 --- !u!1 &359228833
 GameObject:
   m_ObjectHideFlags: 0

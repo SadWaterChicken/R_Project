@@ -135,18 +135,18 @@ public class PlayerStat : CharacterStats
         // Load stats here so base.Start() doesn't overwrite values like currentHealth and shield
         LoadPlayerStats();
 
-        // --- Sync masteries from Inventory ONLY IF they exist in save data ---
+        // --- Sync masteries from Inventory ---
         if (Inventory.Instance != null)
         {
-            if (Inventory.Instance.classMasteries.ContainsKey("Greatsword")) greatswordMastery = Inventory.Instance.classMasteries["Greatsword"];
-            if (Inventory.Instance.classMasteries.ContainsKey("Katana")) katanaMastery = Inventory.Instance.classMasteries["Katana"];
-            if (Inventory.Instance.classMasteries.ContainsKey("Warhammer")) warhammerMastery = Inventory.Instance.classMasteries["Warhammer"];
-            if (Inventory.Instance.classMasteries.ContainsKey("Greatsaxe")) greatsaxeMastery = Inventory.Instance.classMasteries["Greatsaxe"];
-            if (Inventory.Instance.classMasteries.ContainsKey("Spear")) spearMastery = Inventory.Instance.classMasteries["Spear"];
-            if (Inventory.Instance.classMasteries.ContainsKey("Bow")) bowMastery = Inventory.Instance.classMasteries["Bow"];
-            if (Inventory.Instance.classMasteries.ContainsKey("Staff")) staffMastery = Inventory.Instance.classMasteries["Staff"];
-            if (Inventory.Instance.classMasteries.ContainsKey("Orb")) orbMastery = Inventory.Instance.classMasteries["Orb"];
-            if (Inventory.Instance.classMasteries.ContainsKey("DualBlades")) dualBladesMastery = Inventory.Instance.classMasteries["DualBlades"];
+            greatswordMastery = Inventory.Instance.GetClassMastery("Greatsword");
+            katanaMastery = Inventory.Instance.GetClassMastery("Katana");
+            warhammerMastery = Inventory.Instance.GetClassMastery("Warhammer");
+            greatsaxeMastery = Inventory.Instance.GetClassMastery("Greatsaxe");
+            spearMastery = Inventory.Instance.GetClassMastery("Spear");
+            bowMastery = Inventory.Instance.GetClassMastery("Bow");
+            staffMastery = Inventory.Instance.GetClassMastery("Staff");
+            orbMastery = Inventory.Instance.GetClassMastery("Orb");
+            dualBladesMastery = Inventory.Instance.GetClassMastery("DualBlades");
         }
         
         // Optional: currentSanity can also be synced from load, but if not loaded properly, use max
@@ -190,8 +190,6 @@ public class PlayerStat : CharacterStats
         SavePlayerStats();
         if (Inventory.Instance != null)
         {
-            // Sync any inspector tweaks to Inventory before PlayerStat is destroyed
-            Inventory.Instance.SaveInventory();
             Inventory.Instance.OnItemEquipChanged -= OnItemEquipChanged;
         }
     }

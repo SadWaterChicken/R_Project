@@ -4,41 +4,27 @@ public class DialogueActivator : MonoBehaviour, INPCInteractable
 {
     [SerializeField] private DialogueObject dialogueObject;
 
-    public void UpdateDialogueObject(DialogueObject dialogueObject)
-    {
-        this.dialogueObject = dialogueObject;
-    }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player") && other.TryGetComponent(out DialogueManager manager))
+        if(other.CompareTag("Player") && other.TryGetComponent(out TestingPlayerController test))
         {
-            manager.interactable = this;
+            test.iNPC = this;
         }
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player") && other.TryGetComponent(out DialogueManager manager))
+        if (other.CompareTag("Player") && other.TryGetComponent(out TestingPlayerController test))
         {
-            if(manager.interactable is DialogueActivator dialogueActivator && dialogueActivator == this)
+            if(test.iNPC is DialogueActivator dialogueActivator && dialogueActivator == this)
             {
-                manager.interactable = null;
+                test.iNPC = null;
             }
         }
 
 
     }
-    public void InteractPlayer(DialogueManager manager)
+    public void InteractPlayer(TestingPlayerController test)
     {
-        foreach(DialogueResponseEvent responseEvent in GetComponents<DialogueResponseEvent>())
-        {
-            if (responseEvent.DialogueObject == dialogueObject)
-            {
-                manager.DialogueUI.AddResponseEvent(responseEvent.Events);
-                break;
-            }
-        }
-
-        manager.DialogueUI.ShowDialogue(dialogueObject);
+        test.DialogueUI.ShowDialogue(dialogueObject);
     }
-
 }
