@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Quest/QuestObject")]
-public class QuestObject : MonoBehaviour
+public class QuestObject : ScriptableObject
 {
     [field: SerializeField] public string id { get; private set; }
 
@@ -10,7 +10,7 @@ public class QuestObject : MonoBehaviour
 
     [Header("Requirements")]
     public int levelRequirement;
-    public QuestObject questPrerequisites;
+    public QuestObject[] questPrerequisites;
 
     [Header("Steps")]
     public GameObject[] questStepPrefabs;
@@ -20,6 +20,7 @@ public class QuestObject : MonoBehaviour
     public int experienceReward;
 
     // ensure the id is always the name of the Scriptable Object asset
+    // not fusing the step in the Object to cause it will make it too messy
     private void OnValidate()
     {
 #if UNITY_EDITOR
