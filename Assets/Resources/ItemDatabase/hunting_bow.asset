@@ -23,19 +23,30 @@ MonoBehaviour:
   equipmentType: 1
   weaponClassName: Bow
   baseModifiers: []
-  weaponPrefab: {fileID: 0}
+  weaponPrefab: {fileID: 4930409314538818501, guid: f709d2f5eb498844d8de6a6378c803c1, type: 3}
   customStanceID: 0
+  hasSkill: 0
+  weaponSkill:
+    skillName: 
+    description: 
+    skillIcon: {fileID: 0}
+    cooldown: 0
+    damageMultiplier: 0
+    animationTrigger: 
+    skillPrefab: {fileID: 0}
   isForgeable: 0
   forgingRecipe:
-    requiredMastery: 0
     recipeID: 
     resultItemID: 
+    resultItem: {fileID: 0}
+    requiredMastery: 0
     requiredItemIDs: []
+    oldRequiredWeapons: []
+    requiredWeapons: []
     requiredMaterials: []
     goldCost: 0
-    minWeaponCount: 2
   gripType: 0
   combatStyle: 0
+  projectilePrefab: {fileID: 2350367507606825007, guid: c0a96166f38c0554db2109d974f45ae4, type: 3}
   weaponAnimatorController: {fileID: 0}
-  weaponComponents:
-  - MeleeDamageComponent
+  instructionInfo: "G\u1EAFn Component th\u1EB3ng v\xE0o Prefab"
