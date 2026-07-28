@@ -13,11 +13,53 @@ public class QuestManager : MonoBehaviour
         questMap = CreateQuestMap();
 
         Quest quest = GetQuestById("Collect");
-        Debug.Log(quest.info.displayName);
-        Debug.Log(quest.info.levelRequirement);
-        Debug.Log(quest.state);
-        Debug.Log(quest.CurrentStepExists());
 
+    }
+
+    //Subcribe to all available quest events
+    private void OnEnable()
+    {
+        GameEventsManager.instance.questEvents.onStartQuest += StartQuest;
+        GameEventsManager.instance.questEvents.onAdvanceQuest += AdvanceQuest;
+        GameEventsManager.instance.questEvents.onFinishQuest += FinishQuest;
+    }
+
+    //Unsubcribe to all available quest events
+    private void OnDisable()
+    {
+        GameEventsManager.instance.questEvents.onStartQuest -= StartQuest;
+        GameEventsManager.instance.questEvents.onAdvanceQuest -= AdvanceQuest;
+        GameEventsManager.instance.questEvents.onFinishQuest -= FinishQuest;
+
+    }
+
+    private void Start()
+    {
+
+        foreach (Quest quest in questMap.Values)
+        {
+            /*// initialize any loaded quest steps
+            if (quest.state == QuestState.IN_PROGRESS)
+            {
+                quest.InstantiateCurrentQuestStep(this.transform);
+            }*/
+            // broadcast the initial state of all quests on startup
+            GameEventsManager.instance.questEvents.QuestStateChange(quest);
+        }
+    }
+
+    private void StartQuest(string id)
+    {
+        Debug.Log("Start Quest");
+    }
+    private void AdvanceQuest(string id)
+    {
+        Debug.Log("Advance Quest");
+    }
+
+    private void FinishQuest(string id)
+    {
+        Debug.Log("End Quest");
     }
     private Dictionary<string, Quest> CreateQuestMap()
     {
