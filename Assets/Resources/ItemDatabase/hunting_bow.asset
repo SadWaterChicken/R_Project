@@ -45,8 +45,8 @@ MonoBehaviour:
     requiredWeapons: []
     requiredMaterials: []
     goldCost: 0
-  gripType: 0
-  combatStyle: 0
+  gripType: 1
+  combatStyle: 1
   projectilePrefab: {fileID: 2350367507606825007, guid: c0a96166f38c0554db2109d974f45ae4, type: 3}
   weaponAnimatorController: {fileID: 0}
   instructionInfo: "G\u1EAFn Component th\u1EB3ng v\xE0o Prefab"

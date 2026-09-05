@@ -17,7 +17,7 @@ public class DialogueManager : MonoBehaviour
 
     void Update()
     {
-        if (DialogueUI.IsOpen)
+        if (DialogueUI != null && DialogueUI.IsOpen)
         {
             return;
         }

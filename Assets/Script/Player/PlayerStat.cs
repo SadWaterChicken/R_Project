@@ -1,8 +1,8 @@
-using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using UnityEngine;
 
 [Serializable]
 public class PlayerSaveData
@@ -131,7 +131,7 @@ public class PlayerStat : CharacterStats
     protected override void Start()
     {
         base.Start();
-        
+
         // Load stats here so base.Start() doesn't overwrite values like currentHealth and shield
         LoadPlayerStats();
 
@@ -148,7 +148,7 @@ public class PlayerStat : CharacterStats
             if (Inventory.Instance.classMasteries.ContainsKey("Orb")) orbMastery = Inventory.Instance.classMasteries["Orb"];
             if (Inventory.Instance.classMasteries.ContainsKey("DualBlades")) dualBladesMastery = Inventory.Instance.classMasteries["DualBlades"];
         }
-        
+
         // Optional: currentSanity can also be synced from load, but if not loaded properly, use max
         // actually LoadPlayerStats() handles currentSanity
     }
@@ -219,7 +219,7 @@ public class PlayerStat : CharacterStats
         {
             float flatVal = mod.value * multiplier;
             float percentVal = (mod.percentValue / 100f) * multiplier; // Divide by 100 because UI/Input uses 100 for 100%
-            
+
             float logicVal = mod.percent ? (mod.percentValue != 0 ? percentVal : flatVal / 100f) : flatVal;
 
             Debug.Log($"[PlayerStat] {(isEquipped ? "Equipping" : "Unequipping")} {item.itemName}: {mod.stat} {(logicVal >= 0 ? "+" : "")}{Mathf.Abs(logicVal)} (IsPercent: {mod.percent})");
@@ -227,7 +227,7 @@ public class PlayerStat : CharacterStats
             if (item.BaseData != null && item.BaseData.equipmentType == EquipmentType.Weapon)
             {
                 string statLower = mod.stat.ToLower();
-                if (statLower == "physical damage" || statLower == "physicaldamage" || 
+                if (statLower == "physical damage" || statLower == "physicaldamage" ||
                     statLower == "magic damage" || statLower == "magicdamage" ||
                     statLower == "physical damage bonus" || statLower == "physicaldamagebonus" ||
                     statLower == "magic damage bonus" || statLower == "magicdamagebonus" ||
@@ -235,7 +235,7 @@ public class PlayerStat : CharacterStats
                     statLower == "attack speed" || statLower == "attackspeed")
                 {
                     // Vũ khí thì giữ lại các chỉ số này cho riêng nó (Local Stats), KHÔNG cộng vào Player (Global Stats)
-                    continue; 
+                    continue;
                 }
             }
 
@@ -325,12 +325,16 @@ public class PlayerStat : CharacterStats
     public override void TakeMixedDamage(float physicalDamage, float magicDamage, float armorPenetration = 0f, float magicPenetration = 0f, bool isCrit = false)
     {
         if (isInvincible) return;
-        
-        PlayerCombat combat = GetComponent<PlayerCombat>();
-        if (combat != null && combat.IsGuarding())
+
+
+        PlayerCombatStateMachine playerCombatStateMachine = GetComponent<PlayerCombatStateMachine>();
+
+        bool isGuarding = (playerCombatStateMachine != null && playerCombatStateMachine.IsGuarding()) || (playerCombatStateMachine != null && playerCombatStateMachine.IsGuarding());
+        if (isGuarding)
         {
-            physicalDamage *= combat.guardDamageReduction;
-            magicDamage *= combat.guardDamageReduction;
+            float reduction = playerCombatStateMachine != null ? playerCombatStateMachine.guardDamageReduction : (playerCombatStateMachine != null ? playerCombatStateMachine.guardDamageReduction : 0.5f);
+            physicalDamage *= reduction;
+            magicDamage *= reduction;
             Debug.Log($"[PlayerStat] Guarding! Reduced incoming damage.");
         }
 
@@ -343,7 +347,7 @@ public class PlayerStat : CharacterStats
         base.Die();
 
         Debug.Log("[PlayerStat] Player has died.");
-        
+
         // Mất đồ trong túi tạm khi chết
         if (DungeonSack.Instance != null)
         {

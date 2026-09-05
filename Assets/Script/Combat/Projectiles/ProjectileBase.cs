@@ -6,6 +6,7 @@ public abstract class ProjectileBase : MonoBehaviour
     protected float speed = 20f;
     protected float lifeTime = 3f;
     protected bool isInitialized = false;
+    public float gravityMultiplier = 1.0f;
 
     public virtual void Initialize(float speed, float lifeTime, DamagePayload payload)
     {

@@ -8,6 +8,8 @@ public class RangedWeaponComponent : WeaponComponent
     public float projectileSpeed = 20f;
     public float destroyTime = 3f;
 
+    public float minSpeed = 5f;
+
     private float physicalDamage;
     private float magicDamage;
     private float physicalDamageBonus;
@@ -34,22 +36,22 @@ public class RangedWeaponComponent : WeaponComponent
                 float percentVal = mod.percentValue / 100f;
                 float logicVal = mod.percent ? (mod.percentValue != 0 ? percentVal : flatVal / 100f) : flatVal;
 
-                if (statLower == "physical damage" || statLower == "physicaldamage") 
+                if (statLower == "physical damage" || statLower == "physicaldamage")
                     physicalDamage += logicVal;
-                else if (statLower == "magic damage" || statLower == "magicdamage") 
+                else if (statLower == "magic damage" || statLower == "magicdamage")
                     magicDamage += logicVal;
-                else if (statLower == "physical damage bonus" || statLower == "physicaldamagebonus") 
+                else if (statLower == "physical damage bonus" || statLower == "physicaldamagebonus")
                     physicalDamageBonus += logicVal;
-                else if (statLower == "magic damage bonus" || statLower == "magicdamagebonus") 
+                else if (statLower == "magic damage bonus" || statLower == "magicdamagebonus")
                     magicDamageBonus += logicVal;
-                else if (statLower == "crit chance" || statLower == "critchance") 
+                else if (statLower == "crit chance" || statLower == "critchance")
                     critChance += logicVal;
             }
         }
 
         if (attackPoint == null)
         {
-            attackPoint = this.transform; 
+            attackPoint = this.transform;
         }
     }
 
@@ -83,10 +85,10 @@ public class RangedWeaponComponent : WeaponComponent
         {
             Ray ray = mainCam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
             RaycastHit[] hits = Physics.RaycastAll(ray, 100f);
-            
+
             // Sắp xếp các điểm chạm theo khoảng cách gần -> xa
             System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
-            
+
             bool hitFound = false;
             foreach (var hit in hits)
             {
@@ -98,7 +100,7 @@ public class RangedWeaponComponent : WeaponComponent
                     break;
                 }
             }
-            
+
             if (!hitFound)
             {
                 targetPoint = ray.GetPoint(100f); // Bắn xa tít nếu không chạm gì
@@ -117,7 +119,7 @@ public class RangedWeaponComponent : WeaponComponent
         {
             projectile = Instantiate(prefabToUse, attackPoint.position, shootRotation);
         }
-        
+
         ProjectileBase projScript = projectile.GetComponent<ProjectileBase>();
         if (projScript == null)
         {
@@ -147,11 +149,15 @@ public class RangedWeaponComponent : WeaponComponent
                 finalMagic *= critMultiplier;
             }
         }
-        
+
         DamagePayload payload = new DamagePayload(finalPhys, finalMagic, isCrit, controller.transform.root, controller.currentItemData);
 
-        projScript.Initialize(projectileSpeed, destroyTime, payload);
+        PlayerCombatStateMachine playerCombatStateMachine = controller.GetComponentInParent<PlayerCombatStateMachine>();
+        float charge = playerCombatStateMachine != null ? playerCombatStateMachine.cachedCharge : 1f;
+        float finalProjSpeed = Mathf.Lerp(minSpeed, projectileSpeed, charge);
 
-        Debug.Log($"[RangedWeaponComponent] Fired a projectile from {attackPoint.name}. Phys: {finalPhys:F1}, Magic: {finalMagic:F1}, Crit: {isCrit}");
+        projScript.Initialize(finalProjSpeed, destroyTime, payload);
+
+        Debug.Log($"[RangedWeaponComponent] Fired a projectile from {attackPoint.name}. Phys: {finalPhys:F1}, Magic: {finalMagic:F1}, Crit: {isCrit}, Speed: {finalProjSpeed}");
     }
 }

@@ -11,7 +11,7 @@ public class PlayerSkillCastController : MonoBehaviour
     [Header("References")]
     [SerializeField] private Animator playerAnimator;
     [SerializeField] private EquipmentManager equipmentManager;
-    [SerializeField] private PlayerCombat playerCombat;
+    [SerializeField] private PlayerCombatStateMachine playerCombatStateMachine;
 
     [Header("Animation Safety")]
     [SerializeField] private float suppressMeleeEventDuration = 0.85f;
@@ -40,17 +40,17 @@ public class PlayerSkillCastController : MonoBehaviour
         string id = PlayerSkillManager.Instance.equippedSkillSlot2;
         return string.IsNullOrEmpty(id) ? null : PlayerSkillManager.Instance.GetSkillByID(id);
     }
-    
+
     public float GetMainHandCooldownRemaining() => Mathf.Max(0, mainHandNextCastTime - Time.time);
-    public float GetOffHandCooldownRemaining()  => Mathf.Max(0, offHandNextCastTime - Time.time);
+    public float GetOffHandCooldownRemaining() => Mathf.Max(0, offHandNextCastTime - Time.time);
     public float GetMainHandCooldownTotal() => mainHandTotalCooldown;
-    public float GetOffHandCooldownTotal()  => offHandTotalCooldown;
-    
+    public float GetOffHandCooldownTotal() => offHandTotalCooldown;
+
     private UnityAction<string> equipmentAnimationListener;
     private AnimationEventHandler playerAnimationEventHandler;
     private Coroutine restoreAnimationEventsRoutine;
-    private EquipmentManager cachedPlayerCombatEquipmentManager;
-    private bool playerCombatEquipmentManagerDetached;
+    private EquipmentManager cachedplayerCombatStateMachineEquipmentManager;
+    private bool playerCombatStateMachineEquipmentManagerDetached;
 
     private void Awake()
     {
@@ -65,24 +65,24 @@ public class PlayerSkillCastController : MonoBehaviour
 
     private void RefreshReferences()
     {
-        if (playerCombat == null)
-            playerCombat = GetComponent<PlayerCombat>();
+        if (playerCombatStateMachine == null)
+            playerCombatStateMachine = GetComponent<PlayerCombatStateMachine>();
 
         if (playerAnimator == null)
         {
-            playerAnimator = playerCombat != null && playerCombat.animator != null
-                ? playerCombat.animator
+            playerAnimator = playerCombatStateMachine != null && playerCombatStateMachine.PlayerAnimator != null
+                ? playerCombatStateMachine.PlayerAnimator
                 : GetComponentInChildren<Animator>();
         }
 
         if (equipmentManager == null)
         {
-            equipmentManager = playerCombat != null && playerCombat.equipmentManager != null
-                ? playerCombat.equipmentManager
+            equipmentManager = playerCombatStateMachine != null && playerCombatStateMachine.equipmentManager != null
+                ? playerCombatStateMachine.equipmentManager
                 : GetComponent<EquipmentManager>();
         }
 
-        playerAnimationEventHandler = playerAnimator != null
+        playerAnimationEventHandler = playerCombatStateMachine.PlayerAnimator != null
             ? playerAnimator.GetComponent<AnimationEventHandler>()
             : null;
 
@@ -104,7 +104,7 @@ public class PlayerSkillCastController : MonoBehaviour
                 ActiveSkillData skillData = PlayerSkillManager.Instance.GetSkillByID(skillID);
                 if (skillData != null)
                 {
-                    DetachPlayerCombatEquipmentManagerForThisFrame();
+                    DetachplayerCombatStateMachineEquipmentManagerForThisFrame();
                     TryCastWeaponSkill(skillData, false);
                 }
             }
@@ -119,7 +119,7 @@ public class PlayerSkillCastController : MonoBehaviour
                 ActiveSkillData skillData = PlayerSkillManager.Instance.GetSkillByID(skillID);
                 if (skillData != null)
                 {
-                    DetachPlayerCombatEquipmentManagerForThisFrame();
+                    DetachplayerCombatStateMachineEquipmentManagerForThisFrame();
                     TryCastWeaponSkill(skillData, true);
                 }
             }
@@ -128,7 +128,7 @@ public class PlayerSkillCastController : MonoBehaviour
 
     private void LateUpdate()
     {
-        RestorePlayerCombatEquipmentManager();
+        RestoreplayerCombatStateMachineEquipmentManager();
     }
 
     public bool TryCastWeaponSkill(ActiveSkillData skillData, bool isOffHand)
@@ -211,7 +211,7 @@ public class PlayerSkillCastController : MonoBehaviour
         // Reset các trigger cũ (nếu có, ví dụ hit1, hit2) để tránh kẹt
         playerAnimator.ResetTrigger("hit1");
         playerAnimator.ResetTrigger("hit2");
-        
+
         playerAnimator.SetTrigger(animationTrigger);
     }
 
@@ -376,21 +376,21 @@ public class PlayerSkillCastController : MonoBehaviour
         return Vector3.forward;
     }
 
-    private void DetachPlayerCombatEquipmentManagerForThisFrame()
+    private void DetachplayerCombatStateMachineEquipmentManagerForThisFrame()
     {
-        if (playerCombat == null || playerCombatEquipmentManagerDetached) return;
+        if (playerCombatStateMachine == null || playerCombatStateMachineEquipmentManagerDetached) return;
 
-        cachedPlayerCombatEquipmentManager = playerCombat.equipmentManager;
-        playerCombat.equipmentManager = null;
-        playerCombatEquipmentManagerDetached = true;
+        cachedplayerCombatStateMachineEquipmentManager = playerCombatStateMachine.equipmentManager;
+        playerCombatStateMachine.equipmentManager = null;
+        playerCombatStateMachineEquipmentManagerDetached = true;
     }
 
-    private void RestorePlayerCombatEquipmentManager()
+    private void RestoreplayerCombatStateMachineEquipmentManager()
     {
-        if (playerCombat == null || !playerCombatEquipmentManagerDetached) return;
+        if (playerCombatStateMachine == null || !playerCombatStateMachineEquipmentManagerDetached) return;
 
-        playerCombat.equipmentManager = cachedPlayerCombatEquipmentManager;
-        cachedPlayerCombatEquipmentManager = null;
-        playerCombatEquipmentManagerDetached = false;
+        playerCombatStateMachine.equipmentManager = cachedplayerCombatStateMachineEquipmentManager;
+        cachedplayerCombatStateMachineEquipmentManager = null;
+        playerCombatStateMachineEquipmentManagerDetached = false;
     }
 }

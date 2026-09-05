@@ -12,7 +12,7 @@ public class PlayerSkillCastBootstrap : MonoBehaviour
         // Tích hợp hệ thống Sword Skill (Skill Tree & Mastery)
         bootstrapObject.AddComponent<SwordSkillTreeManager>();
         bootstrapObject.AddComponent<SwordMasteryTracker>();
-        
+
         // Tích hợp hệ thống quản lý danh sách Skill (Mới)
         bootstrapObject.AddComponent<PlayerSkillManager>();
 
@@ -20,12 +20,12 @@ public class PlayerSkillCastBootstrap : MonoBehaviour
 
     private void Update()
     {
-        PlayerCombat playerCombat = FindAnyObjectByType<PlayerCombat>();
-        if (playerCombat == null) return;
+        PlayerCombatStateMachine playerCombatStateMachine = FindAnyObjectByType<PlayerCombatStateMachine>();
+        if (playerCombatStateMachine == null) return;
 
-        if (playerCombat.GetComponent<PlayerSkillCastController>() == null)
+        if (playerCombatStateMachine.GetComponent<PlayerSkillCastController>() == null)
         {
-            playerCombat.gameObject.AddComponent<PlayerSkillCastController>();
+            playerCombatStateMachine.gameObject.AddComponent<PlayerSkillCastController>();
         }
 
         Destroy(this);
