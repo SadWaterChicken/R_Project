@@ -2331,6 +2331,37 @@ Transform:
   - {fileID: 1195682171}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &701419730
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 701419731}
+  m_Layer: 0
+  m_Name: Custom AI movement
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &701419731
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701419730}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -37.37485, y: 1.66378, z: -0.77205}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &807719733
 GameObject:
   m_ObjectHideFlags: 0
@@ -2736,7 +2767,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &894924240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3672,7 +3703,6 @@ GameObject:
   - component: {fileID: 1347751097}
   - component: {fileID: 1347751096}
   - component: {fileID: 1347751101}
-  - component: {fileID: 1347751100}
   m_Layer: 0
   m_Name: QuestPoint
   m_TagString: Untagged
@@ -3773,18 +3803,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1347751100
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1347751095}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af0c4cc24e023044b943c04672f21412, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CollectCoinsQuestStep
 --- !u!114 &1347751101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3797,7 +3815,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ce3e0f1c768575468888bc69564354a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::QuestPoint
-  questInfoForPoint: {fileID: 0}
+  questInfoForPoint: {fileID: 11400000, guid: 8198126fc35afec429470ce2d0e0395f, type: 2}
+  startPoint: 1
+  finishPoint: 1
 --- !u!1 &1360404187
 GameObject:
   m_ObjectHideFlags: 0
@@ -6192,11 +6212,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1092382932719897074, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1092382932719897074, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2271714210117355345, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
       propertyPath: m_FlipX
@@ -6246,6 +6266,18 @@ PrefabInstance:
       propertyPath: 'managedReferences[7321210458918092800].m_Value.Array.data[3]'
       value: 
       objectReference: {fileID: 592005052}
+    - target: {fileID: 2603427026041992075, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2603427026041992075, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2603427026041992075, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2702944064029599358, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
       propertyPath: player
       value: 
@@ -6272,7 +6304,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4073294042357489424, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5163166265228518380, guid: 0c82bd6783b894848a236ea03d26ea11, type: 3}
       propertyPath: m_Enabled
@@ -6366,3 +6398,4 @@ SceneRoots:
   - {fileID: 537059945}
   - {fileID: 1736147434}
   - {fileID: 1347751099}
+  - {fileID: 701419731}
