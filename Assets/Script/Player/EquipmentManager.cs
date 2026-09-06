@@ -37,7 +37,7 @@ public class EquipmentManager : MonoBehaviour
         if (Inventory.Instance != null)
         {
             Inventory.Instance.OnItemEquipChanged += HandleEquipChange;
-            
+
             // Khởi tạo vũ khí ban đầu (nếu có lúc load game)
             foreach (var item in Inventory.Instance.ownedItems)
             {
@@ -101,7 +101,7 @@ public class EquipmentManager : MonoBehaviour
         parentObj.transform.SetParent(targetSocket);
         parentObj.transform.localPosition = Vector3.zero;
         parentObj.transform.localRotation = Quaternion.identity;
-        
+
         WeaponController weaponController = parentObj.AddComponent<WeaponController>();
 
         // 3. Spawn thẳng Weapon Prefab (Giờ đây nó TỰ CHỨA Component Animator nếu cần)
@@ -161,7 +161,7 @@ public class EquipmentManager : MonoBehaviour
         {
             Destroy(currentMainHandWeapon.gameObject);
             currentMainHandWeapon = null;
-            if (playerAnimator != null) 
+            if (playerAnimator != null)
             {
                 playerAnimator.SetInteger("WeaponStance", 0); // Về dáng tay không
             }
@@ -250,5 +250,32 @@ public class EquipmentManager : MonoBehaviour
             return currentOffHandWeapon.weaponData.combatStyle;
         }
         return CombatStyle.Melee; // Default fallback
+    }
+
+    public CombatStyle GetMainHandCombatStyle()
+    {
+        if (currentMainHandWeapon != null && currentMainHandWeapon.weaponData != null)
+        {
+            return currentMainHandWeapon.weaponData.combatStyle;
+        }
+        return CombatStyle.Melee; // Default fallback
+    }
+
+    public CombatActionType GetMainHandActionType()
+    {
+        if (currentMainHandWeapon != null && currentMainHandWeapon.weaponData != null)
+        {
+            return currentMainHandWeapon.weaponData.actionType;
+        }
+        return CombatActionType.Execute;
+    }
+
+    public CombatActionType GetOffHandActionType()
+    {
+        if (currentOffHandWeapon != null && currentOffHandWeapon.weaponData != null)
+        {
+            return currentOffHandWeapon.weaponData.actionType;
+        }
+        return CombatActionType.Execute;
     }
 }

@@ -14,12 +14,25 @@ public enum CombatStyle
     Defend
 }
 
+public enum CombatActionType
+{
+    Execute,
+    Charge,
+    Continuous
+}
+
+
+
 [CreateAssetMenu(fileName = "New Weapon", menuName = "Item Data/Weapon Data")]
 public class WeaponData : BaseItemData
 {
     [Header("Visuals & Combat")]
     public GripType gripType = GripType.OneHanded;
     public CombatStyle combatStyle = CombatStyle.Melee;
+
+    [Header("PlayerCombatStateMachine Routing Data")]
+    public CombatActionType actionType = CombatActionType.Execute;
+
 
     [Header("Combat Stats")]
     [Tooltip("Dùng cho CombatStyle = Magic/Ranged")]

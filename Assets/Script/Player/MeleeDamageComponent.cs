@@ -6,7 +6,7 @@ public class MeleeDamageComponent : WeaponComponent
     [Header("Hitbox Settings")]
     public Transform attackPoint;
     public float weaponRange = 1.5f; // Giá trị fallback
-    
+
     private float physicalDamage;
     private float magicDamage;
     private float physicalDamageBonus;
@@ -31,25 +31,25 @@ public class MeleeDamageComponent : WeaponComponent
             foreach (var mod in controller.currentItemData.modifiers)
             {
                 string statLower = mod.stat.ToLower();
-                
+
                 // Parse percentVal to 0.0-1.0 format since the input is 0-100 format
                 float flatVal = mod.value;
                 float percentVal = mod.percentValue / 100f;
                 float logicVal = mod.percent ? (mod.percentValue != 0 ? percentVal : flatVal / 100f) : flatVal;
 
-                if (statLower == "physical damage" || statLower == "physicaldamage") 
+                if (statLower == "physical damage" || statLower == "physicaldamage")
                     physicalDamage += logicVal;
-                else if (statLower == "magic damage" || statLower == "magicdamage") 
+                else if (statLower == "magic damage" || statLower == "magicdamage")
                     magicDamage += logicVal;
-                else if (statLower == "physical damage bonus" || statLower == "physicaldamagebonus") 
+                else if (statLower == "physical damage bonus" || statLower == "physicaldamagebonus")
                     physicalDamageBonus += logicVal;
-                else if (statLower == "magic damage bonus" || statLower == "magicdamagebonus") 
+                else if (statLower == "magic damage bonus" || statLower == "magicdamagebonus")
                     magicDamageBonus += logicVal;
-                else if (statLower == "crit chance" || statLower == "critchance") 
+                else if (statLower == "crit chance" || statLower == "critchance")
                     critChance += logicVal;
-                else if (statLower == "attack speed" || statLower == "attackspeed") 
+                else if (statLower == "attack speed" || statLower == "attackspeed")
                     attackSpeed += logicVal;
-                else if (statLower == "weapon range" || statLower == "weaponrange" || statLower == "range") 
+                else if (statLower == "weapon range" || statLower == "weaponrange" || statLower == "range")
                     this.weaponRange = logicVal;
             }
         }
@@ -57,7 +57,7 @@ public class MeleeDamageComponent : WeaponComponent
         // Cố gắng tìm attackPoint tự động nếu chưa gán
         if (attackPoint == null)
         {
-            attackPoint = this.transform; 
+            attackPoint = this.transform;
         }
     }
 
@@ -65,6 +65,7 @@ public class MeleeDamageComponent : WeaponComponent
     {
         if (eventName == "HitFrame")
         {
+
             ExecuteDamage();
         }
     }
@@ -82,14 +83,14 @@ public class MeleeDamageComponent : WeaponComponent
                 if (stat != null && !hitEnemies.Contains(stat))
                 {
                     hitEnemies.Add(stat);
-                    
+
                     // Mastery không còn tăng sát thương, chỉ để mở khóa Rèn
                     float masteryMultiplier = 1f;
 
                     // Lấy Sát thương Cốt lõi của Player (AD)
                     float playerCorePhys = PlayerStat.Instance != null ? PlayerStat.Instance.basePhysicalDamage : 0f;
                     float playerGlobalPhysBonus = PlayerStat.Instance != null ? PlayerStat.Instance.physicalDamageMultiplier : 0f;
-                    
+
                     float healthBefore = stat.currentHealth;
 
                     float finalPhys = 0f;
@@ -123,7 +124,7 @@ public class MeleeDamageComponent : WeaponComponent
                     {
                         float playerCoreMagic = PlayerStat.Instance != null ? PlayerStat.Instance.baseMagicDamage : 0f;
                         float playerGlobalMagicBonus = PlayerStat.Instance != null ? PlayerStat.Instance.magicDamageMultiplier : 0f;
-                        
+
                         float totalMagic = (playerCoreMagic + magicDamage) * (1f + this.magicDamageBonus + playerGlobalMagicBonus);
                         finalMagic = totalMagic * masteryMultiplier; // Không chí mạng
                     }
@@ -150,7 +151,7 @@ public class MeleeDamageComponent : WeaponComponent
                             // Tìm component Reward riêng, nếu không có thì lấy mặc định theo Level quái
                             EnemyMasteryReward rewardComp = col.GetComponentInParent<EnemyMasteryReward>();
                             float masteryReward = rewardComp != null ? rewardComp.masteryGranted : stat.enemyLevel * 1f;
-                            
+
                             ForgeManager.Instance.AddMasteryOnKill(controller.currentItemData, masteryReward);
                         }
                     }

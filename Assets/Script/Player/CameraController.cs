@@ -2,9 +2,25 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public float defaultFOV = 60f;
+    public float zoomFOV = 30f;
+    public float zoomSpeed = 5f;
+
+    private Camera mainCam;
+    private PlayerCombatStateMachine playerCombatStateMachine;
+
     void Start()
     {
-        // Cursor logic is now handled by CursorManager
+        mainCam = Camera.main;
+        playerCombatStateMachine = FindAnyObjectByType<PlayerCombatStateMachine>();
+    }
+
+    void Update()
+    {
+        if (mainCam != null && playerCombatStateMachine != null)
+        {
+            float targetFOV = playerCombatStateMachine.isAiming ? zoomFOV : defaultFOV;
+            mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, targetFOV, Time.deltaTime * zoomSpeed);
+        }
     }
 }

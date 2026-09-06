@@ -25,4 +25,4 @@ EditorBuildSettings:
     guid: 5751476f3d46cf04db0e7f4b7eeabf2a
   m_configObjects:
     com.unity.dt.app-ui: {fileID: 11400000, guid: 1b1c20d82303e4b5781c3ef50ac1449f, type: 2}
-    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 1b02c972c64f163469877e7d209eb530, type: 3}

@@ -13,7 +13,16 @@ public class ArrowProjectile : ProjectileBase
         rb = GetComponent<Rigidbody>();
         if (rb != null)
         {
+            rb.useGravity = false; // Disable default gravity
             rb.linearVelocity = transform.forward * speed;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (isInitialized && rb != null)
+        {
+            rb.AddForce(Physics.gravity * gravityMultiplier, ForceMode.Acceleration);
         }
     }
 

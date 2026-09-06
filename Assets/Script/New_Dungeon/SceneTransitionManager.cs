@@ -1,13 +1,13 @@
-using UnityEngine;
-using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SceneTransitionManager : MonoBehaviour
 {
     public static SceneTransitionManager Instance { get; private set; }
-    
+
     [Header("Overworld Settings")]
     [Tooltip("Type the name of the scene you are working on to return to it when leaving the dungeon.")]
     public string overworldSceneName;
@@ -43,12 +43,12 @@ public class SceneTransitionManager : MonoBehaviour
     private IEnumerator LoadSceneAsync(string sceneName)
     {
         Debug.Log($"[SceneTransitionManager] Starting load of scene: {sceneName}");
-        
+
         // Fade to black
         if (loadingScreen != null)
         {
             loadingScreen.gameObject.SetActive(true);
-            
+
             // Reset loading bar at the start of fade
             if (loadingBar != null)
             {
@@ -66,7 +66,7 @@ public class SceneTransitionManager : MonoBehaviour
         }
 
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
-        
+
         float currentProgress = 0f;
         float targetProgress = 0f;
 
@@ -75,7 +75,7 @@ public class SceneTransitionManager : MonoBehaviour
         {
             float progressValue = Mathf.Clamp01(asyncLoad.progress / 0.9f);
             targetProgress = progressValue * 0.5f; // Max 50% for scene load
-            
+
             currentProgress = Mathf.Lerp(currentProgress, targetProgress, Time.deltaTime * 5f);
             currentProgress = Mathf.MoveTowards(currentProgress, targetProgress, Time.deltaTime * 0.5f);
 
@@ -83,7 +83,7 @@ public class SceneTransitionManager : MonoBehaviour
             {
                 loadingBar.value = currentProgress;
             }
-            
+
             yield return null;
         }
 
@@ -92,7 +92,7 @@ public class SceneTransitionManager : MonoBehaviour
         if (dungeonGenerator != null)
         {
             bool isDungeonGenerated = false;
-            
+
             System.Action onComplete = () => isDungeonGenerated = true;
             dungeonGenerator.onGenerationComplete += onComplete;
 
@@ -100,7 +100,7 @@ public class SceneTransitionManager : MonoBehaviour
             while (!isDungeonGenerated)
             {
                 targetProgress = 0.5f + (dungeonGenerator.GetGenerationProgress() * 0.5f);
-                
+
                 currentProgress = Mathf.Lerp(currentProgress, targetProgress, Time.deltaTime * 5f);
                 currentProgress = Mathf.MoveTowards(currentProgress, targetProgress, Time.deltaTime * 0.5f);
 
@@ -127,14 +127,14 @@ public class SceneTransitionManager : MonoBehaviour
             }
             yield return null;
         }
-        
+
         if (loadingBar != null)
         {
             loadingBar.value = 1f;
         }
-        
+
         Debug.Log($"[SceneTransitionManager] Finished loading scene: {sceneName}");
-        
+
         // If returning to Overworld, we handle the cleanup of the DungeonEntrance
         if (sceneName == overworldSceneName && GameStateManager.Instance != null)
         {
@@ -155,7 +155,7 @@ public class SceneTransitionManager : MonoBehaviour
             loadingScreen.gameObject.SetActive(false);
         }
     }
-    
+
     private void HandleOverworldReturn()
     {
         // 1. Move player back to saved position
@@ -164,7 +164,7 @@ public class SceneTransitionManager : MonoBehaviour
         {
             // Move slightly offset so player isn't inside the dungeon entrance trigger immediately
             Vector3 targetPos = GameStateManager.Instance.savedOverworldPosition + new Vector3(0, 0, -2f);
-            PlayerController pc = player.GetComponent<PlayerController>();
+            PlayerMovementStateMachine pc = player.GetComponent<PlayerMovementStateMachine>();
             if (pc != null)
             {
                 pc.Teleport(targetPos);
@@ -174,7 +174,7 @@ public class SceneTransitionManager : MonoBehaviour
                 player.transform.position = targetPos;
             }
         }
-        
+
         // 2. If boss was killed, find and destroy the dungeon entrance
         if (GameStateManager.Instance.isBossKilled)
         {
@@ -189,7 +189,7 @@ public class SceneTransitionManager : MonoBehaviour
             }
 
             OverworldDungeonEntrance[] entrances = Object.FindObjectsByType<OverworldDungeonEntrance>(FindObjectsInactive.Exclude);
-            foreach(OverworldDungeonEntrance entrance in entrances)
+            foreach (OverworldDungeonEntrance entrance in entrances)
             {
                 if (entrance.dungeonInstanceID == GameStateManager.Instance.activeDungeonInstanceID)
                 {
